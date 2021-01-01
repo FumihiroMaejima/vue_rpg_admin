@@ -1,0 +1,38 @@
+{
+  "/home": {
+    "get": {
+      "data": [
+        {
+          "id": 1,
+          "name": "test name"
+        }
+      ]
+    },
+    "post": {
+      "data": [
+        {
+          "id": 1,
+          "name": "test name2"
+        }
+      ]
+    }
+  },
+  "/example": {
+    "get": {
+      "data": [
+        {
+          "id": 1,
+          "name": "example name"
+        }
+      ]
+    },
+    "post": {
+      "data": [
+        {
+          "status": 200,
+          "message": "success"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+version: '3'
+services:
+  mock-json:
+    container_name: ${PROJECT_NAME}_mock
+    image: 'ajoelpod/mock-json-server'
+    volumes:
+      - ./mock/data.json:/usr/src/app/data.json
+    ports:
+      - 8000:8000
