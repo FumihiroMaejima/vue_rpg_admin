@@ -11,7 +11,7 @@ my vue rpg-admin test.
 | npm | 6.12.1 |
 | node | 12.13.1 |
 | vue/cli | 4.5.9 |
-| TypeScript | 3.8.3 |
+| TypeScript | 4.1.3 |
 
 ---
 
@@ -52,9 +52,15 @@ $ yarn -v
 ```Shell-session
 $ npm install -g typescript
 $ tsc -v
-Version 3.8.3
+Version 4.1.3
 ```
 
+バージョンアップする場合は一度uninstallする
+
+```shell-session
+$ npm uninstall -g typescript
+$ npm install -g typescript
+```
 ### プロジェクトにインストールする
 
 ＊Vue-cliのプロジェクト作成時にもインストール出来る。
@@ -695,6 +701,37 @@ describe('Sample test', () => {
 
 ---
 
+## PrimeVueのインストール
+
+### グローバルにインストールする
+
+```shell-session
+$ yarn add primevue@^3.1.1
+$ yarn add primeicons
+
+## primeflex
+$ yarn add primeflex
+```
+
+main.tsでimportし、`use`する
+```TypeScript
+import PrimeVue from 'primevue/config'
+const app = createApp(App)
+app.use(PrimeVue)
+```
+
+`primeicons`と`primeflex`はcssファイルをimport宣言する。
+`primeflex`は`src`ディレクトリの中から個別にimportも出来る。
+
+
+```TypeScript
+import 'primeicons/primeicons.css'
+import 'primeflex/primeflex.css'
+// import 'primeflex/src/_variables.scss'
+```
+
+
+---
 ## tailwindcssの設定
 
 tailwindcssのインストール
@@ -803,6 +840,12 @@ $ tsc -v
 Version 3.8.3
 ```
 
+バージョンアップする場合は一度uninstallする
+
+```shell-session
+$ npm uninstall -g typescript
+$ npm install -g typescript
+```
 ### プロジェクトにインストールする
 
 ＊Vue-cliのプロジェクト作成時に選択した方が楽である。
