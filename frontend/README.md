@@ -730,6 +730,17 @@ import 'primeflex/primeflex.css'
 // import 'primeflex/src/_variables.scss'
 ```
 
+使うコンポーネントは、各Vueファイル内でimportする
+
+```TypeScript
+<template>
+  <Dialog header="Header" v-model:visible="display">content</Dialog>
+</template>
+import Dialog from 'primevue/dialog'
+  components: {
+    Dialog
+  },
+```
 
 ---
 ## tailwindcssの設定

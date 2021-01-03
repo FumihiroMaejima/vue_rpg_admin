@@ -1,27 +1,25 @@
 <template>
   <div class="container mx-auto">
     <h1 class="italic my-2">ゲーム</h1>
-    <grid-rows mdRows="1" option="bg-blue-100 py-2 px-2">
-      <card />
-    </grid-rows>
-
-    <div class="mt-10 grid rounded md:grid-cols-3 sm:grid-cols-1 gap-4"></div>
+    <i class="pi pi-check"></i>
+    <i class="pi pi-github"></i>
+    <div class="p-grid">
+      <div class="p-col-12 p-md-6 p-lg-3"><i class="pi pi-check"></i></div>
+      <div class="p-col-12 p-md-6 p-lg-3"><i class="pi pi-github"></i></div>
+      <div class="p-col-12 p-md-6 p-lg-3"><i class="pi pi-check"></i></div>
+      <div class="p-col-12 p-md-6 p-lg-3"><i class="pi pi-github"></i></div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import Card from '@/components/parts/Card.vue'
-// import GridCols from '@/components/parts/GridCols.vue'
-import GridRows from '@/components/parts/GridRows.vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   name: 'Home',
-  components: {
-    Card,
-    GridRows
-  },
+  components: {},
   setup() {
+    const display = ref<boolean>(true)
     // methods
     /**
      * catch app-input event
@@ -31,6 +29,7 @@ export default defineComponent({
       console.log('catchAppInputEvent: ' + JSON.stringify(event, null, 2))
     }
     return {
+      display,
       catchAppInputEvent
     }
   }

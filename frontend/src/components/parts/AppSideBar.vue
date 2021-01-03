@@ -1,0 +1,61 @@
+<template>
+  <Sidebar v-model:visible="openSideBar" position="left">
+    <h1>sidebar content</h1>
+    <Menu :model="items" />
+  </Sidebar>
+</template>
+
+<script lang="ts">
+import {
+  defineComponent,
+  getCurrentInstance,
+  ref,
+  computed,
+  SetupContext
+} from 'vue'
+import Menu from 'primevue/menu'
+import Sidebar from 'primevue/sidebar'
+
+type Props = {
+  value: boolean
+}
+
+export default defineComponent({
+  name: 'AppSideBar',
+  components: {
+    Menu,
+    Sidebar
+  },
+  props: {
+    value: {
+      type: Boolean,
+      default: true
+    }
+  },
+  setup(props: Props, context: SetupContext) {
+    let items = ref<string[]>([])
+
+    // computed
+    const openSideBar = computed({
+      get: (): boolean => props.value,
+      set: (value: boolean) => {
+        console.log('setter: ' + JSON.stringify(value, null, 2))
+        context.emit('close', value)
+      }
+    })
+
+    // thisの取得
+    const instance = getCurrentInstance()
+    if (instance) {
+      // consifgの取得
+      items =
+        instance.appContext.config.globalProperties.$AppConfig.sideBarContents
+    }
+
+    return {
+      openSideBar,
+      items
+    }
+  }
+})
+</script>
