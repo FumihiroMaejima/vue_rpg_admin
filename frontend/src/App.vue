@@ -1,6 +1,6 @@
 <template>
   <dev>
-    <global-header @click="onSideBarInput" />
+    <global-header @click-icon="onSideBarInput" />
     <app-side-bar :value="openSideBar" @close="onSideBarInput" />
     <section class="p-mx-2 p-mb-2">
       <router-view />
@@ -21,7 +21,7 @@ export default defineComponent({
     GlobalHeader,
     GlobalFooter
   },
-  setup(context: SetupContext) {
+  setup() {
     const openSideBar = ref<boolean>(false)
 
     // computed
@@ -39,7 +39,6 @@ export default defineComponent({
      * @return {void}
      */
     const onSideBarInput = (event: boolean) => {
-      console.log('onSideBarInput: ' + JSON.stringify(event, null, 2))
       openSideBar.value = event
     }
 

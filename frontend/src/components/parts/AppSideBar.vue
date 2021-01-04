@@ -39,7 +39,6 @@ export default defineComponent({
     const openSideBar = computed({
       get: (): boolean => props.value,
       set: (value: boolean) => {
-        console.log('setter: ' + JSON.stringify(value, null, 2))
         context.emit('close', value)
       }
     })

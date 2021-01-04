@@ -47,9 +47,8 @@ export default defineComponent({
      * catch click event
      * @return {void}
      */
-    const openSideBar = (event: any) => {
-      console.log('header click: ' + JSON.stringify(event, null, 2))
-      context.emit('click', true)
+    const openSideBar = () => {
+      context.emit('click-icon', true)
     }
 
     return {

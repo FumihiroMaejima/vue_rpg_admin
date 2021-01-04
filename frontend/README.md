@@ -730,6 +730,15 @@ import 'primeflex/primeflex.css'
 // import 'primeflex/src/_variables.scss'
 ```
 
+パッケージ内の`primevue/resources/themes/`にテンプレートがある為、各々のcssをimportする。
+
+```TypeScript
+import 'primevue/resources/themes/saga-blue/theme.css'
+import 'primevue/resources/primevue.min.css'
+import 'primeicons/primeicons.css'
+import 'primeflex/primeflex.css'
+```
+
 使うコンポーネントは、各Vueファイル内でimportする
 
 ```TypeScript
