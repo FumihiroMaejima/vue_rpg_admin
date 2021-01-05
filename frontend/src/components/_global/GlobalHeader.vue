@@ -8,10 +8,10 @@
       />
     </template>
     <template #end>
-      <div class="p-inputgroup">
+      <!-- <div class="p-inputgroup">
         <InputText placeholder="Keyword" />
         <Button icon="pi pi-search" class="p-button-info" />
-      </div>
+      </div> -->
     </template>
   </Menubar>
 </template>
@@ -19,7 +19,7 @@
 <script lang="ts">
 import { defineComponent, getCurrentInstance, ref, SetupContext } from 'vue'
 import Button from 'primevue/button'
-import InputText from 'primevue/inputtext'
+// import InputText from 'primevue/inputtext'
 import Menubar from 'primevue/menubar'
 
 type Props = {}
@@ -28,7 +28,7 @@ export default defineComponent({
   name: 'GlobalHeader',
   components: {
     Button,
-    InputText,
+    // InputText,
     Menubar
   },
   props: {},
