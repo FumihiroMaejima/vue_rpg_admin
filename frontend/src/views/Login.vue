@@ -10,14 +10,15 @@
           </template>
           <template #content>
             <div class="p-field p-my-4">
-              <span class="p-float-label p-input-icon-right">
+              <label for="email">email</label>
+              <span class=" p-input-icon-right">
                 <InputText id="email" type="text" @input="catchAppInputEvent" />
                 <i class="pi pi-users" />
-                <label for="email">email</label>
                 <!-- <i class="pi pi-spin pi-spinner" /> -->
               </span>
             </div>
             <div class="p-field">
+              <label for="password">password</label>
               <span class="p-float-label p-input-icon-right">
                 <InputText
                   id="password"
@@ -25,7 +26,6 @@
                   @input="catchAppInputEvent"
                 />
                 <i class="pi pi-exclamation-triangle" />
-                <label for="password">password</label>
               </span>
             </div>
           </template>
