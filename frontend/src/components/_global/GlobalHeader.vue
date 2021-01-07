@@ -40,7 +40,8 @@ export default defineComponent({
     if (instance) {
       // consifgの取得
       items =
-        instance.appContext.config.globalProperties.$AppConfig.headerMenuContents
+        instance.appContext.config.globalProperties.$AppConfig
+          .headerMenuContents
     }
 
     /**
