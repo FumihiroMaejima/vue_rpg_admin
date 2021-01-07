@@ -751,6 +751,43 @@ import Dialog from 'primevue/dialog'
   },
 ```
 
+データテーブルのコンポーネントを使う時に下記のエラーが発生する可能性がある。
+[参考: Chaining Operator with Vue 3 ](https://github.com/primefaces/primevue/issues/680)
+
+```Shell-session
+Module parse failed: Unexpected token (310:67)
+```
+
+`@vue/cli-plugin-babel`をインストールする必要がある
+
+```Shell-session
+$ vue add babel
+```
+
+`babel.config.js`の作成
+
+```JavaScript
+module.exports = {
+  /* presets: ["@vue/cli-plugin-babel/preset"] */
+  plugins: [require('@babel/plugin-proposal-optional-chaining')] // for data table setting.
+}
+
+```
+
+上記の対応で完了した。
+
+```TypeScript
+<template>
+  <Dialog header="Header" v-model:visible="display">content</Dialog>
+</template>
+import Dialog from 'primevue/dialog'
+  components: {
+    Dialog
+  },
+```
+
+
+
 ---
 ## tailwindcssの設定
 
