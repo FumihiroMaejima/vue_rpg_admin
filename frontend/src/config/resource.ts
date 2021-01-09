@@ -1,14 +1,31 @@
 export const tableData = {
   data: [
-    { brand: 'Volkswagen', year: 2012, color: 'Orange', vin: 'dsad231ff' },
-    { brand: 'Audi', year: 2011, color: 'Black', vin: 'gwregre345' },
-    { brand: 'Renault', year: 2005, color: 'Gray', vin: 'h354htr' },
-    { brand: 'BMW', year: 2003, color: 'Blue', vin: 'j6w54qgh' },
-    { brand: 'Mercedes', year: 1995, color: 'Orange', vin: 'hrtwy34' },
-    { brand: 'Volvo', year: 2005, color: 'Black', vin: 'jejtyj' },
-    { brand: 'Honda', year: 2012, color: 'Yellow', vin: 'g43gr' },
-    { brand: 'Jaguar', year: 2013, color: 'Orange', vin: 'greg34' },
-    { brand: 'Ford', year: 2000, color: 'Black', vin: 'h54hw5' },
-    { brand: 'Fiat', year: 2013, color: 'Red', vin: '245t2s' }
+    { id: 1, name: 'test1', action: 'GET', detail: 'test action1' },
+    { id: 2, name: 'test2', action: 'POST', detail: 'test action2' },
+    { id: 3, name: 'test3', action: 'PUT', detail: 'test action3' },
+    { id: 4, name: 'test4', action: 'PATCH', detail: 'test action4' },
+    { id: 5, name: 'test5', action: 'DELETE', detail: 'test action5' },
+    { id: 6, name: 'test6', action: 'GET', detail: 'test action6' },
+    { id: 7, name: 'test7', action: 'POST', detail: 'test action7' },
+    { id: 8, name: 'test8', action: 'PUT', detail: 'test action8' },
+    { id: 9, name: 'test9', action: 'PATCH', detail: 'test action9' },
+    { id: 10, name: 'test10', action: 'DELETE', detail: 'test action10' },
+    { id: 11, name: 'test11', action: 'GET', detail: 'test action11' },
+    { id: 12, name: 'test12', action: 'POST', detail: 'test action12' },
+    { id: 13, name: 'test13', action: 'PUT', detail: 'test action13' },
+    { id: 14, name: 'test14', action: 'PATCH', detail: 'test action14' },
+    { id: 15, name: 'test15', action: 'DELETE', detail: 'test action15' },
+    { id: 16, name: 'test16', action: 'GET', detail: 'test action16' },
+    { id: 17, name: 'test17', action: 'POST', detail: 'test action17' },
+    { id: 18, name: 'test18', action: 'PUT', detail: 'test action18' },
+    { id: 19, name: 'test19', action: 'PATCH', detail: 'test action19' },
+    { id: 20, name: 'test20', action: 'DELETE', detail: 'test action20' }
   ]
 }
+
+export const tableKeys = [
+  { field: 'id', header: 'ID' },
+  { field: 'name', header: 'Name' },
+  { field: 'action', header: 'Action' },
+  { field: 'detail', header: 'Detail' }
+]

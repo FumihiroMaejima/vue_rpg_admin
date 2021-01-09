@@ -14,14 +14,27 @@
       <!-- <div class="p-col-12 p-md-4"></div>
       <div class="p-col-12 p-md-4"></div>
       <div class="p-col-12 p-md-4"></div> -->
-      <div class="p-col-12">
-        <DataTable :value="items.data">
-          <Column field="vin" header="Vin"></Column>
-          <Column field="year" header="Year"></Column>
-          <Column field="brand" header="Brand"></Column>
-          <Column field="color" header="Color"></Column>
+      <div class="p-col-12 p-md-1"></div>
+      <div class="p-col-12 p-md-10">
+        <DataTable
+          :value="items.data"
+          class="p-datatable-sm p-datatable-gridlines"
+        >
+          <template #header>
+            Header
+          </template>
+          <Column
+            v-for="col of headers"
+            :field="col.field"
+            :header="col.header"
+            :key="col.field"
+          ></Column>
+          <template #footer>
+            Footer
+          </template>
         </DataTable>
       </div>
+      <div class="p-col-12 p-md-1"></div>
     </div>
   </div>
 </template>
@@ -32,7 +45,7 @@ import Column from 'primevue/column'
 // import ColumnGroup from 'primevue/columngroup'
 import DataTable from 'primevue/datatable'
 
-import { tableData } from '@/config/resource'
+import { tableData, tableKeys } from '@/config/resource'
 
 export default defineComponent({
   name: 'Home',
@@ -44,7 +57,7 @@ export default defineComponent({
   setup() {
     const display = ref<boolean>(true)
     const items = reactive(tableData)
-
+    const headers = reactive(tableKeys)
 
     // methods
     /**
@@ -57,6 +70,7 @@ export default defineComponent({
     return {
       display,
       items,
+      headers,
       catchAppInputEvent
     }
   }
