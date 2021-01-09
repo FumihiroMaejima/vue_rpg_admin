@@ -1,9 +1,11 @@
 <template>
   <DataTable
     :value="items"
-    class="p-datatable-sm p-datatable-gridlines"
+    class="p-datatable-sm p-datatable-gridlines editable-cells-table"
+    :class="{ 'editable-cells-table': editable }"
     paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
+    editMode="cell"
     :paginator="true"
     :rows="10"
   >
@@ -15,7 +17,12 @@
       :field="col.field"
       :header="col.header"
       :key="col.field"
-    ></Column>
+      :sortable="sortable"
+    >
+      <template #editor="slotProps" v-if="editable">
+        <InputText v-model="slotProps.data[slotProps.column.props.field]" />
+      </template>
+    </Column>
     <template #footer>
       Footer
     </template>
@@ -27,10 +34,13 @@ import { defineComponent /* , ref, reactive */ } from 'vue'
 import Column from 'primevue/column'
 // import ColumnGroup from 'primevue/columngroup'
 import DataTable from 'primevue/datatable'
+import InputText from 'primevue/inputtext'
 
 type Props = {
-  items: string
-  headerOptions: string
+  items: any[]
+  headerOptions: any[]
+  sortable: boolean
+  editable: boolean
 }
 
 export default defineComponent({
@@ -38,7 +48,8 @@ export default defineComponent({
   components: {
     Column,
     // ColumnGroup,
-    DataTable
+    DataTable,
+    InputText
   },
   props: {
     items: {
@@ -52,6 +63,14 @@ export default defineComponent({
       default: () => {
         return []
       }
+    },
+    sortable: {
+      type: Boolean,
+      default: true
+    },
+    editable: {
+      type: Boolean,
+      default: false
     }
   },
   setup() {
