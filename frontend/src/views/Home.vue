@@ -16,23 +16,7 @@
       <div class="p-col-12 p-md-4"></div> -->
       <div class="p-col-12 p-md-1"></div>
       <div class="p-col-12 p-md-10">
-        <DataTable
-          :value="items.data"
-          class="p-datatable-sm p-datatable-gridlines"
-        >
-          <template #header>
-            Header
-          </template>
-          <Column
-            v-for="col of headers"
-            :field="col.field"
-            :header="col.header"
-            :key="col.field"
-          ></Column>
-          <template #footer>
-            Footer
-          </template>
-        </DataTable>
+        <app-table :items="items.data" :headerOptions="headerOptions" />
       </div>
       <div class="p-col-12 p-md-1"></div>
     </div>
@@ -41,23 +25,18 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
-import Column from 'primevue/column'
-// import ColumnGroup from 'primevue/columngroup'
-import DataTable from 'primevue/datatable'
-
+import AppTable from '@/components/parts/AppTable.vue'
 import { tableData, tableKeys } from '@/config/resource'
 
 export default defineComponent({
   name: 'Home',
   components: {
-    Column,
-    // ColumnGroup,
-    DataTable
+    AppTable
   },
   setup() {
     const display = ref<boolean>(true)
     const items = reactive(tableData)
-    const headers = reactive(tableKeys)
+    const headerOptions = reactive(tableKeys)
 
     // methods
     /**
@@ -70,7 +49,7 @@ export default defineComponent({
     return {
       display,
       items,
-      headers,
+      headerOptions,
       catchAppInputEvent
     }
   }
