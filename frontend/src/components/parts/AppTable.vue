@@ -9,11 +9,11 @@
     :paginator="true"
     :rows="10"
   >
-    <template #header>
+    <template #header v-if="addHeader">
       Header
     </template>
     <Column
-      v-for="col of headerOptions"
+      v-for="col of columnOptions"
       :field="col.field"
       :header="col.header"
       :key="col.field"
@@ -23,7 +23,7 @@
         <InputText v-model="slotProps.data[slotProps.column.props.field]" />
       </template>
     </Column>
-    <template #footer>
+    <template #footer v-if="addFooter">
       Footer
     </template>
   </DataTable>
@@ -38,9 +38,11 @@ import InputText from 'primevue/inputtext'
 
 type Props = {
   items: any[]
-  headerOptions: any[]
+  columnOptions: any[]
   sortable: boolean
   editable: boolean
+  addHeader: boolean
+  addFooter: boolean
 }
 
 export default defineComponent({
@@ -58,7 +60,7 @@ export default defineComponent({
         return []
       }
     },
-    headerOptions: {
+    columnOptions: {
       type: Array,
       default: () => {
         return []
@@ -69,6 +71,14 @@ export default defineComponent({
       default: true
     },
     editable: {
+      type: Boolean,
+      default: false
+    },
+    addHeader: {
+      type: Boolean,
+      default: false
+    },
+    addFooter: {
       type: Boolean,
       default: false
     }

@@ -16,7 +16,7 @@
       <div class="p-col-12 p-md-4"></div> -->
       <div class="p-col-12 p-md-1"></div>
       <div class="p-col-12 p-md-10">
-        <app-table :items="items.data" :headerOptions="headerOptions" />
+        <app-table :items="items.data" :columnOptions="columnOptions" />
       </div>
       <div class="p-col-12 p-md-1"></div>
     </div>
@@ -36,7 +36,7 @@ export default defineComponent({
   setup() {
     const display = ref<boolean>(true)
     const items = reactive(tableData)
-    const headerOptions = reactive(tableKeys)
+    const columnOptions = reactive(tableKeys)
 
     // methods
     /**
@@ -49,7 +49,7 @@ export default defineComponent({
     return {
       display,
       items,
-      headerOptions,
+      columnOptions,
       catchAppInputEvent
     }
   }
