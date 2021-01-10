@@ -40,7 +40,10 @@ export default defineComponent({
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
-      editable: true
+      editable: true,
+      dateClick: (e: any) =>  {
+        console.log('dateClick: ' + JSON.stringify(e, null, 2))
+      }
     }
     // const events = reactive(eventDate)
     const dateOptions = reactive(carendaerOptions)
