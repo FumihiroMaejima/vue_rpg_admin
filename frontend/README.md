@@ -787,6 +787,16 @@ import Dialog from 'primevue/dialog'
 ```
 
 
+## FullCalendarコンポーネントを使う場合
+
+`fullcalendar`をインストールする
+
+```Shell-session
+$ yarn add @fullcalendar/core
+$ yarn add @fullcalendar/daygrid
+$ yarn add @fullcalendar/timegrid
+$ yarn add @fullcalendar/interaction
+```
 
 ---
 ## tailwindcssの設定

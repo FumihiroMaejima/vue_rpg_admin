@@ -11,6 +11,14 @@
     </div>
 
     <div class="p-grid ">
+      <div class="p-col-12 p-md-1"></div>
+      <div class="p-col-12 p-md-10">
+        <app-calender :events="events" nitialDate="2019-01-01" />
+      </div>
+      <div class="p-col-12 p-md-1"></div>
+    </div>
+
+    <div class="p-grid ">
       <!-- <div class="p-col-12 p-md-4"></div>
       <div class="p-col-12 p-md-4"></div>
       <div class="p-col-12 p-md-4"></div> -->
@@ -25,18 +33,21 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
+import AppCalender from '@/components/parts/AppCalender.vue'
 import AppTable from '@/components/parts/AppTable.vue'
-import { tableData, tableKeys } from '@/config/resource'
+import { tableData, tableKeys, eventDate } from '@/config/resource'
 
 export default defineComponent({
   name: 'Home',
   components: {
+    AppCalender,
     AppTable
   },
   setup() {
     const display = ref<boolean>(true)
     const items = reactive(tableData)
     const columnOptions = reactive(tableKeys)
+    const events = reactive(eventDate)
 
     // methods
     /**
@@ -50,6 +61,7 @@ export default defineComponent({
       display,
       items,
       columnOptions,
+      events,
       catchAppInputEvent
     }
   }
