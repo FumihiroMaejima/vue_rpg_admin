@@ -39,6 +39,12 @@ seed:
 tinker:
 	docker-compose exec app php artisan tinker
 
+composer-install:
+	docker-compose exec app composer install
+
+composer-update:
+	docker-compose exec app composer update
+
 dump-autoload:
 	docker-compose exec app composer dump-autoload
 

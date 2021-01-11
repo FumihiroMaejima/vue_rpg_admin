@@ -11,7 +11,7 @@ my vue rpg-admin test.
 | npm | 6.12.1 |
 | node | 12.13.1 |
 | vue/cli | 4.5.9 |
-| TypeScript | 3.8.3 |
+| TypeScript | 4.1.3 |
 
 ---
 
@@ -52,9 +52,15 @@ $ yarn -v
 ```Shell-session
 $ npm install -g typescript
 $ tsc -v
-Version 3.8.3
+Version 4.1.3
 ```
 
+バージョンアップする場合は一度uninstallする
+
+```shell-session
+$ npm uninstall -g typescript
+$ npm install -g typescript
+```
 ### プロジェクトにインストールする
 
 ＊Vue-cliのプロジェクト作成時にもインストール出来る。
@@ -695,6 +701,104 @@ describe('Sample test', () => {
 
 ---
 
+## PrimeVueのインストール
+
+### グローバルにインストールする
+
+```shell-session
+$ yarn add primevue@^3.1.1
+$ yarn add primeicons
+
+## primeflex
+$ yarn add primeflex
+```
+
+main.tsでimportし、`use`する
+```TypeScript
+import PrimeVue from 'primevue/config'
+const app = createApp(App)
+app.use(PrimeVue)
+```
+
+`primeicons`と`primeflex`はcssファイルをimport宣言する。
+`primeflex`は`src`ディレクトリの中から個別にimportも出来る。
+
+
+```TypeScript
+import 'primeicons/primeicons.css'
+import 'primeflex/primeflex.css'
+// import 'primeflex/src/_variables.scss'
+```
+
+パッケージ内の`primevue/resources/themes/`にテンプレートがある為、各々のcssをimportする。
+
+```TypeScript
+import 'primevue/resources/themes/saga-blue/theme.css'
+import 'primevue/resources/primevue.min.css'
+import 'primeicons/primeicons.css'
+import 'primeflex/primeflex.css'
+```
+
+使うコンポーネントは、各Vueファイル内でimportする
+
+```TypeScript
+<template>
+  <Dialog header="Header" v-model:visible="display">content</Dialog>
+</template>
+import Dialog from 'primevue/dialog'
+  components: {
+    Dialog
+  },
+```
+
+データテーブルのコンポーネントを使う時に下記のエラーが発生する可能性がある。
+[参考: Chaining Operator with Vue 3 ](https://github.com/primefaces/primevue/issues/680)
+
+```Shell-session
+Module parse failed: Unexpected token (310:67)
+```
+
+`@vue/cli-plugin-babel`をインストールする必要がある
+
+```Shell-session
+$ vue add babel
+```
+
+`babel.config.js`の作成
+
+```JavaScript
+module.exports = {
+  /* presets: ["@vue/cli-plugin-babel/preset"] */
+  plugins: [require('@babel/plugin-proposal-optional-chaining')] // for data table setting.
+}
+
+```
+
+上記の対応で完了した。
+
+```TypeScript
+<template>
+  <Dialog header="Header" v-model:visible="display">content</Dialog>
+</template>
+import Dialog from 'primevue/dialog'
+  components: {
+    Dialog
+  },
+```
+
+
+## FullCalendarコンポーネントを使う場合
+
+`fullcalendar`をインストールする
+
+```Shell-session
+$ yarn add @fullcalendar/core
+$ yarn add @fullcalendar/daygrid
+$ yarn add @fullcalendar/timegrid
+$ yarn add @fullcalendar/interaction
+```
+
+---
 ## tailwindcssの設定
 
 tailwindcssのインストール
@@ -803,6 +907,12 @@ $ tsc -v
 Version 3.8.3
 ```
 
+バージョンアップする場合は一度uninstallする
+
+```shell-session
+$ npm uninstall -g typescript
+$ npm install -g typescript
+```
 ### プロジェクトにインストールする
 
 ＊Vue-cliのプロジェクト作成時に選択した方が楽である。

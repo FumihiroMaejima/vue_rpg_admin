@@ -18,7 +18,7 @@ services:
       APP_URL: ${APP_URL}
       APP_ENV: ${APP_ENV}
     networks:
-      vue-rpg-net:
+      default:
 
   nginx:
     build: ./nginx
@@ -36,7 +36,8 @@ services:
     environment:
       TZ: "Asia/Tokyo"
     networks:
-      vue-rpg-net:
+      default:
+        # ipv4_address: ${SERVICE_NETWORK_IP}
 
   db:
     build: ./mysql
@@ -50,7 +51,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       TZ: "Asia/Tokyo"
     networks:
-      vue-rpg-net:
+      default:
 
   # node:
   #   build: ./node
@@ -73,4 +74,6 @@ volumes:
   vue-rpg-store:
 
 networks:
-  vue-rpg-net:
+  default:
+    external:
+      name: ${NETWORK_NAME}

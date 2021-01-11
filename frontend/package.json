@@ -11,9 +11,17 @@
     "lint:css": "stylelint src/**/*.css"
   },
   "dependencies": {
+    "@fullcalendar/core": "^5.5.0",
+    "@fullcalendar/daygrid": "^5.5.0",
+    "@fullcalendar/interaction": "^5.5.0",
+    "@fullcalendar/timegrid": "^5.5.0",
     "autoprefixer": "^9",
     "axios": "^0.21.0",
+    "core-js": "^3.6.5",
     "postcss": "^7",
+    "primeflex": "^2.0.0",
+    "primeicons": "^4.1.0",
+    "primevue": "^3.1.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
@@ -22,6 +30,7 @@
     "@types/jest": "^24.0.19",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
+    "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-e2e-cypress": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
