@@ -13,7 +13,7 @@
     <div class="p-grid ">
       <div class="p-col-12 p-md-1"></div>
       <div class="p-col-12 p-md-10">
-        <app-calender :events="events" initialDate="2019-01-01" />
+        <app-calender :events="events" initialDate="2021-01-01" />
       </div>
       <div class="p-col-12 p-md-1"></div>
     </div>
