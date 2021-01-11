@@ -25,9 +25,10 @@ jobs:
     - name: Directory Permissions
       run: cd app/backend && chmod -R 777 storage bootstrap/cache
     - name: Create Database
-      run: |
-        cd app/backend && mkdir -p database
-        cd app/backend && touch database/database.sqlite
+      run: cd app/backend && mkdir -p database && touch database/database.sqlite
+      # run: |
+      #  cd app/backend && mkdir -p database
+      #  cd app/backend && touch database/database.sqlite
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: sqlite
