@@ -329,7 +329,7 @@ $ npm run dev or npm run production
 tymon/jwt-authのインストール
 
 ```shell-session
-$ composer require tymon/jwt-auth ^1.0.0
+$ composer require tymon/jwt-auth ^1.0.2
 ```
 
 config/jwt.phpの作成
