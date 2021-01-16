@@ -10,6 +10,9 @@ ARG PHP_MANUAL_URL=http://psysh.org/manual/ja/php_manual.sqlite
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /composer
 
+# phpcs(for php8)
+ENV PHP_CS_FIXER_IGNORE_ENV 1
+
 RUN apk update && \
   apk add --update --no-cache --virtual=.build-dependencies \
   #   autoconf=~2.69 \
