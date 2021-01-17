@@ -1,3 +1,6 @@
+##############################
+# make docker environmental
+##############################
 up:
 	docker-compose up -d
 
@@ -12,12 +15,18 @@ down-rmi:
 ps:
 	docker-compose ps
 
+##############################
+# make frontend production in nginx container
+##############################
 frontend-install:
 	docker-compose exec nginx ash -c 'cd /var/www/frontend && yarn install'
 
 frontend-build:
 	docker-compose exec nginx ash -c 'cd /var/www/frontend && yarn build'
 
+##############################
+# backend
+##############################
 migrate:
 	docker-compose exec app php artisan migrate
 
@@ -69,6 +78,13 @@ phpcs:
 phpmd:
 	docker-compose exec app vendor/bin/phpmd . text ruleset.xml --suffixes php --exclude node_modules,resources,storage,vendor,app/Console, database/seeds
 
+# local server
+backend-serve:
+	cd app/backend && php artisan serve
+
+##############################
+# web server(nginx)
+##############################
 nginx-t:
 	docker-compose exec nginx ash -c 'nginx -t'
 
@@ -78,18 +94,26 @@ nginx-reload:
 nginx-stop:
 	docker-compose exec nginx ash -c 'nginx -s stop'
 
+
+##############################
+# db container(mysql)
+##############################
 mysql:
 	docker-compose exec db bash -c 'mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE'
 
+
+##############################
+# circle ci
+##############################
 circleci:
 	cd app/backend && circleci build
 
 ci:
 	circleci build
 
-backend-serve:
-	cd app/backend && php artisan serve
-
+##############################
+# mock-server docker container
+##############################
 mock-up:
 	docker-compose -f ./docker-compose.mock.yml up -d
 
@@ -99,6 +123,9 @@ mock-down:
 mock-ps:
 	docker-compose -f ./docker-compose.mock.yml ps
 
+##############################
+# swagger docker container
+##############################
 swagger-up:
 	docker-compose -f ./docker-compose.swagger.yml up -d
 
