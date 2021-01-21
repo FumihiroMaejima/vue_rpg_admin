@@ -9,6 +9,8 @@ use Illuminate\Support\Str;
 
 class GameAbilityTableSeeder extends Seeder
 {
+    private $count = 12;
+
     /**
      * Run the database seeds.
      *
@@ -16,27 +18,35 @@ class GameAbilityTableSeeder extends Seeder
      */
     public function run()
     {
-        // 配列内の要素は、object型への変換によってstdClassを作成する
-        $seedData = [
-            (object)['name' => 'ablity1', 'value' => 10],
-            (object)['name' => 'ablity2', 'value' => 20],
-            (object)['name' => 'ablity3', 'value' => 30],
-            (object)['name' => 'ablity4', 'value' => 40],
-            (object)['name' => 'ablity5', 'value' => 50]
+        $template = [
+            'name' => '',
+            'target_column1' => Str::random(20),
+            'target_effect1' => 0,
+            'target_column2' => Str::random(20),
+            'target_effect2' => 0,
+            'message' => 'this ability message' . Str::random(40),
+            'created_at' => '2021-01-14 00:00:00',
+            'updated_at' => '2021-01-14 00:00:00'
         ];
 
-        // テーブルへの格納
-        foreach ($seedData as $key => $data) {
-            DB::table('game_ability')->insert([
-                'name' => $data->name,
-                'target_column1' => Str::random(20) . '_' . $key,
-                'target_effect1' => $data->value,
-                'target_column2' => Str::random(20) . '_' . $key,
-                'target_effect2' => $data->value,
-                'message' => 'this ability message' . Str::random(40),
-                'created_at' => '2021-01-14 00:00:00',
-                'updated_at' => '2021-01-14 00:00:00'
-            ]);
+        // insert用データ
+        $data[] = [];
+
+        // 0~12の数字の配列でforを回す
+        foreach (range(0, $this->count) as $i) {
+            $row = $template;
+            $row['name'] = 'ablity' . (string)($i);
+            $row['target_column1'] = $row['target_column1']  . '_' . (string)($i);
+            $row['target_effect1'] = ($i + 1) * 1;
+            $row['target_column2'] = $row['target_column2']  . '_' . (string)($i);
+            $row['target_effect2'] = ($i + 1) * 1;
+            $row['message'] = $row['message']  . '_' . (string)($i);
+
+            $data[$i] = $row;
         }
+
+        // テーブルへの格納
+        DB::table('game_ability')->insert($data);
+
     }
 }
