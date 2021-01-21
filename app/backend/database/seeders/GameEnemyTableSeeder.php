@@ -31,8 +31,8 @@ class GameEnemyTableSeeder extends Seeder
             'offence_equipment_id'  => 1,
             'diffense_equipment_id' => 1,
             'ability1_id'           => 1,
-            'ability2_id'           => 1,
-            'ability3_id'           => 1,
+            'ability2_id'           => null,
+            'ability3_id'           => null,
             'item'                  => 'item',
             'event_only_flg'        => 0,
             'emcount_area_id'       => 1,
@@ -48,15 +48,15 @@ class GameEnemyTableSeeder extends Seeder
         // 0~12の数字の配列でforを回す
         foreach (range(0, $this->count) as $i) {
             $row = $template;
-            $row['name'] = 'enemy' . (string)($i);
-            $row['hp'] = $row['hp'] + (10 * $i);
-            $row['mp'] = $row['mp'] + (10 * $i);
-            $row['offence'] = $row['offence'] + (10 * $i);
-            $row['diffense'] = $row['diffense'] + (5 * $i);
-            $row['speed'] = $row['speed'] + (10 * $i);
-            $row['magic'] = $row['magic'] + (2 * $i);
+            $row['name']       = 'enemy' . (string)($i);
+            $row['hp']         = $row['hp'] + (10 * $i);
+            $row['mp']         = $row['mp'] + (10 * $i);
+            $row['offence']    = $row['offence'] + (10 * $i);
+            $row['diffense']   = $row['diffense'] + (5 * $i);
+            $row['speed']      = $row['speed'] + (10 * $i);
+            $row['magic']      = $row['magic'] + (2 * $i);
             $row['image_name'] = $row['image_name']  . '_' . (string)($i);
-            $row['image_url'] = $row['image_url']  . '_' . (string)($i);
+            $row['image_url']  = $row['image_url']  . '_' . (string)($i);
 
             $data[$i] = $row;
         }
