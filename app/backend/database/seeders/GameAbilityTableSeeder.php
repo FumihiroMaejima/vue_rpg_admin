@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 
 class GameAbilityTableSeeder extends Seeder
 {
+    private $table = 'game_ability';
     private $count = 12;
 
     /**
@@ -46,7 +47,6 @@ class GameAbilityTableSeeder extends Seeder
         }
 
         // テーブルへの格納
-        DB::table('game_ability')->insert($data);
-
+        DB::table($this->table)->insert($data);
     }
 }
