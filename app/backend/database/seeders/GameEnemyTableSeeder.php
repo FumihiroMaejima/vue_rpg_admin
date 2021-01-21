@@ -46,7 +46,7 @@ class GameEnemyTableSeeder extends Seeder
         $data[] = [];
 
         // 0~12の数字の配列でforを回す
-        foreach (range(0, $this->count) as $i) {
+        foreach (range(1, $this->count) as $i) {
             $row = $template;
             $row['name']       = 'enemy' . (string)($i);
             $row['hp']         = $row['hp'] + (10 * $i);
@@ -58,7 +58,7 @@ class GameEnemyTableSeeder extends Seeder
             $row['image_name'] = $row['image_name']  . '_' . (string)($i);
             $row['image_url']  = $row['image_url']  . '_' . (string)($i);
 
-            $data[$i] = $row;
+            $data[$i - 1] = $row;
         }
 
         // テーブルへの格納

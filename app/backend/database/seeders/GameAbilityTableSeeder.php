@@ -20,30 +20,30 @@ class GameAbilityTableSeeder extends Seeder
     public function run()
     {
         $template = [
-            'name' => '',
+            'name'           => '',
             'target_column1' => Str::random(20),
             'target_effect1' => 0,
             'target_column2' => Str::random(20),
             'target_effect2' => 0,
-            'message' => 'this ability message' . Str::random(40),
-            'created_at' => '2021-01-14 00:00:00',
-            'updated_at' => '2021-01-14 00:00:00'
+            'message'        => 'this ability message' . Str::random(40),
+            'created_at'     => '2021-01-14 00:00:00',
+            'updated_at'     => '2021-01-14 00:00:00'
         ];
 
         // insert用データ
         $data[] = [];
 
         // 0~12の数字の配列でforを回す
-        foreach (range(0, $this->count) as $i) {
+        foreach (range(1, $this->count) as $i) {
             $row = $template;
-            $row['name'] = 'ablity' . (string)($i);
+            $row['name']           = 'ablity' . (string)($i);
             $row['target_column1'] = $row['target_column1']  . '_' . (string)($i);
             $row['target_effect1'] = ($i + 1) * 1;
             $row['target_column2'] = $row['target_column2']  . '_' . (string)($i);
             $row['target_effect2'] = ($i + 1) * 1;
-            $row['message'] = $row['message']  . '_' . (string)($i);
+            $row['message']        = $row['message']  . '_' . (string)($i);
 
-            $data[$i] = $row;
+            $data[$i - 1] = $row;
         }
 
         // テーブルへの格納

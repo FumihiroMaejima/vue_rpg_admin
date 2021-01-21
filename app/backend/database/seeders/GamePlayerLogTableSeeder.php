@@ -32,12 +32,12 @@ class GamePlayerLogTableSeeder extends Seeder
         $data[] = [];
 
         // 0~12の数字の配列でforを回す
-        foreach (range(0, $this->count) as $i) {
+        foreach (range(1, $this->count) as $i) {
             $row = $template;
             $row['function'] = $row['function']  . '_' . (string)($i);
             $row['status'] = $row['status']  . '_' . (string)($i);
 
-            $data[$i] = $row;
+            $data[$i - 1] = $row;
         }
 
         // テーブルへの格納
