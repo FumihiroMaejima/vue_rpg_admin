@@ -88,10 +88,8 @@ class CreateGameModelTable extends Migration
             $table->integer('diffense')->default(12)->comment('守備力');
             $table->integer('speed')->default(10)->comment('素早さ');
             $table->integer('magic')->default(0)->comment('魔力');
-            // $table->integer('offence_equipment')->nullable()->comment('攻撃用装備');
-            // s$table->integer('diffense_equipment')->nullable()->comment('守備用装備');
-            $table->foreignId('offence_equipment_id')->constrained('game_offence_equipment')->nullable()->comment('攻撃用装備');
-            $table->foreignId('diffense_equipment_id')->constrained('game_diffense_equipment')->nullable()->comment('守備用装備');
+            $table->foreignId('offence_equipment_id')->constrained('game_offence_equipment')->comment('攻撃用装備');
+            $table->foreignId('diffense_equipment_id')->constrained('game_diffense_equipment')->comment('守備用装備');
             $table->integer('ability1_id')->nullable()->comment('能力1');
             $table->integer('ability2_id')->nullable()->comment('能力2');
             $table->integer('ability3_id')->nullable()->comment('能力3');
@@ -110,7 +108,6 @@ class CreateGameModelTable extends Migration
         Schema::create('game_character', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255)->comment('名前');
-            // $table->integer('enemy_id')->nullable()->comment('敵キャラクターID');
             $table->foreignId('enemy_id')->constrained('game_enemy')->nullable()->comment('敵キャラクターID');
             $table->string('image_name', 255)->unique()->comment('イメージネーム');
             $table->string('image_url', 255)->unique()->comment('イメージパス');
@@ -125,7 +122,6 @@ class CreateGameModelTable extends Migration
         Schema::create('game_event', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255)->comment('名前');
-            // $table->integer('area_id')->comment('エリア名ID');
             $table->foreignId('area_id')->constrained('game_area')->comment('エリア名ID'); // テーブル名とid名が一致する場合
             $table->tinyInteger('character_id1')->comment('キャラクターID1');
             $table->tinyInteger('character_id2')->comment('キャラクターID2');
@@ -174,14 +170,11 @@ class CreateGameModelTable extends Migration
             $table->integer('diffense')->default(12)->comment('守備力');
             $table->integer('speed')->default(10)->comment('素早さ');
             $table->integer('magic')->default(0)->comment('魔力');
-            // $table->integer('offence_equipment')->nullable()->comment('攻撃用装備');
-            // $table->integer('diffense_equipment')->nullable()->comment('守備用装備');
-            $table->foreignId('offence_equipment_id')->constrained('game_offence_equipment')->nullable()->comment('攻撃用装備');
-            $table->foreignId('diffense_equipment_id')->constrained('game_diffense_equipment')->nullable()->comment('守備用装備');
+            $table->foreignId('offence_equipment_id')->constrained('game_offence_equipment')->comment('攻撃用装備');
+            $table->foreignId('diffense_equipment_id')->constrained('game_diffense_equipment')->comment('守備用装備');
             $table->integer('ability1_id')->nullable()->comment('能力1');
             $table->integer('ability2_id')->nullable()->comment('能力2');
             $table->integer('ability3_id')->nullable()->comment('能力3');
-            // $table->integer('title_id')->default(1)->comment('肩書き');
             $table->foreignId('title_id')->constrained('game_title')->default(1)->comment('肩書き');
             $table->text('item')->nullable()->comment('持ち物');
             $table->tinyInteger('special_item_flg1')->default(0)->comment('keyアイテム取得フラグ1');
@@ -200,7 +193,6 @@ class CreateGameModelTable extends Migration
          */
         Schema::create('game_player_log', function (Blueprint $table) {
             $table->id();
-            // $table->integer('player_id')->comment('プレイヤーID');
             $table->foreignId('player_id')->constrained('game_player')->comment('プレイヤーID');
             $table->string('function', 255)->comment('実行ファンクション');
             $table->string('status', 255)->comment('ステータス');
