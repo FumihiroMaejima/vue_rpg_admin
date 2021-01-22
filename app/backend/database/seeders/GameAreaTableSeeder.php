@@ -29,7 +29,7 @@ class GameAreaTableSeeder extends Seeder
         ];
 
         // insert用データ
-        $data[] = [];
+        $data = [];
 
         // 0~12の数字の配列でforを回す
         foreach (range(1, $this->count) as $i) {
@@ -39,7 +39,7 @@ class GameAreaTableSeeder extends Seeder
             $row['image_name'] = $row['image_name']  . '_' . (string)($i);
             $row['image_url'] = $row['image_url']  . '_' . (string)($i);
 
-            $data[$i - 1] = $row;
+            $data[] = $row;
         }
 
         // テーブルへの格納

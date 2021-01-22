@@ -29,7 +29,7 @@ class GameEventTableSeeder extends Seeder
         ];
 
         // insert用データ
-        $data[] = [];
+        $data = [];
 
         // 0~12の数字の配列でforを回す
         foreach (range(1, $this->count) as $i) {
@@ -38,7 +38,7 @@ class GameEventTableSeeder extends Seeder
             $row['character_id1'] = ($i + 1) * 1;
             $row['character_id1'] = ($i + 2) * 1;
 
-            $data[$i - 1] = $row;
+            $data[] = $row;
         }
 
         // テーブルへの格納

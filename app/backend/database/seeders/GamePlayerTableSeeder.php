@@ -48,7 +48,7 @@ class GamePlayerTableSeeder extends Seeder
         ];
 
         // insert用データ
-        $data[] = [];
+        $data = [];
 
         // 0~12の数字の配列でforを回す
         foreach (range(1, $this->count) as $i) {
@@ -61,7 +61,7 @@ class GamePlayerTableSeeder extends Seeder
             $row['speed']    = $row['speed'] + (10 * $i);
             $row['magic']    = $row['magic'] + (2 * $i);
 
-            $data[$i - 1] = $row;
+            $data[] = $row;
         }
 
         // テーブルへの格納
