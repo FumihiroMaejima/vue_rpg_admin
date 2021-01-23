@@ -24,7 +24,7 @@ class RoleTableSeeder extends Seeder
             'updated_at' => '2021-01-14 00:00:00'
         ];
 
-        $dataList = ['マスター', '管理者', '開発者', '部分管理者', '一般'];
+        $dataList = Config::get('local.seeder.authority.rolesNameList');
 
         // insert用データ
         $data = [];

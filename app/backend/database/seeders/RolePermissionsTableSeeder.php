@@ -30,21 +30,9 @@ class RolePermissionsTableSeeder extends Seeder
             'updated_at'    => '2021-01-14 00:00:00'
         ];
 
-        $roles = [
-            (object)['key' => 1, 'name' => 'マスター'],
-            (object)['key' => 2, 'name' => '管理者'],
-            (object)['key' => 3, 'name' => '開発者'],
-            (object)['key' => 4, 'name' => '部分管理者'],
-            (object)['key' => 5, 'name' => '一般']
-        ];
+        $roles = Config::get('local.seeder.authority.roles');
 
-        $permissions = [
-            (object)['key' => 1, 'name' => '作成'],
-            (object)['key' => 2, 'name' => '読取'],
-            (object)['key' => 3, 'name' => '更新'],
-            (object)['key' => 4, 'name' => '削除'],
-            (object)['key' => 5, 'name' => '部分読取']
-        ];
+        $permissions = Config::get('local.seeder.authority.permissions');
 
         // insert用データ
         $data = [];
@@ -52,8 +40,6 @@ class RolePermissionsTableSeeder extends Seeder
         // 0~12の数字の配列でforを回す
         foreach (range(1, $this->count) as $i) {
             $row = $template;
-            /* $row['role_id']       = $i;
-            $row['permission_id'] = $i; */
 
             // ロール順にロールとパーミッションの割り当てを行う
             if ($i <= $this->masterCount) {
@@ -73,9 +59,9 @@ class RolePermissionsTableSeeder extends Seeder
                 $row['permission_id'] = $permissions[$i - 9]->key;
             } else if (($i === $this->readOnlyCount)) {
                 // 読取専用の場合
-                $row['name']          = $roles[3]->name . '_' . $permissions[4]->name;
+                $row['name']          = $roles[3]->name . '_' . $permissions[5]->name;
                 $row['role_id']       = $roles[3]->key;
-                $row['permission_id'] = $permissions[4]->key;
+                $row['permission_id'] = $permissions[5]->key;
             }
 
             $data[] = $row;

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Config;
 class PermissionTableSeeder extends Seeder
 {
     private $table = 'permission';
-    private $count = 5;
+    private $count = 8;
 
     /**
      * Run the database seeds.
@@ -24,7 +24,7 @@ class PermissionTableSeeder extends Seeder
             'updated_at' => '2021-01-14 00:00:00'
         ];
 
-        $dataList = ['作成', '読取', '更新', '削除', '部分読取'];
+        $dataList = Config::get('local.seeder.authority.permissionsNameList');
 
         // insert用データ
         $data = [];
