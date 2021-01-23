@@ -41,6 +41,48 @@ class CreateDevelopmentTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        /**
+         * permission table
+         */
+        Schema::create('permission', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        /**
+         * role table
+         */
+        Schema::create('role', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        /**
+         * role_permissions table
+         */
+        Schema::create('role_permissions', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('role_id')->constrained('role')->comment('ロールID');
+            $table->foreignId('permission_id')->constrained('permission')->comment('パーミッションID');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        /**
+         * admins_roles table
+         */
+        Schema::create('admins_roles', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('admin_id')->constrained('admins')->comment('管理者ID');
+            $table->foreignId('role_id')->constrained('role')->comment('ロールID');
+            $table->timestamps();
+            $table->softDeletes();
+        });
     }
 
     /**
@@ -52,5 +94,9 @@ class CreateDevelopmentTable extends Migration
     {
         Schema::dropIfExists('admins');
         Schema::dropIfExists('admins_log');
+        Schema::dropIfExists('permission');
+        Schema::dropIfExists('role');
+        Schema::dropIfExists('role_permissions');
+        Schema::dropIfExists('admins_role');
     }
 }
