@@ -67,6 +67,7 @@ class CreateDevelopmentTable extends Migration
          */
         Schema::create('role_permissions', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->unique();
             $table->foreignId('role_id')->constrained('role')->comment('ロールID');
             $table->foreignId('permission_id')->constrained('permission')->comment('パーミッションID');
             $table->timestamps();
