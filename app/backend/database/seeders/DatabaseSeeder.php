@@ -14,7 +14,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
+        // $this->call(AdminsLogTableSeeder::class);
         $this->call(AdminsTableSeeder::class);
+        $this->call(PermissionTableSeeder::class);
+        $this->call(RoleTableSeeder::class);
+        $this->call(RolePermissionsTableSeeder::class);
+        $this->call(AdminsRolesTableSeeder::class);
         $this->call(GameAbilityTableSeeder::class);
         $this->call(GameAreaTableSeeder::class);
         $this->call(GameDiffenseEquipmentTableSeeder::class);
