@@ -5,11 +5,12 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Str;
 
-class UsersTableSeeder extends Seeder
+class GamePlayerLogTableSeeder extends Seeder
 {
-    private $table = 'users';
-    private $count = 5;
+    private $table = 'game_player_log';
+    private $count = 6;
 
     /**
      * Run the database seeds.
@@ -19,10 +20,10 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $template = [
-            'name'       => '',
-            'email'      => '',
-            'password'   => bcrypt(Config::get('local.seeder.password.testuser')),
-            'role'       => 10,
+            'player_id' => 1,
+            'function' => 'test function',
+            'status' => Str::random(20),
+            'action_time' => '2021-01-14 00:00:00',
             'created_at' => '2021-01-14 00:00:00',
             'updated_at' => '2021-01-14 00:00:00'
         ];
@@ -33,8 +34,8 @@ class UsersTableSeeder extends Seeder
         // 0~12の数字の配列でforを回す
         foreach (range(1, $this->count) as $i) {
             $row = $template;
-            $row['name']  = 'admin' . (string)($i);
-            $row['email'] = 'testadmin' . (string)($i) . '@example.com';
+            $row['function'] = $row['function']  . '_' . (string)($i);
+            $row['status'] = $row['status']  . '_' . (string)($i);
 
             $data[] = $row;
         }

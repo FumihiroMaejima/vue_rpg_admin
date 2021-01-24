@@ -13,7 +13,7 @@
               <label for="email">email</label>
               <span class=" p-input-icon-right">
                 <InputText id="email" type="text" @input="catchAppInputEvent" />
-                <i class="pi pi-users" />
+                <i class="pi pi-envelope" />
                 <!-- <i class="pi pi-spin pi-spinner" /> -->
               </span>
             </div>

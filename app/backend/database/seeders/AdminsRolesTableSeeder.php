@@ -6,9 +6,9 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 
-class UsersTableSeeder extends Seeder
+class AdminsRolesTableSeeder extends Seeder
 {
-    private $table = 'users';
+    private $table = 'admins_roles';
     private $count = 5;
 
     /**
@@ -19,10 +19,8 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $template = [
-            'name'       => '',
-            'email'      => '',
-            'password'   => bcrypt(Config::get('local.seeder.password.testuser')),
-            'role'       => 10,
+            'admin_id'   => 1,
+            'role_id'    => 1,
             'created_at' => '2021-01-14 00:00:00',
             'updated_at' => '2021-01-14 00:00:00'
         ];
@@ -33,8 +31,8 @@ class UsersTableSeeder extends Seeder
         // 0~12の数字の配列でforを回す
         foreach (range(1, $this->count) as $i) {
             $row = $template;
-            $row['name']  = 'admin' . (string)($i);
-            $row['email'] = 'testadmin' . (string)($i) . '@example.com';
+            $row['admin_id'] = $i;
+            $row['role_id']  = $i;
 
             $data[] = $row;
         }

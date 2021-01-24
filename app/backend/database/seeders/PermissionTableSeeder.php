@@ -6,10 +6,10 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 
-class UsersTableSeeder extends Seeder
+class PermissionTableSeeder extends Seeder
 {
-    private $table = 'users';
-    private $count = 5;
+    private $table = 'permission';
+    private $count = 8;
 
     /**
      * Run the database seeds.
@@ -20,12 +20,11 @@ class UsersTableSeeder extends Seeder
     {
         $template = [
             'name'       => '',
-            'email'      => '',
-            'password'   => bcrypt(Config::get('local.seeder.password.testuser')),
-            'role'       => 10,
             'created_at' => '2021-01-14 00:00:00',
             'updated_at' => '2021-01-14 00:00:00'
         ];
+
+        $dataList = Config::get('local.seeder.authority.permissionsNameList');
 
         // insert用データ
         $data = [];
@@ -33,8 +32,7 @@ class UsersTableSeeder extends Seeder
         // 0~12の数字の配列でforを回す
         foreach (range(1, $this->count) as $i) {
             $row = $template;
-            $row['name']  = 'admin' . (string)($i);
-            $row['email'] = 'testadmin' . (string)($i) . '@example.com';
+            $row['name']  = $dataList[$i - 1];
 
             $data[] = $row;
         }

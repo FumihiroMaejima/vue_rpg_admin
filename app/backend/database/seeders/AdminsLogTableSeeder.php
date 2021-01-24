@@ -6,9 +6,9 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 
-class UsersTableSeeder extends Seeder
+class AdminsLogTableSeeder extends Seeder
 {
-    private $table = 'users';
+    private $table = 'admins_log';
     private $count = 5;
 
     /**
@@ -19,12 +19,12 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $template = [
-            'name'       => '',
-            'email'      => '',
-            'password'   => bcrypt(Config::get('local.seeder.password.testuser')),
-            'role'       => 10,
-            'created_at' => '2021-01-14 00:00:00',
-            'updated_at' => '2021-01-14 00:00:00'
+            'admin_id'    => 1,
+            'function'    => 'GET',
+            'status'      => '200',
+            'action_time' => '2021-01-14 00:00:00',
+            'created_at'  => '2021-01-14 00:00:00',
+            'updated_at'  => '2021-01-14 00:00:00'
         ];
 
         // insert用データ
@@ -33,8 +33,9 @@ class UsersTableSeeder extends Seeder
         // 0~12の数字の配列でforを回す
         foreach (range(1, $this->count) as $i) {
             $row = $template;
-            $row['name']  = 'admin' . (string)($i);
-            $row['email'] = 'testadmin' . (string)($i) . '@example.com';
+            $row['function']    = ($i % 2 === 0) ? 'GET' : 'POST';
+            $row['status']      = 'admins log' . ($i % 2 === 0) ? '200' : '404';
+            $row['action_time'] = '2021-01-15 00:00:00';
 
             $data[] = $row;
         }
