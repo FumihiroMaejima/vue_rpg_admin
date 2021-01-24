@@ -134,3 +134,12 @@ swagger-down:
 
 swagger-ps:
 	docker-compose -f ./docker-compose.swagger.yml ps
+
+codegen-mock:
+	rm -rf api/nodejs/* && swagger-codegen generate -i api/api.yml -l nodejs-server -o api/nodejs
+
+codegen-prestart:
+	cd api/nodejs && npm run prestart
+
+codegen-start:
+	cd api/nodejs && npm run start

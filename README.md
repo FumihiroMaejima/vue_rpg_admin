@@ -657,6 +657,35 @@ $ php artisan make:policy TestPolicy
 ```
 
 ---
+# Swaggerの設定
+
+ ### ローカル環境にswagger-codegenのインストール(mockサーバーのコード出力)
+
+```shell-session
+ $ brew install swagger-codegen
+```
+
+### API仕様から出力するmockサーバーについて
+
+API仕様からmockサーバーの出力
+
+```shell-session
+ $ swagger-codegen generate -i api/api.yml -l nodejs-server -o api/nodejs
+```
+
+node.jsのサーバーなので、`node_modules`のインストールが必要 `npm run install`と``
+
+```shell-session
+ $ npm run prestart
+```
+
+mockサーバーの起動
+
+```shell-session
+ $ npm run start
+```
+
+---
 # 補足
 
 ### backendのpackage.jsonのアップデート
