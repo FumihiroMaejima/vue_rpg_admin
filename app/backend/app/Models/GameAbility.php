@@ -29,5 +29,6 @@ class GameAbility extends Model
     protected $dates = ['deleted_at'];
 
     public function __construct()
-    {}
+    {
+    }
 }
