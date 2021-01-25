@@ -17,6 +17,6 @@ assignees: FumihiroMaejima
 
 - list.
 
-**Issue**
+**Pull Request**
 
 [linkTitle](https://github.com/FumihiroMaejima/)
