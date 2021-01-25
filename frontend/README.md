@@ -33,16 +33,16 @@ $ yarn --version
 
 ```Shell-session
 $ vue --version
-@vue/cli 4.4.6
+@vue/cli 4.5.10
 
 $ yarn global add @vue/cli
 
 $ vue --version
-@vue/cli 4.5.4
+@vue/cli 4.5.11
 
 
 $ yarn -v
-1.22.5
+1.22.10
 ```
 
 ## TypeScriptのインストール
