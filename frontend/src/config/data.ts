@@ -6,6 +6,11 @@ module.exports = {
     { title: '「event」ページを作成しました。', date: '2020/09/23 10:00' },
     { title: 'ポータルサイトを作成しました。', date: '2020/09/22 10:00' }
   ],
+  authEndpoint: {
+    AUTH_LOGIN: '/api/auth/login',
+    AUTH_LOGOUT: '/api/auth/logout',
+    AUTH_SELF: '/api/auth/self'
+  },
   headerMenuContents: [
     {
       label: 'File',

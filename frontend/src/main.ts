@@ -3,6 +3,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import auth from './plugins/auth'
 import PrimeVue from 'primevue/config'
 import 'primevue/resources/themes/saga-blue/theme.css'
 // import 'primevue/resources/themes/nova/theme.css'
@@ -21,6 +22,7 @@ app.config.globalProperties.$AppConfig = config
 // createApp(App)
 app.use(store)
 app.use(router)
+app.use(auth)
 app.use(PrimeVue)
 app.mount('#app')
 

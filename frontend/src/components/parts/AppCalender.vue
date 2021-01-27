@@ -41,7 +41,7 @@ export default defineComponent({
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
       editable: true,
-      dateClick: (e: any) =>  {
+      dateClick: (e: any) => {
         console.log('dateClick: ' + JSON.stringify(e, null, 2))
       }
     }
