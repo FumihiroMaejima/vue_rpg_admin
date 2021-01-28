@@ -1,7 +1,5 @@
 /* eslint-disable */
-import axios, { AxiosResponse } from 'axios'
-// import { IAuthConfig } from '@/types'
-// const config: IAuthConfig = require('@/config/app')
+import axios, { AxiosResponse, AxiosError } from 'axios'
 import { BaseAddHeaderResponse, AuthEndpoint } from '@/types'
 
 export default class Authentication {
@@ -18,13 +16,13 @@ export default class Authentication {
       .then((response: AxiosResponse<any>) => {
         return { data: response.data, status: response.status}
       })
-      .catch((error: any) => {
+      .catch((error: AxiosError<any>) => {
         // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
-        return { data: error, status: error.response.status }
+        return { data: error, status: error.response ? error.response.status : 401 }
       })
   }
 
-  async authority(meta: any): Promise<any> {
+  /* async authority(meta: any): Promise<any> {
     return { data: true }
-  }
+  } */
 }

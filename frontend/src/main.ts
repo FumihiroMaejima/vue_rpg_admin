@@ -22,7 +22,7 @@ app.config.globalProperties.$AppConfig = config
 // createApp(App)
 app.use(store)
 app.use(router)
-app.use(auth)
+app.use(auth, { router, store })
 app.use(PrimeVue)
 app.mount('#app')
 
