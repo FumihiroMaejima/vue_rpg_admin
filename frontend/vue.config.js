@@ -5,8 +5,7 @@ module.exports = {
     proxy: {
       // mock endpoint
       '/api': {
-        target: 'http://localhost:8000/api',
-        https: false
+        target: 'http://localhost:8000/'
       }
       /*
       '/api': {
