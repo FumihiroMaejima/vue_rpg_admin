@@ -10,23 +10,21 @@ import { AuthState, HeaderDataState, AuthOption } from '@/types'
 
 export default {
   install(app: App<typeof AppComponent>, options: AuthOption) {
-    const store = options.store
-    const router = options.router
     const namespace = 'auth'
-    const base = new Base(router)
-    store.registerModule(namespace, authModule)
+    options.store.registerModule(namespace, authModule)
+    const base = new Base(options.router, options.store)
 
     app.config.globalProperties.$authApp = base
     app.provide('authApp', base)
 
     // check cookie for token
-    const authData = { id: store.getters['auth/id'], token: ''}
+    /* const authData = { id: store.getters['auth/id'], token: ''}
     // console.log('router: ' + JSON.stringify(router, null, 2))
 
     base.authInstance(authData.id, authData.token).then((response) => {
       // set AuthData
       // this.getAuthData(response)
-      console.log('authInstance: ' + JSON.stringify(response, null, 2))
+      console.log('authInstance: ' + JSON.stringify(response, null, 2)) */
       // console.log('store.state: ' + JSON.stringify(store.state, null, 2))
       // console.log('store.getters: ' + JSON.stringify(store.getters, null, 2))
       // console.log('store.getters[\'auth / name\']: ' + JSON.stringify(store.getters['auth/name'], null, 2))
@@ -46,18 +44,18 @@ export default {
 
 
       // 取得した認証情報の設定
-      const result = { id: response.id, name: response.name, authority: {} }
+      /* const result = { id: response.id, name: response.name, authority: {} }
       //console.log('store.dispatch: ' + JSON.stringify(store.dispatch('auth/getAuthData', result), null, 2))
       // storeへ格納
       store.dispatch('auth/getAuthData', result)
       console.log('store.state.auth: ' + JSON.stringify(store.state.auth, null, 2))
 
       // this.openLoading = false
-    })
+    }) */
   }
 }
 
-export function resetAction(router: Router, resetCookie = false) {
+/* export function resetAction(router: Router, resetCookie = false) {
   if (resetCookie) {
     // this.$cookies.remove(cnf.tokenStoreName)
     // token remove function
@@ -68,5 +66,5 @@ export function resetAction(router: Router, resetCookie = false) {
   if (router.currentRoute.value.path !== '/login') {
     router.push('/login')
   }
-}
+} */
 

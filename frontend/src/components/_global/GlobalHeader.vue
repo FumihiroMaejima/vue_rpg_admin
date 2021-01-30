@@ -1,4 +1,5 @@
 <template>
+  <!-- <ProgressBar value="0" mode="indeterminate" /> -->
   <component :is="currentComponent" />
 </template>
 
@@ -14,6 +15,8 @@ import {
 } from 'vue'
 import AuthHeader from '@/components/_global/AuthHeader.vue'
 import StaticHeader from '@/components/_global/StaticHeader.vue'
+import ProgressBar from 'primevue/progressbar'
+import Base from '@/plugins/auth/base'
 
 type Props = {}
 
@@ -24,7 +27,7 @@ export default defineComponent({
     StaticHeader
   },
   props: {},
-  setup(props: Props, context: SetupContext) {
+  async setup(props: Props, context: SetupContext) {
     const isAuthenticated = ref<boolean>(false)
 
     // computed
@@ -35,21 +38,15 @@ export default defineComponent({
     // instanceの取得
     /* const instance = getCurrentInstance()
     if (instance) {
-
+      console.log('g-h check: ' + JSON.stringify(null, null, 2))
     } */
-
-    /**
-     * catch click event
-     * @return {void}
-     */
-    const openSideBar = () => {
-      context.emit('click-icon', true)
-    }
+    const base = inject('authApp') as Base
+    await base.constructAction()
+    console.log('g-h getStore: ' + JSON.stringify(base.getAuthId(), null, 2))
 
     return {
       isAuthenticated,
-      currentComponent,
-      openSideBar
+      currentComponent
     }
   }
 })
