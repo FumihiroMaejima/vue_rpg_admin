@@ -1,5 +1,4 @@
 /* eslint-disable */
-import Vue from 'vue'
 import { Router } from 'vue-router'
 import { Store } from 'vuex'
 import Authentication from '@/plugins/auth/authentication'
@@ -32,10 +31,10 @@ export default class Base {
       // バックエンド連携時にコメントアウトの削除
       /* if (!response.id) {
         // 認証情報が無い場合
-        resetAction(router, true)
-      } else if (router.currentRoute.value.path === '/login') {
-        // 認証情報がある、かつログイン画面にアクセスした時はホーム画面にアクセス
-        router.push('/')
+        this.resetAction(true)
+      } else if (this.router.currentRoute.value.path === '/login') {
+        // 認証情報がある状態でログイン画面にアクセスした場合はホーム画面にアクセス
+        this.router.push('/')
       } */
 
       // 取得した認証情報の設定
@@ -110,17 +109,25 @@ export default class Base {
    * @param {boolean} resetCookie (default: false)
    * @return {void}
    */
-  resetAction(resetCookie = false) {
+  protected resetAction(resetCookie = false) {
     if (resetCookie) {
-      // this.$cookies.remove(cnf.tokenStoreName)
-      // token remove function
+      this.removeCookie(this.appKey)
     }
 
-    // refreshAuthData()
-    // this.refreshAuthData()
+    this.refreshAuthData()
+    // redirect login page.
     if (this.router.currentRoute.value.path !== '/login') {
       this.router.push('/login')
     }
+  }
+
+  /**
+   * refresh auth data.
+   * @return {void}
+   */
+  protected refreshAuthData() {
+    this.store.dispatch('auth/getAuthData', { id: null, name: null, authority: {} })
+
   }
 
   /**

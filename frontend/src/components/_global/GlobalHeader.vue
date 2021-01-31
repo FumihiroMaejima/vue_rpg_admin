@@ -42,7 +42,6 @@ export default defineComponent({
     } */
     const base = inject('authApp') as Base
     await base.constructAction()
-    console.log('g-h getStore: ' + JSON.stringify(base.getAuthId(), null, 2))
 
     return {
       isAuthenticated,
