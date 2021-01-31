@@ -25,7 +25,14 @@ export default class Base {
    * @return {void}
    */
   async constructAction() {
-    await this.authInstance(this.store.getters['auth/id'], this.getCookie(this.appKey)).then((response) => {
+    const token: string = this.getCookie(this.appKey)
+    // tokenが無い場合はデータを初期化して処理を終える
+    /* if (token === '') {
+      this.resetAction()
+      return
+    } */
+
+    await this.authInstance(this.store.getters['auth/id'], token).then((response) => {
       console.log('base authInstance: ' + JSON.stringify(response, null, 2))
 
       // バックエンド連携時にコメントアウトの削除
