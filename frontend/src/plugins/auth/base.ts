@@ -1,22 +1,23 @@
 /* eslint-disable */
 import Vue from 'vue'
-// import store from 'vuex'
 import { Router } from 'vue-router'
 import { Store } from 'vuex'
 import Authentication from '@/plugins/auth/authentication'
 const config: IAppConfig = require('@/config/data')
 import { AuthState, HeaderDataState, AuthEndpoint, IAppConfig, BaseAddHeaderResponse } from '@/types'
 export default class Base {
-  router: Router
-  store: Store<AuthState>
-  endpoint: AuthEndpoint
-  authentication: Authentication
+  private router: Router
+  private store: Store<AuthState>
+  private endpoint: AuthEndpoint
+  private authentication: Authentication
+  private appKey: string
 
   constructor(router: Router, store: Store<AuthState>) {
     this.router = router
     this.store = store
     this.endpoint = config.authEndpoint
     this.authentication = new Authentication(this.endpoint)
+    this.appKey = 'application_token'
   }
 
   /**
@@ -25,10 +26,7 @@ export default class Base {
    * @return {void}
    */
   async constructAction() {
-    // check cookie for token
-    const authData = { id: this.store.getters['auth/id'], token: '' }
-
-    await this.authInstance(authData.id, authData.token).then((response) => {
+    await this.authInstance(this.store.getters['auth/id'], this.getCookie(this.appKey)).then((response) => {
       console.log('base authInstance: ' + JSON.stringify(response, null, 2))
 
       // バックエンド連携時にコメントアウトの削除
@@ -79,7 +77,7 @@ export default class Base {
    * @param {HeaderDataState} data
    * @return {BaseAddHeaderResponse}
    */
-  addHeaders(data: HeaderDataState) {
+  protected addHeaders(data: HeaderDataState) {
     return {
       Authorization: `Bearer ${data.token ? data.token : ''}`,
       'X-Auth-ID': data.id ? data.id : ''
@@ -113,15 +111,45 @@ export default class Base {
    * @return {void}
    */
   resetAction(resetCookie = false) {
-  if (resetCookie) {
-    // this.$cookies.remove(cnf.tokenStoreName)
-    // token remove function
+    if (resetCookie) {
+      // this.$cookies.remove(cnf.tokenStoreName)
+      // token remove function
+    }
+
+    // refreshAuthData()
+    // this.refreshAuthData()
+    if (this.router.currentRoute.value.path !== '/login') {
+      this.router.push('/login')
+    }
   }
 
-  // refreshAuthData()
-  // this.refreshAuthData()
-  if (this.router.currentRoute.value.path !== '/login') {
-    this.router.push('/login')
+  /**
+   * get specific cookie.
+   * @param {string} key
+   * @return {string} cookie
+   */
+  protected getCookie(key: string = '') {
+    const targetCookie = document.cookie.split(',').find(value => value.startsWith(`${key}=`))
+     // RegExpオブジェクトで置き換え
+    return targetCookie === undefined ? '' : targetCookie.replace(new RegExp(`${key}=`, 'g'), '')
   }
-}
+
+  /**
+   * set cookie.
+   * @param {string} key
+   * @param {string} value
+   * @return {void}
+   */
+  protected setCookie(key: string, value: string, minutes: number = 60) {
+    document.cookie = `${key}=${value};max-age=${60 * minutes}`
+  }
+
+  /**
+   * remove cookies.
+   * @param {string} key
+   * @return {void}
+   */
+  protected removeCookie(key: string) {
+    document.cookie = `${key}=;max-age=0`
+  }
 }
