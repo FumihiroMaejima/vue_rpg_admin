@@ -26,10 +26,9 @@ export default class Base {
    */
   async constructAction() {
     const token: string = this.getCookie(this.appKey)
-    // tokenが無い場合はデータを初期化して処理を終える
+    // tokenが無い場合はデータを初期化する
     /* if (token === '') {
       this.resetAction()
-      return
     } */
 
     await this.authInstance(this.store.getters['auth/id'], token).then((response) => {
