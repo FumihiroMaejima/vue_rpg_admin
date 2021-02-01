@@ -83,10 +83,7 @@ export default defineComponent({
      * @return {void}
      */
     const loginAction = async () => {
-      // await base.login()
-      console.log('email: ' + JSON.stringify(email.value, null, 2))
-      console.log('password: ' + JSON.stringify(password.value, null, 2))
-      console.log('catch: ' + JSON.stringify(base.getAuthId(), null, 2))
+      await base.login(email.value, password.value)
     }
     return {
       emailValue,

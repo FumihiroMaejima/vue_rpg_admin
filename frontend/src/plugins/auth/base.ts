@@ -27,21 +27,22 @@ export default class Base {
   async constructAction() {
     const token: string = this.getCookie(this.appKey)
     // tokenが無い場合はデータを初期化する
-    /* if (token === '') {
+    if (token === '') {
       this.resetAction()
-    } */
+      return
+    }
 
     await this.authInstance(this.store.getters['auth/id'], token).then((response) => {
       console.log('base authInstance: ' + JSON.stringify(response, null, 2))
 
       // バックエンド連携時にコメントアウトの削除
-      /* if (!response.id) {
+      if (!response.id) {
         // 認証情報が無い場合
         this.resetAction(true)
       } else if (this.router.currentRoute.value.path === '/login') {
         // 認証情報がある状態でログイン画面にアクセスした場合はホーム画面にアクセス
         this.router.push('/')
-      } */
+      }
 
       // 取得した認証情報の設定
       const result = { id: response.id, name: response.name, authority: {} }
@@ -133,7 +134,26 @@ export default class Base {
    */
   protected refreshAuthData() {
     this.store.dispatch('auth/getAuthData', { id: null, name: null, authority: {} })
+  }
 
+  /**
+   * reset relation data.
+   * @param {Object} data
+   * @return {boolean}
+   */
+  async login(email: string, password: string) {
+    const response = await this.authentication.loginRequest({ email: email, password: password })
+    if (response.status !== 200) {
+      return false
+    } else {
+      // 認証情報の設定
+      this.store.dispatch('auth/getAuthData', { id: response.data.user.id, name: response.data.user.name, authority: {} })
+      this.setCookie(this.appKey, response.data.access_token)
+
+      // homeへ遷移
+      this.router.push('/')
+      return true
+    }
   }
 
   /**

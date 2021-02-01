@@ -117,4 +117,6 @@ class Admins extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function getProfilePhotoUrlAttribute() {}
 }
