@@ -9,7 +9,7 @@ module.exports = {
       }
       /*
       '/api': {
-        target: 'http://localhost/api',
+        target: 'http://localhost/',
         https: false
       }
       */
