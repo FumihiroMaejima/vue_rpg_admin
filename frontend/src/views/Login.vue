@@ -12,7 +12,7 @@
             <div class="p-field p-my-4">
               <label for="email">email</label>
               <span class=" p-input-icon-right">
-                <InputText id="email" type="text" @input="catchAppInputEvent" />
+                <InputText id="email" type="text" v-model="emailValue" />
                 <i class="pi pi-envelope" />
                 <!-- <i class="pi pi-spin pi-spinner" /> -->
               </span>
@@ -23,14 +23,14 @@
                 <InputText
                   id="password"
                   type="password"
-                  @input="catchAppInputEvent"
+                  v-model="passwordlValue"
                 />
                 <i class="pi pi-exclamation-triangle" />
               </span>
             </div>
           </template>
           <template #footer>
-            <Button icon="pi pi-check" label="Sign In" />
+            <Button icon="pi pi-check" label="Sign In" @click="loginAction" />
             <!-- <Button icon="pi pi-check" label="Sign In" class="p-button-secondary" /> -->
           </template>
         </Card>
@@ -41,11 +41,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, inject, computed, ref } from 'vue'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
 // import Divider from 'primevue/divider'
 import InputText from 'primevue/inputtext'
+import Base from '@/plugins/auth/base'
 
 export default defineComponent({
   name: 'Login',
@@ -55,25 +56,42 @@ export default defineComponent({
     InputText
   },
   setup() {
+    const email = ref<string>('')
+    const password = ref<string>('')
+    // auth instance
+    const base = inject('authApp') as Base
+
+    // computed
+    const emailValue = computed({
+      get: (): string => email.value,
+      set: (value: string) => {
+        email.value = value
+      }
+    })
+
+    const passwordlValue = computed({
+      get: (): string => password.value,
+      set: (value: string) => {
+        password.value = value
+      }
+    })
+
     // methods
-    /**
-     * catch app-input event
-     * @return {void}
-     */
-    const catchAppInputEvent = (event: any) => {
-      console.log('catchAppInputEvent: ' + JSON.stringify(event, null, 2))
-    }
 
     /**
      * catch click event
      * @return {void}
      */
-    const onClick = (event: any) => {
-      console.log('catch click event: ' + JSON.stringify(event, null, 2))
+    const loginAction = async () => {
+      // await base.login()
+      console.log('email: ' + JSON.stringify(email.value, null, 2))
+      console.log('password: ' + JSON.stringify(password.value, null, 2))
+      console.log('catch: ' + JSON.stringify(base.getAuthId(), null, 2))
     }
     return {
-      catchAppInputEvent,
-      onClick
+      emailValue,
+      passwordlValue,
+      loginAction
     }
   }
 })
