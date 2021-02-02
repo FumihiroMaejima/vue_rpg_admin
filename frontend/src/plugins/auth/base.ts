@@ -5,7 +5,7 @@ import Authentication from '@/plugins/auth/authentication'
 const config: IAppConfig = require('@/config/data')
 import { AuthState, HeaderDataState, AuthEndpoint, IAppConfig, BaseAddHeaderResponse } from '@/types'
 export default class Base {
-  private router: Router
+  public router: Router
   private store: Store<AuthState>
   private endpoint: AuthEndpoint
   private authentication: Authentication
@@ -137,7 +137,7 @@ export default class Base {
   }
 
   /**
-   * reset relation data.
+   * login action.
    * @param {Object} data
    * @return {boolean}
    */
@@ -154,6 +154,23 @@ export default class Base {
       this.router.push('/')
       return true
     }
+  }
+
+  /**
+   * logout action.
+   * @return {Object}
+   */
+  async logout() {
+    const response = await this.authentication.logoutRequest(this.addHeaders({ id: this.store.getters['auth/id'], token: this.getCookie(this.appKey) }))
+    if (response.status !== 200) {
+      return false
+    }
+
+    // データの初期化
+    this.resetAction(true)
+    // homeへ遷移
+    this.router.push('/login')
+    return true
   }
 
   /**

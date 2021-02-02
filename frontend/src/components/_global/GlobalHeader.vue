@@ -4,21 +4,11 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  getCurrentInstance,
-  ref,
-  SetupContext,
-  computed,
-  Component,
-  inject
-} from 'vue'
+import { defineComponent, ref, computed, Component, inject } from 'vue'
 import AuthHeader from '@/components/_global/AuthHeader.vue'
 import StaticHeader from '@/components/_global/StaticHeader.vue'
 import ProgressBar from 'primevue/progressbar'
 import Base from '@/plugins/auth/base'
-
-type Props = {}
 
 export default defineComponent({
   name: 'GlobalHeader',
@@ -27,21 +17,26 @@ export default defineComponent({
     StaticHeader
   },
   props: {},
-  async setup(props: Props, context: SetupContext) {
-    const isAuthenticated = ref<boolean>(false)
+  setup() {
+    const isAuthenticated = ref<boolean>(true)
+    const base = inject('authApp') as Base
 
     // computed
     const currentComponent = computed(
       (): Component => (isAuthenticated.value ? AuthHeader : StaticHeader)
     )
 
-    // instanceの取得
-    /* const instance = getCurrentInstance()
-    if (instance) {
-      console.log('g-h check: ' + JSON.stringify(null, null, 2))
-    } */
-    const base = inject('authApp') as Base
-    await base.constructAction()
+    /* const created = async() => {
+      await base.constructAction()
+      console.log('finish constructAction')
+    }
+    created */
+
+    // created
+    // setupでasyncをかけるとコンポーネントが表示されない為、非同期処理内のハンドリングで対応
+    base.constructAction().then(() => {
+      console.log('finish constructAction')
+    })
 
     return {
       isAuthenticated,

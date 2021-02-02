@@ -8,17 +8,24 @@
       <div class="p-col-12 p-md-6 p-lg-3"><i class="pi pi-github"></i></div>
       <div class="p-col-12 p-md-6 p-lg-3"><i class="pi pi-check"></i></div>
       <div class="p-col-12 p-md-6 p-lg-3"><i class="pi pi-github"></i></div>
+      <div class="p-col-12 p-md-6 p-lg-3">
+        <button @click="testFunction">back to root</button>
+      </div>
+      <div class="p-col-12 p-md-6 p-lg-3">
+        <button @click="logoutFunction">Sign Out</button>
+      </div>
     </div>
     <!-- <Dialog header="Header" v-model:visible="display">content</Dialog> -->
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, inject } from 'vue'
 // import Card from '@/components/parts/Card.vue'
 // import GridCols from '@/components/parts/GridCols.vue'
 // import GridRows from '@/components/parts/GridRows.vue'
 // import Dialog from 'primevue/dialog'
+import Base from '@/plugins/auth/base'
 
 export default defineComponent({
   name: 'Test',
@@ -30,6 +37,7 @@ export default defineComponent({
   setup() {
     const display = ref<boolean>(false)
     const sidebar = ref<boolean>(true)
+    const base = inject('authApp') as Base
     // methods
     /**
      * catch app-input event
@@ -38,9 +46,20 @@ export default defineComponent({
     const catchAppInputEvent = (event: any) => {
       console.log('catchAppInputEvent: ' + JSON.stringify(event, null, 2))
     }
+
+    const testFunction = () => {
+      base.router.push('/')
+    }
+
+    const logoutFunction = async () => {
+      await base.logout()
+    }
+
     return {
       display,
       sidebar,
+      testFunction,
+      logoutFunction,
       catchAppInputEvent
     }
   }
