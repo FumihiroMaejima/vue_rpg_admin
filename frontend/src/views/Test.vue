@@ -25,7 +25,7 @@ import { defineComponent, ref, inject } from 'vue'
 // import GridCols from '@/components/parts/GridCols.vue'
 // import GridRows from '@/components/parts/GridRows.vue'
 // import Dialog from 'primevue/dialog'
-import Base from '@/plugins/auth/base'
+import AuthApp from '@/plugins/auth/authApp'
 
 export default defineComponent({
   name: 'Test',
@@ -37,7 +37,8 @@ export default defineComponent({
   setup() {
     const display = ref<boolean>(false)
     const sidebar = ref<boolean>(true)
-    const base = inject('authApp') as Base
+    const authApp = inject('authApp') as AuthApp
+
     // methods
     /**
      * catch app-input event
@@ -48,11 +49,11 @@ export default defineComponent({
     }
 
     const testFunction = () => {
-      base.router.push('/')
+      authApp.router.push('/')
     }
 
     const logoutFunction = async () => {
-      await base.logout()
+      await authApp.logout()
     }
 
     return {

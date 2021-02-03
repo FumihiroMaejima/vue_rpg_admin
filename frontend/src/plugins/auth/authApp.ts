@@ -4,7 +4,8 @@ import { Store } from 'vuex'
 import Authentication from '@/plugins/auth/authentication'
 const config: IAppConfig = require('@/config/data')
 import { AuthState, HeaderDataState, AuthEndpoint, IAppConfig, BaseAddHeaderResponse } from '@/types'
-export default class Base {
+
+export default class AuthApp {
   public router: Router
   private store: Store<AuthState>
   private endpoint: AuthEndpoint

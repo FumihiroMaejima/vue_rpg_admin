@@ -8,7 +8,7 @@ import { defineComponent, computed, Component, inject } from 'vue'
 import AuthHeader from '@/components/_global/AuthHeader.vue'
 import StaticHeader from '@/components/_global/StaticHeader.vue'
 import ProgressBar from 'primevue/progressbar'
-import Base from '@/plugins/auth/base'
+import AuthApp from '@/plugins/auth/authApp'
 
 export default defineComponent({
   name: 'GlobalHeader',
@@ -18,11 +18,11 @@ export default defineComponent({
   },
   props: {},
   setup() {
-    const base = inject('authApp') as Base
+    const authApp = inject('authApp') as AuthApp
 
     // computed
     const currentComponent = computed(
-      (): Component => (base.getAuthId() ? AuthHeader : StaticHeader)
+      (): Component => (authApp.getAuthId() ? AuthHeader : StaticHeader)
     )
 
     // created

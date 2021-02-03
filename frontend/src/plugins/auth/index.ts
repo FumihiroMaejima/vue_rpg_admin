@@ -1,26 +1,25 @@
 /* eslint-disable */
-import Vue from 'vue'
-import { App, provide, inject } from 'vue'
+// import Vue from 'vue'
+import { App } from 'vue'
 import AppComponent from './App.vue'
-// import store from 'vuex'
-import { Router } from 'vue-router'
-import Base from '@/plugins/auth/base'
+// import { Router } from 'vue-router'
+import AuthApp from '@/plugins/auth/authApp'
 import authModule from '@/plugins/auth/store'
-import { AuthState, HeaderDataState, AuthOption } from '@/types'
+import { AuthOption } from '@/types'
 
 export default {
   install(app: App<typeof AppComponent>, options: AuthOption) {
     const namespace = 'auth'
     options.store.registerModule(namespace, authModule)
-    const base = new Base(options.router, options.store)
+    const authApp = new AuthApp(options.router, options.store)
 
-    app.config.globalProperties.$authApp = base
-    app.provide('authApp', base)
+    app.config.globalProperties.$authApp = authApp
+    app.provide('authApp', authApp)
 
     options.router.beforeEach((to, from, next) => {
       if (to.matched.some(record => record.meta.requiresAuth)) {
 
-        const checkAuthenticated = async () => await base.constructAction()
+        const checkAuthenticated = async () => await authApp.constructAction()
         checkAuthenticated().then((response: boolean) => {
           if (!response) {
             // ログイン画面へリダイレクト

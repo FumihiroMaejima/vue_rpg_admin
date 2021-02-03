@@ -46,7 +46,7 @@ import Button from 'primevue/button'
 import Card from 'primevue/card'
 // import Divider from 'primevue/divider'
 import InputText from 'primevue/inputtext'
-import Base from '@/plugins/auth/base'
+import AuthApp from '@/plugins/auth/authApp'
 
 export default defineComponent({
   name: 'Login',
@@ -59,7 +59,7 @@ export default defineComponent({
     const email = ref<string>('')
     const password = ref<string>('')
     // auth instance
-    const base = inject('authApp') as Base
+    const authApp = inject('authApp') as AuthApp
 
     // computed
     const emailValue = computed({
@@ -83,7 +83,7 @@ export default defineComponent({
      * @return {void}
      */
     const loginAction = async () => {
-      await base.login(email.value, password.value)
+      await authApp.login(email.value, password.value)
     }
     return {
       emailValue,

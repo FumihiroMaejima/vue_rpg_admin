@@ -1,5 +1,5 @@
 export * from '@/types/plugins/auth/authentication'
-export * from '@/types/plugins/auth/base'
+export * from '@/types/plugins/auth/authApp'
 
 import { Store, StoreOptions } from 'vuex'
 import { Router } from 'vue-router'
