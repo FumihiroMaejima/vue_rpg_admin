@@ -26,19 +26,21 @@ export default defineComponent({
       (): Component => (isAuthenticated.value ? AuthHeader : StaticHeader)
     )
 
-    /* const created = async() => {
-      await base.constructAction()
-      console.log('finish constructAction')
+    // created
+    const created = async() => {
+      // await base.constructAction()
+      console.log('created async action')
     }
-    created */
+    created()
 
     // created
     // setupでasyncをかけるとコンポーネントが表示されない為、非同期処理内のハンドリングで対応
-    base.constructAction().then(() => {
+    /* base.constructAction().then(() => {
       console.log('finish constructAction')
-    })
+    }) */
 
     return {
+      created,
       isAuthenticated,
       currentComponent
     }

@@ -29,19 +29,17 @@ export default class Base {
     // tokenが無い場合はデータを初期化する
     if (token === '') {
       this.resetAction()
-      return
+      return false
     }
 
-    await this.authInstance(this.store.getters['auth/id'], token).then((response) => {
+    const isAuth = await this.authInstance(this.store.getters['auth/id'], token).then((response) => {
       console.log('base authInstance: ' + JSON.stringify(response, null, 2))
 
       // バックエンド連携時にコメントアウトの削除
       if (!response.id) {
         // 認証情報が無い場合
         this.resetAction(true)
-      } else if (this.router.currentRoute.value.path === '/login') {
-        // 認証情報がある状態でログイン画面にアクセスした場合はホーム画面にアクセス
-        this.router.push('/')
+        return false
       }
 
       // 取得した認証情報の設定
@@ -49,9 +47,9 @@ export default class Base {
       // storeへ格納
       this.store.dispatch('auth/getAuthData', result)
       console.log('base store.state.auth: ' + JSON.stringify(this.store.state.auth, null, 2))
-
-      // this.openLoading = false
+      return true
     })
+    return isAuth
   }
 
   /**
@@ -122,10 +120,6 @@ export default class Base {
     }
 
     this.refreshAuthData()
-    // redirect login page.
-    if (this.router.currentRoute.value.path !== '/login') {
-      this.router.push('/login')
-    }
   }
 
   /**
