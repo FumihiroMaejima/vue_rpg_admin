@@ -4,7 +4,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, Component, inject } from 'vue'
+import { defineComponent, computed, Component, inject } from 'vue'
 import AuthHeader from '@/components/_global/AuthHeader.vue'
 import StaticHeader from '@/components/_global/StaticHeader.vue'
 import ProgressBar from 'primevue/progressbar'
@@ -18,30 +18,21 @@ export default defineComponent({
   },
   props: {},
   setup() {
-    const isAuthenticated = ref<boolean>(true)
     const base = inject('authApp') as Base
 
     // computed
     const currentComponent = computed(
-      (): Component => (isAuthenticated.value ? AuthHeader : StaticHeader)
+      (): Component => (base.getAuthId() ? AuthHeader : StaticHeader)
     )
 
     // created
-    const created = async() => {
-      // await base.constructAction()
+    const created = async () => {
       console.log('created async action')
     }
     created()
 
-    // created
-    // setupでasyncをかけるとコンポーネントが表示されない為、非同期処理内のハンドリングで対応
-    /* base.constructAction().then(() => {
-      console.log('finish constructAction')
-    }) */
-
     return {
       created,
-      isAuthenticated,
       currentComponent
     }
   }

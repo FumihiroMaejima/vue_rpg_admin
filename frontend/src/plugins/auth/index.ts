@@ -22,7 +22,6 @@ export default {
 
         const checkAuthenticated = async () => await base.constructAction()
         checkAuthenticated().then((response: boolean) => {
-          console.log('authenticated() then: ' + JSON.stringify(response, null, 2))
           if (!response) {
             // ログイン画面へリダイレクト
             next({

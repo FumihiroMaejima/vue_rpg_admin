@@ -35,17 +35,14 @@ export default class Base {
     const isAuth = await this.authInstance(this.store.getters['auth/id'], token).then((response) => {
       console.log('base authInstance: ' + JSON.stringify(response, null, 2))
 
-      // バックエンド連携時にコメントアウトの削除
+      // 認証情報が無い場合
       if (!response.id) {
-        // 認証情報が無い場合
         this.resetAction(true)
         return false
       }
 
       // 取得した認証情報の設定
-      const result = { id: response.id, name: response.name, authority: {} }
-      // storeへ格納
-      this.store.dispatch('auth/getAuthData', result)
+      this.store.dispatch('auth/getAuthData', { id: response.id, name: response.name, authority: {} })
       console.log('base store.state.auth: ' + JSON.stringify(this.store.state.auth, null, 2))
       return true
     })
