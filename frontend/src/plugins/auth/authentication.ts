@@ -47,8 +47,4 @@ export default class Authentication {
         return { data: error, status: error.response ? error.response.status : 500 }
       })
   }
-
-  /* async authority(meta: any): Promise<any> {
-    return { data: true }
-  } */
 }

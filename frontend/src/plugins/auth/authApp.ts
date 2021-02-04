@@ -21,36 +21,6 @@ export default class AuthApp {
   }
 
   /**
-   * first action after constructor.
-   * check authenticated data.
-   * @return {void}
-   */
-  async constructAction() {
-    const token: string = this.getCookie(this.appKey)
-    // tokenが無い場合はデータを初期化する
-    if (token === '') {
-      this.resetAction()
-      return false
-    }
-
-    const isAuth = await this.authInstance(this.store.getters['auth/id'], token).then((response) => {
-      console.log('base authInstance: ' + JSON.stringify(response, null, 2))
-
-      // 認証情報が無い場合
-      if (!response.id) {
-        this.resetAction(true)
-        return false
-      }
-
-      // 取得した認証情報の設定
-      this.store.dispatch('auth/getAuthData', { id: response.id, name: response.name, authority: {} })
-      console.log('base store.state.auth: ' + JSON.stringify(this.store.state.auth, null, 2))
-      return true
-    })
-    return isAuth
-  }
-
-  /**
    * return authenticated id
    * @return {number} id
    */
@@ -108,6 +78,32 @@ export default class AuthApp {
   }
 
   /**
+   * check authenticated data.
+   * @return {boolean}
+   */
+  async checkAuthenticated() {
+    const token: string = this.getCookie(this.appKey)
+    // tokenが無い場合はデータを初期化する
+    if (token === '') {
+      this.resetAction()
+      return false
+    }
+
+    const isAuth = await this.authInstance(this.store.getters['auth/id'], token).then((response) => {
+      // 認証情報が無い場合
+      if (!response.id) {
+        this.resetAction(true)
+        return false
+      }
+
+      // 取得した認証情報の設定
+      this.store.dispatch('auth/getAuthData', { id: response.id, name: response.name, authority: {} })
+      return true
+    })
+    return isAuth
+  }
+
+  /**
    * reset relation data.
    * @param {boolean} resetCookie (default: false)
    * @return {void}
@@ -160,7 +156,7 @@ export default class AuthApp {
 
     // データの初期化
     this.resetAction(true)
-    // homeへ遷移
+    // login画面へ遷移
     this.router.push('/login')
     return true
   }
