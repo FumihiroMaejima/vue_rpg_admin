@@ -1,6 +1,6 @@
 <template>
   <!-- <ProgressBar value="0" mode="indeterminate" /> -->
-  <component :is="currentComponent" />
+  <component :is="currentComponent" :authApp="authApp" />
 </template>
 
 <script lang="ts">
@@ -33,6 +33,7 @@ export default defineComponent({
 
     return {
       created,
+      authApp,
       currentComponent
     }
   }

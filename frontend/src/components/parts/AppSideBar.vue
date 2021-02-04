@@ -43,7 +43,7 @@ export default defineComponent({
       }
     })
 
-    // thisの取得
+    // instanceの取得
     const instance = getCurrentInstance()
     if (instance) {
       // consifgの取得

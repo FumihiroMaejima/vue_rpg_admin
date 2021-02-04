@@ -11,9 +11,6 @@
       <div class="p-col-12 p-md-6 p-lg-3">
         <button @click="testFunction">back to root</button>
       </div>
-      <div class="p-col-12 p-md-6 p-lg-3">
-        <button @click="logoutFunction">Sign Out</button>
-      </div>
     </div>
     <!-- <Dialog header="Header" v-model:visible="display">content</Dialog> -->
   </div>
@@ -52,15 +49,10 @@ export default defineComponent({
       authApp.router.push('/')
     }
 
-    const logoutFunction = async () => {
-      await authApp.logout()
-    }
-
     return {
       display,
       sidebar,
       testFunction,
-      logoutFunction,
       catchAppInputEvent
     }
   }
