@@ -30,8 +30,12 @@
             </div>
           </template>
           <template #footer>
-            <Button icon="pi pi-check" label="Sign In" @click="loginAction" />
-            <!-- <Button icon="pi pi-check" label="Sign In" class="p-button-secondary" /> -->
+            <Button
+              class="p-button-raised"
+              :icon="iconValue"
+              :label="buttonText"
+              @click="loginAction"
+            />
           </template>
         </Card>
       </div>
@@ -47,6 +51,7 @@ import Card from 'primevue/card'
 // import Divider from 'primevue/divider'
 import InputText from 'primevue/inputtext'
 import AuthApp from '@/plugins/auth/authApp'
+import { inversionFlag } from '@/util'
 
 export default defineComponent({
   name: 'Login',
@@ -58,7 +63,7 @@ export default defineComponent({
   setup() {
     const email = ref<string>('')
     const password = ref<string>('')
-    // auth instance
+    const loadingFlag = ref<boolean>(false)
     const authApp = inject('authApp') as AuthApp
 
     // computed
@@ -76,18 +81,30 @@ export default defineComponent({
       }
     })
 
-    // methods
+    const iconValue = computed((): string =>
+      loadingFlag.value ? 'pi pi-spin pi-spinner' : 'pi pi-check'
+    )
 
+    const buttonText = computed((): string =>
+      loadingFlag.value ? 'Now Loading' : 'Sign In'
+    )
+
+    // methods
     /**
      * catch click event
      * @return {void}
      */
     const loginAction = async () => {
+      inversionFlag(loadingFlag)
       await authApp.login(email.value, password.value)
+      inversionFlag(loadingFlag)
     }
     return {
+      loadingFlag,
       emailValue,
       passwordlValue,
+      iconValue,
+      buttonText,
       loginAction
     }
   }

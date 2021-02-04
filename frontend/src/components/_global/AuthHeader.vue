@@ -9,9 +9,9 @@
     </template>
     <template #end>
       <Button
-        icon="pi pi-refresh"
-        class="p-button-rounded p-button-secondary"
-        label="Sign Out"
+        class="p-button-text p-button-secondary"
+        :icon="iconValue"
+        :label="buttonText"
         @click="logoutFunction"
       />
       <!-- <div class="p-inputgroup">
@@ -23,11 +23,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance, ref, SetupContext } from 'vue'
+import {
+  defineComponent,
+  getCurrentInstance,
+  ref,
+  SetupContext,
+  computed
+} from 'vue'
 import Button from 'primevue/button'
 // import InputText from 'primevue/inputtext'
 import Menubar from 'primevue/menubar'
 import AuthApp from '@/plugins/auth/authApp'
+import { inversionFlag } from '@/util'
 
 type Props = {
   authApp: AuthApp
@@ -48,6 +55,7 @@ export default defineComponent({
   },
   setup(props: Props, context: SetupContext) {
     let items = ref<string[]>([])
+    const loadingFlag = ref<boolean>(false)
 
     // instanceの取得
     const instance = getCurrentInstance()
@@ -57,6 +65,15 @@ export default defineComponent({
         instance.appContext.config.globalProperties.$AppConfig
           .headerMenuContents
     }
+
+    // computed
+    const iconValue = computed((): string =>
+      loadingFlag.value ? 'pi pi-spin pi-spinner' : 'pi pi-refresh'
+    )
+
+    const buttonText = computed((): string =>
+      loadingFlag.value ? 'Now Sign Out' : 'Sign Out'
+    )
 
     // methods
     /**
@@ -72,11 +89,16 @@ export default defineComponent({
      * @return {void}
      */
     const logoutFunction = async () => {
+      inversionFlag(loadingFlag)
       await props.authApp.logout()
+      inversionFlag(loadingFlag)
     }
 
     return {
       items,
+      loadingFlag,
+      iconValue,
+      buttonText,
       openSideBar,
       logoutFunction
     }
