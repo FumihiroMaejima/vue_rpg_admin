@@ -798,6 +798,14 @@ $ yarn add @fullcalendar/timegrid
 $ yarn add @fullcalendar/interaction
 ```
 
+## ConfirmDialogを使う場合
+
+`mitt`をインストールする
+
+```Shell-session
+$ yarn add mitt
+```
+
 ---
 ## tailwindcssの設定
 

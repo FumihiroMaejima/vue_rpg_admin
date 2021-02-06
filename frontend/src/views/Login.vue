@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, computed, ref } from 'vue'
+import { defineComponent, inject, computed, ref, Ref } from 'vue'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
 // import Divider from 'primevue/divider'
@@ -63,7 +63,7 @@ export default defineComponent({
   setup() {
     const email = ref<string>('')
     const password = ref<string>('')
-    const loadingFlag = ref<boolean>(false)
+    const loadingFlag = inject('circleLoading') as Ref<boolean>
     const authApp = inject('authApp') as AuthApp
 
     // computed
@@ -86,7 +86,7 @@ export default defineComponent({
     )
 
     const buttonText = computed((): string =>
-      loadingFlag.value ? 'Now Loading' : 'Sign In'
+      loadingFlag.value ? 'Now Loading...' : 'Sign In'
     )
 
     // methods

@@ -28,7 +28,9 @@ import {
   getCurrentInstance,
   ref,
   SetupContext,
-  computed
+  computed,
+  Ref,
+  inject
 } from 'vue'
 import Button from 'primevue/button'
 // import InputText from 'primevue/inputtext'
@@ -55,7 +57,7 @@ export default defineComponent({
   },
   setup(props: Props, context: SetupContext) {
     let items = ref<string[]>([])
-    const loadingFlag = ref<boolean>(false)
+    const loadingFlag = inject('circleLoading') as Ref<boolean>
 
     // instanceの取得
     const instance = getCurrentInstance()
