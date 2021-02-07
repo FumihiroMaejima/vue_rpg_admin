@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { createApp } from 'vue'
+import { createApp, ref } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -14,15 +14,17 @@ import 'primeflex/primeflex.css'
 import { IAppConfig } from '@/types'
 
 const config: IAppConfig = require('@/config/data')
+const option = ref<boolean>(false)
 
 const app = createApp(App)
 
 app.config.globalProperties.$AppConfig = config
+app.provide('linerLoading', option)
 
 // createApp(App)
 app.use(store)
 app.use(router)
-app.use(auth, { router, store })
+app.use(auth, { router, store, option })
 app.use(PrimeVue)
 app.mount('#app')
 
