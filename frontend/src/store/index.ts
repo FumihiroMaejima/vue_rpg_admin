@@ -3,7 +3,7 @@ import { RootState } from '@/types'
 
 const store: StoreOptions<RootState> = {
   strict: process.env.NODE_ENV !== 'production',
-  state: {},
+  state: () => ({}),
   modules: {},
   mutations: {},
   actions: {}
