@@ -14,17 +14,17 @@ import 'primeflex/primeflex.css'
 import { IAppConfig } from '@/types'
 
 const config: IAppConfig = require('@/config/data')
-const option = ref<boolean>(false)
+const loading = ref<boolean>(false)
 
 const app = createApp(App)
 
 app.config.globalProperties.$AppConfig = config
-app.provide('linerLoading', option)
+app.provide('linerLoading', loading)
 
 // createApp(App)
 app.use(store)
 app.use(router)
-app.use(auth, { router, store, option })
+app.use(auth, { router, store, loading })
 app.use(PrimeVue)
 app.mount('#app')
 
