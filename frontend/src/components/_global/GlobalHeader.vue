@@ -1,5 +1,4 @@
 <template>
-  <!-- <ProgressBar value="0" mode="indeterminate" /> -->
   <component :is="currentComponent" :authApp="authApp" />
 </template>
 
@@ -7,7 +6,6 @@
 import { defineComponent, computed, Component, inject } from 'vue'
 import AuthHeader from '@/components/_global/AuthHeader.vue'
 import StaticHeader from '@/components/_global/StaticHeader.vue'
-import ProgressBar from 'primevue/progressbar'
 import AuthApp from '@/plugins/auth/authApp'
 
 export default defineComponent({

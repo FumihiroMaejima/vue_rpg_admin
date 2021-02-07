@@ -807,6 +807,18 @@ $ yarn add mitt
 ```
 
 ---
+
+## VeeValidateの設定
+
+## VeeValidateをインストール
+
+現状は`Vue3版`をインストールする
+
+```Shell-session
+$ yarn add vee-validate@next
+```
+
+---
 ## tailwindcssの設定
 
 tailwindcssのインストール

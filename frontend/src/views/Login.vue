@@ -12,21 +12,31 @@
             <div class="p-field p-my-4">
               <label for="email">email</label>
               <span class=" p-input-icon-right">
-                <InputText id="email" type="text" v-model="emailValue" />
+                <InputText
+                  id="email"
+                  :class="{'p-invalid' : emailValue === ''}"
+                  name="email"
+                  type="text"
+                  placeholder="test@example.com"
+                  v-model="emailValue"
+                />
                 <i class="pi pi-envelope" />
-                <!-- <i class="pi pi-spin pi-spinner" /> -->
               </span>
+              <small class="p-error">{{ emailError }}</small>
             </div>
             <div class="p-field">
               <label for="password">password</label>
               <span class="p-float-label p-input-icon-right">
                 <InputText
                   id="password"
+                  :class="{'p-invalid' : passwordlValue === ''}"
+                  name="password"
                   type="password"
                   v-model="passwordlValue"
                 />
                 <i class="pi pi-exclamation-triangle" />
               </span>
+              <span class="p-error">{{ passwordError }}</span>
             </div>
           </template>
           <template #footer>
@@ -50,8 +60,10 @@ import Button from 'primevue/button'
 import Card from 'primevue/card'
 // import Divider from 'primevue/divider'
 import InputText from 'primevue/inputtext'
+import { useField, useForm } from 'vee-validate'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
+import { checkTextLength } from '@/util/validation'
 
 export default defineComponent({
   name: 'Login',
@@ -61,8 +73,23 @@ export default defineComponent({
     InputText
   },
   setup() {
-    const email = ref<string>('')
-    const password = ref<string>('')
+    const loginSchema = {
+      email(value: string): string {
+        return checkTextLength(value) ? '' : 'This is required'
+      },
+      password(value: string): string {
+        return checkTextLength(value) ? '' : 'This is required'
+      }
+    }
+
+    useForm({
+      validationSchema: loginSchema
+    })
+
+    const { value: email, errorMessage: emailError } = useField('email')
+    const { value: password, errorMessage: passwordError } = useField(
+      'password'
+    )
     const loadingFlag = inject('circleLoading') as Ref<boolean>
     const authApp = inject('authApp') as AuthApp
 
@@ -103,6 +130,8 @@ export default defineComponent({
       loadingFlag,
       emailValue,
       passwordlValue,
+      emailError,
+      passwordError,
       iconValue,
       buttonText,
       loginAction
