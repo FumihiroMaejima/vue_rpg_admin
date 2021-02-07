@@ -11,6 +11,7 @@ import 'primevue/resources/themes/saga-blue/theme.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
+import ToastService from 'primevue/toastservice'
 import { IAppConfig } from '@/types'
 
 const config: IAppConfig = require('@/config/data')
@@ -26,6 +27,7 @@ app.use(store)
 app.use(router)
 app.use(auth, { router, store, loading })
 app.use(PrimeVue)
+app.use(ToastService)
 app.mount('#app')
 
 /* createApp(App)

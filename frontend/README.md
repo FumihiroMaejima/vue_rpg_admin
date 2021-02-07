@@ -798,7 +798,7 @@ $ yarn add @fullcalendar/timegrid
 $ yarn add @fullcalendar/interaction
 ```
 
-## ConfirmDialogを使う場合
+## ConfirmDialogやToastを使う場合
 
 `mitt`をインストールする
 

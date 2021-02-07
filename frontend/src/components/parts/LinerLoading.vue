@@ -1,7 +1,7 @@
 <template>
   <div class="liner-loading" v-show="open">
     <div class="liner-loading__content">
-      <ProgressBar value="0" mode="indeterminate" />
+      <ProgressBar :value="0" mode="indeterminate" />
     </div>
   </div>
 </template>

@@ -37,6 +37,7 @@ import Button from 'primevue/button'
 import Menubar from 'primevue/menubar'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
+import { ToastType } from '@/types'
 
 type Props = {
   authApp: AuthApp
@@ -58,6 +59,7 @@ export default defineComponent({
   setup(props: Props, context: SetupContext) {
     let items = ref<string[]>([])
     const loadingFlag = inject('circleLoading') as Ref<boolean>
+    const toast = inject('toast') as ToastType
 
     // instanceの取得
     const instance = getCurrentInstance()
@@ -94,6 +96,12 @@ export default defineComponent({
       inversionFlag(loadingFlag)
       await props.authApp.logout()
       inversionFlag(loadingFlag)
+      toast.add({
+        severity: 'success',
+        summary: 'Logout Success',
+        detail: 'Logout Request is Success.',
+        life: 3000
+      })
     }
 
     return {

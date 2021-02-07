@@ -14,7 +14,7 @@
               <span class=" p-input-icon-right">
                 <InputText
                   id="email"
-                  :class="{'p-invalid' : emailValue === ''}"
+                  :class="{ 'p-invalid': emailValue === '' }"
                   name="email"
                   type="text"
                   placeholder="test@example.com"
@@ -29,7 +29,7 @@
               <span class="p-float-label p-input-icon-right">
                 <InputText
                   id="password"
-                  :class="{'p-invalid' : passwordlValue === ''}"
+                  :class="{ 'p-invalid': passwordlValue === '' }"
                   name="password"
                   type="password"
                   v-model="passwordlValue"
@@ -55,15 +55,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, computed, ref, Ref } from 'vue'
+import { defineComponent, inject, computed, Ref } from 'vue'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
-// import Divider from 'primevue/divider'
 import InputText from 'primevue/inputtext'
 import { useField, useForm } from 'vee-validate'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
 import { checkTextLength } from '@/util/validation'
+import { ToastType } from '@/types'
 
 export default defineComponent({
   name: 'Login',
@@ -73,6 +73,7 @@ export default defineComponent({
     InputText
   },
   setup() {
+    const toast = inject('toast') as ToastType
     const loginSchema = {
       email(value: string): string {
         return checkTextLength(value) ? '' : 'This is required'
@@ -125,6 +126,12 @@ export default defineComponent({
       inversionFlag(loadingFlag)
       await authApp.login(email.value, password.value)
       inversionFlag(loadingFlag)
+      toast.add({
+        severity: 'success',
+        summary: 'Login Success',
+        detail: 'Login Request is Success.',
+        life: 5000
+      })
     }
     return {
       loadingFlag,
