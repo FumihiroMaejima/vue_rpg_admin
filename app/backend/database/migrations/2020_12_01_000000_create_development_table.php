@@ -24,7 +24,6 @@ class CreateDevelopmentTable extends Migration
             $table->string('password');
             $table->tinyInteger('role')->default(0)->comment('ロール');
             $table->rememberToken();
-            $table->text('profile_photo_path')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
