@@ -8,6 +8,9 @@
       <div class="p-col-12 p-md-6 p-lg-3"><i class="pi pi-github"></i></div>
       <div class="p-col-12 p-md-6 p-lg-3"><i class="pi pi-check"></i></div>
       <div class="p-col-12 p-md-6 p-lg-3"><i class="pi pi-github"></i></div>
+      <div class="p-col-12 p-md-6 p-lg-3">
+        <button @click="testFunction">test</button>
+      </div>
     </div>
 
     <div class="p-grid ">
@@ -33,6 +36,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import AppCalender from '@/components/parts/AppCalender.vue'
 import AppTable from '@/components/parts/AppTable.vue'
 import { tableData, tableKeys, eventDate } from '@/config/resource'
@@ -49,6 +53,8 @@ export default defineComponent({
     const columnOptions = reactive(tableKeys)
     const events = reactive(eventDate)
 
+    const router = useRouter()
+
     // methods
     /**
      * catch app-input event
@@ -57,11 +63,16 @@ export default defineComponent({
     const catchAppInputEvent = (event: any) => {
       console.log('catchAppInputEvent: ' + JSON.stringify(event, null, 2))
     }
+
+    const testFunction = () => {
+      router.push('/test')
+    }
     return {
       display,
       items,
       columnOptions,
       events,
+      testFunction,
       catchAppInputEvent
     }
   }

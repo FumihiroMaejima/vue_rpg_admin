@@ -135,8 +135,14 @@ swagger-down:
 swagger-ps:
 	docker-compose -f ./docker-compose.swagger.yml ps
 
+##############################
+# swagger codegen mock-server
+##############################
 codegen-mock:
-	rm -rf api/node-mock/* && swagger-codegen generate -i api/api.yml -l nodejs-server -o api/node-mock
+	rm -rf api/node-mock/* && \
+	swagger-codegen generate -i api/api.yml -l nodejs-server -o api/node-mock && \
+	sed -i -e "s/serverPort = 8080/serverPort = 3200/g" api/node-mock/index.js && \
+	cd api/node-mock && npm run prestart
 
 codegen-changeport:
 	sed -i -e "s/serverPort = 8080/serverPort = 3200/g" api/node-mock/index.js

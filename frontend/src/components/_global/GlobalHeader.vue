@@ -1,60 +1,38 @@
 <template>
-  <Menubar :model="items">
-    <template #start>
-      <Button
-        icon="pi pi-bookmark"
-        class="p-button-rounded p-button-secondary"
-        @click="openSideBar"
-      />
-    </template>
-    <template #end>
-      <!-- <div class="p-inputgroup">
-        <InputText placeholder="Keyword" />
-        <Button icon="pi pi-search" class="p-button-info" />
-      </div> -->
-    </template>
-  </Menubar>
+  <component :is="currentComponent" :authApp="authApp" />
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance, ref, SetupContext } from 'vue'
-import Button from 'primevue/button'
-// import InputText from 'primevue/inputtext'
-import Menubar from 'primevue/menubar'
-
-type Props = {}
+import { defineComponent, computed, Component, inject } from 'vue'
+import AuthHeader from '@/components/_global/AuthHeader.vue'
+import StaticHeader from '@/components/_global/StaticHeader.vue'
+import AuthApp from '@/plugins/auth/authApp'
 
 export default defineComponent({
   name: 'GlobalHeader',
   components: {
-    Button,
-    // InputText,
-    Menubar
+    AuthHeader,
+    StaticHeader
   },
   props: {},
-  setup(props: Props, context: SetupContext) {
-    let items = ref<string[]>([])
+  setup() {
+    const authApp = inject('authApp') as AuthApp
 
-    // thisの取得
-    const instance = getCurrentInstance()
-    if (instance) {
-      // consifgの取得
-      items =
-        instance.appContext.config.globalProperties.$AppConfig
-          .headerMenuContents
-    }
+    // computed
+    const currentComponent = computed(
+      (): Component => (authApp.getAuthId() ? AuthHeader : StaticHeader)
+    )
 
-    /**
-     * catch click event
-     * @return {void}
-     */
-    const openSideBar = () => {
-      context.emit('click-icon', true)
+    // created
+    const created = async () => {
+      console.log('created async action')
     }
+    created()
 
     return {
-      items,
-      openSideBar
+      created,
+      authApp,
+      currentComponent
     }
   }
 })

@@ -4,16 +4,13 @@ module.exports = {
     port: 8080,
     proxy: {
       // mock endpoint
+      /* '/api': {
+        target: 'http://localhost:8000/'
+      } */
       '/api': {
-        target: 'http://localhost:8000/api',
+        target: 'http://localhost/',
         https: false
       }
-      /*
-      '/api': {
-        target: 'http://localhost/api',
-        https: false
-      }
-      */
     }
   }
 }

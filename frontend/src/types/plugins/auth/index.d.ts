@@ -1,0 +1,21 @@
+export * from '@/types/plugins/auth/authentication'
+export * from '@/types/plugins/auth/authApp'
+
+import { Ref } from 'vue'
+import { Store } from 'vuex'
+import { Router } from 'vue-router'
+
+import { RootState } from '@/types'
+
+export type AuthState = {
+  [key: string]: string | number | object | null
+  name: string | null
+  id: number | null
+  authority: object | null
+}
+
+export type AuthOptions = {
+  store: Store<RootState>
+  router: Router
+  loading: Ref<boolean>
+}

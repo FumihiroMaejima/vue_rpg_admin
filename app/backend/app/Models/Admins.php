@@ -72,9 +72,7 @@ class Admins extends Authenticatable implements JWTSubject
      *
      * @var array
      */
-    protected $appends = [
-        'profile_photo_url',
-    ];
+    protected $appends = [];
 
     public function __construct()
     {

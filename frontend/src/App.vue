@@ -1,5 +1,8 @@
 <template>
   <dev>
+    <Toast position="top-right" />
+    <liner-loading :open="openLinerLoading" />
+    <circle-loading :open="openCircleLoading" />
     <global-header @click-icon="onSideBarInput" />
     <app-side-bar :value="openSideBar" @close="onSideBarInput" />
     <section class="p-mx-2 p-mb-2">
@@ -10,19 +13,39 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, SetupContext } from 'vue'
+import {
+  defineComponent,
+  ref,
+  computed,
+  SetupContext,
+  provide,
+  inject,
+  Ref
+} from 'vue'
 import GlobalHeader from '@/components/_global/GlobalHeader.vue'
 import GlobalFooter from '@/components/_global/GlobalFooter.vue'
 import AppSideBar from '@/components/parts/AppSideBar.vue'
+import CircleLoading from '@/components/parts/CircleLoading.vue'
+import LinerLoading from '@/components/parts/LinerLoading.vue'
+import Toast from 'primevue/toast'
+import { useToast } from 'primevue/usetoast'
 
 export default defineComponent({
   components: {
     AppSideBar,
     GlobalHeader,
-    GlobalFooter
+    GlobalFooter,
+    CircleLoading,
+    LinerLoading,
+    Toast
   },
   setup() {
     const openSideBar = ref<boolean>(false)
+    const openCircleLoading = ref<boolean>(false)
+    const openLinerLoading = inject('linerLoading') as Ref<boolean>
+    provide('circleLoading', openCircleLoading)
+    const toast = useToast()
+    provide('toast', toast)
 
     // computed
     // v-modelのsetterが通らない
@@ -43,6 +66,9 @@ export default defineComponent({
     }
 
     return {
+      openLinerLoading,
+      openCircleLoading,
+      toast,
       openSideBar,
       onSideBarInput,
       isOpenSideBar

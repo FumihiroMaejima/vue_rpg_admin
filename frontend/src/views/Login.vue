@@ -12,26 +12,40 @@
             <div class="p-field p-my-4">
               <label for="email">email</label>
               <span class=" p-input-icon-right">
-                <InputText id="email" type="text" @input="catchAppInputEvent" />
+                <InputText
+                  id="email"
+                  :class="{ 'p-invalid': emailValue === '' }"
+                  name="email"
+                  type="text"
+                  placeholder="test@example.com"
+                  v-model="emailValue"
+                />
                 <i class="pi pi-envelope" />
-                <!-- <i class="pi pi-spin pi-spinner" /> -->
               </span>
+              <small class="p-error">{{ emailError }}</small>
             </div>
             <div class="p-field">
               <label for="password">password</label>
               <span class="p-float-label p-input-icon-right">
                 <InputText
                   id="password"
+                  :class="{ 'p-invalid': passwordlValue === '' }"
+                  name="password"
                   type="password"
-                  @input="catchAppInputEvent"
+                  v-model="passwordlValue"
                 />
                 <i class="pi pi-exclamation-triangle" />
               </span>
+              <span class="p-error">{{ passwordError }}</span>
             </div>
           </template>
           <template #footer>
-            <Button icon="pi pi-check" label="Sign In" />
-            <!-- <Button icon="pi pi-check" label="Sign In" class="p-button-secondary" /> -->
+            <Button
+              class="p-button-raised"
+              :icon="iconValue"
+              :label="buttonText"
+              @click="loginAction"
+            />
           </template>
         </Card>
       </div>
@@ -41,11 +55,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, inject, computed, Ref } from 'vue'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
-// import Divider from 'primevue/divider'
 import InputText from 'primevue/inputtext'
+import { useField, useForm } from 'vee-validate'
+import AuthApp from '@/plugins/auth/authApp'
+import { inversionFlag } from '@/util'
+import { checkTextLength } from '@/util/validation'
+import { ToastType } from '@/types'
 
 export default defineComponent({
   name: 'Login',
@@ -55,25 +73,76 @@ export default defineComponent({
     InputText
   },
   setup() {
-    // methods
-    /**
-     * catch app-input event
-     * @return {void}
-     */
-    const catchAppInputEvent = (event: any) => {
-      console.log('catchAppInputEvent: ' + JSON.stringify(event, null, 2))
+    const toast = inject('toast') as ToastType
+    const loginSchema = {
+      email(value: string): string {
+        return checkTextLength(value) ? '' : 'This is required'
+      },
+      password(value: string): string {
+        return checkTextLength(value) ? '' : 'This is required'
+      }
     }
 
+    useForm({
+      validationSchema: loginSchema
+    })
+
+    const { value: email, errorMessage: emailError } = useField('email')
+    const { value: password, errorMessage: passwordError } = useField(
+      'password'
+    )
+    const loadingFlag = inject('circleLoading') as Ref<boolean>
+    const authApp = inject('authApp') as AuthApp
+
+    // computed
+    const emailValue = computed({
+      get: (): string => email.value,
+      set: (value: string) => {
+        email.value = value
+      }
+    })
+
+    const passwordlValue = computed({
+      get: (): string => password.value,
+      set: (value: string) => {
+        password.value = value
+      }
+    })
+
+    const iconValue = computed((): string =>
+      loadingFlag.value ? 'pi pi-spin pi-spinner' : 'pi pi-check'
+    )
+
+    const buttonText = computed((): string =>
+      loadingFlag.value ? 'Now Loading...' : 'Sign In'
+    )
+
+    // methods
     /**
      * catch click event
      * @return {void}
      */
-    const onClick = (event: any) => {
-      console.log('catch click event: ' + JSON.stringify(event, null, 2))
+    const loginAction = async () => {
+      inversionFlag(loadingFlag)
+
+      const response = await authApp.login(email.value, password.value)
+      inversionFlag(loadingFlag)
+      toast.add({
+        severity: response ? 'success' : 'error',
+        summary: `Login ${response ? 'Success' : 'Failed'}`,
+        detail: `Login Request is ${response ? 'Success' : 'Failed'}.`,
+        life: 5000
+      })
     }
     return {
-      catchAppInputEvent,
-      onClick
+      loadingFlag,
+      emailValue,
+      passwordlValue,
+      emailError,
+      passwordError,
+      iconValue,
+      buttonText,
+      loginAction
     }
   }
 })
