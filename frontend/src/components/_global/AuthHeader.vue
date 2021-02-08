@@ -94,12 +94,14 @@ export default defineComponent({
      */
     const logoutFunction = async () => {
       inversionFlag(loadingFlag)
-      await props.authApp.logout()
+      const response = await props.authApp.logout()
       inversionFlag(loadingFlag)
       toast.add({
-        severity: 'success',
-        summary: 'Logout Success',
-        detail: 'Logout Request is Success.',
+        severity: response ? 'success' : 'error',
+        summary: `Logout ${response ? 'Success' : 'Failed'}`,
+        detail: `Logout Request is ${
+          response ? 'Success' : 'Failed & Automatically logout'
+        }.`,
         life: 3000
       })
     }

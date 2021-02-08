@@ -129,7 +129,7 @@ export default class AuthApp {
    * @param {Object} data
    * @return {boolean}
    */
-  async login(email: string, password: string) {
+  async login(email: string, password: string): Promise<boolean> {
     const response = await this.authentication.loginRequest({ email: email, password: password })
     if (response.status !== 200) {
       return false
@@ -148,17 +148,15 @@ export default class AuthApp {
    * logout action.
    * @return {Object}
    */
-  async logout() {
+  async logout(): Promise<boolean> {
     const response = await this.authentication.logoutRequest(this.addHeaders({ id: this.store.getters['auth/id'], token: this.getCookie(this.appKey) }))
-    if (response.status !== 200) {
-      return false
-    }
+    const result = response.status === 200
 
     // データの初期化
     this.resetAction(true)
     // login画面へ遷移
     this.router.push('/login')
-    return true
+    return result
   }
 
   /**

@@ -124,12 +124,13 @@ export default defineComponent({
      */
     const loginAction = async () => {
       inversionFlag(loadingFlag)
-      await authApp.login(email.value, password.value)
+
+      const response = await authApp.login(email.value, password.value)
       inversionFlag(loadingFlag)
       toast.add({
-        severity: 'success',
-        summary: 'Login Success',
-        detail: 'Login Request is Success.',
+        severity: response ? 'success' : 'error',
+        summary: `Login ${response ? 'Success' : 'Failed'}`,
+        detail: `Login Request is ${response ? 'Success' : 'Failed'}.`,
         life: 5000
       })
     }
