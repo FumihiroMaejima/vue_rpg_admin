@@ -656,6 +656,26 @@ $ php artisan make:policy TestPolicy
  $ php artisan make:test SampleTest --unit
 ```
 
+### ログの設定
+
+※日付ごとにログを出力する方法
+`.env`の`LOG_CHANNEL`を下記の通りに設定する。(defaultが`stack`)
+
+```shell-session
+# LOG_CHANNEL=stack
+LOG_CHANNEL=daily
+```
+
+ログ出力の例
+
+```PHP
+use Log; // app.configでエイリアスが設定されている
+
+Log::alert('log test');
+Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' .'log test message.');
+```
+
+
 ---
 # Swaggerの設定
 
