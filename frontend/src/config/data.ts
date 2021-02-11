@@ -141,6 +141,76 @@ module.exports = {
   ],
   sideBarContents: [
     {
+      label: '管理者ログ',
+      icon: 'pi pi-fw pi-pencil',
+      items: [
+        {
+          label: 'ユーザー情報',
+          icon: 'pi pi-fw pi-align-left'
+        }
+      ]
+    },
+    {
+      label: 'ログインユーザー情報',
+      icon: 'pi pi-fw pi-pencil',
+      items: [
+        {
+          label: 'ユーザー情報',
+          icon: 'pi pi-fw pi-align-left'
+        }
+      ]
+    },
+    {
+      label: '管理者情報',
+      icon: 'pi pi-fw pi-pencil',
+      items: [
+        {
+          label: '管理者一覧',
+          icon: 'pi pi-fw pi-align-left'
+        },
+        {
+          label: '管理者作成',
+          icon: 'pi pi-fw pi-align-right'
+        },
+        {
+          label: '管理者編集',
+          icon: 'pi pi-fw pi-align-center'
+        },
+        {
+          label: '管理者削除',
+          icon: 'pi pi-fw pi-align-justify'
+        },
+        {
+          separator: true
+        }
+      ]
+    },
+    {
+      label: '権限情報',
+      icon: 'pi pi-fw pi-pencil',
+      items: [
+        {
+          label: 'ロール一覧',
+          icon: 'pi pi-fw pi-align-left'
+        },
+        {
+          label: 'ロール作成',
+          icon: 'pi pi-fw pi-align-right'
+        },
+        {
+          label: 'ロール編集',
+          icon: 'pi pi-fw pi-align-center'
+        },
+        {
+          label: 'ロール削除',
+          icon: 'pi pi-fw pi-align-justify'
+        },
+        {
+          separator: true
+        }
+      ]
+    },
+    {
       label: 'File',
       icon: 'pi pi-fw pi-file',
       items: [

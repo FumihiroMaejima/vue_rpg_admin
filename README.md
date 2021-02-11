@@ -675,6 +675,14 @@ Log::alert('log test');
 Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' .'log test message.');
 ```
 
+### ハンドラー(リスナー)の作成
+
+※日付ごとにログを出力する方法
+`.env`の`LOG_CHANNEL`を下記の通りに設定する。(defaultが`stack`)
+
+```shell-session
+php artisan make:listener TestHandler
+```
 
 ---
 # Swaggerの設定
