@@ -161,7 +161,7 @@ module.exports = {
         {
           label: 'ユーザー情報',
           icon: 'pi pi-fw pi-user',
-          to: '/test'
+          to: '/authuser'
         },
         {
           separator: true
@@ -175,7 +175,7 @@ module.exports = {
         {
           label: '管理者情報管理',
           icon: 'pi pi-fw pi-users',
-          to: '/test'
+          to: '/admins'
         },
         {
           separator: true
@@ -189,7 +189,7 @@ module.exports = {
         {
           label: 'ロール管理',
           icon: 'pi pi-fw pi-table',
-          to: '/test'
+          to: '/role'
         },
         {
           separator: true

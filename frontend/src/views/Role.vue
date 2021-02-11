@@ -1,7 +1,7 @@
 <template>
   <div class="cp-fluid p-mx-md-6 p-mx-sm-2 p-mb-6">
-    <h1 class="italic my-2">管理サービス</h1>
-    <h2 class="italic my-2">管理者ログ</h2>
+    <h1 class="italic my-2">管理サービス-権限情報</h1>
+    <h2 class="italic my-2">ロール一覧</h2>
 
     <div class="p-grid">
       <div class="p-col-12 p-md-1"></div>
@@ -20,7 +20,7 @@ import AppTable from '@/components/parts/AppTable.vue'
 import { tableData, tableKeys } from '@/config/resource'
 
 export default defineComponent({
-  name: 'Home',
+  name: 'Role',
   components: {
     AppTable
   },

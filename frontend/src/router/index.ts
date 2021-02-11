@@ -1,9 +1,24 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import Admins from '../views/Admins.vue'
+import AuthUser from '../views/AuthUser.vue'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Test from '../views/Test.vue'
+import Role from '../views/Role.vue'
 
 const routes: Array<RouteRecordRaw> = [
+  {
+    path: '/admins',
+    name: 'Admins',
+    component: Admins,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/authuser',
+    name: 'AuthUser',
+    component: AuthUser,
+    meta: { requiresAuth: true }
+  },
   {
     path: '/',
     name: 'Home',
@@ -19,6 +34,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/test',
     name: 'Test',
     component: Test,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/role',
+    name: 'Role',
+    component: Role,
     meta: { requiresAuth: true }
   }
 ]
