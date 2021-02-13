@@ -9,7 +9,6 @@ services:
       - ./app/php.ini:/usr/local/etc/php/php.ini
     ports:
       - "${PHP_FPM_PORT}:${PHP_FPM_PORT}"
-      - "${PHP_XDEBUG_PORT}:${PHP_XDEBUG_PORT}"
     expose:
       - "${PHP_FPM_PORT}"
     depends_on:

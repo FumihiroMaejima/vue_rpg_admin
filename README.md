@@ -100,6 +100,50 @@ $ composer --version
 Composer version 1.10.4 2020-04-09 17:05:50
 ```
 ---
+
+## xdebugの設定
+
+Dockerfileで下記の通りにxdebugをインストールする。
+
+```shell-session
+$  docker-php-ext-enable xdebug
+```
+
+コンテナにマウントするphp.iniに下記の通り、xdebugの設定を行う。(v3の書き方)
+
+```shell-session
+[xdebug]
+# version 3
+xdebug.mode=debug
+xdebug.client_host=host.docker.internal
+xdebug.client_port=9010
+xdebug.start_with_request=yes
+xdebug.log=/tmp/xdebug.log
+xdebug.discover_client_host=0
+```
+
+.vscode/launch.jsonに下記の通り、設定を行う。
+
+```json
+{
+    ...
+    "configurations": [
+        {
+            "name": "Listen for XDebug(setting custom name.)",
+            "type": "php",
+            "request": "launch",
+            // set on php.ini
+            "port": 9010,
+            "pathMappings": {
+                // {docker container document root}:{local document root}
+                "/var/www/html": "/path/to/project"
+            }
+        }
+    ]
+}
+```
+
+---
 # 開発環境構築
 
 ## プロジェクト新規作成直後に必須の作業
