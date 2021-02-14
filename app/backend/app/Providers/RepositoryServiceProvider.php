@@ -14,9 +14,11 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
-            \App\Repositories\AuthInfo\AuthInfoRepositoryTestInterface::class,
-            \App\Repositories\AuthInfo\AuthInfoDBRepository::class
-            // \App\Repositories\AuthInfo\AuthInfoEQRepository::class
+            // \App\Repositories\AuthInfo\AuthInfoRepositoryTestInterface::class,
+            // \App\Repositories\AuthInfo\AuthInfoDBRepository::class,
+            // \App\Repositories\AuthInfo\AuthInfoEQRepository::class,
+            \App\Repositories\AuthInfo\AuthInfoRepositoryInterface::class,
+            \App\Repositories\AuthInfo\AuthInfoRepository::class
         );
     }
 

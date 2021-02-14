@@ -178,6 +178,7 @@ return [
         App\Providers\JetstreamServiceProvider::class,
 
         // add
+        App\Providers\AuthInfoServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
 
     ],
