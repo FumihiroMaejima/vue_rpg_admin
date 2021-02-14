@@ -735,6 +735,14 @@ php artisan make:listener TestHandler
 ```
 
 ---
+
+### サービスプロパイダーの作成
+
+```shell-session
+php artisan make:provider TestServiceProvider
+```
+
+---
 # Swaggerの設定
 
  ### ローカル環境にswagger-codegenのインストール(mockサーバーのコード出力)
