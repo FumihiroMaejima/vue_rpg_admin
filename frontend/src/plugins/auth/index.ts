@@ -3,7 +3,7 @@ import { App } from 'vue'
 import AppComponent from './App.vue'
 import AuthApp from '@/plugins/auth/authApp'
 import authModule from '@/plugins/auth/store'
-import { AuthOptions, AuthAppUtils } from '@/types'
+import { AuthOptions } from '@/types'
 import { inversionFlag } from '@/util'
 
 export default {
@@ -13,14 +13,6 @@ export default {
     const authApp = new AuthApp(options.router, options.store)
 
     app.provide('authApp', authApp)
-
-    const authAppUtils: AuthAppUtils = {
-      getHeader: authApp.getHeader,
-      login: authApp.login,
-      logout: authApp.logout
-    }
-
-    app.provide('authAppUtils', authAppUtils)
 
     options.router.beforeEach(async (to, from, next) => {
       if (to.matched.some(record => record.meta.requiresAuth)) {

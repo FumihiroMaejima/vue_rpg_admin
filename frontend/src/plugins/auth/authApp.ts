@@ -24,7 +24,7 @@ export default class AuthApp {
    * return authenticated id
    * @return {number} id
    */
-  getAuthId() {
+  public getAuthId() {
     return this.store.getters['auth/id']
   }
 
@@ -32,7 +32,7 @@ export default class AuthApp {
    * return authenticated name
    * @return {string} name
    */
-  getAuthName() {
+  public getAuthName() {
     return this.store.getters['auth/name']
   }
 
@@ -40,48 +40,60 @@ export default class AuthApp {
    * return authenticated authority
    * @return {Object} authority
    */
-  getAuthAuthority() {
+  public getAuthAuthority() {
     return this.store.getters['auth/authority']
   }
 
   /**
-   * reset relation data.
-   * @param {HeaderDataState} data
-   * @return {BaseAddHeaderResponse}
+   * login action.
+   * @param {Object} data
+   * @return {boolean}
    */
-  protected addHeaders(data: HeaderDataState) {
-    return {
-      Authorization: `Bearer ${data.token ? data.token : ''}`,
-      'X-Auth-ID': data.id ? data.id : ''
+  public async login(email: string, password: string): Promise<boolean> {
+    const response = await this.authentication.loginRequest({ email: email, password: password })
+    if (response.status !== 200) {
+      return false
+    } else {
+      // 認証情報の設定
+      this.store.dispatch('auth/getAuthData', { id: response.data.user.id, name: response.data.user.name, authority: {} })
+      this.setCookie(this.appKey, response.data.access_token)
+
+      // homeへ遷移
+      this.router.push('/')
+      return true
     }
   }
 
   /**
-   * reset relation data.
-   * @param {number | null} id
-   * @param {string | null} token
+   * logout action.
    * @return {Object}
    */
-  async authInstance(id: AuthState['id'], token: HeaderDataState['token']) {
-    const response = await this.authentication.getUser(this.addHeaders({id: id, token: token}))
-    if (response.status !== 200) {
-      return {
-        id: null,
-        name: null
-      }
-    } else {
-      return {
-        id: response.data.id,
-        name: response.data.name
-      }
+  public async logout(): Promise<boolean> {
+    const response = await this.authentication.logoutRequest(this.addHeaders({ id: this.store.getters['auth/id'], token: this.getCookie(this.appKey) }))
+    const result = response.status === 200
+
+    // データの初期化
+    this.resetAction(true)
+    // login画面へ遷移
+    this.router.push('/login')
+    return result
+  }
+
+  public getHeader(): BaseAddHeaderResponse {
+    const token: string = this.getCookie(this.appKey)
+    // tokenが無い場合はデータを初期化する
+    if (token === '') {
+      this.resetAction()
     }
+
+    return this.addHeaders({ id: this.store.getters['auth/id'], token: token })
   }
 
   /**
    * check authenticated data.
    * @return {boolean}
    */
-  async checkAuthenticated() {
+  public async checkAuthenticated() {
     const token: string = this.getCookie(this.appKey)
     // tokenが無い場合はデータを初期化する
     if (token === '') {
@@ -105,6 +117,39 @@ export default class AuthApp {
 
   /**
    * reset relation data.
+   * @param {HeaderDataState} data
+   * @return {BaseAddHeaderResponse}
+   */
+  protected addHeaders(data: HeaderDataState) {
+    return {
+      Authorization: `Bearer ${data.token ? data.token : ''}`,
+      'X-Auth-ID': data.id ? data.id : ''
+    }
+  }
+
+  /**
+   * reset relation data.
+   * @param {number | null} id
+   * @param {string | null} token
+   * @return {Object}
+   */
+  protected async authInstance(id: AuthState['id'], token: HeaderDataState['token']) {
+    const response = await this.authentication.getUser(this.addHeaders({id: id, token: token}))
+    if (response.status !== 200) {
+      return {
+        id: null,
+        name: null
+      }
+    } else {
+      return {
+        id: response.data.id,
+        name: response.data.name
+      }
+    }
+  }
+
+  /**
+   * reset relation data.
    * @param {boolean} resetCookie (default: false)
    * @return {void}
    */
@@ -122,52 +167,6 @@ export default class AuthApp {
    */
   protected refreshAuthData() {
     this.store.dispatch('auth/getAuthData', { id: null, name: null, authority: {} })
-  }
-
-  /**
-   * login action.
-   * @param {Object} data
-   * @return {boolean}
-   */
-  async login(email: string, password: string): Promise<boolean> {
-    const response = await this.authentication.loginRequest({ email: email, password: password })
-    if (response.status !== 200) {
-      return false
-    } else {
-      // 認証情報の設定
-      this.store.dispatch('auth/getAuthData', { id: response.data.user.id, name: response.data.user.name, authority: {} })
-      this.setCookie(this.appKey, response.data.access_token)
-
-      // homeへ遷移
-      this.router.push('/')
-      return true
-    }
-  }
-
-  /**
-   * logout action.
-   * @return {Object}
-   */
-  async logout(): Promise<boolean> {
-    const response = await this.authentication.logoutRequest(this.addHeaders({ id: this.store.getters['auth/id'], token: this.getCookie(this.appKey) }))
-    const result = response.status === 200
-
-    // データの初期化
-    this.resetAction(true)
-    // login画面へ遷移
-    this.router.push('/login')
-    return result
-  }
-
-  public getHeader(): BaseAddHeaderResponse {
-
-    const token: string = this.getCookie(this.appKey)
-    // tokenが無い場合はデータを初期化する
-    if (token === '') {
-      this.resetAction()
-    }
-
-    return this.addHeaders({ id: this.store.getters['auth/id'], token: token })
   }
 
   /**
