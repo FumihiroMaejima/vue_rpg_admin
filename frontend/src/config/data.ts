@@ -11,6 +11,11 @@ module.exports = {
     AUTH_LOGOUT: '/api/auth/admin/logout',
     AUTH_SELF: '/api/auth/admin/self'
   },
+  endpoint: {
+    authinfo: {
+      AUTH_INFO: '/api/authinfo'
+    }
+  },
   headerMenuContents: [
     {
       label: 'File',

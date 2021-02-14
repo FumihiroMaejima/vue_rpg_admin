@@ -159,6 +159,17 @@ export default class AuthApp {
     return result
   }
 
+  public getHeader(): BaseAddHeaderResponse {
+
+    const token: string = this.getCookie(this.appKey)
+    // tokenが無い場合はデータを初期化する
+    if (token === '') {
+      this.resetAction()
+    }
+
+    return this.addHeaders({ id: this.store.getters['auth/id'], token: token })
+  }
+
   /**
    * get specific cookie.
    * @param {string} key

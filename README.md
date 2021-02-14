@@ -532,6 +532,12 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:api'], function () {
  $ php artisan make:controller Users/AuthController
 ```
 
+各CRUD処理のメソッドを予め作成しておきたい場合は`--resource`オプションをつける
+
+```shell-session
+ $ php artisan make:controller Users/AuthController --resource
+```
+
 内容は下記の通り(コンストラクタとログイン処理のみ抜粋)
 
 

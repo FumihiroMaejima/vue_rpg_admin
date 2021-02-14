@@ -1,8 +1,9 @@
 export interface IAppConfig {
-  [key: string]: string | string[] | NoticeData[] | AuthEndpoint
+  [key: string]: string | string[] | NoticeData[] | AuthEndpoint | EndpointType
   headerName: string
   headerContents: string[]
   noticeData: NoticeData[]
+  endpoint: EndpointType
   authEndpoint: AuthEndpoint
 }
 
@@ -17,4 +18,14 @@ export type AuthEndpoint = {
   AUTH_LOGIN: string
   AUTH_LOGOUT: string
   AUTH_SELF: string
+}
+
+export type EndpointType = {
+  [key: string]: string | AuthInfoServiceEndipont
+  authinfo: AuthInfoServiceEndipont
+}
+
+export type AuthInfoServiceEndipont = {
+  [key: string]: string
+  AUTH_INFO: string
 }
