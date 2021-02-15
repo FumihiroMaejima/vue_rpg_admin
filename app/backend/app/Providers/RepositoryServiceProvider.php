@@ -4,6 +4,12 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+use App\Repositories\AuthInfo\AuthInfoRepositoryTestInterface;
+use App\Repositories\AuthInfo\AuthInfoDBRepository;
+// use App\Repositories\AuthInfo\AuthInfoEQRepository;
+use App\Repositories\AuthInfo\AuthInfoRepositoryInterface;
+use App\Repositories\AuthInfo\AuthInfoRepository;
+
 class RepositoryServiceProvider extends ServiceProvider
 {
     /**
@@ -14,12 +20,11 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
-            // \App\Repositories\AuthInfo\AuthInfoRepositoryTestInterface::class,
-            // \App\Repositories\AuthInfo\AuthInfoDBRepository::class,
-            // \App\Repositories\AuthInfo\AuthInfoEQRepository::class,
-            \App\Repositories\AuthInfo\AuthInfoRepositoryInterface::class,
-            \App\Repositories\AuthInfo\AuthInfoRepository::class
+            AuthInfoRepositoryTestInterface::class,
+            AuthInfoDBRepository::class,
+            // AuthInfoEQRepository::class,
         );
+        $this->app->bind(AuthInfoRepositoryInterface::class, AuthInfoRepository::class);
     }
 
     /**
