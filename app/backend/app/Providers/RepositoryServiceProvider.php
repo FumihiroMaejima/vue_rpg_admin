@@ -9,6 +9,8 @@ use App\Repositories\AuthInfo\AuthInfoDBRepository;
 // use App\Repositories\AuthInfo\AuthInfoEQRepository;
 use App\Repositories\AuthInfo\AuthInfoRepositoryInterface;
 use App\Repositories\AuthInfo\AuthInfoRepository;
+use App\Repositories\Admins\AdminsRepositoryInterface;
+use App\Repositories\Admins\AdminsRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -25,6 +27,7 @@ class RepositoryServiceProvider extends ServiceProvider
             // AuthInfoEQRepository::class,
         );
         $this->app->bind(AuthInfoRepositoryInterface::class, AuthInfoRepository::class);
+        $this->app->bind(AdminsRepositoryInterface::class, AdminsRepository::class);
     }
 
     /**
