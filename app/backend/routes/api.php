@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admins\MembersController;
 use App\Http\Controllers\Admins\AuthController as AdminAuthController;
 use App\Http\Controllers\Admins\AuthInfoController;
 use App\Http\Controllers\Users\AuthController;
@@ -42,9 +43,13 @@ Route::group(['prefix' => 'auth/admin', 'middleware' => 'auth:api-admins'], func
     Route::post('self', [AdminAuthController::class, 'getAuthUser']);
 });
 
-// admin auth info
-Route::group(['prefix' => 'authinfo', 'middleware' => 'auth:api-admins'], function () {
-    Route::get('/', [AuthInfoController::class, 'index']);
+// admin
+Route::group(['prefix' => 'admin', 'middleware' => 'auth:api-admins'], function () {
+    // auth info
+    Route::get('/authinfo', [AuthInfoController::class, 'index']);
+
+    // members
+    Route::get('/members', [MembersController::class, 'index']);
 });
 
 /*
