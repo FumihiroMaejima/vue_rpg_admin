@@ -13,7 +13,10 @@ module.exports = {
   },
   endpoint: {
     authinfo: {
-      AUTH_INFO: '/api/authinfo'
+      AUTH_INFO: '/api/admin/authinfo'
+    },
+    members: {
+      MEMBERS: '/api/admin/members'
     }
   },
   headerMenuContents: [

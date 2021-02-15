@@ -21,11 +21,17 @@ export type AuthEndpoint = {
 }
 
 export type EndpointType = {
-  [key: string]: string | AuthInfoServiceEndipont
+  [key: string]: string | AuthInfoServiceEndipont | MembersServiceEndipont
   authinfo: AuthInfoServiceEndipont
+  members: MembersServiceEndipont
 }
 
 export type AuthInfoServiceEndipont = {
   [key: string]: string
   AUTH_INFO: string
+}
+
+export type MembersServiceEndipont = {
+  [key: string]: string
+  MEMBERS: string
 }
