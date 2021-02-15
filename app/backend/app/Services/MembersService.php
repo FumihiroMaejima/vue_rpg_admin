@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Collection;
 use App\Repositories\Admins\AdminsRepositoryInterface;
 
 class MembersService

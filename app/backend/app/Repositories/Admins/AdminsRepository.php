@@ -8,7 +8,6 @@ use Illuminate\Support\Collection;
 
 class AdminsRepository implements AdminsRepositoryInterface
 {
-    protected $table = 'admins';
     protected $model;
 
     /**
@@ -23,8 +22,6 @@ class AdminsRepository implements AdminsRepositoryInterface
 
     public function getAdmins()
     {
-        // $this->model->table;
-        return DB::table($this->table)->get();
-        // return DB::table($this->model->table)->get();
+        return DB::table($this->model->getTable())->get();
     }
 }
