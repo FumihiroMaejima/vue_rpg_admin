@@ -28,12 +28,12 @@ class MembersController extends Controller
      * @return \Illuminate\Http\Response
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function index()
+    public function index(Request $request)
     {
         // 処理速度の計測
         $time_start = microtime(true);
         Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'log test message.');
-        $test = $this->service->getAdmins();
+        $test = $this->service->getAdmins($request);
         Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'repository test: ' . $test);
         Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'repository get_class($test->admin): ' . get_class($this->service));
         // PHPによって割り当てられたメモリの最大値の取得

@@ -6,5 +6,5 @@ use Illuminate\Support\Collection;
 
 interface AdminsRepositoryInterface
 {
-    public function getAdmins();
+    public function getAdmins(): Collection;
 }

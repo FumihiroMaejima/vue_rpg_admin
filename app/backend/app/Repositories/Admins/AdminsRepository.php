@@ -3,7 +3,8 @@
 namespace App\Repositories\Admins;
 
 use App\Models\Admins;
-use DB;
+// use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 
 class AdminsRepository implements AdminsRepositoryInterface
@@ -20,7 +21,7 @@ class AdminsRepository implements AdminsRepositoryInterface
         $this->model = $model;
     }
 
-    public function getAdmins()
+    public function getAdmins(): Collection
     {
         return DB::table($this->model->getTable())->get();
     }

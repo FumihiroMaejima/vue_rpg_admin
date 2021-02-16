@@ -734,12 +734,16 @@ Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' .'log test
 php artisan make:listener TestHandler
 ```
 
----
-
 ### サービスプロパイダーの作成
 
 ```shell-session
 php artisan make:provider TestServiceProvider
+```
+
+### コレクションリソースの作成
+
+```shell-session
+php artisan make:resource TestCollection
 ```
 
 ---
