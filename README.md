@@ -740,9 +740,16 @@ php artisan make:listener TestHandler
 php artisan make:provider TestServiceProvider
 ```
 
+### リソースの作成
+
+```shell-session
+php artisan make:resource Test
+```
 ### コレクションリソースの作成
 
 ```shell-session
+php artisan make:resource Test --collection
+or
 php artisan make:resource TestCollection
 ```
 

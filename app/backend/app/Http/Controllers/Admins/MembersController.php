@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admins;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Log;
+use Illuminate\Support\Facades\Log;
 use App\Services\MembersService;
 
 class MembersController extends Controller
@@ -33,14 +33,16 @@ class MembersController extends Controller
         // 処理速度の計測
         $time_start = microtime(true);
         Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'log test message.');
-        $test = $this->service->getAdmins($request);
-        Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'repository test: ' . $test);
+
+        $response = $this->service->getAdmins($request);
+
+        Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'repository test: ' . $response);
         Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'repository get_class($test->admin): ' . get_class($this->service));
         // PHPによって割り当てられたメモリの最大値の取得
         Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'log test memory_get_peak_usage: ' . (string)memory_get_peak_usage());
         $time = microtime(true) - $time_start;
         Log::debug(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'debug time message: ' . (string)$time);
-        return response()->json(auth('api-admins')->user());
+        return $response;
     }
 
     /**

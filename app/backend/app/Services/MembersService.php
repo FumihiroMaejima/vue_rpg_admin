@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use App\Repositories\Admins\AdminsRepositoryInterface;
 use App\Http\Resources\AdminsCollection;
+use App\Http\Resources\AdminsResource;
 
 class MembersService
 {
@@ -20,10 +21,14 @@ class MembersService
     {
         $data = $this->adminsRepository->getAdmins();
         // サービスコンテナからリソースクラスインスタンスを依存解決
-        // コンストラクタにresourceに割り当てる値を渡す
+        // コンストラクタのresourceに割り当てる値を渡す
         $collection = app()->make(AdminsCollection::class, ['resource' => $data]);
-        $test = $collection->toArray($request);
+        $resource = app()->make(AdminsResource::class, ['resource' => $data]);
 
-        return $this->adminsRepository->getAdmins();
+        $test1 = $collection->toArray($request);
+        $test2 = $resource->toArray($request);
+
+        // return $this->adminsRepository->getAdmins();
+        return response()->json($resource->toArray($request), 200);
     }
 }
