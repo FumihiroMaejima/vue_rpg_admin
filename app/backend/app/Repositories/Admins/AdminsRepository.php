@@ -21,8 +21,25 @@ class AdminsRepository implements AdminsRepositoryInterface
         $this->model = $model;
     }
 
+    /**
+     * Get All Admins Data.
+     *
+     * @return Collection
+     */
     public function getAdmins(): Collection
     {
         return DB::table($this->model->getTable())->get();
+    }
+
+    /**
+     * Get Admins as List.
+     *
+     * @return Collection
+     */
+    public function getAdminsList(): Collection
+    {
+        return DB::table($this->model->getTable())
+        ->select('id', 'name', 'email')
+        ->get();
     }
 }

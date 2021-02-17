@@ -19,7 +19,7 @@ class MembersService
 
     public function getAdmins(Request $request)
     {
-        $data = $this->adminsRepository->getAdmins();
+        $data = $this->adminsRepository->getAdminsList();
         // サービスコンテナからリソースクラスインスタンスを依存解決
         // コンストラクタのresourceに割り当てる値を渡す
         $resourceCollection = app()->make(AdminsCollection::class, ['resource' => $data]);

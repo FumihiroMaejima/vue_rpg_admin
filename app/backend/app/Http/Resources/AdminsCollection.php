@@ -19,7 +19,7 @@ class AdminsCollection extends ResourceCollection
 
         // $this->resourceはCollection
         // 各itemは1レコードずつのデータを持つAdminsResourceクラス
-        foreach ($this->resource as $i => $item) {
+        foreach ($this->resource as $item) {
             // 各itemのresourceはstdClassオブジェクトの１レコード分のデータ
             $response['data'][] = $item->resource;
         }
