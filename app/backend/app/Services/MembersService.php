@@ -22,13 +22,10 @@ class MembersService
         $data = $this->adminsRepository->getAdmins();
         // サービスコンテナからリソースクラスインスタンスを依存解決
         // コンストラクタのresourceに割り当てる値を渡す
-        $collection = app()->make(AdminsCollection::class, ['resource' => $data]);
-        $resource = app()->make(AdminsResource::class, ['resource' => $data]);
+        $resourceCollection = app()->make(AdminsCollection::class, ['resource' => $data]);
+        // $resource = app()->make(AdminsResource::class, ['resource' => $data]);
 
-        $test1 = $collection->toArray($request);
-        $test2 = $resource->toArray($request);
-
-        // return $this->adminsRepository->getAdmins();
-        return response()->json($resource->toArray($request), 200);
+        return response()->json($resourceCollection->toArray($request), 200);
+        // return response()->json($resource->toArray($request), 200);
     }
 }

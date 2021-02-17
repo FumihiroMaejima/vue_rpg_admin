@@ -14,8 +14,16 @@ class AdminsCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return [
-            'data' => $this->resource->toArray($request)
-        ];
+        // レスポンス
+        $response = [];
+
+        // $this->resourceはCollection
+        // 各itemは1レコードずつのデータを持つAdminsResourceクラス
+        foreach ($this->resource as $i => $item) {
+            // 各itemのresourceはstdClassオブジェクトの１レコード分のデータ
+            $response['data'][] = $item->resource;
+        }
+
+        return $response;
     }
 }
