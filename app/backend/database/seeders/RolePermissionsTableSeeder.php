@@ -59,9 +59,9 @@ class RolePermissionsTableSeeder extends Seeder
                 $row['permission_id'] = $permissions[$i - 9]->key;
             } elseif (($i === $this->readOnlyCount)) {
                 // 読取専用の場合
-                $row['name']          = $roles[3]->name . '_' . $permissions[5]->name;
+                $row['name']          = $roles[3]->name . '_' . $permissions[1]->name;
                 $row['role_id']       = $roles[3]->key;
-                $row['permission_id'] = $permissions[5]->key;
+                $row['permission_id'] = $permissions[1]->key;
             }
 
             $data[] = $row;

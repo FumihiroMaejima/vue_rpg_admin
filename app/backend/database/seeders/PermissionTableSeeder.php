@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Config;
 class PermissionTableSeeder extends Seeder
 {
     private $table = 'permission';
-    private $count = 8;
+    private $count = 4;
 
     /**
      * Run the database seeds.
