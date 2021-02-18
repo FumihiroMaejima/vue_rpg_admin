@@ -10,17 +10,17 @@ use Illuminate\Support\Collection;
 class AdminsRepository implements AdminsRepositoryInterface
 {
     protected $model;
-    protected $adminsRoleModel;
+    protected $adminsRolesModel;
 
     /**
      * Create a new AuthInfoController instance.
      *
      * @return void
      */
-    public function __construct(Admins $model, AdminsRoles $adminsRoleModel)
+    public function __construct(Admins $model, AdminsRoles $adminsRolesModel)
     {
         $this->model = $model;
-        $this->adminsRoleModel = $adminsRoleModel;
+        $this->adminsRolesModel = $adminsRolesModel;
     }
 
     /**
@@ -42,9 +42,32 @@ class AdminsRepository implements AdminsRepositoryInterface
      */
     public function getAdminsList(): Collection
     {
-        return DB::table($this->model->getTable())
-            ->select('admins.id', 'admins.name', 'admins.email', 'admins_roles.role_id')
-            ->leftJoin($this->adminsRoleModel->getTable(), 'admins.id', '=', 'admins_roles.admin_id')
+        // admins
+        $admins = $this->model->getTable();
+        // admins_roles
+        $adminsRoles = $this->adminsRolesModel->getTable();
+
+        $selectColumn = [
+            $admins.'.id', $admins.'.name', $admins.'.email', $adminsRoles.'.role_id'
+        ];
+
+        // collection
+        return DB::table($admins)
+            ->select($selectColumn)
+            ->leftJoin($adminsRoles, $admins.'.id', '=', $adminsRoles.'.admin_id')
             ->get();
+
+        /*
+        // sql
+        $sql = DB::table($admins)
+            ->select($selectColumn)
+            ->leftJoin($adminsRoles, $admins . '.id', '=', $adminsRoles . '.admin_id')
+            ->toSql();
+
+        // Builder class
+        $builder = DB::table($admins)
+            ->select($selectColumn)
+            ->leftJoin($adminsRoles, $admins . '.id', '=', $adminsRoles . '.admin_id');
+        */
     }
 }
