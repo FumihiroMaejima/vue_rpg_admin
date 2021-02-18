@@ -3,22 +3,24 @@
 namespace App\Repositories\Admins;
 
 use App\Models\Admins;
-// use DB;
+use App\Models\AdminsRoles;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 
 class AdminsRepository implements AdminsRepositoryInterface
 {
     protected $model;
+    protected $adminsRoleModel;
 
     /**
      * Create a new AuthInfoController instance.
      *
      * @return void
      */
-    public function __construct(Admins $model)
+    public function __construct(Admins $model, AdminsRoles $adminsRoleModel)
     {
         $this->model = $model;
+        $this->adminsRoleModel = $adminsRoleModel;
     }
 
     /**
@@ -29,6 +31,8 @@ class AdminsRepository implements AdminsRepositoryInterface
     public function getAdmins(): Collection
     {
         return DB::table($this->model->getTable())->get();
+        // Eloquent
+        // return Admins::get();
     }
 
     /**
@@ -39,7 +43,8 @@ class AdminsRepository implements AdminsRepositoryInterface
     public function getAdminsList(): Collection
     {
         return DB::table($this->model->getTable())
-        ->select('id', 'name', 'email')
-        ->get();
+            ->select('admins.id', 'admins.name', 'admins.email', 'admins_roles.role_id')
+            ->leftJoin($this->adminsRoleModel->getTable(), 'admins.id', '=', 'admins_roles.admin_id')
+            ->get();
     }
 }
