@@ -183,7 +183,7 @@ module.exports = {
         {
           label: '管理者情報管理',
           icon: 'pi pi-fw pi-users',
-          to: '/admins'
+          to: '/members'
         },
         {
           separator: true

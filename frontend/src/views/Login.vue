@@ -87,8 +87,8 @@ export default defineComponent({
       validationSchema: loginSchema
     })
 
-    const { value: email, errorMessage: emailError } = useField('email')
-    const { value: password, errorMessage: passwordError } = useField(
+    const { value: email, errorMessage: emailError } = useField<string>('email')
+    const { value: password, errorMessage: passwordError } = useField<string>(
       'password'
     )
     const loadingFlag = inject('circleLoading') as Ref<boolean>

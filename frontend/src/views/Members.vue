@@ -22,7 +22,7 @@ import { getMembers } from '@/services/members'
 import AuthApp from '@/plugins/auth/authApp'
 
 export default defineComponent({
-  name: 'Admins',
+  name: 'Members',
   components: {
     AppTable
   },
