@@ -68,6 +68,14 @@ class AdminsRepository implements AdminsRepositoryInterface
         $builder = DB::table($admins)
             ->select($selectColumn)
             ->leftJoin($adminsRoles, $admins . '.id', '=', $adminsRoles . '.admin_id');
+
+        // get query log
+        DB::enableQueryLog();
+        $sql = DB::table($admins)
+            ->select($selectColumn)
+            ->leftJoin($adminsRoles, $admins . '.id', '=', $adminsRoles . '.admin_id')
+            ->get();
+        $log = DB::getQueryLog();
         */
     }
 }

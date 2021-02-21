@@ -179,6 +179,7 @@ return [
 
         // add
         App\Providers\RepositoryServiceProvider::class,
+        App\Providers\DataBaseQueryServiceProvider::class,
 
     ],
 
