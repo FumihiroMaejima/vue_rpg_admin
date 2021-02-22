@@ -753,6 +753,12 @@ or
 php artisan make:resource TestCollection
 ```
 
+### ミドルウェアの作成
+
+```shell-session
+php artisan make:middleware TestMiddleWare
+```
+
 ---
 # Swaggerの設定
 
