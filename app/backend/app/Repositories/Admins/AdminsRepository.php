@@ -48,7 +48,7 @@ class AdminsRepository implements AdminsRepositoryInterface
         $adminsRoles = $this->adminsRolesModel->getTable();
 
         $selectColumn = [
-            $admins.'.id', $admins.'.name', $admins.'.email', $adminsRoles.'.role_id'
+            $admins.'.id', $admins.'.name', $admins.'.email', $adminsRoles.'.role_id as roleId'
         ];
 
         // collection
