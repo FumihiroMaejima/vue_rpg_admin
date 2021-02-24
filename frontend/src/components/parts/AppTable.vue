@@ -30,15 +30,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent /* , ref, reactive */ } from 'vue'
+import { defineComponent, PropType /* , ref, reactive */ } from 'vue'
 import Column from 'primevue/column'
 // import ColumnGroup from 'primevue/columngroup'
 import DataTable from 'primevue/datatable'
 import InputText from 'primevue/inputtext'
+import { TableColumnSetting } from '@/types/config/data'
 
 type Props = {
   items: any[]
-  columnOptions: any[]
+  columnOptions: TableColumnSetting[]
   sortable: boolean
   editable: boolean
   addHeader: boolean
@@ -61,7 +62,7 @@ export default defineComponent({
       }
     },
     columnOptions: {
-      type: Array,
+      type: Array as PropType<TableColumnSetting[]>,
       default: () => {
         return []
       }

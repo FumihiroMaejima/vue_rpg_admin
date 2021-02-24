@@ -6,7 +6,7 @@
     <div class="p-grid">
       <div class="p-col-12 p-md-1"></div>
       <div class="p-col-12 p-md-10">
-        <app-table :items="items.data" :columnOptions="columnOptions" />
+        <app-table :items="members" :columnOptions="columnOptions" />
       </div>
       <div class="p-col-12 p-md-1"></div>
     </div>
@@ -14,11 +14,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, PropType, reactive, provide, inject } from 'vue'
+import {
+  defineComponent,
+  ref,
+  PropType,
+  reactive,
+  computed,
+  provide,
+  inject
+} from 'vue'
 import { useRouter } from 'vue-router'
 import AppTable from '@/components/parts/AppTable.vue'
-import { tableData, tableKeys } from '@/config/resource'
-import { getMembers, MembersType, StateKey, useState } from '@/services/members'
+import { tableData } from '@/config/resource'
+import {
+  tableKeys,
+  getMembers,
+  MembersType,
+  StateKey,
+  useState
+} from '@/services/members'
 import AuthApp from '@/plugins/auth/authApp'
 
 export default defineComponent({
@@ -34,6 +48,9 @@ export default defineComponent({
 
     const service = useState()
     provide('service', service)
+
+    // computed
+    const members = computed((): MembersType[] => service.state.members)
 
     // created
     const created = async () => {
@@ -59,6 +76,7 @@ export default defineComponent({
     }
     return {
       items,
+      members,
       columnOptions,
       testFunction,
       catchAppInputEvent

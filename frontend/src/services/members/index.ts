@@ -2,8 +2,16 @@
 import { Ref, reactive, InjectionKey } from 'vue'
 import axios, { AxiosResponse, AxiosError } from 'axios'
 import { IAppConfig, BaseAddHeaderResponse, ServerRequestType } from '@/types'
+import { TableColumnSetting } from '@/types/config/data'
 
 const config: IAppConfig = require('@/config/data')
+
+export const tableKeys: TableColumnSetting[] = [
+  { field: 'id', header: 'ID' },
+  { field: 'name', header: 'Name' },
+  { field: 'email', header: 'Email' },
+  { field: 'roleId', header: 'Role' }
+]
 
 /**
  * get auth user info.

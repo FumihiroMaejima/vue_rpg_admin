@@ -35,3 +35,5 @@ export type MembersServiceEndipont = {
   [key: string]: string
   MEMBERS: string
 }
+
+export type TableColumnSetting = { field: string; header: string }
