@@ -27,7 +27,7 @@ import {
 import { useRouter } from 'vue-router'
 import AppTable from '@/components/parts/AppTable.vue'
 import {
-  tableKeys,
+  tableSetting,
   MembersType,
   StateKey,
   useState
@@ -43,8 +43,7 @@ export default defineComponent({
   },
   setup() {
     const toast = inject('toast') as ToastType
-    const columnOptions = reactive(tableKeys)
-    const router = useRouter()
+    const columnOptions = reactive(tableSetting)
     const loadingFlag = inject('circleLoading') as Ref<boolean>
     const authApp = inject('authApp') as AuthApp
 
@@ -59,12 +58,7 @@ export default defineComponent({
       inversionFlag(loadingFlag)
       const response = await service.getMembers(authApp.getHeader())
       if (response.status !== 200) {
-        toast.add({
-          severity: 'error',
-          summary: `データ取得エラー`,
-          detail: `データの取得に失敗しました。`,
-          life: 5000
-        })
+        toast.add(service.getToastData())
       }
       /* console.log(
         'service.getMembersData(): ' +
@@ -83,13 +77,9 @@ export default defineComponent({
       console.log('catchAppInputEvent: ' + JSON.stringify(event, null, 2))
     }
 
-    const testFunction = () => {
-      router.push('/test')
-    }
     return {
       members,
       columnOptions,
-      testFunction,
       catchAppInputEvent
     }
   }
