@@ -17,6 +17,7 @@
 import {
   defineComponent,
   ref,
+  Ref,
   PropType,
   reactive,
   computed,
@@ -25,15 +26,15 @@ import {
 } from 'vue'
 import { useRouter } from 'vue-router'
 import AppTable from '@/components/parts/AppTable.vue'
-import { tableData } from '@/config/resource'
 import {
   tableKeys,
-  getMembers,
   MembersType,
   StateKey,
   useState
 } from '@/services/members'
 import AuthApp from '@/plugins/auth/authApp'
+import { inversionFlag } from '@/util'
+import { ToastType } from '@/types/components/index'
 
 export default defineComponent({
   name: 'Members',
@@ -41,9 +42,10 @@ export default defineComponent({
     AppTable
   },
   setup() {
-    const items = reactive(tableData)
+    const toast = inject('toast') as ToastType
     const columnOptions = reactive(tableKeys)
     const router = useRouter()
+    const loadingFlag = inject('circleLoading') as Ref<boolean>
     const authApp = inject('authApp') as AuthApp
 
     const service = useState()
@@ -54,11 +56,21 @@ export default defineComponent({
 
     // created
     const created = async () => {
-      const data = await service.getMembers(authApp.getHeader())
-      console.log(
+      inversionFlag(loadingFlag)
+      const response = await service.getMembers(authApp.getHeader())
+      if (response.status !== 200) {
+        toast.add({
+          severity: 'error',
+          summary: `データ取得エラー`,
+          detail: `データの取得に失敗しました。`,
+          life: 5000
+        })
+      }
+      /* console.log(
         'service.getMembersData(): ' +
           JSON.stringify(service.getMembersData(), null, 2)
-      )
+      ) */
+      inversionFlag(loadingFlag)
     }
     created()
 
@@ -75,7 +87,6 @@ export default defineComponent({
       router.push('/test')
     }
     return {
-      items,
       members,
       columnOptions,
       testFunction,
