@@ -1,17 +1,26 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { Ref, reactive, InjectionKey } from 'vue'
+import { Ref, reactive, InjectionKey, inject } from 'vue'
 import axios, { AxiosResponse, AxiosError } from 'axios'
 import { IAppConfig, BaseAddHeaderResponse, ServerRequestType } from '@/types'
 import { TableColumnSetting } from '@/types/config/data'
+import { ToastData } from '@/types/components/index'
+// import AuthApp from '@/plugins/auth/authApp'
 
 const config: IAppConfig = require('@/config/data')
 
-export const tableKeys: TableColumnSetting[] = [
+export const tableSetting: TableColumnSetting[] = [
   { field: 'id', header: 'ID' },
   { field: 'name', header: 'Name' },
   { field: 'email', header: 'Email' },
   { field: 'roleId', header: 'Role' }
 ]
+
+export const toastData: ToastData = {
+  severity: 'success',
+  summary: 'Summary Message',
+  detail: 'Detail Message.',
+  life: 5000
+}
 
 const membersData = {
   id: 0,
@@ -27,9 +36,14 @@ export const useState = () => {
     newname: '',
     answered: false,
     clicked: false,
+    toast: { ...toastData },
     members: [] as MembersType[]
   })
 
+  /**
+   * return members data
+   * @return {MembersType[]} state.members
+   */
   const getMembersData = () => {
     return state.members
   }
@@ -47,16 +61,54 @@ export const useState = () => {
     state.clicked = true
   }
 
+  /**
+   * insert members data to state
+   * @param {MembersType[]} value
+   * @return {void}
+   */
   const insertMembers = (value: MembersType[]) => {
     state.members = value
   }
 
+  /**
+   * set initial data of state
+   * @return {void}
+   */
   const resetState = () => {
     state.name = 'test'
     state.newname = ''
     state.answered = false
     state.clicked = false
+    state.toast = { ...toastData }
     state.members = []
+  }
+
+  /**
+   * set toast data.
+   * @param {string} severity
+   * @param {string} summary
+   * @param {string} detail
+   * @param {number} life
+   * @return {void}
+   */
+  const setToastData = (
+    severity = 'success',
+    summary = 'summary',
+    detail = 'detail',
+    life = 5000
+  ) => {
+    state.toast.severity = severity
+    state.toast.summary = summary
+    state.toast.detail = detail
+    state.toast.life = life
+  }
+
+  /**
+   * get toast
+   * @return {ToastData} state.toast
+   */
+  const getToastData = () => {
+    return state.toast
   }
 
   /**
@@ -77,6 +129,11 @@ export const useState = () => {
       })
       .catch((error: AxiosError<any>) => {
         // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
+        setToastData(
+          'error',
+          'データ取得エラー',
+          'データの取得に失敗しました。'
+        )
         return {
           data: error,
           status: error.response ? error.response.status : 401
@@ -92,6 +149,8 @@ export const useState = () => {
     updateClicked,
     insertMembers,
     resetState,
+    setToastData,
+    getToastData,
     getMembers
   }
 }
