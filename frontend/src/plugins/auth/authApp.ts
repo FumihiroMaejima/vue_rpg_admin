@@ -6,7 +6,7 @@ const config: IAppConfig = require('@/config/data')
 import { AuthState, RootState, HeaderDataState, AuthEndpoint, IAppConfig, BaseAddHeaderResponse } from '@/types'
 
 export default class AuthApp {
-  public router: Router
+  private router: Router
   private store: Store<RootState>
   private endpoint: AuthEndpoint
   private authentication: Authentication
@@ -24,7 +24,7 @@ export default class AuthApp {
    * return authenticated id
    * @return {number} id
    */
-  public getAuthId() {
+  public getAuthId():AuthState['id'] {
     return this.store.getters['auth/id']
   }
 
@@ -32,7 +32,7 @@ export default class AuthApp {
    * return authenticated name
    * @return {string} name
    */
-  public getAuthName() {
+  public getAuthName():AuthState['name'] {
     return this.store.getters['auth/name']
   }
 
@@ -40,7 +40,7 @@ export default class AuthApp {
    * return authenticated authority
    * @return {Object} authority
    */
-  public getAuthAuthority() {
+  public getAuthAuthority(): AuthState['authority'] {
     return this.store.getters['auth/authority']
   }
 
@@ -93,7 +93,7 @@ export default class AuthApp {
    * check authenticated data.
    * @return {boolean}
    */
-  public async checkAuthenticated() {
+  public async checkAuthenticated(): Promise<boolean> {
     const token: string = this.getCookie(this.appKey)
     // tokenが無い場合はデータを初期化する
     if (token === '') {
@@ -186,7 +186,7 @@ export default class AuthApp {
    * @param {string} value
    * @return {void}
    */
-  protected setCookie(key: string, value: string, minutes: number = 60) {
+  protected setCookie(key: string, value: string, minutes: number = 10) {
     document.cookie = `${key}=${value};max-age=${60 * minutes}`
   }
 

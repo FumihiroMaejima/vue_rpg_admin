@@ -9,10 +9,10 @@ import { Router } from 'vue-router'
 import { RootState } from '@/types'
 
 export type AuthState = {
-  [key: string]: string | number | object | null
+  [key: string]: string | number | Record<string, any> | null
   name: string | null
   id: number | null
-  authority: object | null
+  authority: Record<string, any> | null
 }
 
 export type AuthOptions = {

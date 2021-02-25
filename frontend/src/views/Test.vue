@@ -32,14 +32,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, inject, reactive } from 'vue'
+import { defineComponent, ref, reactive } from 'vue'
 // import Card from '@/components/parts/Card.vue'
 // import GridCols from '@/components/parts/GridCols.vue'
 // import GridRows from '@/components/parts/GridRows.vue'
 // import Dialog from 'primevue/dialog'
 import AppCalender from '@/components/parts/AppCalender.vue'
 import AppTable from '@/components/parts/AppTable.vue'
-import AuthApp from '@/plugins/auth/authApp'
+import { useRouter } from 'vue-router'
 import { tableData, tableKeys, eventDate } from '@/config/resource'
 
 export default defineComponent({
@@ -56,8 +56,8 @@ export default defineComponent({
     const sidebar = ref<boolean>(true)
     const items = reactive(tableData)
     const columnOptions = reactive(tableKeys)
+    const router = useRouter()
     const events = reactive(eventDate)
-    const authApp = inject('authApp') as AuthApp
 
     // methods
     /**
@@ -69,7 +69,7 @@ export default defineComponent({
     }
 
     const testFunction = () => {
-      authApp.router.push('/')
+      router.push('/')
     }
 
     return {
