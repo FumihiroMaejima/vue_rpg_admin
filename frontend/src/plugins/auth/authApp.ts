@@ -79,6 +79,10 @@ export default class AuthApp {
     return result
   }
 
+  /**
+   * get authApp header options.
+   * @return {AuthAppHeaderOptions} { headers, callback }
+   */
   public getHeaderOptions(): AuthAppHeaderOptions {
     const token: string = this.getCookie(this.appKey)
     // tokenが無い場合はデータを初期化する
