@@ -56,7 +56,7 @@ export default defineComponent({
     // created
     const created = async () => {
       inversionFlag(loadingFlag)
-      const response = await service.getMembers(authApp.getHeader())
+      const response = await service.getMembersData(authApp.getHeader())
       if (response.status !== 200) {
         toast.add(service.getToastData())
       }

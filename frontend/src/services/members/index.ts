@@ -28,6 +28,7 @@ const membersData = {
   email: '',
   roleId: 0
 }
+
 export type MembersType = typeof membersData
 
 export const useState = () => {
@@ -44,7 +45,7 @@ export const useState = () => {
    * return members data
    * @return {MembersType[]} state.members
    */
-  const getMembersData = () => {
+  const getMembers = () => {
     return state.members
   }
 
@@ -116,7 +117,7 @@ export const useState = () => {
    * @param {BaseAddHeaderResponse} header
    * @return {void}
    */
-  const getMembers = async (
+  const getMembersData = async (
     header: BaseAddHeaderResponse
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
@@ -131,8 +132,8 @@ export const useState = () => {
         // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
         setToastData(
           'error',
-          'データ取得エラー',
-          'データの取得に失敗しました。'
+          'メンバー情報取得エラー',
+          'メンバー情報の取得に失敗しました。'
         )
         return {
           data: error,
@@ -143,7 +144,7 @@ export const useState = () => {
 
   return {
     state,
-    getMembersData,
+    getMembers,
     updateName,
     updateAnswered,
     updateClicked,
@@ -151,7 +152,7 @@ export const useState = () => {
     resetState,
     setToastData,
     getToastData,
-    getMembers
+    getMembersData
   }
 }
 
