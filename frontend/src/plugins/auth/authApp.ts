@@ -11,6 +11,7 @@ export default class AuthApp {
   private endpoint: AuthEndpoint
   private authentication: Authentication
   private appKey: string
+  private headerPrefix: string
 
   constructor(router: Router, store: Store<RootState>) {
     this.router = router
@@ -18,6 +19,7 @@ export default class AuthApp {
     this.endpoint = config.authEndpoint
     this.authentication = new Authentication(this.endpoint)
     this.appKey = 'application_token'
+    this.headerPrefix = 'Bearer'
   }
 
   /**
@@ -89,7 +91,6 @@ export default class AuthApp {
     if (token === '') {
       this.resetAction()
     }
-
     this.restoreToken()
 
     return {
@@ -103,15 +104,15 @@ export default class AuthApp {
    * @return {boolean}
    */
   public async checkAuthenticated(): Promise<boolean> {
-    const token: string = this.getCookie(this.appKey)
+    const { headers, callback } = this.getHeaderOptions()
+
     // tokenが無い場合はデータを初期化する
-    if (token === '') {
+    if (headers.Authorization.trim().length <= this.headerPrefix.length) {
       this.resetAction()
       return false
     }
-    this.restoreToken()
 
-    const isAuth = await this.authInstance(this.store.getters['auth/id'], token).then((response) => {
+    const isAuth = await this.authInstance(headers).then((response) => {
       // 認証情報が無い場合
       if (!response.id) {
         this.resetAction(true)
@@ -120,32 +121,32 @@ export default class AuthApp {
 
       // 取得した認証情報の設定
       this.store.dispatch('auth/getAuthData', { id: response.id, name: response.name, authority: {} })
-      this.restoreToken(token, true)
+      callback()
       return true
     })
     return isAuth
   }
 
   /**
-   * reset relation data.
+   * make request header.
    * @param {HeaderDataState} data
    * @return {BaseAddHeaderResponse}
    */
-  protected addHeaders(data: HeaderDataState) {
+  protected addHeaders(data: HeaderDataState): BaseAddHeaderResponse {
     return {
-      Authorization: `Bearer ${data.token ? data.token : ''}`,
+      Authorization: `${this.headerPrefix} ${data.token ? data.token : ''}`,
       'X-Auth-ID': data.id ? data.id : ''
     }
   }
 
   /**
-   * reset relation data.
+   * run check authenticated request.
    * @param {number | null} id
    * @param {string | null} token
    * @return {Object}
    */
-  protected async authInstance(id: AuthState['id'], token: HeaderDataState['token']) {
-    const response = await this.authentication.getUser(this.addHeaders({id: id, token: token}))
+  protected async authInstance(headers: BaseAddHeaderResponse) {
+    const response = await this.authentication.getUser(headers)
     if (response.status !== 200) {
       return {
         id: null,
