@@ -3,7 +3,7 @@ import { Router } from 'vue-router'
 import { Store } from 'vuex'
 import Authentication from '@/plugins/auth/authentication'
 const config: IAppConfig = require('@/config/data')
-import { AuthState, RootState, HeaderDataState, AuthEndpoint, IAppConfig, BaseAddHeaderResponse } from '@/types'
+import { AuthState, RootState, HeaderDataState, AuthEndpoint, IAppConfig, BaseAddHeaderResponse, AuthAppHeaderOptions } from '@/types'
 
 export default class AuthApp {
   private router: Router
@@ -69,7 +69,7 @@ export default class AuthApp {
    * @return {Object}
    */
   public async logout(): Promise<boolean> {
-    const response = await this.authentication.logoutRequest(this.getHeader())
+    const response = await this.authentication.logoutRequest(this.getHeaderOptions().headers)
     const result = response.status === 200
 
     // データの初期化
@@ -79,14 +79,19 @@ export default class AuthApp {
     return result
   }
 
-  public getHeader(): BaseAddHeaderResponse {
+  public getHeaderOptions(): AuthAppHeaderOptions {
     const token: string = this.getCookie(this.appKey)
     // tokenが無い場合はデータを初期化する
     if (token === '') {
       this.resetAction()
     }
 
-    return this.addHeaders({ id: this.store.getters['auth/id'], token: token })
+    this.restoreToken()
+
+    return {
+      headers: this.addHeaders({ id: this.store.getters['auth/id'], token: token }),
+      callback: () => this.restoreToken(token, true)
+    }
   }
 
   /**

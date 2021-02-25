@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { Ref } from 'vue'
 import axios, { AxiosResponse, AxiosError } from 'axios'
-import { IAppConfig, BaseAddHeaderResponse, ServerRequestType } from '@/types'
+import {
+  IAppConfig,
+  BaseAddHeaderResponse,
+  ServerRequestType,
+  AuthAppHeaderOptions
+} from '@/types'
 
 const config: IAppConfig = require('@/config/data')
 
@@ -11,11 +16,11 @@ const config: IAppConfig = require('@/config/data')
  * @return {void}
  */
 export const getAuthUserInfo = async (
-  header: BaseAddHeaderResponse
+  options: AuthAppHeaderOptions
 ): Promise<ServerRequestType> => {
   axios.defaults.withCredentials = true
   return await axios
-    .get(config.endpoint.authinfo.AUTH_INFO, { headers: header })
+    .get(config.endpoint.authinfo.AUTH_INFO, { headers: options.headers })
     .then((response: AxiosResponse<any>) => {
       return { data: response.data, status: response.status }
     })
@@ -25,5 +30,8 @@ export const getAuthUserInfo = async (
         data: error,
         status: error.response ? error.response.status : 401
       }
+    })
+    .finally(() => {
+      options.callback()
     })
 }

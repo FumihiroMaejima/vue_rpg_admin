@@ -35,7 +35,7 @@ export default defineComponent({
 
     // created
     const created = async () => {
-      const data = await getAuthUserInfo(authApp.getHeader())
+      const data = await getAuthUserInfo(authApp.getHeaderOptions())
       console.log('created event data: ' + JSON.stringify(data, null, 2))
     }
     created()

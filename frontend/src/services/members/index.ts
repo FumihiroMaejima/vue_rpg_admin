@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { Ref, reactive, InjectionKey, inject } from 'vue'
 import axios, { AxiosResponse, AxiosError } from 'axios'
-import { IAppConfig, BaseAddHeaderResponse, ServerRequestType } from '@/types'
+import {
+  IAppConfig,
+  BaseAddHeaderResponse,
+  ServerRequestType,
+  AuthAppHeaderOptions
+} from '@/types'
 import { TableColumnSetting } from '@/types/config/data'
 import { ToastData } from '@/types/components/index'
 // import AuthApp from '@/plugins/auth/authApp'
@@ -118,11 +123,11 @@ export const useState = () => {
    * @return {void}
    */
   const getMembersData = async (
-    header: BaseAddHeaderResponse
+    options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
-      .get(config.endpoint.members.MEMBERS, { headers: header })
+      .get(config.endpoint.members.MEMBERS, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
         // メンバーの設定
         insertMembers(response.data.data)
@@ -139,6 +144,9 @@ export const useState = () => {
           data: error,
           status: error.response ? error.response.status : 401
         }
+      })
+      .finally(() => {
+        options.callback()
       })
   }
 

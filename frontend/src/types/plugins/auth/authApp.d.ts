@@ -19,3 +19,8 @@ export type BaseAddHeaderResponse = {
   Authorization: string
   'X-Auth-ID': number | string
 }
+
+export type AuthAppHeaderOptions = {
+  headers: BaseAddHeaderResponse
+  callback: () => void
+}
