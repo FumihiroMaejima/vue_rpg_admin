@@ -69,7 +69,7 @@ export default class AuthApp {
    * @return {Object}
    */
   public async logout(): Promise<boolean> {
-    const response = await this.authentication.logoutRequest(this.addHeaders({ id: this.store.getters['auth/id'], token: this.getCookie(this.appKey) }))
+    const response = await this.authentication.logoutRequest(this.getHeader())
     const result = response.status === 200
 
     // データの初期化
@@ -100,6 +100,7 @@ export default class AuthApp {
       this.resetAction()
       return false
     }
+    this.restoreToken()
 
     const isAuth = await this.authInstance(this.store.getters['auth/id'], token).then((response) => {
       // 認証情報が無い場合
@@ -110,6 +111,7 @@ export default class AuthApp {
 
       // 取得した認証情報の設定
       this.store.dispatch('auth/getAuthData', { id: response.id, name: response.name, authority: {} })
+      this.restoreToken(token, true)
       return true
     })
     return isAuth
@@ -197,5 +199,14 @@ export default class AuthApp {
    */
   protected removeCookie(key: string) {
     document.cookie = `${key}=;max-age=0`
+  }
+
+  /**
+   * restore or remove cookie.
+   * @param {boolean} isRestore
+   * @return {void}
+   */
+  protected restoreToken(token: string = '', isRestore: boolean = false) {
+    isRestore ? this.setCookie(this.appKey, token) : this.removeCookie(this.appKey)
   }
 }
