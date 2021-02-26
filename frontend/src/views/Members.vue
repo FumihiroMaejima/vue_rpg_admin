@@ -47,22 +47,22 @@ export default defineComponent({
     const loadingFlag = inject('circleLoading') as Ref<boolean>
     const authApp = inject('authApp') as AuthApp
 
-    const service = useState()
-    provide('service', service)
+    const membersService = useState()
+    provide('membersService', membersService)
 
     // computed
-    const members = computed((): MembersType[] => service.state.members)
+    const members = computed((): MembersType[] => membersService.state.members)
 
     // created
     const created = async () => {
       inversionFlag(loadingFlag)
-      const response = await service.getMembersData(authApp.getHeaderOptions())
+      const response = await membersService.getMembersData(authApp.getHeaderOptions())
       if (response.status !== 200) {
-        toast.add(service.getToastData())
+        toast.add(membersService.getToastData())
       }
       /* console.log(
-        'service.getMembersData(): ' +
-          JSON.stringify(service.getMembersData(), null, 2)
+        'membersService.getMembersData(): ' +
+          JSON.stringify(membersService.getMembersData(), null, 2)
       ) */
       inversionFlag(loadingFlag)
     }
