@@ -6,6 +6,7 @@
     <div class="p-grid">
       <div class="p-col-12 p-md-1"></div>
       <div class="p-col-12 p-md-10">
+        <members-table />
         <app-table :items="members" :columnOptions="columnOptions" />
       </div>
       <div class="p-col-12 p-md-1"></div>
@@ -25,11 +26,12 @@ import {
   inject
 } from 'vue'
 import { useRouter } from 'vue-router'
+import MembersTable from '@/components/modules/members/MembersTable.vue'
 import AppTable from '@/components/parts/AppTable.vue'
 import {
   tableSetting,
   MembersType,
-  StateKey,
+  MembersStateKey,
   useState
 } from '@/services/members'
 import AuthApp from '@/plugins/auth/authApp'
@@ -39,7 +41,8 @@ import { ToastType } from '@/types/components/index'
 export default defineComponent({
   name: 'Members',
   components: {
-    AppTable
+    AppTable,
+    MembersTable
   },
   setup() {
     const toast = inject('toast') as ToastType
@@ -48,7 +51,7 @@ export default defineComponent({
     const authApp = inject('authApp') as AuthApp
 
     const membersService = useState()
-    provide('membersService', membersService)
+    provide(MembersStateKey, membersService)
 
     // computed
     const members = computed((): MembersType[] => membersService.state.members)

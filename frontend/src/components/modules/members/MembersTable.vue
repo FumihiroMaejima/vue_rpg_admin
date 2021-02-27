@@ -19,7 +19,7 @@ import AppTable from '@/components/parts/AppTable.vue'
 import {
   tableSetting,
   MembersType,
-  StateKey,
+  MembersStateKey,
   StateStore,
   useState
 } from '@/services/members'
@@ -37,24 +37,24 @@ export default defineComponent({
     const columnOptions = reactive(tableSetting)
     const loadingFlag = inject('circleLoading') as Ref<boolean>
     const authApp = inject('authApp') as AuthApp
-    const membersService = inject('membersService') as StateStore
+    const membersService = inject(MembersStateKey) as StateStore
 
     // computed
-    const members = computed((): MembersType[] => membersService().state.members)
-    console.log('membersService: ' + JSON.stringify(membersService, null, 2))
+    const members = computed((): MembersType[] => membersService.state.members)
+    console.log('membersService: ' + JSON.stringify(membersService.state.members, null, 2))
 
     // created
     const created = async () => {
-      inversionFlag(loadingFlag)
-      const response = await membersService().getMembersData(authApp.getHeaderOptions())
+      /* inversionFlag(loadingFlag)
+      const response = await membersService.getMembersData(authApp.getHeaderOptions())
       if (response.status !== 200) {
-        toast.add(membersService().getToastData())
-      }
+        toast.add(membersService.getToastData())
+      } */
       /* console.log(
         'membersService.getMembersData(): ' +
           JSON.stringify(membersService.getMembersData(), null, 2)
       ) */
-      inversionFlag(loadingFlag)
+      // inversionFlag(loadingFlag)
     }
     created()
 

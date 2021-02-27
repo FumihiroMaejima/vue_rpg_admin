@@ -164,5 +164,6 @@ export const useState = () => {
   }
 }
 
-export type StateStore = typeof useState
-export const StateKey: InjectionKey<StateStore> = Symbol('StateStore')
+// get return type of a function type
+export type StateStore = ReturnType<typeof useState>
+export const MembersStateKey: InjectionKey<StateStore> = Symbol('StateStore')
