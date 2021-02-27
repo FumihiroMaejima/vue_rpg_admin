@@ -64,6 +64,7 @@ import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
 import { checkTextLength } from '@/util/validation'
 import { ToastType } from '@/types'
+import { ToastTypeKey } from '@/keys'
 
 export default defineComponent({
   name: 'Login',
@@ -73,7 +74,7 @@ export default defineComponent({
     InputText
   },
   setup() {
-    const toast = inject('toast') as ToastType
+    const toast = inject(ToastTypeKey) as ToastType
     const loginSchema = {
       email(value: string): string {
         return checkTextLength(value) ? '' : 'This is required'

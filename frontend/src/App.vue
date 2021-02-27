@@ -29,6 +29,7 @@ import CircleLoading from '@/components/parts/CircleLoading.vue'
 import LinerLoading from '@/components/parts/LinerLoading.vue'
 import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
+import { ToastTypeKey } from '@/keys'
 
 export default defineComponent({
   components: {
@@ -45,7 +46,7 @@ export default defineComponent({
     const openLinerLoading = inject('linerLoading') as Ref<boolean>
     provide('circleLoading', openCircleLoading)
     const toast = useToast()
-    provide('toast', toast)
+    provide(ToastTypeKey, toast)
 
     // computed
     // v-modelのsetterが通らない

@@ -37,6 +37,7 @@ import {
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
 import { ToastType } from '@/types/components/index'
+import { ToastTypeKey } from '@/keys'
 
 export default defineComponent({
   name: 'Members',
@@ -45,7 +46,7 @@ export default defineComponent({
     MembersTable
   },
   setup() {
-    const toast = inject('toast') as ToastType
+    const toast = inject(ToastTypeKey) as ToastType
     const columnOptions = reactive(tableSetting)
     const loadingFlag = inject('circleLoading') as Ref<boolean>
     const authApp = inject('authApp') as AuthApp
@@ -59,7 +60,9 @@ export default defineComponent({
     // created
     const created = async () => {
       inversionFlag(loadingFlag)
-      const response = await membersService.getMembersData(authApp.getHeaderOptions())
+      const response = await membersService.getMembersData(
+        authApp.getHeaderOptions()
+      )
       if (response.status !== 200) {
         toast.add(membersService.getToastData())
       }

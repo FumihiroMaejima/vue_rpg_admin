@@ -38,6 +38,7 @@ import Menubar from 'primevue/menubar'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
 import { ToastType } from '@/types'
+import { ToastTypeKey } from '@/keys'
 
 type Props = {
   authApp: AuthApp
@@ -59,7 +60,7 @@ export default defineComponent({
   setup(props: Props, context: SetupContext) {
     let items = ref<string[]>([])
     const loadingFlag = inject('circleLoading') as Ref<boolean>
-    const toast = inject('toast') as ToastType
+    const toast = inject(ToastTypeKey) as ToastType
 
     // instanceの取得
     const instance = getCurrentInstance()
