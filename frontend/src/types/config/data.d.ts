@@ -36,4 +36,9 @@ export type MembersServiceEndipont = {
   MEMBERS: string
 }
 
-export type TableColumnSetting = { field: string; header: string }
+export type TableColumnSetting<T = any> = {
+  field: string
+  header: string
+  type: 'text' | 'select'
+  items?: T[]
+}

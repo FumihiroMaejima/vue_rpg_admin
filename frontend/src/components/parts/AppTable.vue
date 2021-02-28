@@ -14,9 +14,9 @@
     </template>
     <Column
       v-for="col of columnOptions"
+      :key="col.field"
       :field="col.field"
       :header="col.header"
-      :key="col.field"
       :sortable="sortable"
     >
       <template #editor="slotProps" v-if="editable">
@@ -35,6 +35,7 @@ import Column from 'primevue/column'
 // import ColumnGroup from 'primevue/columngroup'
 import DataTable from 'primevue/datatable'
 import InputText from 'primevue/inputtext'
+import MultiSelect from 'primevue/multiselect';
 import { TableColumnSetting } from '@/types/config/data'
 
 type Props = {
@@ -52,6 +53,7 @@ export default defineComponent({
     Column,
     // ColumnGroup,
     DataTable,
+    // MultiSelect,
     InputText
   },
   props: {

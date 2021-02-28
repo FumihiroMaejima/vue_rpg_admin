@@ -14,10 +14,10 @@ import { ToastData } from '@/types/components/index'
 const config: IAppConfig = require('@/config/data')
 
 export const tableSetting: TableColumnSetting[] = [
-  { field: 'id', header: 'ID' },
-  { field: 'name', header: 'Name' },
-  { field: 'email', header: 'Email' },
-  { field: 'roleId', header: 'Role' }
+  { field: 'id', header: 'ID', type: 'text' },
+  { field: 'name', header: 'Name', type: 'text' },
+  { field: 'email', header: 'Email', type: 'text' },
+  { field: 'roleId', header: 'Role', type: 'text', items: [] }
 ]
 
 export const toastData: ToastData = {
