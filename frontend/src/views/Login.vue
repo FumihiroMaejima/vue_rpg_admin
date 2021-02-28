@@ -64,7 +64,7 @@ import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
 import { checkTextLength } from '@/util/validation'
 import { ToastType } from '@/types'
-import { ToastTypeKey } from '@/keys'
+import { ToastTypeKey, CircleLoadingKey } from '@/keys'
 
 export default defineComponent({
   name: 'Login',
@@ -92,7 +92,7 @@ export default defineComponent({
     const { value: password, errorMessage: passwordError } = useField<string>(
       'password'
     )
-    const loadingFlag = inject('circleLoading') as Ref<boolean>
+    const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject('authApp') as AuthApp
 
     // computed
