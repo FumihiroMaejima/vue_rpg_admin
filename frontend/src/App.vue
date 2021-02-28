@@ -29,7 +29,7 @@ import CircleLoading from '@/components/parts/CircleLoading.vue'
 import LinerLoading from '@/components/parts/LinerLoading.vue'
 import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
-import { ToastTypeKey, CircleLoadingKey } from '@/keys'
+import { ToastTypeKey, CircleLoadingKey, LinerLoadingKey } from '@/keys'
 
 export default defineComponent({
   components: {
@@ -43,7 +43,7 @@ export default defineComponent({
   setup() {
     const openSideBar = ref<boolean>(false)
     const openCircleLoading = ref<boolean>(false)
-    const openLinerLoading = inject('linerLoading') as Ref<boolean>
+    const openLinerLoading = inject(LinerLoadingKey) as Ref<boolean>
     provide(CircleLoadingKey, openCircleLoading)
     const toast = useToast()
     provide(ToastTypeKey, toast)

@@ -20,6 +20,8 @@ import AppTable from '@/components/parts/AppTable.vue'
 import { tableData, tableKeys } from '@/config/resource'
 import { getAuthUserInfo } from '@/services/authinfo'
 import AuthApp from '@/plugins/auth/authApp'
+import { AuthAppKey } from '@/keys'
+
 // import { AuthAppUtils } from '@/types'
 
 export default defineComponent({
@@ -31,7 +33,7 @@ export default defineComponent({
     const items = reactive(tableData)
     const columnOptions = reactive(tableKeys)
     const router = useRouter()
-    const authApp = inject('authApp') as AuthApp
+    const authApp = inject(AuthAppKey) as AuthApp
 
     // created
     const created = async () => {

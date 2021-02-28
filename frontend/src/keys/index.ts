@@ -1,6 +1,8 @@
 import { InjectionKey, Ref } from 'vue'
-
 import { ToastType } from '@/types/components/index'
+import AuthApp from '@/plugins/auth/authApp'
+
+export const AuthAppKey: InjectionKey<AuthApp> = Symbol('authApp')
 
 export const ToastTypeKey: InjectionKey<ToastType> = Symbol('ToastType')
 
