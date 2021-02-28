@@ -20,7 +20,7 @@ import {
   tableSetting,
   MembersType,
   MembersStateKey,
-  StateStore,
+  MembersStateType,
   useState
 } from '@/services/members'
 import AuthApp from '@/plugins/auth/authApp'
@@ -38,7 +38,7 @@ export default defineComponent({
     const columnOptions = reactive(tableSetting)
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
-    const membersService = inject(MembersStateKey) as StateStore
+    const membersService = inject(MembersStateKey) as MembersStateType
 
     // computed
     const members = computed((): MembersType[] => membersService.state.members)

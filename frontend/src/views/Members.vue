@@ -7,7 +7,6 @@
       <div class="p-col-12 p-md-1"></div>
       <div class="p-col-12 p-md-10">
         <members-table />
-        <app-table :items="members" :columnOptions="columnOptions" />
       </div>
       <div class="p-col-12 p-md-1"></div>
     </div>
@@ -42,12 +41,11 @@ import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 export default defineComponent({
   name: 'Members',
   components: {
-    AppTable,
+    // AppTable,
     MembersTable
   },
   setup() {
     const toast = inject(ToastTypeKey) as ToastType
-    const columnOptions = reactive(tableSetting)
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
 
@@ -55,7 +53,6 @@ export default defineComponent({
     provide(MembersStateKey, membersService)
 
     // computed
-    const members = computed((): MembersType[] => membersService.state.members)
 
     // created
     const created = async () => {
@@ -84,8 +81,6 @@ export default defineComponent({
     }
 
     return {
-      members,
-      columnOptions,
       catchAppInputEvent
     }
   }
