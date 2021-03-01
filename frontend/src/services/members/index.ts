@@ -13,11 +13,26 @@ import { ToastData } from '@/types/components/index'
 
 const config: IAppConfig = require('@/config/data')
 
+export const roleItems = [
+  { text: 'role1', roleId: 1 },
+  { text: 'role2', roleId: 2 },
+  { text: 'role3', roleId: 3 },
+  { text: 'role4', roleId: 4 },
+  { text: 'role5', roleId: 5 }
+]
+
 export const tableSetting: TableColumnSetting[] = [
   { field: 'id', header: 'ID', type: 'text' },
   { field: 'name', header: 'Name', type: 'text' },
   { field: 'email', header: 'Email', type: 'text' },
-  { field: 'roleId', header: 'Role', type: 'text', items: [] }
+  {
+    field: 'roleId',
+    header: 'Role',
+    type: 'select',
+    items: roleItems,
+    itemText: 'text',
+    itemValue: 'roleId'
+  }
 ]
 
 export const toastData: ToastData = {

@@ -41,4 +41,6 @@ export type TableColumnSetting<T = any> = {
   header: string
   type: 'text' | 'select'
   items?: T[]
+  itemText?: string
+  itemValue?: string
 }

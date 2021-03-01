@@ -1,6 +1,10 @@
 <template>
   <div>
-    <app-table :items="members" :columnOptions="columnOptions" />
+    <app-table
+      :items="members"
+      :columnOptions="columnOptions"
+      :editable="true"
+    />
   </div>
 </template>
 
