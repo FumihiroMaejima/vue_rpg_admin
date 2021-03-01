@@ -19,6 +19,9 @@
       :header="col.header"
       :sortable="sortable"
     >
+      <template #body="slotProps" v-if="col.type === 'select'">
+        <span>{{ col.items.find(item => item[col.field] === slotProps.data[slotProps.column.props.field]).text }}</span>
+      </template>
       <template #editor="slotProps" v-if="editable">
         <template v-if="col.type === 'text'">
           <InputText v-model="slotProps.data[slotProps.column.props.field]" />
