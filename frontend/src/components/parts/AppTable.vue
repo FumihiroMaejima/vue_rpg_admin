@@ -25,11 +25,12 @@
         </template>
         <template v-else>
           <MultiSelect
-            v-model="slotProps.data[slotProps.column.props.field]"
+            :modelValue="slotProps.data[slotProps.column.props.field].value"
             :options="col.items"
             :optionLabel="col.itemText"
             :optionValue="col.itemValue"
             placeholder="select item"
+            @change="catchSelectChange"
           >
           </MultiSelect>
         </template>
@@ -109,11 +110,11 @@ export default defineComponent({
       console.log('catchAppInputEvent: ' + JSON.stringify(event, null, 2))
     }
 
-    const changeEvent = (event: Event) => {
+    const catchSelectChange = (event: Event) => {
       console.log('changeEvent: ' + JSON.stringify(event, null, 2))
     }
     return {
-      changeEvent,
+      catchSelectChange,
       catchAppInputEvent
     }
   }
