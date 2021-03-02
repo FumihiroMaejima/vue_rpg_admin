@@ -19,7 +19,7 @@
       :header="col.header"
       :sortable="sortable"
     >
-      <template #body="slotProps" v-if="col.type === 'select'">
+      <template #body="slotProps" v-if="col.type === 'select' && col.items">
         <span>{{ col.items.find(item => item[col.field] === slotProps.data[slotProps.column.props.field]).text }}</span>
       </template>
       <template #editor="slotProps" v-if="editable">
@@ -103,7 +103,10 @@ export default defineComponent({
       default: false
     }
   },
-  setup() {
+  setup(prpops: Props) {
+
+
+    console.log('setup items: ' + JSON.stringify(prpops.items.length, null, 2))
     // methods
     /**
      * catch app-input event
@@ -114,6 +117,7 @@ export default defineComponent({
     }
 
     const catchSelectChange = (event: Event) => {
+      console.log('change items: ' + JSON.stringify(prpops.items, null, 2))
       console.log('changeEvent: ' + JSON.stringify(event, null, 2))
     }
     return {
