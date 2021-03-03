@@ -4,6 +4,7 @@
       :items="members"
       :columnOptions="columnOptions"
       :editable="true"
+      @update-select="updateSelectValue"
     />
   </div>
 </template>
@@ -25,6 +26,7 @@ import {
   MembersType,
   MembersStateKey,
   MembersStateType,
+  roleItems,
   useState
 } from '@/services/members'
 import AuthApp from '@/plugins/auth/authApp'
@@ -46,9 +48,6 @@ export default defineComponent({
 
     // computed
     const members = computed((): MembersType[] => membersService.state.members)
-    console.log(
-      'membersService: ' + JSON.stringify(membersService.state.members, null, 2)
-    )
 
     // created
     const created = async () => {
@@ -67,8 +66,16 @@ export default defineComponent({
 
     // methods
 
+
+    const updateSelectValue = (event: {id: number, value: number}) => {
+      console.log('catche: ' + JSON.stringify(event, null, 2))
+      // console.log('catche members: ' + JSON.stringify(membersService.state.members, null, 2))
+    }
+
     return {
       members,
+      updateSelectValue,
+      roleItems,
       columnOptions
     }
   }

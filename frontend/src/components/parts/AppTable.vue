@@ -27,15 +27,15 @@
           <InputText v-model="slotProps.data[slotProps.column.props.field]" />
         </template>
         <template v-else>
-          <MultiSelect
-            :modelValue="slotProps.data[slotProps.column.props.field].value"
+          <Dropdown
+            v-model="slotProps.data[slotProps.column.props.field]"
             :options="col.items"
             :optionLabel="col.itemText"
             :optionValue="col.itemValue"
             placeholder="select item"
-            @change="catchSelectChange"
-          >
-          </MultiSelect>
+            filter
+            @change="catchSelectChange($event, slotProps.data[col.identifier])"
+          />
         </template>
       </template>
     </Column>
@@ -46,12 +46,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType /* , ref, reactive */ } from 'vue'
+import { defineComponent, PropType, SetupContext /* , ref, reactive */ } from 'vue'
 import Column from 'primevue/column'
 // import ColumnGroup from 'primevue/columngroup'
 import DataTable from 'primevue/datatable'
 import InputText from 'primevue/inputtext'
 import MultiSelect from 'primevue/multiselect'
+import Dropdown from 'primevue/dropdown'
 // import Dropdown from 'primevue/dropdown'
 import { TableColumnSetting } from '@/types/config/data'
 
@@ -70,7 +71,8 @@ export default defineComponent({
     Column,
     // ColumnGroup,
     DataTable,
-    MultiSelect,
+    Dropdown,
+    // MultiSelect,
     InputText
   },
   props: {
@@ -103,10 +105,7 @@ export default defineComponent({
       default: false
     }
   },
-  setup(prpops: Props) {
-
-
-    console.log('setup items: ' + JSON.stringify(prpops.items.length, null, 2))
+  setup(prpops: Props, context: SetupContext) {
     // methods
     /**
      * catch app-input event
@@ -116,9 +115,9 @@ export default defineComponent({
       console.log('catchAppInputEvent: ' + JSON.stringify(event, null, 2))
     }
 
-    const catchSelectChange = (event: Event) => {
-      console.log('change items: ' + JSON.stringify(prpops.items, null, 2))
-      console.log('changeEvent: ' + JSON.stringify(event, null, 2))
+    const catchSelectChange = (event: { originalEvent: Event, value: string | number }, id: number) => {
+      console.log('changeEvent id: ' + JSON.stringify(id, null, 2))
+      context.emit('update-select', {id, value: event.value})
     }
     return {
       catchSelectChange,
