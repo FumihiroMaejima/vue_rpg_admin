@@ -20,15 +20,26 @@
       :sortable="sortable"
     >
       <template #body="slotProps" v-if="col.type === 'select' && col.items">
-        <span>{{ col.items.find(item => item[col.field] === slotProps.data[slotProps.column.props.field]).text }}</span>
+        <span>{{
+          col.items.find(
+            (item) =>
+              item[col.field] === slotProps.data[slotProps.column.props.field]
+          ).text
+        }}</span>
       </template>
-      <template #editor="slotProps" v-if="editable">
+      <template #editor="slotProps" v-if="col.editable">
         <template v-if="col.type === 'text'">
-          <InputText v-model="slotProps.data[slotProps.column.props.field]" />
+          <InputText
+            type="text"
+            :modelValue="slotProps.data[slotProps.column.props.field]"
+            @update:modelValue="
+              catchTextChange($event, slotProps.data[col.identifier])
+            "
+          />
         </template>
         <template v-else>
           <Dropdown
-            v-model="slotProps.data[slotProps.column.props.field]"
+            :modelValue="slotProps.data[slotProps.column.props.field]"
             :options="col.items"
             :optionLabel="col.itemText"
             :optionValue="col.itemValue"
@@ -46,7 +57,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, SetupContext /* , ref, reactive */ } from 'vue'
+import {
+  defineComponent,
+  PropType,
+  SetupContext /* , ref, reactive */
+} from 'vue'
 import Column from 'primevue/column'
 // import ColumnGroup from 'primevue/columngroup'
 import DataTable from 'primevue/datatable'
@@ -115,11 +130,30 @@ export default defineComponent({
       console.log('catchAppInputEvent: ' + JSON.stringify(event, null, 2))
     }
 
-    const catchSelectChange = (event: { originalEvent: Event, value: string | number }, id: number) => {
-      console.log('changeEvent id: ' + JSON.stringify(id, null, 2))
-      context.emit('update-select', {id, value: event.value})
+    /**
+     * catch update text event
+     * @param {string} value
+     * @param {number} id
+     * @return {{id: number, value: string}}
+     */
+    const catchTextChange = (value: string, id: number) => {
+      context.emit('update-text', { id, value })
+    }
+
+    /**
+     * catch update select event
+     * @param {{ originalEvent: Event; value: string | number }} event
+     * @param {number} id
+     * @return {{id: number, value: string | null}}
+     */
+    const catchSelectChange = (
+      event: { originalEvent: Event; value: string | number },
+      id: number
+    ) => {
+      context.emit('update-select', { id, value: event.value })
     }
     return {
+      catchTextChange,
       catchSelectChange,
       catchAppInputEvent
     }

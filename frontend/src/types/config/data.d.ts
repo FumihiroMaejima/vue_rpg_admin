@@ -37,9 +37,11 @@ export type MembersServiceEndipont = {
 }
 
 export type TableColumnSetting<T = any> = {
+  identifier: string
   field: string
   header: string
   type: 'text' | 'select'
+  editable: boolean
   items?: T[]
   itemText?: string
   itemValue?: string

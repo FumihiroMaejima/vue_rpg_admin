@@ -4,6 +4,7 @@
       :items="members"
       :columnOptions="columnOptions"
       :editable="true"
+      @update-text="updateTextValue"
       @update-select="updateSelectValue"
     />
   </div>
@@ -65,15 +66,29 @@ export default defineComponent({
     created()
 
     // methods
+    /**
+     * catch update text event
+     * @param {{id: number, value: string}}
+     * @return {void}
+     */
+    const updateTextValue = (event: { id: number; value: string }) => {
+      console.log('catche updateSelectValue: ' + JSON.stringify(event, null, 2))
+      // console.log('catche members: ' + JSON.stringify(membersService.state.members, null, 2))
+    }
 
-
-    const updateSelectValue = (event: {id: number, value: number}) => {
+    /**
+     * catch update select event
+     * @param {{id: number, value: number}}
+     * @return {void}
+     */
+    const updateSelectValue = (event: { id: number; value: number }) => {
       console.log('catche: ' + JSON.stringify(event, null, 2))
       // console.log('catche members: ' + JSON.stringify(membersService.state.members, null, 2))
     }
 
     return {
       members,
+      updateTextValue,
       updateSelectValue,
       roleItems,
       columnOptions

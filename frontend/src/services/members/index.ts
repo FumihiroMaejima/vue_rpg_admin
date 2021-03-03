@@ -22,12 +22,32 @@ export const roleItems = [
 ]
 
 export const tableSetting: TableColumnSetting[] = [
-  { field: 'id', header: 'ID', type: 'text' },
-  { field: 'name', header: 'Name', type: 'text' },
-  { field: 'email', header: 'Email', type: 'text' },
   {
+    identifier: 'id',
+    field: 'id',
+    header: 'ID',
+    editable: false,
+    type: 'text'
+  },
+  {
+    identifier: 'id',
+    field: 'name',
+    header: 'Name',
+    editable: true,
+    type: 'text'
+  },
+  {
+    identifier: 'id',
+    field: 'email',
+    header: 'Email',
+    editable: true,
+    type: 'text'
+  },
+  {
+    identifier: 'id',
     field: 'roleId',
     header: 'Role',
+    editable: true,
     type: 'select',
     items: roleItems,
     itemText: 'text',
