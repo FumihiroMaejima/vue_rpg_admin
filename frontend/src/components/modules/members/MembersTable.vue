@@ -72,8 +72,7 @@ export default defineComponent({
      * @return {void}
      */
     const updateTextValue = (event: { id: number; value: string }) => {
-      console.log('catche updateSelectValue: ' + JSON.stringify(event, null, 2))
-      // console.log('catche members: ' + JSON.stringify(membersService.state.members, null, 2))
+      membersService.updateMembersName(event.id, event.value)
     }
 
     /**
@@ -82,8 +81,7 @@ export default defineComponent({
      * @return {void}
      */
     const updateSelectValue = (event: { id: number; value: number }) => {
-      console.log('catche: ' + JSON.stringify(event, null, 2))
-      // console.log('catche members: ' + JSON.stringify(membersService.state.members, null, 2))
+      membersService.updateMembersRole(event.id, event.value)
     }
 
     return {

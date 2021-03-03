@@ -103,6 +103,26 @@ export const useState = () => {
   }
 
   /**
+   * update memebers name
+   * @param {number} id
+   * @param {string} value
+   * @return {void}
+   */
+  const updateMembersName = (id: number, value: string) => {
+    state.members.find((member) => member.id === id)!.name = value
+  }
+
+  /**
+   * update memebers role id
+   * @param {number} id
+   * @param {number} value
+   * @return {void}
+   */
+  const updateMembersRole = (id: number, value: number) => {
+    state.members.find((member) => member.id === id)!.roleId = value
+  }
+
+  /**
    * insert members data to state
    * @param {MembersType[]} value
    * @return {void}
@@ -191,6 +211,8 @@ export const useState = () => {
     updateName,
     updateAnswered,
     updateClicked,
+    updateMembersName,
+    updateMembersRole,
     insertMembers,
     resetState,
     setToastData,
