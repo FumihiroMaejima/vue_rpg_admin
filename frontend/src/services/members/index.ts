@@ -70,6 +70,10 @@ const membersData = {
 }
 
 export type MembersType = typeof membersData
+export type MembersTypeKeys = keyof MembersType
+export type MembersTextKeys = Exclude<MembersTypeKeys, 'roleId' | 'id'>
+export type MembersSelectKeys = Exclude<MembersTypeKeys, MembersTextKeys | 'id'>
+// export type MembersTypeKeysTest = Omit<MembersType, 'name'>
 
 export const useState = () => {
   const state = reactive({
@@ -108,8 +112,12 @@ export const useState = () => {
    * @param {string} value
    * @return {void}
    */
-  const updateMembersName = (id: number, value: string) => {
-    state.members.find((member) => member.id === id)!.name = value
+  const updateMembersName = (
+    id: number,
+    key: MembersTextKeys,
+    value: string
+  ) => {
+    state.members.find((member) => member.id === id)![key] = value
   }
 
   /**
@@ -118,8 +126,12 @@ export const useState = () => {
    * @param {number} value
    * @return {void}
    */
-  const updateMembersRole = (id: number, value: number) => {
-    state.members.find((member) => member.id === id)!.roleId = value
+  const updateMembersRole = (
+    id: number,
+    key: MembersSelectKeys,
+    value: number
+  ) => {
+    state.members.find((member) => member.id === id)![key] = value
   }
 
   /**

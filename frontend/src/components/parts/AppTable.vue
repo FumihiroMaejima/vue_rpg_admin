@@ -33,7 +33,7 @@
             type="text"
             :modelValue="slotProps.data[slotProps.column.props.field]"
             @update:modelValue="
-              catchTextChange($event, slotProps.data[col.identifier])
+              catchTextChange($event, col.field, slotProps.data[col.identifier])
             "
           />
         </template>
@@ -45,7 +45,13 @@
             :optionValue="col.itemValue"
             placeholder="select item"
             filter
-            @change="catchSelectChange($event, slotProps.data[col.identifier])"
+            @change="
+              catchSelectChange(
+                $event,
+                col.field,
+                slotProps.data[col.identifier]
+              )
+            "
           />
         </template>
       </template>
@@ -136,8 +142,8 @@ export default defineComponent({
      * @param {number} id
      * @return {{id: number, value: string}}
      */
-    const catchTextChange = (value: string, id: number) => {
-      context.emit('update-text', { id, value })
+    const catchTextChange = (value: string, key: string, id: number) => {
+      context.emit('update-text', { id, key, value })
     }
 
     /**
@@ -148,9 +154,10 @@ export default defineComponent({
      */
     const catchSelectChange = (
       event: { originalEvent: Event; value: string | number },
+      key: string,
       id: number
     ) => {
-      context.emit('update-select', { id, value: event.value })
+      context.emit('update-select', { id, key, value: event.value })
     }
     return {
       catchTextChange,

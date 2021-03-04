@@ -25,6 +25,8 @@ import AppTable from '@/components/parts/AppTable.vue'
 import {
   tableSetting,
   MembersType,
+  MembersTextKeys,
+  MembersSelectKeys,
   MembersStateKey,
   MembersStateType,
   roleItems,
@@ -71,8 +73,16 @@ export default defineComponent({
      * @param {{id: number, value: string}}
      * @return {void}
      */
-    const updateTextValue = (event: { id: number; value: string }) => {
-      membersService.updateMembersName(event.id, event.value)
+    const updateTextValue = (event: {
+      id: number
+      key: string
+      value: string
+    }) => {
+      membersService.updateMembersName(
+        event.id,
+        event.key as MembersTextKeys,
+        event.value
+      )
     }
 
     /**
@@ -80,8 +90,16 @@ export default defineComponent({
      * @param {{id: number, value: number}}
      * @return {void}
      */
-    const updateSelectValue = (event: { id: number; value: number }) => {
-      membersService.updateMembersRole(event.id, event.value)
+    const updateSelectValue = (event: {
+      id: number
+      key: string
+      value: number
+    }) => {
+      membersService.updateMembersRole(
+        event.id,
+        event.key as MembersSelectKeys,
+        event.value
+      )
     }
 
     return {
