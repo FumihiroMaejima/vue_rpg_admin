@@ -54,19 +54,8 @@ export default defineComponent({
     const members = computed((): MembersType[] => membersService.state.members)
 
     // created
-    const created = async () => {
-      /* inversionFlag(loadingFlag)
-      const response = await membersService.getMembersData(authApp.getHeaderOptions())
-      if (response.status !== 200) {
-        toast.add(membersService.getToastData())
-      } */
-      /* console.log(
-        'membersService.getMembersData(): ' +
-          JSON.stringify(membersService.getMembersData(), null, 2)
-      ) */
-      // inversionFlag(loadingFlag)
-    }
-    created()
+    /* const created = async () => {}
+    created() */
 
     // methods
     /**
@@ -91,16 +80,22 @@ export default defineComponent({
      * @param {{id: number, key: string, value: string}}
      * @return {void}
      */
-    const catchBlurEventHandler = (event: {
+    const catchBlurEventHandler = async (event: {
       id: number
       key: string
       value: boolean
     }) => {
-      membersService.updateTextRequestHandler(
+      inversionFlag(loadingFlag)
+      const response = await membersService.updateMembersTextRequest(
         event.id,
         event.key as MembersTextKeys,
         authApp.getHeaderOptions()
       )
+
+      if (response.status !== 200) {
+        toast.add(membersService.getToastData())
+      }
+      inversionFlag(loadingFlag)
     }
 
     /**

@@ -20,7 +20,7 @@ export const getAuthUserInfo = async (
 ): Promise<ServerRequestType> => {
   axios.defaults.withCredentials = true
   return await axios
-    .get(config.endpoint.authinfo.AUTH_INFO, { headers: options.headers })
+    .get(config.endpoint.authinfo.authInfomation, { headers: options.headers })
     .then((response: AxiosResponse<any>) => {
       return { data: response.data, status: response.status }
     })

@@ -152,15 +152,20 @@ export const useState = () => {
 
   /**
    * run update text request.
-   * @param {BaseAddHeaderResponse} header
+   * @param {number} id
+   * @param {string} key
+   * @param {AuthAppHeaderOptions} options
    * @return {void}
    */
   const updateMembersTextRequest = async (
+    id: number,
+    key: MembersTextKeys,
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
+    const url = config.endpoint.members.member.replace(/:id/g, String(id))
     return await axios
-      .patch(config.endpoint.members.MEMBERS, { headers: options.headers })
+      .patch(url, {}, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
         return { data: response.data.data, status: response.status }
       })
@@ -179,22 +184,6 @@ export const useState = () => {
       .finally(() => {
         options.callback()
       })
-  }
-
-  /**
-   * update memebers name
-   * @param {number} id
-   * @param {string} key
-   * @param {AuthAppHeaderOptions} options
-   * @return {void}
-   */
-  const updateTextRequestHandler = async (
-    id: number,
-    key: MembersTextKeys,
-    options: AuthAppHeaderOptions
-  ) => {
-    // state.members.find((member) => member.id === id)![key] = value
-    return await updateMembersTextRequest(options)
   }
 
   /**
@@ -222,7 +211,7 @@ export const useState = () => {
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
-      .get(config.endpoint.members.MEMBERS, { headers: options.headers })
+      .get(config.endpoint.members.members, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
         // メンバーの設定
         setMembers(response.data.data)
@@ -254,7 +243,6 @@ export const useState = () => {
     resetState,
     updateMembersTextValue,
     updateMembersTextRequest,
-    updateTextRequestHandler,
     updateMembersRole,
     getMembersData
   }

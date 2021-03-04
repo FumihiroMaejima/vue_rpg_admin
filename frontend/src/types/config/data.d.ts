@@ -28,12 +28,13 @@ export type EndpointType = {
 
 export type AuthInfoServiceEndipont = {
   [key: string]: string
-  AUTH_INFO: string
+  authInfomation: string
 }
 
 export type MembersServiceEndipont = {
   [key: string]: string
-  MEMBERS: string
+  members: string
+  member: string
 }
 
 export type TableColumnSetting<T = any> = {
