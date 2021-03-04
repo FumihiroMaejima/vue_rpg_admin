@@ -5,7 +5,7 @@
       :columnOptions="columnOptions"
       :editable="true"
       @update-text="updateTextValue"
-      @blur-text="updateTextValue"
+      @blur-text="catchBlurEventHandler"
       @update-select="updateSelectValue"
     />
   </div>
@@ -87,6 +87,23 @@ export default defineComponent({
     }
 
     /**
+     * catch update text event
+     * @param {{id: number, key: string, value: string}}
+     * @return {void}
+     */
+    const catchBlurEventHandler = (event: {
+      id: number
+      key: string
+      value: boolean
+    }) => {
+      membersService.updateTextRequestHandler(
+        event.id,
+        event.key as MembersTextKeys,
+        authApp.getHeaderOptions()
+      )
+    }
+
+    /**
      * catch update select event
      * @param {{id: number, key: string, value: number}}
      * @return {void}
@@ -106,6 +123,7 @@ export default defineComponent({
     return {
       members,
       updateTextValue,
+      catchBlurEventHandler,
       updateSelectValue,
       roleItems,
       columnOptions

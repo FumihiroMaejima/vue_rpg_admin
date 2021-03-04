@@ -122,6 +122,53 @@ export const useState = () => {
   }
 
   /**
+   * run update text request.
+   * @param {BaseAddHeaderResponse} header
+   * @return {void}
+   */
+  const updateMembersTextRequest = async (
+    options: AuthAppHeaderOptions
+  ): Promise<ServerRequestType> => {
+    axios.defaults.withCredentials = true
+    return await axios
+      .patch(config.endpoint.members.MEMBERS, { headers: options.headers })
+      .then((response: AxiosResponse<any>) => {
+        return { data: response.data.data, status: response.status }
+      })
+      .catch((error: AxiosError<any>) => {
+        // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
+        /* setToastData(
+          'error',
+          'メンバー情報更新失敗エラー',
+          'メンバー情報の更新に失敗しました。'
+        ) */
+        return {
+          data: error,
+          status: error.response ? error.response.status : 500
+        }
+      })
+      .finally(() => {
+        options.callback()
+      })
+  }
+
+  /**
+   * update memebers name
+   * @param {number} id
+   * @param {string} key
+   * @param {AuthAppHeaderOptions} options
+   * @return {void}
+   */
+  const updateTextRequestHandler = (
+    id: number,
+    key: MembersTextKeys,
+    options: AuthAppHeaderOptions
+  ) => {
+    // state.members.find((member) => member.id === id)![key] = value
+    updateMembersTextRequest(options)
+  }
+
+  /**
    * update memebers role id
    * @param {number} id
    * @param {string} key
@@ -226,6 +273,8 @@ export const useState = () => {
     updateAnswered,
     updateClicked,
     updateMembersTextValue,
+    updateMembersTextRequest,
+    updateTextRequestHandler,
     updateMembersRole,
     insertMembers,
     resetState,

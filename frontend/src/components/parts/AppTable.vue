@@ -32,7 +32,13 @@
           <InputText
             type="text"
             :modelValue="slotProps.data[slotProps.column.props.field]"
-            @blur="catchTextBlurEvent($event, col.field, slotProps.data[col.identifier])"
+            @blur="
+              catchTextBlurEvent(
+                $event,
+                col.field,
+                slotProps.data[col.identifier]
+              )
+            "
             @update:modelValue="
               catchTextChange($event, col.field, slotProps.data[col.identifier])
             "
