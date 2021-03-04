@@ -32,6 +32,7 @@
           <InputText
             type="text"
             :modelValue="slotProps.data[slotProps.column.props.field]"
+            @blur="catchTextBlurEvent($event, col.field, slotProps.data[col.identifier])"
             @update:modelValue="
               catchTextChange($event, col.field, slotProps.data[col.identifier])
             "
@@ -139,18 +140,31 @@ export default defineComponent({
     /**
      * catch update text event
      * @param {string} value
+     * @param {string} key
      * @param {number} id
-     * @return {{id: number, value: string}}
+     * @return {{id: number, key: string, value: string}}
      */
     const catchTextChange = (value: string, key: string, id: number) => {
       context.emit('update-text', { id, key, value })
     }
 
     /**
+     * catch update text event
+     * @param {Event} event
+     * @param {string} key
+     * @param {number} id
+     * @return {{id: number, key: string, value: boolean}}
+     */
+    const catchTextBlurEvent = (event: Event, key: string, id: number) => {
+      context.emit('blur-text', { id, key, value: event.returnValue })
+    }
+
+    /**
      * catch update select event
      * @param {{ originalEvent: Event; value: string | number }} event
      * @param {number} id
-     * @return {{id: number, value: string | null}}
+     * @param {string} key
+     * @return {{id: number, key: string, value: string | null}}
      */
     const catchSelectChange = (
       event: { originalEvent: Event; value: string | number },
@@ -159,7 +173,9 @@ export default defineComponent({
     ) => {
       context.emit('update-select', { id, key, value: event.value })
     }
+
     return {
+      catchTextBlurEvent,
       catchTextChange,
       catchSelectChange,
       catchAppInputEvent

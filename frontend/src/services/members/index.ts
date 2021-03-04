@@ -109,10 +109,11 @@ export const useState = () => {
   /**
    * update memebers name
    * @param {number} id
+   * @param {string} key
    * @param {string} value
    * @return {void}
    */
-  const updateMembersName = (
+  const updateMembersTextValue = (
     id: number,
     key: MembersTextKeys,
     value: string
@@ -123,6 +124,7 @@ export const useState = () => {
   /**
    * update memebers role id
    * @param {number} id
+   * @param {string} key
    * @param {number} value
    * @return {void}
    */
@@ -223,7 +225,7 @@ export const useState = () => {
     updateName,
     updateAnswered,
     updateClicked,
-    updateMembersName,
+    updateMembersTextValue,
     updateMembersRole,
     insertMembers,
     resetState,

@@ -5,6 +5,7 @@
       :columnOptions="columnOptions"
       :editable="true"
       @update-text="updateTextValue"
+      @blur-text="updateTextValue"
       @update-select="updateSelectValue"
     />
   </div>
@@ -70,7 +71,7 @@ export default defineComponent({
     // methods
     /**
      * catch update text event
-     * @param {{id: number, value: string}}
+     * @param {{id: number, key: string, value: string}}
      * @return {void}
      */
     const updateTextValue = (event: {
@@ -78,7 +79,7 @@ export default defineComponent({
       key: string
       value: string
     }) => {
-      membersService.updateMembersName(
+      membersService.updateMembersTextValue(
         event.id,
         event.key as MembersTextKeys,
         event.value
@@ -87,7 +88,7 @@ export default defineComponent({
 
     /**
      * catch update select event
-     * @param {{id: number, value: number}}
+     * @param {{id: number, key: string, value: number}}
      * @return {void}
      */
     const updateSelectValue = (event: {
