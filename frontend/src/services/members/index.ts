@@ -77,10 +77,6 @@ export type MembersSelectKeys = Exclude<MembersTypeKeys, MembersTextKeys | 'id'>
 
 export const useState = () => {
   const state = reactive({
-    name: 'test',
-    newname: '',
-    answered: false,
-    clicked: false,
     toast: { ...toastData },
     members: [] as MembersType[]
   })
@@ -91,19 +87,6 @@ export const useState = () => {
    */
   const getMembers = () => {
     return state.members
-  }
-
-  const updateName = (newname: string) => {
-    const randString = Math.random()
-      .toString(32)
-      .substring(2)
-    state.name = `${newname}_${randString}`
-  }
-  const updateAnswered = () => {
-    state.answered = !state.answered
-  }
-  const updateClicked = () => {
-    state.clicked = true
   }
 
   /**
@@ -197,10 +180,6 @@ export const useState = () => {
    * @return {void}
    */
   const resetState = () => {
-    state.name = 'test'
-    state.newname = ''
-    state.answered = false
-    state.clicked = false
     state.toast = { ...toastData }
     state.members = []
   }
@@ -269,9 +248,6 @@ export const useState = () => {
   return {
     state,
     getMembers,
-    updateName,
-    updateAnswered,
-    updateClicked,
     updateMembersTextValue,
     updateMembersTextRequest,
     updateTextRequestHandler,
