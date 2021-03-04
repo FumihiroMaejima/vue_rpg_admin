@@ -82,11 +82,57 @@ export const useState = () => {
   })
 
   /**
+   * get toast
+   * @return {ToastData} state.toast
+   */
+  const getToastData = () => {
+    return state.toast
+  }
+
+  /**
    * return members data
    * @return {MembersType[]} state.members
    */
   const getMembers = () => {
     return state.members
+  }
+
+  /**
+   * set toast data.
+   * @param {string} severity
+   * @param {string} summary
+   * @param {string} detail
+   * @param {number} life
+   * @return {void}
+   */
+  const setToastData = (
+    severity = 'success',
+    summary = 'summary',
+    detail = 'detail',
+    life = 5000
+  ) => {
+    state.toast.severity = severity
+    state.toast.summary = summary
+    state.toast.detail = detail
+    state.toast.life = life
+  }
+
+  /**
+   * insert members data to state
+   * @param {MembersType[]} value
+   * @return {void}
+   */
+  const setMembers = (value: MembersType[]) => {
+    state.members = value
+  }
+
+  /**
+   * set initial data of state
+   * @return {void}
+   */
+  const resetState = () => {
+    state.toast = { ...toastData }
+    state.members = []
   }
 
   /**
@@ -120,11 +166,11 @@ export const useState = () => {
       })
       .catch((error: AxiosError<any>) => {
         // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
-        /* setToastData(
+        setToastData(
           'error',
           'メンバー情報更新失敗エラー',
           'メンバー情報の更新に失敗しました。'
-        ) */
+        )
         return {
           data: error,
           status: error.response ? error.response.status : 500
@@ -142,13 +188,13 @@ export const useState = () => {
    * @param {AuthAppHeaderOptions} options
    * @return {void}
    */
-  const updateTextRequestHandler = (
+  const updateTextRequestHandler = async (
     id: number,
     key: MembersTextKeys,
     options: AuthAppHeaderOptions
   ) => {
     // state.members.find((member) => member.id === id)![key] = value
-    updateMembersTextRequest(options)
+    return await updateMembersTextRequest(options)
   }
 
   /**
@@ -167,52 +213,6 @@ export const useState = () => {
   }
 
   /**
-   * insert members data to state
-   * @param {MembersType[]} value
-   * @return {void}
-   */
-  const insertMembers = (value: MembersType[]) => {
-    state.members = value
-  }
-
-  /**
-   * set initial data of state
-   * @return {void}
-   */
-  const resetState = () => {
-    state.toast = { ...toastData }
-    state.members = []
-  }
-
-  /**
-   * set toast data.
-   * @param {string} severity
-   * @param {string} summary
-   * @param {string} detail
-   * @param {number} life
-   * @return {void}
-   */
-  const setToastData = (
-    severity = 'success',
-    summary = 'summary',
-    detail = 'detail',
-    life = 5000
-  ) => {
-    state.toast.severity = severity
-    state.toast.summary = summary
-    state.toast.detail = detail
-    state.toast.life = life
-  }
-
-  /**
-   * get toast
-   * @return {ToastData} state.toast
-   */
-  const getToastData = () => {
-    return state.toast
-  }
-
-  /**
    * get auth user info.
    * @param {BaseAddHeaderResponse} header
    * @return {void}
@@ -225,7 +225,7 @@ export const useState = () => {
       .get(config.endpoint.members.MEMBERS, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
         // メンバーの設定
-        insertMembers(response.data.data)
+        setMembers(response.data.data)
         return { data: response.data.data, status: response.status }
       })
       .catch((error: AxiosError<any>) => {
@@ -248,14 +248,14 @@ export const useState = () => {
   return {
     state,
     getMembers,
+    getToastData,
+    setToastData,
+    setMembers,
+    resetState,
     updateMembersTextValue,
     updateMembersTextRequest,
     updateTextRequestHandler,
     updateMembersRole,
-    insertMembers,
-    resetState,
-    setToastData,
-    getToastData,
     getMembersData
   }
 }
