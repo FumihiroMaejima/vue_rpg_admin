@@ -57,6 +57,10 @@ export default defineComponent({
     // created
     const created = async () => {
       inversionFlag(loadingFlag)
+
+      /* const test = await membersService.getRoles(
+        authApp.getHeaderOptions()
+      ) */
       const response = await membersService.getMembersData(
         authApp.getHeaderOptions()
       )

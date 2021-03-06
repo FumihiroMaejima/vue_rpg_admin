@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admins;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Services\MembersService;
+use App\Services\RolesService;
 
 class RolesController extends Controller
 {
@@ -16,10 +16,10 @@ class RolesController extends Controller
      *
      * @return void
      */
-    public function __construct(MembersService $membersService)
+    public function __construct(RolesService $rolesService)
     {
         $this->middleware('auth:api-admins');
-        $this->service = $membersService;
+        $this->service = $rolesService;
     }
 
     /**
@@ -34,7 +34,7 @@ class RolesController extends Controller
         $time_start = microtime(true);
 
         // サービスの実行
-        $response = $this->service->getAdmins($request);
+        $response = $this->service->getRoles($request);
 
         $time = microtime(true) - $time_start;
         // PHPによって割り当てられたメモリの最大値の取得

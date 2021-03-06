@@ -16,7 +16,7 @@ class RolesService
         $this->rolesRepository = $rolesRepository;
     }
 
-    public function getAdmins(Request $request)
+    public function getRoles(Request $request)
     {
         $data = $this->rolesRepository->getRolesList();
         // サービスコンテナからリソースクラスインスタンスを依存解決

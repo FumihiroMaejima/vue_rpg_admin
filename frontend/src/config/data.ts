@@ -17,8 +17,8 @@ module.exports = {
     },
     members: {
       members: '/api/admin/members',
-      roles: '/api/admin/roles',
-      member: '/api/admin/member/:id'
+      member: '/api/admin/member/:id',
+      roles: '/api/admin/roles'
     }
   },
   headerMenuContents: [

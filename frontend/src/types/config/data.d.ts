@@ -35,6 +35,7 @@ export type MembersServiceEndipont = {
   [key: string]: string
   members: string
   member: string
+  roles: string
 }
 
 export type TableColumnSetting<T = any> = {
