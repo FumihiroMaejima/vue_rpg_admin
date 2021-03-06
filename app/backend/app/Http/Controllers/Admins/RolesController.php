@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Services\MembersService;
 
-class MembersController extends Controller
+class RolesController extends Controller
 {
     private $service;
 
     /**
-     * Create a new MembersController instance.
+     * Create a new RolesController instance.
      *
      * @return void
      */

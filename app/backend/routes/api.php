@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admins\MembersController;
 use App\Http\Controllers\Admins\AuthController as AdminAuthController;
 use App\Http\Controllers\Admins\AuthInfoController;
+use App\Http\Controllers\Admins\RolesController;
 use App\Http\Controllers\Users\AuthController;
 
 /*
@@ -50,6 +51,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:api-admins'], function 
 
     // members
     Route::get('/members', [MembersController::class, 'index']);
+
+    // roles
+    Route::get('/roles', [RolesController::class, 'index']);
 });
 
 /*
