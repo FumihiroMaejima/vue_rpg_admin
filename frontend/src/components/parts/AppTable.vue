@@ -135,13 +135,6 @@ export default defineComponent({
   },
   setup(prpops: Props, context: SetupContext) {
     // methods
-    /**
-     * catch app-input event
-     * @return {void}
-     */
-    const catchAppInputEvent = (event: any) => {
-      console.log('catchAppInputEvent: ' + JSON.stringify(event, null, 2))
-    }
 
     /**
      * catch update text event
@@ -183,8 +176,7 @@ export default defineComponent({
     return {
       catchTextBlurEvent,
       catchTextChange,
-      catchSelectChange,
-      catchAppInputEvent
+      catchSelectChange
     }
   }
 })

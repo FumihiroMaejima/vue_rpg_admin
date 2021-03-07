@@ -45,15 +45,15 @@ class RolesRepository implements RolesRepositoryInterface
         // admins
         $roles = $this->model->getTable();
         // admins_roles
-        $adminsRoles = $this->adminsRolesModel->getTable();
+        // $adminsRoles = $this->adminsRolesModel->getTable();
 
-        $selectColumn = [
-            $roles.'.id', $roles.'.name'
-        ];
+        /* $selectColumn = [
+            $roles . '.name as text', $roles. '.id as roleId'
+        ]; */
 
         // collection
         return DB::table($roles)
-            ->select($selectColumn)
+            ->select([$roles . '.name as text', $roles . '.id as roleId'])
             // ->leftJoin($adminsRoles, $roles.'.id', '=', $adminsRoles.'.admin_id')
             ->get();
     }
