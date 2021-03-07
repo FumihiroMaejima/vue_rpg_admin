@@ -8,20 +8,20 @@ import {
   AuthAppHeaderOptions
 } from '@/types'
 import { TableColumnSetting } from '@/types/config/data'
-import { ToastData } from '@/types/components/index'
+import { ToastData, SelectBoxType } from '@/types/components/index'
 // import AuthApp from '@/plugins/auth/authApp'
 
 const config: IAppConfig = require('@/config/data')
 
-export const roleItems = [
-  { text: 'role1', roleId: 1 },
-  { text: 'role2', roleId: 2 },
-  { text: 'role3', roleId: 3 },
-  { text: 'role4', roleId: 4 },
-  { text: 'role5', roleId: 5 }
+export const roleItems: SelectBoxType[] = [
+  { text: 'role1', value: 1 },
+  { text: 'role2', value: 2 },
+  { text: 'role3', value: 3 },
+  { text: 'role4', value: 4 },
+  { text: 'role5', value: 5 }
 ]
 
-export const tableSetting: TableColumnSetting[] = [
+export const tableSetting: TableColumnSetting<SelectBoxType>[] = [
   {
     identifier: 'id',
     field: 'id',
@@ -51,7 +51,7 @@ export const tableSetting: TableColumnSetting[] = [
     type: 'select',
     items: roleItems,
     itemText: 'text',
-    itemValue: 'roleId'
+    itemValue: 'value'
   }
 ]
 

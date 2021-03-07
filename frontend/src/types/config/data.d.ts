@@ -38,13 +38,23 @@ export type MembersServiceEndipont = {
   roles: string
 }
 
-export type TableColumnSetting<T = any> = {
+export type TableTextColumn = {
   identifier: string
   field: string
   header: string
-  type: 'text' | 'select'
+  type: 'text'
   editable: boolean
-  items?: T[]
-  itemText?: string
-  itemValue?: string
 }
+
+export type TableSelectColumn<T = any> = {
+  identifier: string
+  field: string
+  header: string
+  type: 'select'
+  editable: boolean
+  items: T[]
+  itemText: string
+  itemValue: string
+}
+
+export type TableColumnSetting<T = any> = TableTextColumn | TableSelectColumn<T>
