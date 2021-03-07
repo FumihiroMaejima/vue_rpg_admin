@@ -58,13 +58,13 @@ export default defineComponent({
     const created = async () => {
       inversionFlag(loadingFlag)
 
-      const test = await membersService.getRoles(
+      const roleListData = await membersService.getRoles(
         authApp.getHeaderOptions()
       )
       const response = await membersService.getMembersData(
         authApp.getHeaderOptions()
       )
-      if (response.status !== 200) {
+      if (response.status !== 200 || roleListData.status !== 200) {
         toast.add(membersService.getToastData())
       }
       /* console.log(

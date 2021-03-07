@@ -20,6 +20,7 @@ import {
   reactive,
   computed,
   provide,
+  watch,
   inject
 } from 'vue'
 import AppTable from '@/components/parts/AppTable.vue'
@@ -49,6 +50,16 @@ export default defineComponent({
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
     const membersService = inject(MembersStateKey) as MembersStateType
+
+    watch(
+      () => membersService.state.roles,
+      (newValue, old) => {
+        if (columnOptions[3].type === 'select') {
+          columnOptions[3].items = [...newValue]
+        }
+        /* ... */
+      }
+    )
 
     // computed
     const members = computed((): MembersType[] => membersService.state.members)

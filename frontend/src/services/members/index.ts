@@ -49,7 +49,8 @@ export const tableSetting: TableColumnSetting<SelectBoxType>[] = [
     header: 'Role',
     editable: true,
     type: 'select',
-    items: roleItems,
+    // items: roleItems,
+    items: [] as SelectBoxType[],
     itemText: 'text',
     itemValue: 'value'
   }
@@ -78,6 +79,7 @@ export type MembersSelectKeys = Exclude<MembersTypeKeys, MembersTextKeys | 'id'>
 export const useState = () => {
   const state = reactive({
     toast: { ...toastData },
+    roles: [] as SelectBoxType[],
     members: [] as MembersType[]
   })
 
@@ -118,6 +120,15 @@ export const useState = () => {
   }
 
   /**
+   * set role list
+   * @param {SelectBoxType[]} value
+   * @return {void}
+   */
+  const setRoles = (value: SelectBoxType[]) => {
+    state.roles = value
+  }
+
+  /**
    * insert members data to state
    * @param {MembersType[]} value
    * @return {void}
@@ -132,6 +143,7 @@ export const useState = () => {
    */
   const resetState = () => {
     state.toast = { ...toastData }
+    state.roles = []
     state.members = []
   }
 
@@ -241,7 +253,8 @@ export const useState = () => {
     return await axios
       .get(config.endpoint.members.roles, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
-        // メンバーの設定
+        // 権限リストの設定
+        setRoles(response.data.data)
         // setMembers(response.data.data)
         return { data: response.data.data, status: response.status }
       })
@@ -267,6 +280,7 @@ export const useState = () => {
     getMembers,
     getToastData,
     setToastData,
+    setRoles,
     setMembers,
     resetState,
     updateMembersTextValue,

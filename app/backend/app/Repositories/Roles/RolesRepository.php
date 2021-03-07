@@ -53,7 +53,7 @@ class RolesRepository implements RolesRepositoryInterface
 
         // collection
         return DB::table($roles)
-            ->select([$roles . '.name as text', $roles . '.id as roleId'])
+            ->select([$roles . '.name as text', $roles . '.id as value'])
             // ->leftJoin($adminsRoles, $roles.'.id', '=', $adminsRoles.'.admin_id')
             ->get();
     }
