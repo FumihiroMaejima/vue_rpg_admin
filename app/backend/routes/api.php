@@ -50,10 +50,16 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:api-admins'], function 
     Route::get('/authinfo', [AuthInfoController::class, 'index']);
 
     // members
-    Route::get('/members', [MembersController::class, 'index']);
+    Route::group(['prefix' => 'members'], function () {
+        Route::get('/', [MembersController::class, 'index']);
+        Route::patch('/member/{id}', [MembersController::class, 'update']);
+    });
 
     // roles
-    Route::get('/roles', [RolesController::class, 'index']);
+    // members
+    Route::group(['prefix' => 'roles'], function () {
+        Route::get('/', [RolesController::class, 'index']);
+    });
 });
 
 /*

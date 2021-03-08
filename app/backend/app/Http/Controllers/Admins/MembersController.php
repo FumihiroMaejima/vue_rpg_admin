@@ -96,7 +96,23 @@ class MembersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // 処理速度の計測
+        $time_start = microtime(true);
+
+        // $data = $request->all();
+        // Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . '$request->all();: ' . json_encode($request->all()));
+        // Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . '$request->keys();: ' . json_encode($request->keys('name')));
+        // Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . '$request->input();: ' . json_encode($request->input('name')));
+
+        // サービスの実行
+        $response = $this->service->updateMemberData($request, $id);
+
+        $time = microtime(true) - $time_start;
+        // PHPによって割り当てられたメモリの最大値の取得
+        Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'peak usage memory size: ' . (string)memory_get_peak_usage());
+        // サービス処理の実行時間の取得
+        Log::debug(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'service execution time: ' . (string)$time);
+        return $response;
     }
 
     /**

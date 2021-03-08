@@ -17,7 +17,7 @@ module.exports = {
     },
     members: {
       members: '/api/admin/members',
-      member: '/api/admin/member/:id',
+      member: '/api/admin/members/member/:id',
       roles: '/api/admin/roles'
     }
   },

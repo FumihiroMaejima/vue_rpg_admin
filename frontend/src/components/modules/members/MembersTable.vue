@@ -51,6 +51,14 @@ export default defineComponent({
     const authApp = inject(AuthAppKey) as AuthApp
     const membersService = inject(MembersStateKey) as MembersStateType
 
+    // computed
+    const members = computed((): MembersType[] => membersService.state.members)
+
+    // created
+    /* const created = async () => {}
+    created() */
+
+    // watch
     watch(
       () => membersService.state.roles,
       (newValue, old) => {
@@ -60,13 +68,6 @@ export default defineComponent({
         /* ... */
       }
     )
-
-    // computed
-    const members = computed((): MembersType[] => membersService.state.members)
-
-    // created
-    /* const created = async () => {}
-    created() */
 
     // methods
     /**

@@ -174,10 +174,23 @@ export const useState = () => {
     key: MembersTextKeys,
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
+    const index = state.members.findIndex((member) => member.id === id)
+    if (index === -1) {
+      setToastData(
+        'error',
+        'メンバー情報更新失敗エラー',
+        '存在しないメンバーです。'
+      )
+      return {
+        data: {},
+        status: 404
+      }
+    }
+
     axios.defaults.withCredentials = true
     const url = config.endpoint.members.member.replace(/:id/g, String(id))
     return await axios
-      .patch(url, {}, { headers: options.headers })
+      .patch(url, { ...state.members[index] }, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
         return { data: response.data.data, status: response.status }
       })

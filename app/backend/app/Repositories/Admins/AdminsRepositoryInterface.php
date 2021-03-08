@@ -9,4 +9,6 @@ interface AdminsRepositoryInterface
     public function getAdmins(): Collection;
 
     public function getAdminsList(): Collection;
+
+    public function updateAdminData(): Collection;
 }

@@ -10,17 +10,15 @@ use Illuminate\Support\Collection;
 class RolesRepository implements RolesRepositoryInterface
 {
     protected $model;
-    protected $adminsRolesModel;
 
     /**
      * Create a new AuthInfoController instance.
      *
      * @return void
      */
-    public function __construct(Role $model, AdminsRoles $adminsRolesModel)
+    public function __construct(Role $model)
     {
         $this->model = $model;
-        $this->adminsRolesModel = $adminsRolesModel;
     }
 
     /**
@@ -44,17 +42,10 @@ class RolesRepository implements RolesRepositoryInterface
     {
         // admins
         $roles = $this->model->getTable();
-        // admins_roles
-        // $adminsRoles = $this->adminsRolesModel->getTable();
-
-        /* $selectColumn = [
-            $roles . '.name as text', $roles. '.id as roleId'
-        ]; */
 
         // collection
         return DB::table($roles)
             ->select([$roles . '.name as text', $roles . '.id as value'])
-            // ->leftJoin($adminsRoles, $roles.'.id', '=', $adminsRoles.'.admin_id')
             ->get();
     }
 }

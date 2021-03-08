@@ -47,13 +47,13 @@ class AdminsRepository implements AdminsRepositoryInterface
         // admins_roles
         $adminsRoles = $this->adminsRolesModel->getTable();
 
-        $selectColumn = [
+        /* $selectColumn = [
             $admins.'.id', $admins.'.name', $admins.'.email', $adminsRoles.'.role_id as roleId'
-        ];
+        ]; */
 
         // collection
         return DB::table($admins)
-            ->select($selectColumn)
+            ->select([$admins . '.id', $admins . '.name', $admins . '.email', $adminsRoles . '.role_id as roleId'])
             ->leftJoin($adminsRoles, $admins.'.id', '=', $adminsRoles.'.admin_id')
             ->get();
 
@@ -77,5 +77,27 @@ class AdminsRepository implements AdminsRepositoryInterface
             ->get();
         $log = DB::getQueryLog();
         */
+    }
+
+    /**
+     * update Admin data.
+     *
+     * @return Collection
+     */
+    public function updateAdminData(): Collection
+    {
+        // admins
+        $admins = $this->model->getTable();
+        // admins_roles
+        $adminsRoles = $this->adminsRolesModel->getTable();
+        $query = 'UPDATE' . $admins . 'SET votes = 100 where name = ?';
+
+        DB::update($query);
+
+        // collection
+        return DB::table($admins)
+            ->select([$admins . '.id', $admins . '.name', $admins . '.email', $adminsRoles . '.role_id as roleId'])
+            ->leftJoin($adminsRoles, $admins . '.id', '=', $adminsRoles . '.admin_id')
+            ->get();
     }
 }
