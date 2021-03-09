@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Repositories\Admins\AdminsRepositoryInterface;
 use App\Http\Resources\AdminsCollection;
 use App\Http\Resources\AdminsResource;
+use App\Http\Resources\AdminUpdateResource;
 use Illuminate\Support\Facades\Log;
 use Exception;
 
@@ -37,18 +38,20 @@ class MembersService
         DB::beginTransaction();
         try{
             Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'request all: ' . json_encode($request->all()));
-            $data = $this->adminsRepository->updateAdminData($request, $id);
+
+            $resource = app()->make(AdminUpdateResource::class, ['resource' => $request])->toArray($request);
+
+            $data = $this->adminsRepository->updateAdminData($resource, $id);
             Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'data: ' . json_encode($data));
 
             DB::commit();
 
-            return response()->json(['message' => $data > 0 ? 'success' : 'not modified'], $data > 0 ? 200 : 304);
+            return response()->json(['message' => $data > 0 ? 'success' : 'not modified', 'status' => $data > 0 ? 200 : 304], $data > 0 ? 200 : 304);
         }
         catch(Exception $e) {
             Log::error(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'data: ' . json_encode($e->getMessage()));
             DB::rollback();
             abort(500);
         }
-        // return response()->json(['message' => 'success'], 200);
     }
 }

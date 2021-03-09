@@ -49,10 +49,6 @@ class AdminsRepository implements AdminsRepositoryInterface
         // admins_roles
         $adminsRoles = $this->adminsRolesModel->getTable();
 
-        /* $selectColumn = [
-            $admins.'.id', $admins.'.name', $admins.'.email', $adminsRoles.'.role_id as roleId'
-        ]; */
-
         // collection
         return DB::table($admins)
             ->select([$admins . '.id', $admins . '.name', $admins . '.email', $adminsRoles . '.role_id as roleId'])
@@ -86,9 +82,18 @@ class AdminsRepository implements AdminsRepositoryInterface
      *
      * @return int
      */
-    public function updateAdminData(Request $request, int $id): int
+    public function updateAdminData(array $resource, int $id): int
     {
-        $keys = ['name', 'email'];
+        // admins
+        $admins = $this->model->getTable();
+
+        // Query Builderのupdate
+        return DB::table($admins)
+            // ->whereIn('id', [$id])
+            ->where('id', '=', [$id])
+            ->update($resource);
+
+        /* $keys = ['name', 'email'];
         $template = [
             $keys[0] => '\'' . $request->input($keys[0]) . '\'',
             $keys[1] => '\'' . $request->input($keys[1]) . '\''
@@ -101,10 +106,9 @@ class AdminsRepository implements AdminsRepositoryInterface
         }
 
         Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'bindings: ' . json_encode($bindings));
-        // admins
-        $admins = $this->model->getTable();
         $query = 'UPDATE ' . $admins . $bindings . ' where id = ?';
 
-        return DB::update($query, [$id]);
+        // Facadeのupdate
+        return DB::update($query, [$id]); */
     }
 }
