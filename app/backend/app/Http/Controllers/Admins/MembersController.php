@@ -94,15 +94,10 @@ class MembersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         // 処理速度の計測
         $time_start = microtime(true);
-
-        // $data = $request->all();
-        // Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . '$request->all();: ' . json_encode($request->all()));
-        // Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . '$request->keys();: ' . json_encode($request->keys('name')));
-        // Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . '$request->input();: ' . json_encode($request->input('name')));
 
         // サービスの実行
         $response = $this->service->updateMemberData($request, $id);

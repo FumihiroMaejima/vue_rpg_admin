@@ -4,8 +4,10 @@ namespace App\Repositories\Admins;
 
 use App\Models\Admins;
 use App\Models\AdminsRoles;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class AdminsRepository implements AdminsRepositoryInterface
 {
@@ -82,22 +84,27 @@ class AdminsRepository implements AdminsRepositoryInterface
     /**
      * update Admin data.
      *
-     * @return Collection
+     * @return int
      */
-    public function updateAdminData(): Collection
+    public function updateAdminData(Request $request, int $id): int
     {
+        $keys = ['name', 'email'];
+        $template = [
+            $keys[0] => '\'' . $request->input($keys[0]) . '\'',
+            $keys[1] => '\'' . $request->input($keys[1]) . '\''
+        ];
+
+        $bindings = ' SET ';
+        foreach ($template as $key => $item) {
+            $suffix = $key !== $keys[1] ? ', ' : '';
+            $bindings = $bindings . $key . ' = ' . $item . $suffix;
+        }
+
+        Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'bindings: ' . json_encode($bindings));
         // admins
         $admins = $this->model->getTable();
-        // admins_roles
-        $adminsRoles = $this->adminsRolesModel->getTable();
-        $query = 'UPDATE' . $admins . 'SET votes = 100 where name = ?';
+        $query = 'UPDATE ' . $admins . $bindings . ' where id = ?';
 
-        DB::update($query);
-
-        // collection
-        return DB::table($admins)
-            ->select([$admins . '.id', $admins . '.name', $admins . '.email', $adminsRoles . '.role_id as roleId'])
-            ->leftJoin($adminsRoles, $admins . '.id', '=', $adminsRoles . '.admin_id')
-            ->get();
+        return DB::update($query, [$id]);
     }
 }

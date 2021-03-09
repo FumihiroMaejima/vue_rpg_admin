@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Admins;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 interface AdminsRepositoryInterface
@@ -10,5 +11,5 @@ interface AdminsRepositoryInterface
 
     public function getAdminsList(): Collection;
 
-    public function updateAdminData(): Collection;
+    public function updateAdminData(Request $request, int $id): int;
 }
