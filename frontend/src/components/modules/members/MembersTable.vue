@@ -104,7 +104,7 @@ export default defineComponent({
         authApp.getHeaderOptions()
       )
 
-      if (response.status !== 200) {
+      if (response.status !== 304) {
         toast.add(membersService.getToastData())
       }
       inversionFlag(loadingFlag)

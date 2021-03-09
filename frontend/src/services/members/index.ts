@@ -174,6 +174,7 @@ export const useState = () => {
     key: MembersTextKeys,
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
+    let result = { data: {}, status: 0 } as ServerRequestType
     const index = state.members.findIndex((member) => member.id === id)
     if (index === -1) {
       setToastData(
@@ -181,34 +182,44 @@ export const useState = () => {
         'メンバー情報更新失敗エラー',
         '存在しないメンバーです。'
       )
-      return {
-        data: {},
-        status: 404
-      }
+      result.status = 404
+      return result
+    }
+
+    const msg = {
+      severity: '',
+      summary: '',
+      detail: ''
     }
 
     axios.defaults.withCredentials = true
     const url = config.endpoint.members.member.replace(/:id/g, String(id))
-    return await axios
+    await axios
       .patch(url, { ...state.members[index] }, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
-        return { data: response.data.data, status: response.status }
+        msg.severity = 'success'
+        msg.summary = 'メンバー情報更新'
+        msg.detail = 'メンバー情報を更新しました。'
+
+        result = { data: response.data.data, status: response.status }
       })
       .catch((error: AxiosError<any>) => {
         // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
-        setToastData(
-          'error',
-          'メンバー情報更新失敗エラー',
-          'メンバー情報の更新に失敗しました。'
-        )
-        return {
+        msg.severity = 'error'
+        msg.summary = 'メンバー情報更新失敗エラー'
+        msg.detail = 'メンバー情報の更新に失敗しました。'
+
+        result = {
           data: error,
           status: error.response ? error.response.status : 500
         }
       })
       .finally(() => {
+        setToastData(msg.severity, msg.summary, msg.detail)
         options.callback()
       })
+
+    return result
   }
 
   /**
