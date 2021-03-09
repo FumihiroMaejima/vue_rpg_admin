@@ -759,6 +759,12 @@ php artisan make:resource TestCollection
 php artisan make:middleware TestMiddleWare
 ```
 
+### フォームリクエストの作成(バリデーションルール)
+
+```shell-session
+php artisan make:request TestPostRequest
+```
+
 ---
 # Swaggerの設定
 
