@@ -14,6 +14,7 @@ class MemberUpdateRequest extends FormRequest
     public function authorize()
     {
         // return false;
+        // $this->header('TEST-HEADER') === '';
         return true;
     }
 
@@ -25,7 +26,7 @@ class MemberUpdateRequest extends FormRequest
     protected function prepareForValidation()
     {
         // ルーティングで設定しているidパラメーターをリクエストデータとして設定する
-        $this->merge(['id' => $this->route('id')])
+        $this->merge(['id' => $this->route('id')]);
     }
 
     /**
@@ -36,7 +37,39 @@ class MemberUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required',
+            'email' => 'required|email:rfc'
+            // 'tel' => 'required|numeric|digits_between:8,11'
+            // 'tel' => 'required|regex:/^[0-9]{2,4}-[0-9]{2,4}-[0-9]{3,4}$/'
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'name.required' => ':attributeは必須項目です。',
+            'email.required' => ':attributeは必須項目です。',
+            'required' => '必須項目です。'
+            // 'email' => 'アルファベット半角で入力してください。'
+            // 'tel.regex' => '「000-0000-0000」の形式で入力してください。'
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'name' => '氏名',
+            'email' => 'メールアドレス',
         ];
     }
 }
