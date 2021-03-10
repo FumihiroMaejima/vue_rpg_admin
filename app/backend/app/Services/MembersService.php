@@ -10,6 +10,7 @@ use App\Http\Resources\AdminsCollection;
 use App\Http\Resources\AdminsResource;
 use App\Http\Resources\AdminUpdateResource;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\MemberUpdateRequest;
 use Exception;
 
 class MembersService
@@ -33,7 +34,14 @@ class MembersService
         // return response()->json($resource->toArray($request), 200);
     }
 
-    public function updateMemberData(Request $request, int $id)
+    /**
+     * update member data service
+     *
+     * @param  \App\Http\Requests\MemberUpdateRequest  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateMemberData(MemberUpdateRequest $request, int $id)
     {
         DB::beginTransaction();
         try{

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Services\MembersService;
+use App\Http\Requests\MemberUpdateRequest;
 
 class MembersController extends Controller
 {
@@ -90,11 +91,11 @@ class MembersController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\MemberUpdateRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(MemberUpdateRequest $request, int $id)
     {
         // 処理速度の計測
         $time_start = microtime(true);
