@@ -3,6 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Repositories\Roles\RolesRepositoryInterface;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Collection;
+use App\Models\Role;
 
 class MemberUpdateRequest extends FormRequest
 {
@@ -36,11 +40,16 @@ class MemberUpdateRequest extends FormRequest
      */
     public function rules()
     {
+        // ロールリストのidのみの配列を取得
+        /* $rolesCollection = app()->make(RolesRepositoryInterface::class)->getRolesList();
+        Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'collection pluck: ' . json_encode($rolesCollection->pluck('value'))); */
+        $roleModel = app()->make(Role::class);
+
         return [
             'id'     => 'required|integer',
             'name'   => 'required|string|between:1,50',
             'email'  => 'required|string|email:rfc|between:1,50',
-            'roleId' => 'required|integer'
+            'roleId' => 'required|integer|exists:' . $roleModel->getTable() . ',id',
             // 'tel' => 'required|numeric|digits_between:8,11'
             // 'tel' => 'required|regex:/^[0-9]{2,4}-[0-9]{2,4}-[0-9]{3,4}$/'
         ];
