@@ -37,8 +37,10 @@ class MemberUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'email' => 'required|email:rfc'
+            'id'     => 'required|integer',
+            'name'   => 'required|string|between:1,50',
+            'email'  => 'required|string|email:rfc|between:1,50',
+            'roleId' => 'required|integer'
             // 'tel' => 'required|numeric|digits_between:8,11'
             // 'tel' => 'required|regex:/^[0-9]{2,4}-[0-9]{2,4}-[0-9]{3,4}$/'
         ];
@@ -52,9 +54,11 @@ class MemberUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => ':attributeは必須項目です。',
-            'email.required' => ':attributeは必須項目です。',
-            'required' => '必須項目です。'
+            'id.numeric'  => ':attributeは整数で入力してください。',
+            'email.email' => ':attributeの形式が正しくありません。',
+            'required'    => ':attributeは必須項目です。',
+            'string'      => ':attributeは文字列を入力してください。',
+            'between'     => ':attributeは:min〜:max文字以内で入力してください。'
             // 'email' => 'アルファベット半角で入力してください。'
             // 'tel.regex' => '「000-0000-0000」の形式で入力してください。'
         ];
@@ -68,8 +72,10 @@ class MemberUpdateRequest extends FormRequest
     public function attributes()
     {
         return [
-            'name' => '氏名',
-            'email' => 'メールアドレス',
+            'id'     => 'id',
+            'name'   => '氏名',
+            'email'  => 'メールアドレス',
+            'roleId' => '権限'
         ];
     }
 }
