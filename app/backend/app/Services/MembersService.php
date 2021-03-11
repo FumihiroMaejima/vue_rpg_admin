@@ -9,6 +9,7 @@ use App\Repositories\Admins\AdminsRepositoryInterface;
 use App\Http\Resources\AdminsCollection;
 use App\Http\Resources\AdminsResource;
 use App\Http\Resources\AdminUpdateResource;
+use App\Http\Resources\AdminsRolesUpdateResource;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\MemberUpdateRequest;
 use Exception;
@@ -51,6 +52,10 @@ class MembersService
 
             $data = $this->adminsRepository->updateAdminData($resource, $id);
             Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'data: ' . json_encode($data));
+
+
+            $roleIdResource = app()->make(AdminsRolesUpdateResource::class, ['resource' => $request])->toArray($request);
+            Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'roleIdResource: ' . json_encode($roleIdResource));
 
             DB::commit();
 
