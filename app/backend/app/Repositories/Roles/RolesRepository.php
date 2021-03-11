@@ -45,7 +45,7 @@ class RolesRepository implements RolesRepositoryInterface
 
         // collection
         return DB::table($roles)
-            ->select([$roles . '.name as text', $roles . '.id as value'])
+            ->select([$roles . '.id', $roles . '.name'])
             ->get();
     }
 }

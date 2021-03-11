@@ -21,7 +21,12 @@ class RolesCollection extends ResourceCollection
         // 各itemは1レコードずつのデータを持つRolesResourceクラス
         foreach ($this->resource as $item) {
             // 各itemのresourceはstdClassオブジェクトの１レコード分のデータ
-            $response['data'][] = $item->resource;
+            $role = [
+                'text' => $item->resource->name,
+                'value' => $item->resource->id,
+            ];
+            // 多次元配列の中の連想配列を格納
+            $response['data'][] = $role;
         }
 
         return $response;

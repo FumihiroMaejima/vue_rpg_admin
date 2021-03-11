@@ -42,7 +42,7 @@ class MemberUpdateRequest extends FormRequest
     {
         // ロールリストのidのみの配列を取得
         /* $rolesCollection = app()->make(RolesRepositoryInterface::class)->getRolesList();
-        Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'collection pluck: ' . json_encode($rolesCollection->pluck('value'))); */
+        Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'collection pluck: ' . json_encode($rolesCollection->pluck('id'))); */
         $roleModel = app()->make(Role::class);
 
         return [
