@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Admins\AdminsRepositoryInterface;
+use App\Repositories\AdminsRoles\AdminsRolesRepositoryInterface;
 use App\Http\Resources\AdminsCollection;
 use App\Http\Resources\AdminsResource;
 use App\Http\Resources\AdminUpdateResource;
@@ -50,19 +51,24 @@ class MembersService
 
             $resource = app()->make(AdminUpdateResource::class, ['resource' => $request])->toArray($request);
 
-            $data = $this->adminsRepository->updateAdminData($resource, $id);
-            Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'data: ' . json_encode($data));
+            $updatedRowCount = $this->adminsRepository->updateAdminData($resource, $id);
+            Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'updatedRowCount: ' . json_encode($updatedRowCount));
 
-
+            // 権限情報の更新
             $roleIdResource = app()->make(AdminsRolesUpdateResource::class, ['resource' => $request])->toArray($request);
+            $updatedAdminsRolesRowCount = app()->make(AdminsRolesRepositoryInterface::class)->updateAdminsRoleData($roleIdResource, $id);
             Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'roleIdResource: ' . json_encode($roleIdResource));
+            Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'updated row: ' . json_encode($updatedAdminsRolesRowCount));
 
             DB::commit();
 
-            return response()->json(['message' => $data > 0 ? 'success' : 'not modified', 'status' => $data > 0 ? 200 : 304], $data > 0 ? 200 : 304);
+            // 更新されて以内場合は304
+            $status = ($updatedRowCount > 0 || $updatedAdminsRolesRowCount > 0) ? 200 : 304;
+
+            return response()->json(['message' => $updatedRowCount > 0 ? 'success' : 'not modified', 'status' => $status], $status);
         }
         catch(Exception $e) {
-            Log::error(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'data: ' . json_encode($e->getMessage()));
+            Log::error(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'message: ' . json_encode($e->getMessage()));
             DB::rollback();
             abort(500);
         }
