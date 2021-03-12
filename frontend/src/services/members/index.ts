@@ -169,9 +169,8 @@ export const useState = () => {
    * @param {AuthAppHeaderOptions} options
    * @return {void}
    */
-  const updateMembersTextRequest = async (
+  const updateMembersData = async (
     id: number,
-    key: MembersTextKeys,
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     let result = { data: {}, status: 0 } as ServerRequestType
@@ -308,7 +307,7 @@ export const useState = () => {
     setMembers,
     resetState,
     updateMembersTextValue,
-    updateMembersTextRequest,
+    updateMembersData,
     updateMembersRole,
     getMembersData,
     getRoles

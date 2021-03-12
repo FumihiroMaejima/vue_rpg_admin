@@ -98,9 +98,8 @@ export default defineComponent({
       value: boolean
     }) => {
       inversionFlag(loadingFlag)
-      const response = await membersService.updateMembersTextRequest(
+      const response = await membersService.updateMembersData(
         event.id,
-        event.key as MembersTextKeys,
         authApp.getHeaderOptions()
       )
 
@@ -115,7 +114,7 @@ export default defineComponent({
      * @param {{id: number, key: string, value: number}}
      * @return {void}
      */
-    const updateSelectValue = (event: {
+    const updateSelectValue = async (event: {
       id: number
       key: string
       value: number
@@ -125,6 +124,18 @@ export default defineComponent({
         event.key as MembersSelectKeys,
         event.value
       )
+
+      // サーバーへリクエスト
+      inversionFlag(loadingFlag)
+      const response = await membersService.updateMembersData(
+        event.id,
+        authApp.getHeaderOptions()
+      )
+
+      if (response.status !== 304) {
+        toast.add(membersService.getToastData())
+      }
+      inversionFlag(loadingFlag)
     }
 
     return {

@@ -19,7 +19,7 @@ class AdminsRolesRepository implements AdminsRolesRepositoryInterface
      *
      * @return void
      */
-    public function __construct(AdminsRoles $model,  Admins $adminsModel)
+    public function __construct(AdminsRoles $model, Admins $adminsModel)
     {
         $this->model = $model;
         $this->adminsModel = $adminsModel;

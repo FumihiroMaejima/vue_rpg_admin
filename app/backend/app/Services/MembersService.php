@@ -63,9 +63,10 @@ class MembersService
             DB::commit();
 
             // 更新されて以内場合は304
+            $message = ($updatedRowCount > 0 || $updatedAdminsRolesRowCount > 0) ? 'success' : 'not modified';
             $status = ($updatedRowCount > 0 || $updatedAdminsRolesRowCount > 0) ? 200 : 304;
 
-            return response()->json(['message' => $updatedRowCount > 0 ? 'success' : 'not modified', 'status' => $status], $status);
+            return response()->json(['message' => $message, 'status' => $status], $status);
         }
         catch(Exception $e) {
             Log::error(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'message: ' . json_encode($e->getMessage()));
