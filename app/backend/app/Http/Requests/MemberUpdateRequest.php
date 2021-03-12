@@ -7,6 +7,9 @@ use App\Repositories\Roles\RolesRepositoryInterface;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Collection;
 use App\Models\Role;
+use Illuminate\Contracts\Validation\Validator;
+// use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class MemberUpdateRequest extends FormRequest
 {
@@ -86,5 +89,29 @@ class MemberUpdateRequest extends FormRequest
             'email'  => 'メールアドレス',
             'roleId' => '権限'
         ];
+    }
+
+    /**
+     * Handle a failed validation attempt.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        $message = '';
+        foreach($validator->errors()->messages() as $key => $messages) {
+            foreach ($messages as $msg) {
+                $message = $message . $msg;
+            }
+        }
+
+        // 本来のエラークラス
+        /* throw (new ValidationException($validator))
+            ->errorBag($this->errorBag)
+            ->redirectTo($this->getRedirectUrl()); */
+        throw (new HttpException(422, $message));
     }
 }
