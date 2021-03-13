@@ -30,9 +30,9 @@ class RolePermissionsTableSeeder extends Seeder
             'updated_at'    => '2021-01-14 00:00:00'
         ];
 
-        $roles = Config::get('local.seeder.authority.roles');
+        $roles = Config::get('myapp.seeder.authority.roles');
 
-        $permissions = Config::get('local.seeder.authority.permissions');
+        $permissions = Config::get('myapp.seeder.authority.permissions');
 
         // insert用データ
         $data = [];

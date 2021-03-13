@@ -24,7 +24,7 @@ class PermissionsTableSeeder extends Seeder
             'updated_at' => '2021-01-14 00:00:00'
         ];
 
-        $dataList = Config::get('local.seeder.authority.permissionsNameList');
+        $dataList = Config::get('myapp.seeder.authority.permissionsNameList');
 
         // insert用データ
         $data = [];

@@ -30,8 +30,8 @@ class RolesServiceTest extends TestCase
         Artisan::call('deb:seed --class =DatabaseSeeder'); */
 
         $response = json_decode($this->json('POST', route('auth.admin'), [
-            'email' => Config::get('local.test.admin.login.email'),
-            'password' => Config::get('local.test.admin.login.password')
+            'email' => Config::get('myapp.test.admin.login.email'),
+            'password' => Config::get('myapp.test.admin.login.password')
         ])->baseResponse->content());
 
         return [
