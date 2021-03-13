@@ -6,9 +6,9 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 
-class RoleTableSeeder extends Seeder
+class RolesTableSeeder extends Seeder
 {
-    private $table = 'role';
+    private $table = 'roles';
     private $count = 5;
 
     /**

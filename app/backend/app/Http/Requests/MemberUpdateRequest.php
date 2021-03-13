@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Repositories\Roles\RolesRepositoryInterface;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Collection;
-use App\Models\Role;
+use App\Models\Roles;
 use Illuminate\Contracts\Validation\Validator;
 // use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -46,7 +46,7 @@ class MemberUpdateRequest extends FormRequest
         // ロールリストのidのみの配列を取得
         /* $rolesCollection = app()->make(RolesRepositoryInterface::class)->getRolesList();
         Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'collection pluck: ' . json_encode($rolesCollection->pluck('id'))); */
-        $roleModel = app()->make(Role::class);
+        $roleModel = app()->make(Roles::class);
 
         return [
             'id'     => 'required|integer',

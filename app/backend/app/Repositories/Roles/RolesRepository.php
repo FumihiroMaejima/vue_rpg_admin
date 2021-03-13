@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Roles;
 
-use App\Models\Role;
+use App\Models\Roles;
 use App\Models\AdminsRoles;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
@@ -16,7 +16,7 @@ class RolesRepository implements RolesRepositoryInterface
      *
      * @return void
      */
-    public function __construct(Role $model)
+    public function __construct(Roles $model)
     {
         $this->model = $model;
     }
