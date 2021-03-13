@@ -43,7 +43,7 @@ class CreateDevelopmentTable extends Migration
         /**
          * permission table
          */
-        Schema::create('permission', function (Blueprint $table) {
+        Schema::create('permissions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->timestamps();
@@ -67,7 +67,7 @@ class CreateDevelopmentTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->foreignId('role_id')->constrained('roles')->comment('ロールID');
-            $table->foreignId('permission_id')->constrained('permission')->comment('パーミッションID');
+            $table->foreignId('permission_id')->constrained('permissions')->comment('パーミッションID');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -93,9 +93,9 @@ class CreateDevelopmentTable extends Migration
     {
         Schema::dropIfExists('admins');
         Schema::dropIfExists('admins_log');
-        Schema::dropIfExists('permission');
-        Schema::dropIfExists('role');
+        Schema::dropIfExists('permissions');
+        Schema::dropIfExists('roles');
         Schema::dropIfExists('role_permissions');
-        Schema::dropIfExists('admins_role');
+        Schema::dropIfExists('admins_roles');
     }
 }
