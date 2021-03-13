@@ -34,7 +34,7 @@ Route::get('test', function () {
 |--------------------------------------------------------------------------
 */
 Route::group(['prefix' => 'auth/admin'], function () {
-    Route::post('login', [AdminAuthController::class, 'login']);
+    Route::post('login', [AdminAuthController::class, 'login'])->name('auth.admin');
 });
 
 // admin auth
@@ -56,9 +56,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:api-admins'], function 
     });
 
     // roles
-    // members
     Route::group(['prefix' => 'roles'], function () {
-        Route::get('/', [RolesController::class, 'index']);
+        Route::get('/', [RolesController::class, 'index'])->name('admin.roles.index');
     });
 });
 

@@ -13,7 +13,7 @@ class Handler extends ExceptionHandler
      *
      * @var array
      */
-    protected $httpErrorSMessages = [
+    protected $httpErrorsMessage = [
         400 => 'Bad Request',
         401 => 'Unauthorized',
         402 => 'Payment Required',
@@ -86,7 +86,7 @@ class Handler extends ExceptionHandler
         if ($this->isHttpException($e)) {
             $status = $e->getStatusCode();
             if(!$message = $e->getMessage()) {
-                $message = $this->httpErrorSMessage[$status];
+                $message = $this->httpErrorsMessage[$status];
             }
             $response = [
                 'status' => $status,

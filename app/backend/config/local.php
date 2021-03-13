@@ -23,5 +23,14 @@ return [
                 (object)['key' => 4, 'name' => '削除']
             ]
         ]
+    ],
+    'test' => [
+        'admin' => [
+            'login' => [
+                'email' => 'testadmin1' . '@example.com',
+                'password' => env('TEST_ADMIN_SEEDER_PASSWORD', 'password')
+            ]
+        ]
     ]
+
 ];
