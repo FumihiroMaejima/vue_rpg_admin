@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 
-class RolesServiceTest extends TestCase
+class MemberServiceTest extends TestCase
 {
     protected $initialized = false;
 
@@ -20,10 +20,6 @@ class RolesServiceTest extends TestCase
      */
     protected function init(): array
     {
-
-        // 'testing'
-        // $env = Config::get('app.env');
-
         Artisan::call('migrate:fresh');
         Artisan::call('db:seed');
 
@@ -52,22 +48,65 @@ class RolesServiceTest extends TestCase
             $this->initialized = true;
         }
 
-
         $this->withHeaders([
             'X-Auth-ID' => $loginUser['user_id'],
-            'Authorization' => 'Bearer '. $loginUser['token'],
-         ]);
+            'Authorization' => 'Bearer ' . $loginUser['token'],
+        ]);
     }
 
     /**
-     * roles get request test.
+     * members get request test.
      *
      * @return void
      */
-    public function testGetRoles(): void
+    public function testGetMembers(): void
     {
-        $response = $this->get(route('admin.roles.index'));
+        $response = $this->get(route('admin.members.index'));
         $response->assertStatus(200)
             ->assertJsonCount(5, 'data');
+    }
+
+    /**
+     * member data
+     * @param int id
+     * @param string name
+     * @param string email
+     * @param int roleId
+     */
+    public function memberDataProvider(): array
+    {
+        return [
+            'member' => [1, 'test name', Config::get('myapp.test.admin.login.email'), 1]
+        ];
+    }
+
+    /**
+     * members update request test.
+     *
+     * @return void
+     */
+    public function testUpdateMembers(): void
+    {
+        $response = $this->json('PATCH', route('admin.members.update', ['id' => 1]), [
+            'name' => 'test name',
+            'email' => Config::get('myapp.test.admin.login.email'),
+            'roleId' => 1
+        ]);
+        $response->assertStatus(200);
+    }
+
+    /**
+     * members update request failed test.
+     *
+     * @return void
+     */
+    public function testUpdateFailedMembers(): void
+    {
+        $response = $this->json('PATCH', route('admin.members.update', ['id' => 1]), [
+            'name' => '',
+            'email' => Config::get('myapp.test.admin.login.email'),
+            'roleId' => 1
+        ]);
+        $response->assertStatus(422);
     }
 }
