@@ -46,7 +46,7 @@ class MembersService
     public function updateMemberData(MemberUpdateRequest $request, int $id)
     {
         DB::beginTransaction();
-        try{
+        try {
             Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'request all: ' . json_encode($request->all()));
 
             $resource = app()->make(AdminUpdateResource::class, ['resource' => $request])->toArray($request);
@@ -67,8 +67,7 @@ class MembersService
             $status = ($updatedRowCount > 0 || $updatedAdminsRolesRowCount > 0) ? 200 : 304;
 
             return response()->json(['message' => $message, 'status' => $status], $status);
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             Log::error(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'message: ' . json_encode($e->getMessage()));
             DB::rollback();
             abort(500);

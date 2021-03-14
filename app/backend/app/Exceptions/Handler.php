@@ -85,7 +85,7 @@ class Handler extends ExceptionHandler
         // HttpExceptionクラスの場合
         if ($this->isHttpException($e)) {
             $status = $e->getStatusCode();
-            if(!$message = $e->getMessage()) {
+            if (!$message = $e->getMessage()) {
                 $message = $this->httpErrorsMessage[$status];
             }
             $response = [

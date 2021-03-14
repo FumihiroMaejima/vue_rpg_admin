@@ -102,7 +102,7 @@ class MemberUpdateRequest extends FormRequest
     protected function failedValidation(Validator $validator)
     {
         $message = '';
-        foreach($validator->errors()->messages() as $key => $messages) {
+        foreach ($validator->errors()->messages() as $key => $messages) {
             foreach ($messages as $msg) {
                 $message = $message . $msg;
             }
