@@ -22,7 +22,6 @@ class CreateDevelopmentTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->tinyInteger('role')->default(0)->comment('ロール');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
@@ -44,7 +43,7 @@ class CreateDevelopmentTable extends Migration
         /**
          * permission table
          */
-        Schema::create('permission', function (Blueprint $table) {
+        Schema::create('permissions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->timestamps();
@@ -54,7 +53,7 @@ class CreateDevelopmentTable extends Migration
         /**
          * role table
          */
-        Schema::create('role', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->timestamps();
@@ -67,8 +66,8 @@ class CreateDevelopmentTable extends Migration
         Schema::create('role_permissions', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->foreignId('role_id')->constrained('role')->comment('ロールID');
-            $table->foreignId('permission_id')->constrained('permission')->comment('パーミッションID');
+            $table->foreignId('role_id')->constrained('roles')->comment('ロールID');
+            $table->foreignId('permission_id')->constrained('permissions')->comment('パーミッションID');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -79,7 +78,7 @@ class CreateDevelopmentTable extends Migration
         Schema::create('admins_roles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('admin_id')->constrained('admins')->comment('管理者ID');
-            $table->foreignId('role_id')->constrained('role')->comment('ロールID');
+            $table->foreignId('role_id')->constrained('roles')->comment('ロールID');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -94,9 +93,9 @@ class CreateDevelopmentTable extends Migration
     {
         Schema::dropIfExists('admins');
         Schema::dropIfExists('admins_log');
-        Schema::dropIfExists('permission');
-        Schema::dropIfExists('role');
+        Schema::dropIfExists('permissions');
+        Schema::dropIfExists('roles');
         Schema::dropIfExists('role_permissions');
-        Schema::dropIfExists('admins_role');
+        Schema::dropIfExists('admins_roles');
     }
 }

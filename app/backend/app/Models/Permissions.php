@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Role extends Model
+class Permissions extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
     //テーブル名指定
-    protected $table = 'role';
+    protected $table = 'permissions';
 
     // カラムの自動更新をEloquentに許可
     public $timestamps = true;

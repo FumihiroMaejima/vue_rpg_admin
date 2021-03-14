@@ -12,21 +12,41 @@
         <button @click="testFunction">back to root</button>
       </div>
     </div>
-    <!-- <Dialog header="Header" v-model:visible="display">content</Dialog> -->
+
+    <div class="p-grid ">
+      <div class="p-col-12 p-md-1"></div>
+      <div class="p-col-12 p-md-10">
+        <app-calender :events="events" initialDate="2021-01-01" />
+      </div>
+      <div class="p-col-12 p-md-1"></div>
+    </div>
+
+    <div class="p-grid ">
+      <div class="p-col-12 p-md-1"></div>
+      <div class="p-col-12 p-md-10">
+        <app-table :items="items.data" :columnOptions="columnOptions" />
+      </div>
+      <div class="p-col-12 p-md-1"></div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, inject } from 'vue'
+import { defineComponent, ref, reactive } from 'vue'
 // import Card from '@/components/parts/Card.vue'
 // import GridCols from '@/components/parts/GridCols.vue'
 // import GridRows from '@/components/parts/GridRows.vue'
 // import Dialog from 'primevue/dialog'
-import AuthApp from '@/plugins/auth/authApp'
+import AppCalender from '@/components/parts/AppCalender.vue'
+import AppTable from '@/components/parts/AppTable.vue'
+import { useRouter } from 'vue-router'
+import { tableData, tableKeys, eventDate } from '@/config/resource'
 
 export default defineComponent({
   name: 'Test',
   components: {
+    AppCalender,
+    AppTable
     // Dialog,
     // Card,
     // GridRows
@@ -34,7 +54,10 @@ export default defineComponent({
   setup() {
     const display = ref<boolean>(false)
     const sidebar = ref<boolean>(true)
-    const authApp = inject('authApp') as AuthApp
+    const items = reactive(tableData)
+    const columnOptions = reactive(tableKeys)
+    const router = useRouter()
+    const events = reactive(eventDate)
 
     // methods
     /**
@@ -46,11 +69,14 @@ export default defineComponent({
     }
 
     const testFunction = () => {
-      authApp.router.push('/')
+      router.push('/')
     }
 
     return {
       display,
+      items,
+      columnOptions,
+      events,
       sidebar,
       testFunction,
       catchAppInputEvent

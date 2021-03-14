@@ -6,10 +6,10 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 
-class RoleTableSeeder extends Seeder
+class PermissionsTableSeeder extends Seeder
 {
-    private $table = 'role';
-    private $count = 5;
+    private $table = 'permissions';
+    private $count = 4;
 
     /**
      * Run the database seeds.
@@ -24,7 +24,7 @@ class RoleTableSeeder extends Seeder
             'updated_at' => '2021-01-14 00:00:00'
         ];
 
-        $dataList = Config::get('local.seeder.authority.rolesNameList');
+        $dataList = Config::get('myapp.seeder.authority.permissionsNameList');
 
         // insert用データ
         $data = [];
@@ -32,7 +32,7 @@ class RoleTableSeeder extends Seeder
         // 0~12の数字の配列でforを回す
         foreach (range(1, $this->count) as $i) {
             $row = $template;
-            $row['name'] = $dataList[$i - 1];
+            $row['name']  = $dataList[$i - 1];
 
             $data[] = $row;
         }

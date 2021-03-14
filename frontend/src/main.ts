@@ -12,6 +12,7 @@ import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
 import ToastService from 'primevue/toastservice'
+import { LinerLoadingKey } from '@/keys'
 import { IAppConfig } from '@/types'
 
 const config: IAppConfig = require('@/config/data')
@@ -20,7 +21,7 @@ const loading = ref<boolean>(false)
 const app = createApp(App)
 
 app.config.globalProperties.$AppConfig = config
-app.provide('linerLoading', loading)
+app.provide(LinerLoadingKey, loading)
 
 // createApp(App)
 app.use(store)

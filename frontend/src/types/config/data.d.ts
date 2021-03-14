@@ -1,8 +1,9 @@
 export interface IAppConfig {
-  [key: string]: string | string[] | NoticeData[] | AuthEndpoint
+  [key: string]: string | string[] | NoticeData[] | AuthEndpoint | EndpointType
   headerName: string
   headerContents: string[]
   noticeData: NoticeData[]
+  endpoint: EndpointType
   authEndpoint: AuthEndpoint
 }
 
@@ -18,3 +19,42 @@ export type AuthEndpoint = {
   AUTH_LOGOUT: string
   AUTH_SELF: string
 }
+
+export type EndpointType = {
+  [key: string]: string | AuthInfoServiceEndipont | MembersServiceEndipont
+  authinfo: AuthInfoServiceEndipont
+  members: MembersServiceEndipont
+}
+
+export type AuthInfoServiceEndipont = {
+  [key: string]: string
+  authInfomation: string
+}
+
+export type MembersServiceEndipont = {
+  [key: string]: string
+  members: string
+  member: string
+  roles: string
+}
+
+export type TableTextColumn = {
+  identifier: string
+  field: string
+  header: string
+  type: 'text'
+  editable: boolean
+}
+
+export type TableSelectColumn<T = any> = {
+  identifier: string
+  field: string
+  header: string
+  type: 'select'
+  editable: boolean
+  items: T[]
+  itemText: string
+  itemValue: string
+}
+
+export type TableColumnSetting<T = any> = TableTextColumn | TableSelectColumn<T>

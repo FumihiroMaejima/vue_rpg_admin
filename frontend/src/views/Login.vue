@@ -64,6 +64,7 @@ import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
 import { checkTextLength } from '@/util/validation'
 import { ToastType } from '@/types'
+import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 
 export default defineComponent({
   name: 'Login',
@@ -73,7 +74,7 @@ export default defineComponent({
     InputText
   },
   setup() {
-    const toast = inject('toast') as ToastType
+    const toast = inject(ToastTypeKey) as ToastType
     const loginSchema = {
       email(value: string): string {
         return checkTextLength(value) ? '' : 'This is required'
@@ -87,12 +88,12 @@ export default defineComponent({
       validationSchema: loginSchema
     })
 
-    const { value: email, errorMessage: emailError } = useField('email')
-    const { value: password, errorMessage: passwordError } = useField(
+    const { value: email, errorMessage: emailError } = useField<string>('email')
+    const { value: password, errorMessage: passwordError } = useField<string>(
       'password'
     )
-    const loadingFlag = inject('circleLoading') as Ref<boolean>
-    const authApp = inject('authApp') as AuthApp
+    const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
+    const authApp = inject(AuthAppKey) as AuthApp
 
     // computed
     const emailValue = computed({

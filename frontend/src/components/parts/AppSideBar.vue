@@ -1,7 +1,7 @@
 <template>
-  <Sidebar v-model:visible="openSideBar" position="left">
+  <Sidebar class="app-side-bar" v-model:visible="openSideBar" position="left">
     <h1>sidebar content</h1>
-    <Menu :model="items" />
+    <Menu :model="items" @click="hideMenu" />
   </Sidebar>
 </template>
 
@@ -51,10 +51,20 @@ export default defineComponent({
         instance.appContext.config.globalProperties.$AppConfig.sideBarContents
     }
 
+    const hideMenu = (event: Event) => {
+      context.emit('close', event.returnValue)
+    }
+
     return {
       openSideBar,
+      hideMenu,
       items
     }
   }
 })
 </script>
+<style lang="scss" scoped>
+.app-side-bar {
+  overflow: scroll;
+}
+</style>

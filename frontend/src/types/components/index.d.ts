@@ -12,3 +12,8 @@ export type ToastData = {
   closable?: boolean
   group?: string
 }
+
+export type SelectBoxType = {
+  text: string
+  value: number
+}

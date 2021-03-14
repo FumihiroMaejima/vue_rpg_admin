@@ -21,8 +21,7 @@ class AdminsTableSeeder extends Seeder
         $template = [
             'name'       => '',
             'email'      => '',
-            'password'   => bcrypt(Config::get('local.seeder.password.testadmin')),
-            'role'       => 100,
+            'password'   => bcrypt(Config::get('myapp.seeder.password.testadmin')),
             'created_at' => '2021-01-14 00:00:00',
             'updated_at' => '2021-01-14 00:00:00'
         ];
