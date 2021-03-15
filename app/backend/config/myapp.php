@@ -7,13 +7,14 @@ return [
             'testadmin' => env('TEST_ADMIN_SEEDER_PASSWORD', 'password')
         ],
         'authority' => [
-            'rolesNameList' => ['マスター', '管理者', '開発者', '部分管理者', '一般'],
+            'rolesNameList' => ['マスター', '管理者', '開発者', 'マネージャー', '一般'],
+            'rolesCodeList' => ['master', 'administrator', 'develop', 'manager', 'general'],
             'permissionsNameList' => ['作成', '読取', '更新', '削除'],
             'roles' => [
                 (object)['key' => 1, 'name' => 'マスター'],
                 (object)['key' => 2, 'name' => '管理者'],
                 (object)['key' => 3, 'name' => '開発者'],
-                (object)['key' => 4, 'name' => '部分管理者'],
+                (object)['key' => 4, 'name' => 'マネージャー'],
                 (object)['key' => 5, 'name' => '一般']
             ],
             'permissions' => [

@@ -22,6 +22,8 @@ class Roles extends Model
 
     // 更新可能なカラムリスト
     protected $fillable = [
+        'name',
+        'code',
         'updated_at'
     ];
 
