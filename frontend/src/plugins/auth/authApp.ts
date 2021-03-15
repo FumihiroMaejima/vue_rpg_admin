@@ -53,6 +53,7 @@ export default class AuthApp {
    */
   public async login(email: string, password: string): Promise<boolean> {
     const response = await this.authentication.loginRequest({ email: email, password: password })
+    console.log('login: ' + JSON.stringify(response, null, 2))
     if (response.status !== 200) {
       return false
     } else {
@@ -113,6 +114,7 @@ export default class AuthApp {
     }
 
     const isAuth = await this.authInstance(headers).then((response) => {
+      console.log('checkAuthenticated: ' + JSON.stringify(response, null, 2))
       // 認証情報が無い場合
       if (!response.id) {
         this.resetAction(true)

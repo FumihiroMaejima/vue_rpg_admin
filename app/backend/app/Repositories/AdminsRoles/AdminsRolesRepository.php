@@ -30,6 +30,22 @@ class AdminsRolesRepository implements AdminsRolesRepositoryInterface
      *
      * @return int
      */
+    public function getByAdminId(int $adminId): Collection
+    {
+        // admins
+        $adminsRoles = $this->model->getTable();
+
+        // Query Builderのupdate
+        return DB::table($adminsRoles)
+            ->where('admin_id', '=', [$adminId])
+            ->get();
+    }
+
+    /**
+     * update Admins Role.
+     *
+     * @return int
+     */
     public function updateAdminsRoleData(array $resource, int $adminId): int
     {
         // admins

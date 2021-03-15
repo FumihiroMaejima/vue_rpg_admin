@@ -27,7 +27,7 @@
           ).text
         }}</span>
       </template>
-      <template #editor="slotProps" v-if="col.editable">
+      <template #editor="slotProps" v-if="editable && col.editable">
         <template v-if="col.type === 'text'">
           <InputText
             type="text"

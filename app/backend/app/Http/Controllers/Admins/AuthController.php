@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admins;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\AdminsRoles\AdminsRolesRepositoryInterface;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -81,6 +82,8 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
+        $adminsRolesCollectionResouce = app()->make(AdminsRolesRepositoryInterface::class)->getByAdminId(auth('api-admins')->user()->id)->pluck('role_id')->values()->toArray();
+
         // Tymon\JWTAuth\factory
         // Tymon\JWTAuth\Claims\Factory
         // ユーザー情報を返す。
@@ -89,8 +92,9 @@ class AuthController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth('api-admins')->factory()->getTTL() * 60,
             'user' => [
-                'id' => auth('api-admins')->user()->id,
-                'name' => auth('api-admins')->user()->name
+                'id'        => auth('api-admins')->user()->id,
+                'name'      => auth('api-admins')->user()->name,
+                'authority' => $adminsRolesCollectionResouce[0]
             ]
         ]);
     }
