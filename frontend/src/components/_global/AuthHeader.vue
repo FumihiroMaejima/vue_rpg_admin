@@ -9,6 +9,11 @@
     </template>
     <template #end>
       <Button
+        class="p-button-sm p-button-text p-button-secondary"
+        :disabled="true"
+        :label="`Hello, ${name}`"
+      />
+      <Button
         class="p-button-text p-button-secondary"
         :icon="iconValue"
         :label="buttonText"
@@ -80,6 +85,11 @@ export default defineComponent({
       loadingFlag.value ? 'Now Sign Out' : 'Sign Out'
     )
 
+    const name = computed((): string | null =>
+      props.authApp.getAuthName()
+    )
+
+
     // methods
     /**
      * catch click event
@@ -112,6 +122,7 @@ export default defineComponent({
       loadingFlag,
       iconValue,
       buttonText,
+      name,
       openSideBar,
       logoutFunction
     }
