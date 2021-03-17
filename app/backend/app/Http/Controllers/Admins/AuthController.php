@@ -103,10 +103,10 @@ class AuthController extends Controller
      * @param  int $id
      * @return array
      */
-    protected function getRoleId(int $adminId): array
+    protected function getRoleCode(int $adminId): array
     {
         return app()->make(AdminsRolesRepositoryInterface::class)->getByAdminId($adminId)
-            ->pluck('role_id')
+            ->pluck('code')
             ->values()
             ->toArray();
     }
@@ -122,7 +122,7 @@ class AuthController extends Controller
         return [
             'id'        => $user->id,
             'name'      => $user->name,
-            'authority' => $this->getRoleId($user->id)[0]
+            'authority' => $this->getRoleCode($user->id)
         ];
     }
 }
