@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios'
+import { AuthEndpoint } from '@/types/config'
 
 export interface IAuthentication {
   [key: string]: AuthEndpoint

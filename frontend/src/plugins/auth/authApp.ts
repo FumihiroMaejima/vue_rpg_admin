@@ -58,7 +58,7 @@ export default class AuthApp {
       return false
     } else {
       // 認証情報の設定
-      this.store.dispatch('auth/getAuthData', { id: response.data.user.id, name: response.data.user.name, authority: {} })
+      this.store.dispatch('auth/getAuthData', { id: response.data.user.id, name: response.data.user.name, authority: response.data.user.authority })
       this.setCookie(this.appKey, response.data.access_token)
 
       // homeへ遷移
@@ -182,7 +182,7 @@ export default class AuthApp {
    * @return {void}
    */
   protected refreshAuthData() {
-    this.store.dispatch('auth/getAuthData', { id: null, name: null, authority: {} })
+    this.store.dispatch('auth/getAuthData', { id: null, name: null, authority: [] })
   }
 
   /**
