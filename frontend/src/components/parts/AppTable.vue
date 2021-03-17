@@ -19,11 +19,15 @@
       :header="col.header"
       :sortable="sortable"
     >
-      <template #body="slotProps" v-if="col.type === 'select' && col.items && col.itemValue">
+      <template
+        #body="slotProps"
+        v-if="col.type === 'select' && col.items && col.itemValue"
+      >
         <span>{{
           col.items.find(
             (item) =>
-              item[col.itemValue] === slotProps.data[slotProps.column.props.field]
+              item[col.itemValue] ===
+              slotProps.data[slotProps.column.props.field]
           ).text
         }}</span>
       </template>
@@ -83,7 +87,7 @@ import MultiSelect from 'primevue/multiselect'
 import Dropdown from 'primevue/dropdown'
 // import Dropdown from 'primevue/dropdown'
 import { TableColumnSetting } from '@/types/config/data'
-import { SelectBoxType } from '@/types/components/index'
+import { SelectBoxType } from '@/types/applications/index'
 
 type Props = {
   items: any[]

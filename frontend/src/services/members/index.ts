@@ -8,7 +8,7 @@ import {
   AuthAppHeaderOptions
 } from '@/types'
 import { TableColumnSetting } from '@/types/config/data'
-import { ToastData, SelectBoxType } from '@/types/components/index'
+import { ToastData, SelectBoxType } from '@/types/applications/index'
 // import AuthApp from '@/plugins/auth/authApp'
 
 const config: IAppConfig = require('@/config/data')
