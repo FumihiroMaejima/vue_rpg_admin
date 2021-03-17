@@ -122,7 +122,7 @@ export default class AuthApp {
       }
 
       // 取得した認証情報の設定
-      this.store.dispatch('auth/getAuthData', { id: response.id, name: response.name, authority: {} })
+      this.store.dispatch('auth/getAuthData', { id: response.id, name: response.name, authority: response.authority })
       callback()
       return true
     })
@@ -152,12 +152,14 @@ export default class AuthApp {
     if (response.status !== 200) {
       return {
         id: null,
-        name: null
+        name: null,
+        authority: {}
       }
     } else {
       return {
         id: response.data.id,
-        name: response.data.name
+        name: response.data.name,
+        authority: response.data.authority
       }
     }
   }
