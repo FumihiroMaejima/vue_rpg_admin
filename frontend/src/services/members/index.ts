@@ -13,6 +13,8 @@ import { ToastData, SelectBoxType } from '@/types/applications/index'
 
 const config: IAppConfig = require('@/config/data')
 
+export const editableRole = ['master', 'administrator']
+
 export const roleItems: SelectBoxType[] = [
   { text: 'role1', value: 1 },
   { text: 'role2', value: 2 },

@@ -85,7 +85,7 @@ export default defineComponent({
       loadingFlag.value ? 'Now Sign Out' : 'Sign Out'
     )
 
-    const name = computed((): string | null => props.authApp.getAuthName())
+    const name = computed((): string | null => `${props.authApp.getAuthAuthority()} ${props.authApp.getAuthName()}`)
 
     // methods
     /**

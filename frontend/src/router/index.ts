@@ -13,7 +13,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Members,
     meta: {
       requiresAuth: true,
-      permissions: ['master', 'administrator']
+      permissions: ['master', 'administrator', 'develop']
     }
   },
   {

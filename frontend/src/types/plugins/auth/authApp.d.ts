@@ -12,12 +12,14 @@ export interface IAuthApp {
 
 export type HeaderDataState = {
   id: number | null
+  authority: string
   token: string | null
 }
 
 export type BaseAddHeaderResponse = {
   Authorization: string
   'X-Auth-ID': number | string
+  'X-Auth-Authority': string
 }
 
 export type AuthAppHeaderOptions = {

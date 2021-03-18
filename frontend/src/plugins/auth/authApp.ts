@@ -94,7 +94,7 @@ export default class AuthApp {
     this.restoreToken()
 
     return {
-      headers: this.addHeaders({ id: this.store.getters['auth/id'], token: token }),
+      headers: this.addHeaders({ id: this.getAuthId(), authority: String(this.getAuthAuthority()), token: token }),
       callback: () => this.restoreToken(token, true)
     }
   }
@@ -135,7 +135,8 @@ export default class AuthApp {
   protected addHeaders(data: HeaderDataState): BaseAddHeaderResponse {
     return {
       Authorization: `${this.headerPrefix} ${data.token ? data.token : ''}`,
-      'X-Auth-ID': data.id ? data.id : ''
+      'X-Auth-ID': data.id ? data.id : '',
+      'X-Auth-Authority': data.authority ? data.authority : '',
     }
   }
 
