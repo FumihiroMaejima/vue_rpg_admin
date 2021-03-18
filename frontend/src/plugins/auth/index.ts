@@ -27,6 +27,17 @@ export default {
             path: '/login'
           })
         } else {
+          if (to.matched.some(record => record.meta.permissions)) {
+            const permissions = to.meta.permissions as string[]
+            if (authApp.getAuthAuthority().some(role => permissions.includes(role))) {
+              // 権限が設定されている場合
+              next()
+            }
+            // ホーム画面へリダイレクト
+            next({
+              path: '/'
+            })
+          }
           next()
         }
       } else {
