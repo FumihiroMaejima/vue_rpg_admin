@@ -30,7 +30,8 @@ class MemberServiceTest extends TestCase
 
         return [
             'token' => $response['access_token'],
-            'user_id' => $response['user']['id']
+            'user_id' => $response['user']['id'],
+            'user_authority' => $response['user']['authority']
         ];
     }
 
@@ -50,6 +51,7 @@ class MemberServiceTest extends TestCase
 
         $this->withHeaders([
             'X-Auth-ID' => $loginUser['user_id'],
+            'X-Auth-Authority' => $loginUser['user_authority'],
             'Authorization' => 'Bearer ' . $loginUser['token'],
         ]);
     }
