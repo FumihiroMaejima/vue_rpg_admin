@@ -11,13 +11,19 @@ const routes: Array<RouteRecordRaw> = [
     path: '/members',
     name: 'Members',
     component: Members,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true,
+      permissions: ['master', 'administrator', 'develop']
+    }
   },
   {
     path: '/authuser',
     name: 'AuthUser',
     component: AuthUser,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true,
+      permissions: ['master', 'administrator']
+    }
   },
   {
     path: '/',
@@ -40,7 +46,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/role',
     name: 'Role',
     component: Role,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true,
+      permissions: ['master', 'administrator']
+    }
   }
 ]
 

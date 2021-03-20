@@ -25,13 +25,11 @@ export default defineComponent({
     )
 
     // created
-    const created = async () => {
-      console.log('created async action')
-    }
-    created()
+    /* const created = async () => {}
+    created() */
 
     return {
-      created,
+      // created,
       authApp,
       currentComponent
     }

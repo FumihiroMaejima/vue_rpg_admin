@@ -57,7 +57,7 @@ export default class AuthApp {
       return false
     } else {
       // 認証情報の設定
-      this.store.dispatch('auth/getAuthData', { id: response.data.user.id, name: response.data.user.name, authority: {} })
+      this.store.dispatch('auth/getAuthData', { id: response.data.user.id, name: response.data.user.name, authority: response.data.user.authority })
       this.setCookie(this.appKey, response.data.access_token)
 
       // homeへ遷移
@@ -94,7 +94,7 @@ export default class AuthApp {
     this.restoreToken()
 
     return {
-      headers: this.addHeaders({ id: this.store.getters['auth/id'], token: token }),
+      headers: this.addHeaders({ id: this.getAuthId(), authority: String(this.getAuthAuthority()), token: token }),
       callback: () => this.restoreToken(token, true)
     }
   }
@@ -120,7 +120,7 @@ export default class AuthApp {
       }
 
       // 取得した認証情報の設定
-      this.store.dispatch('auth/getAuthData', { id: response.id, name: response.name, authority: {} })
+      this.store.dispatch('auth/getAuthData', { id: response.id, name: response.name, authority: response.authority })
       callback()
       return true
     })
@@ -135,7 +135,8 @@ export default class AuthApp {
   protected addHeaders(data: HeaderDataState): BaseAddHeaderResponse {
     return {
       Authorization: `${this.headerPrefix} ${data.token ? data.token : ''}`,
-      'X-Auth-ID': data.id ? data.id : ''
+      'X-Auth-ID': data.id ? data.id : '',
+      'X-Auth-Authority': data.authority ? data.authority : '',
     }
   }
 
@@ -150,12 +151,14 @@ export default class AuthApp {
     if (response.status !== 200) {
       return {
         id: null,
-        name: null
+        name: null,
+        authority: {}
       }
     } else {
       return {
         id: response.data.id,
-        name: response.data.name
+        name: response.data.name,
+        authority: response.data.authority
       }
     }
   }
@@ -178,7 +181,7 @@ export default class AuthApp {
    * @return {void}
    */
   protected refreshAuthData() {
-    this.store.dispatch('auth/getAuthData', { id: null, name: null, authority: {} })
+    this.store.dispatch('auth/getAuthData', { id: null, name: null, authority: [] })
   }
 
   /**

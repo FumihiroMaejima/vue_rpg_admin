@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Services\RolesService;
+use App\Trait\CheckHeaderTrait;
+use Illuminate\Support\Facades\Config;
 
 class RolesController extends Controller
 {
+    use CheckHeaderTrait;
     private $service;
 
     /**
@@ -30,6 +33,11 @@ class RolesController extends Controller
      */
     public function index(Request $request)
     {
+        // 権限チェック
+        if (!$this->checkRequestAuthority($request, Config::get('myapp.executionRole.services.roles'))) {
+            return response()->json(['error' => 'Forbidden'], 403);
+        }
+
         // 処理速度の計測
         $time_start = microtime(true);
 

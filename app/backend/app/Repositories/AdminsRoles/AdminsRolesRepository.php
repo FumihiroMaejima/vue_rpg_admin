@@ -4,6 +4,7 @@ namespace App\Repositories\AdminsRoles;
 
 use App\Models\Admins;
 use App\Models\AdminsRoles;
+use App\Models\Roles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
@@ -13,16 +14,37 @@ class AdminsRolesRepository implements AdminsRolesRepositoryInterface
 {
     protected $model;
     protected $adminsModel;
+    protected $rolesModel;
 
     /**
      * Create a new AuthInfoController instance.
      *
      * @return void
      */
-    public function __construct(AdminsRoles $model, Admins $adminsModel)
+    public function __construct(AdminsRoles $model, Admins $adminsModel, Roles $rolesModel)
     {
         $this->model = $model;
         $this->adminsModel = $adminsModel;
+        $this->rolesModel = $rolesModel;
+    }
+
+    /**
+     * update Admins Role.
+     *
+     * @return int
+     */
+    public function getByAdminId(int $adminId): Collection
+    {
+        // admins
+        $adminsRoles = $this->model->getTable();
+        $roles = $this->rolesModel->getTable();
+
+        // Query Builderのupdate
+        return DB::table($adminsRoles)
+            ->select([$adminsRoles . '.id', $adminsRoles . '.role_id', $adminsRoles . '.admin_id', $roles . '.code'])
+            ->leftJoin($roles, $adminsRoles . '.role_id', '=', $roles . '.id')
+            ->where('admin_id', '=', [$adminId])
+            ->get();
     }
 
     /**

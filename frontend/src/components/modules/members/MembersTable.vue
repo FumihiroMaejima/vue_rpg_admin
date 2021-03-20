@@ -3,7 +3,7 @@
     <app-table
       :items="members"
       :columnOptions="columnOptions"
-      :editable="true"
+      :editable="editable"
       @update-text="updateTextValue"
       @blur-text="catchBlurEventHandler"
       @update-select="updateSelectValue"
@@ -25,6 +25,7 @@ import {
 } from 'vue'
 import AppTable from '@/components/parts/AppTable.vue'
 import {
+  editableRole,
   tableSetting,
   MembersType,
   MembersTextKeys,
@@ -36,7 +37,7 @@ import {
 } from '@/services/members'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
-import { ToastType } from '@/types/components/index'
+import { ToastType } from '@/types/applications/index'
 import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 
 export default defineComponent({
@@ -53,6 +54,7 @@ export default defineComponent({
 
     // computed
     const members = computed((): MembersType[] => membersService.state.members)
+    const editable = computed((): boolean => authApp.getAuthAuthority().some(role => editableRole.includes(role) ))
 
     // created
     /* const created = async () => {}
@@ -140,6 +142,7 @@ export default defineComponent({
 
     return {
       members,
+      editable,
       updateTextValue,
       catchBlurEventHandler,
       updateSelectValue,

@@ -1,11 +1,11 @@
 /* eslint-disable */
-import { ActionTree, GetterTree, MutationTree } from 'vuex'
+import { ActionTree, GetterTree, MutationTree, ActionContext } from 'vuex'
 import { RootState, AuthState } from '@/types'
 
 const state = () => ({
   name: null,
   id: null,
-  authority: {}
+  authority: [] as string[]
 })
 
 const getters: GetterTree<AuthState, RootState> = {
@@ -15,17 +15,17 @@ const getters: GetterTree<AuthState, RootState> = {
 }
 
 const actions: ActionTree<AuthState, RootState> = {
-  getAuthData({ commit }: any, payload: AuthState) {
+  getAuthData({ commit }: ActionContext<AuthState, RootState>, payload: AuthState) {
     commit('setAuthData', payload)
   },
 
-  refreshAuthData({ commit }: any) {
+  refreshAuthData({ commit }: ActionContext<AuthState, RootState>) {
     commit('setRefreshAuthData')
   }
 }
 
 const mutations: MutationTree<AuthState> = {
-  setAuthData(state: any, payload: any) {
+  setAuthData(state: AuthState, payload: AuthState) {
     Object.keys(payload).forEach((element) => {
       state[element] = payload[element]
     })
@@ -34,7 +34,7 @@ const mutations: MutationTree<AuthState> = {
   setRefreshAuthData(state: AuthState) {
     state.id = null
     state.name = null
-    state.authority = null
+    state.authority = []
   }
 }
 

@@ -27,14 +27,15 @@ class RolesServiceTest extends TestCase
         Artisan::call('migrate:fresh');
         Artisan::call('db:seed');
 
-        $response = json_decode($this->json('POST', route('auth.admin'), [
+        $response = $this->json('POST', route('auth.admin'), [
             'email' => Config::get('myapp.test.admin.login.email'),
             'password' => Config::get('myapp.test.admin.login.password')
-        ])->baseResponse->content());
+        ])->json();
 
         return [
-            'token' => $response->access_token,
-            'user_id' => $response->user->id
+            'token' => $response['access_token'],
+            'user_id' => $response['user']['id'],
+            'user_authority' => $response['user']['authority']
         ];
     }
 
@@ -55,6 +56,7 @@ class RolesServiceTest extends TestCase
 
         $this->withHeaders([
             'X-Auth-ID' => $loginUser['user_id'],
+            'X-Auth-Authority' => $loginUser['user_authority'],
             'Authorization' => 'Bearer '. $loginUser['token'],
          ]);
     }

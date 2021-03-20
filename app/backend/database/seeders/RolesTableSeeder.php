@@ -24,7 +24,8 @@ class RolesTableSeeder extends Seeder
             'updated_at' => '2021-01-14 00:00:00'
         ];
 
-        $dataList = Config::get('myapp.seeder.authority.rolesNameList');
+        $nameList = Config::get('myapp.seeder.authority.rolesNameList');
+        $codeList = Config::get('myapp.seeder.authority.rolesCodeList');
 
         // insert用データ
         $data = [];
@@ -32,7 +33,8 @@ class RolesTableSeeder extends Seeder
         // 0~12の数字の配列でforを回す
         foreach (range(1, $this->count) as $i) {
             $row = $template;
-            $row['name'] = $dataList[$i - 1];
+            $row['name'] = $nameList[$i - 1];
+            $row['code'] = $codeList[$i - 1];
 
             $data[] = $row;
         }

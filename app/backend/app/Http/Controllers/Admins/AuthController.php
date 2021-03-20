@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admins;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\AdminsRoles\AdminsRolesRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class AuthController extends Controller
 {
@@ -44,7 +46,8 @@ class AuthController extends Controller
      */
     public function getAuthUser()
     {
-        return response()->json(auth('api-admins')->user());
+        $user = auth('api-admins')->user();
+        return response()->json($this->getAdminResource($user));
     }
 
     /**
@@ -81,6 +84,8 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
+        $user = auth('api-admins')->user();
+
         // Tymon\JWTAuth\factory
         // Tymon\JWTAuth\Claims\Factory
         // ユーザー情報を返す。
@@ -88,10 +93,36 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth('api-admins')->factory()->getTTL() * 60,
-            'user' => [
-                'id' => auth('api-admins')->user()->id,
-                'name' => auth('api-admins')->user()->name
-            ]
+            'user' => $this->getAdminResource($user)
         ]);
+    }
+
+    /**
+     * 管理者のロールIDを取得
+     *
+     * @param  int $id
+     * @return array
+     */
+    protected function getRoleCode(int $adminId): array
+    {
+        return app()->make(AdminsRolesRepositoryInterface::class)->getByAdminId($adminId)
+            ->pluck('code')
+            ->values()
+            ->toArray();
+    }
+
+    /**
+     * 管理者情報のリソースを取得
+     *
+     * @param Authenticatable $user
+     * @return array
+     */
+    protected function getAdminResource(Authenticatable $user): array
+    {
+        return [
+            'id'        => $user->id,
+            'name'      => $user->name,
+            'authority' => $this->getRoleCode($user->id)
+        ];
     }
 }

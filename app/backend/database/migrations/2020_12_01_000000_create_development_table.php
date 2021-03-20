@@ -56,6 +56,7 @@ class CreateDevelopmentTable extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('code');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -78,7 +79,7 @@ class CreateDevelopmentTable extends Migration
         Schema::create('admins_roles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('admin_id')->constrained('admins')->comment('管理者ID');
-            $table->foreignId('role_id')->constrained('roles')->comment('ロールID');
+            $table->foreignId('role_id')->constrained('roles')->unique()->comment('ロールID');
             $table->timestamps();
             $table->softDeletes();
         });

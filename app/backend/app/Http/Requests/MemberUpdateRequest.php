@@ -9,7 +9,9 @@ use Illuminate\Support\Collection;
 use App\Models\Roles;
 use Illuminate\Contracts\Validation\Validator;
 // use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+// use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Config;
 
 class MemberUpdateRequest extends FormRequest
 {
@@ -20,9 +22,7 @@ class MemberUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        // return false;
-        // $this->header('TEST-HEADER') === '';
-        return true;
+        return in_array($this->header(Config::get('myapp.headers.authority')), Config::get('myapp.executionRole.services.members'), true);
     }
 
     /**
@@ -92,26 +92,45 @@ class MemberUpdateRequest extends FormRequest
     }
 
     /**
+     * Handle a failed authorization attempt.
+     *
+     * @return void
+     *
+     * @throws \Illuminate\Http\Exceptions\HttpResponseException
+     */
+    protected function failedAuthorization()
+    {
+        $response = [
+            'status' => 403,
+            'errors' => [],
+            'message' => 'Forbidden'
+        ];
+
+        throw (new HttpResponseException(response()->json($response, 403)));
+    }
+
+    /**
      * Handle a failed validation attempt.
      *
      * @param  \Illuminate\Contracts\Validation\Validator  $validator
      * @return void
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws \Illuminate\Http\Exceptions\HttpResponseException
      */
     protected function failedValidation(Validator $validator)
     {
-        $message = '';
-        foreach ($validator->errors()->messages() as $key => $messages) {
-            foreach ($messages as $msg) {
-                $message = $message . $msg;
-            }
-        }
+        $response = [
+            'status' => 422,
+            'errors' => [],
+            'message' => 'Unprocessable Entity'
+        ];
+
+        $response['errors'] = $validator->errors()->toArray();
+        throw (new HttpResponseException(response()->json($response, 422)));
 
         // 本来のエラークラス
         /* throw (new ValidationException($validator))
             ->errorBag($this->errorBag)
             ->redirectTo($this->getRedirectUrl()); */
-        throw (new HttpException(422, $message));
     }
 }
