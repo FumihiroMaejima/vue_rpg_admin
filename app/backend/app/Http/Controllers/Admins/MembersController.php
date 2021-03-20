@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Services\MembersService;
 use App\Http\Requests\MemberUpdateRequest;
+use App\Trait\CheckHeaderTrait;
+use Illuminate\Support\Facades\Config;
 
 class MembersController extends Controller
 {
+    use CheckHeaderTrait;
     private $service;
 
     /**
@@ -31,6 +34,11 @@ class MembersController extends Controller
      */
     public function index(Request $request)
     {
+        // 権限チェック
+        if (!$this->checkRequestAuthority($request, Config::get('myapp.executionRole.services.members'))) {
+            return response()->json(['error' => 'Forbidden'], 403);
+        }
+
         // 処理速度の計測
         $time_start = microtime(true);
 

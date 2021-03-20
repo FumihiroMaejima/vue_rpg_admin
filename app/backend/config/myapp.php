@@ -39,7 +39,8 @@ return [
     ],
     'executionRole' => [
         'services' => [
-            'members' => ['master', 'administrator', 'develop']
+            'members' => ['master', 'administrator', 'develop'],
+            'roles' => ['master', 'administrator', 'develop']
         ]
     ]
 ];
