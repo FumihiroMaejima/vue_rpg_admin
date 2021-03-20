@@ -11,6 +11,7 @@ use Illuminate\Contracts\Validation\Validator;
 // use Illuminate\Validation\ValidationException;
 // use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Config;
 
 class MemberUpdateRequest extends FormRequest
 {
@@ -21,9 +22,7 @@ class MemberUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        // return false;
-        // $this->header('TEST-HEADER') === '';
-        return true;
+        return in_array($this->header(Config::get('myapp.headers.authority')), Config::get('myapp.executionRole.services.members'), true);
     }
 
     /**

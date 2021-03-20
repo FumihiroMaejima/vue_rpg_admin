@@ -32,6 +32,14 @@ return [
                 'password' => env('TEST_ADMIN_SEEDER_PASSWORD', 'password')
             ]
         ]
+    ],
+    'headers' => [
+        'id' => 'X-Auth-ID',
+        'authority' => 'X-Auth-Authority'
+    ],
+    'executionRole' => [
+        'services' => [
+            'members' => ['master', 'administrator', 'develop']
+        ]
     ]
-
 ];
