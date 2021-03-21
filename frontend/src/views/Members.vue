@@ -2,7 +2,13 @@
   <div class="cp-fluid p-mx-md-6 p-mx-sm-2 p-mb-6">
     <h1 class="italic my-2">管理サービス-管理者情報</h1>
     <h2 class="italic my-2">管理者一覧</h2>
-
+    <div class="p-grid">
+      <div class="p-col-12 p-md-10"></div>
+      <div class="p-col-12 p-md-1">
+        <member-create-dialog />
+      </div>
+      <div class="p-col-12 p-md-1"></div>
+    </div>
     <div class="p-grid">
       <div class="p-col-12 p-md-1"></div>
       <div class="p-col-12 p-md-10">
@@ -25,6 +31,7 @@ import {
   inject
 } from 'vue'
 import { useRouter } from 'vue-router'
+import MemberCreateDialog from '@/components/modules/members/MemberCreateDialog.vue'
 import MembersTable from '@/components/modules/members/MembersTable.vue'
 import AppTable from '@/components/parts/AppTable.vue'
 import {
@@ -41,13 +48,14 @@ import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 export default defineComponent({
   name: 'Members',
   components: {
-    // AppTable,
+    MemberCreateDialog,
     MembersTable
   },
   setup() {
     const toast = inject(ToastTypeKey) as ToastType
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
+    // const isOpenCreateDialog = ref<boolean>(false)
 
     const membersService = useState()
     provide(MembersStateKey, membersService)
