@@ -11,7 +11,9 @@
       <div class="p-col-12 p-md-2"></div>
       <div class="p-col-12 p-md-8">
         <div class="p-field p-grid">
-          <label for="name" class="p-col-fixed member-create-dialog__form-label">name</label>
+          <label for="name" class="p-col-fixed member-create-dialog__form-label">
+            name
+          </label>
           <div class="p-col">
             <div>
               <span class="p-float-label p-input-icon-right">
@@ -33,7 +35,12 @@
         </div>
 
         <div class="p-field p-grid">
-          <label for="email" class="p-col-fixed member-create-dialog__form-label">email</label>
+          <label
+            for="email"
+            class="p-col-fixed member-create-dialog__form-label"
+          >
+            email
+          </label>
           <div class="p-col">
             <div>
               <span class=" p-input-icon-right">
@@ -55,7 +62,9 @@
         </div>
 
         <div class="p-field p-grid">
-          <label for="role" class="p-col-fixed member-create-dialog__form-label">role</label>
+          <label for="role" class="p-col-fixed member-create-dialog__form-label"
+            >role</label
+          >
           <div class="p-col">
             <div>
               <Dropdown
@@ -73,7 +82,10 @@
         </div>
 
         <div class="p-field p-grid">
-          <label for="password" class="p-col-fixed member-create-dialog__form-label">
+          <label
+            for="password"
+            class="p-col-fixed member-create-dialog__form-label"
+          >
             password
           </label>
           <div class="p-col">
@@ -95,7 +107,10 @@
         </div>
 
         <div class="p-field p-grid">
-          <label for="confirmPassword" class="p-col-fixed member-create-dialog__form-label">
+          <label
+            for="confirmPassword"
+            class="p-col-fixed member-create-dialog__form-label"
+          >
             confirm password
           </label>
           <div class="p-col">
@@ -189,15 +204,6 @@ export default defineComponent({
     const display = ref<boolean>(false)
     const rolesList = reactive<SelectBoxType[]>([])
 
-    // watch
-    watch(
-      () => membersService.state.roles,
-      (newValue, old) => {
-        newValue.forEach((role) => rolesList.push(role))
-      }
-    )
-
-
     useForm({
       validationSchema: formSchema
     })
@@ -212,6 +218,14 @@ export default defineComponent({
       value: confirmPassword,
       errorMessage: confirmPasswordError
     } = useField<string>('confirmPassword')
+
+    // watch
+    watch(
+      () => membersService.state.roles,
+      (newValue, old) => {
+        newValue.forEach((role) => rolesList.push(role))
+      }
+    )
 
     // computed
     const nameValue = computed({
@@ -277,7 +291,7 @@ export default defineComponent({
   width: 75vw;
 
   &__form-label {
-    width: 20%
+    width: 20%;
   }
 
   &__form-dropdown {

@@ -9,7 +9,13 @@ import {
 } from '@/types'
 import { TableColumnSetting } from '@/types/config/data'
 import { ToastData, SelectBoxType } from '@/types/applications/index'
-import { checkTextLength } from '@/util/validation'
+import {
+  validateName,
+  validateEmail,
+  validateSelectBoxNumberValue,
+  validatePassword,
+  validateConfirmPassword
+} from '@/util/validation'
 
 const config: IAppConfig = require('@/config/data')
 
@@ -17,19 +23,25 @@ export const editableRole = ['master', 'administrator']
 
 export const formSchema = {
   name(value: string): string {
-    return checkTextLength(value) ? '' : 'This is required'
+    return validateName(value)
   },
   email(value: string): string {
-    return checkTextLength(value) ? '' : 'This is required'
+    return validateEmail(value)
   },
   role(value: number): string {
-    return typeof value === 'number' ? '' : 'input number'
+    return validateSelectBoxNumberValue(value)
   },
   password(value: string): string {
-    return checkTextLength(value) ? '' : 'This is required'
+    return validatePassword(value)
   },
-  confirmPassword(value: string): string {
-    return checkTextLength(value) ? '' : 'This is required'
+  confirmPassword(
+    value: string,
+    ctx: any /* FieldContext not exported */
+  ): string {
+    return validateConfirmPassword(
+      value,
+      ctx.form.password ? ctx.form.password : ''
+    )
   }
 }
 
