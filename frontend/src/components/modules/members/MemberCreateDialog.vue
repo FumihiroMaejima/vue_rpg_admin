@@ -13,17 +13,20 @@
         <div class="p-field p-grid">
           <label for="name" class="p-col-fixed" style="width:20%">name</label>
           <div class="p-col">
-            <span class="p-float-label p-input-icon-right">
-              <InputText
-                id="name"
-                :class="{ 'p-invalid': nameValue === '' }"
-                name="name"
-                type="text"
-                placeholder="input name"
-                v-model="nameValue"
-              />
-              <i class="pi pi-user" />
-            </span>
+            <div>
+              <span class="p-float-label p-input-icon-right">
+                <InputText
+                  id="name"
+                  :class="{ 'p-invalid': nameValue === '' }"
+                  name="name"
+                  type="text"
+                  maxlength="50"
+                  placeholder="input name"
+                  v-model="nameValue"
+                />
+                <i class="pi pi-user" />
+              </span>
+            </div>
             <small class="p-error">{{ nameError }}</small>
           </div>
         </div>
@@ -31,17 +34,20 @@
         <div class="p-field p-grid">
           <label for="email" class="p-col-fixed" style="width:20%">email</label>
           <div class="p-col">
-            <span class=" p-input-icon-right">
-              <InputText
-                id="email"
-                :class="{ 'p-invalid': emailValue === '' }"
-                name="email"
-                type="text"
-                placeholder="test@example.com"
-                v-model="emailValue"
-              />
-              <i class="pi pi-envelope" />
-            </span>
+            <div>
+              <span class=" p-input-icon-right">
+                <InputText
+                  id="email"
+                  :class="{ 'p-invalid': emailValue === '' }"
+                  name="email"
+                  type="text"
+                  maxlength="50"
+                  placeholder="test@example.com"
+                  v-model="emailValue"
+                />
+                <i class="pi pi-envelope" />
+              </span>
+            </div>
             <small class="p-error">{{ emailError }}</small>
           </div>
         </div>
@@ -49,15 +55,17 @@
         <div class="p-field p-grid">
           <label for="role" class="p-col-fixed" style="width:20%">role</label>
           <div class="p-col">
-            <Dropdown
-              v-model="roleValue"
-              :options="rolesList"
-              optionLabel="text"
-              optionValue="value"
-              placeholder="select role"
-              style="width:12rem;"
-              filter
-            />
+            <div>
+              <Dropdown
+                v-model="roleValue"
+                :options="rolesList"
+                optionLabel="text"
+                optionValue="value"
+                placeholder="select role"
+                style="width:14rem;"
+                filter
+              />
+            </div>
             <small class="p-error">{{ roleError }}</small>
           </div>
         </div>
@@ -67,16 +75,18 @@
             >password</label
           >
           <div class="p-col">
-            <span class="p-float-label p-input-icon-right">
-              <InputText
-                id="password"
-                :class="{ 'p-invalid': passwordValue === '' }"
-                name="password"
-                type="password"
-                v-model="passwordValue"
-              />
-              <i class="pi pi-exclamation-triangle" />
-            </span>
+            <div>
+              <span class="p-float-label p-input-icon-right">
+                <InputText
+                  id="password"
+                  :class="{ 'p-invalid': passwordValue === '' }"
+                  name="password"
+                  type="password"
+                  v-model="passwordValue"
+                />
+                <i class="pi pi-exclamation-triangle" />
+              </span>
+            </div>
             <span class="p-error">{{ passwordError }}</span>
           </div>
         </div>
@@ -86,16 +96,18 @@
             >confirm password</label
           >
           <div class="p-col">
-            <span class="p-float-label p-input-icon-right">
-              <InputText
-                id="confirmPassword"
-                :class="{ 'p-invalid': confirmPasswordValue === '' }"
-                name="confirmPassword"
-                type="password"
-                v-model="confirmPasswordValue"
-              />
-              <i class="pi pi-exclamation-triangle" />
-            </span>
+            <div>
+              <span class="p-float-label p-input-icon-right">
+                <InputText
+                  id="confirmPassword"
+                  :class="{ 'p-invalid': confirmPasswordValue === '' }"
+                  name="confirmPassword"
+                  type="password"
+                  v-model="confirmPasswordValue"
+                />
+                <i class="pi pi-exclamation-triangle" />
+              </span>
+            </div>
             <span class="p-error">{{ confirmPasswordError }}</span>
           </div>
         </div>
@@ -172,13 +184,13 @@ export default defineComponent({
     const authApp = inject(AuthAppKey) as AuthApp
     const membersService = inject(MembersStateKey) as MembersStateType
     const display = ref<boolean>(false)
-    let rolesList = reactive<SelectBoxType[]>([])
+    const rolesList = reactive<SelectBoxType[]>([])
 
     // watch
     watch(
       () => membersService.state.roles,
       (newValue, old) => {
-        rolesList = newValue
+        newValue.forEach((role) => rolesList.push(role))
       }
     )
 
