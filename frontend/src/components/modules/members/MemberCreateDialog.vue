@@ -136,7 +136,6 @@ import {
   PropType,
   reactive,
   computed,
-  provide,
   watch,
   inject
 } from 'vue'
@@ -146,6 +145,7 @@ import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 
 import {
+  formSchema,
   editableRole,
   tableSetting,
   MembersType,
@@ -153,7 +153,6 @@ import {
   MembersSelectKeys,
   MembersStateKey,
   MembersStateType,
-  roleItems,
   useState
 } from '@/services/members'
 import AuthApp from '@/plugins/auth/authApp'
@@ -198,25 +197,6 @@ export default defineComponent({
       }
     )
 
-    const formSchema = {
-      name(value: string): string {
-        return checkTextLength(value) ? '' : 'This is required'
-      },
-      email(value: string): string {
-        return checkTextLength(value) ? '' : 'This is required'
-      },
-      role(value: number): string {
-        return rolesList.map((item) => item.value).includes(value)
-          ? ''
-          : 'not exist value'
-      },
-      password(value: string): string {
-        return checkTextLength(value) ? '' : 'This is required'
-      },
-      confirmPassword(value: string): string {
-        return checkTextLength(value) ? '' : 'This is required'
-      }
-    }
 
     useForm({
       validationSchema: formSchema
@@ -269,12 +249,6 @@ export default defineComponent({
       }
     })
 
-    // computed
-    const members = computed((): MembersType[] => membersService.state.members)
-    const editable = computed((): boolean =>
-      authApp.getAuthAuthority().some((role) => editableRole.includes(role))
-    )
-
     // created
     /* const created = async () => {}
     created() */
@@ -293,10 +267,7 @@ export default defineComponent({
       emailError,
       roleError,
       passwordError,
-      confirmPasswordError,
-      members,
-      editable,
-      roleItems
+      confirmPasswordError
     }
   }
 })

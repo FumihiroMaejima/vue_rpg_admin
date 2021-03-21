@@ -2,7 +2,7 @@
   <div class="cp-fluid p-mx-md-6 p-mx-sm-2 p-mb-6">
     <h1 class="italic my-2">管理サービス-管理者情報</h1>
     <h2 class="italic my-2">管理者一覧</h2>
-    <div class="p-grid">
+    <div class="p-grid" v-if="editable">
       <div class="p-col-12 p-md-10"></div>
       <div class="p-col-12 p-md-1">
         <member-create-dialog />
@@ -35,6 +35,7 @@ import MemberCreateDialog from '@/components/modules/members/MemberCreateDialog.
 import MembersTable from '@/components/modules/members/MembersTable.vue'
 import AppTable from '@/components/parts/AppTable.vue'
 import {
+  editableRole,
   tableSetting,
   MembersType,
   MembersStateKey,
@@ -61,6 +62,9 @@ export default defineComponent({
     provide(MembersStateKey, membersService)
 
     // computed
+    const editable = computed((): boolean =>
+      authApp.getAuthAuthority().some((role) => editableRole.includes(role))
+    )
 
     // created
     const created = async () => {
@@ -93,6 +97,7 @@ export default defineComponent({
     }
 
     return {
+      editable,
       catchAppInputEvent
     }
   }

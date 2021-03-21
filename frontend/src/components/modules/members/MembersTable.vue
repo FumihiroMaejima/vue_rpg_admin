@@ -32,7 +32,6 @@ import {
   MembersSelectKeys,
   MembersStateKey,
   MembersStateType,
-  roleItems,
   useState
 } from '@/services/members'
 import AuthApp from '@/plugins/auth/authApp'
@@ -148,7 +147,6 @@ export default defineComponent({
       updateTextValue,
       catchBlurEventHandler,
       updateSelectValue,
-      roleItems,
       columnOptions
     }
   }

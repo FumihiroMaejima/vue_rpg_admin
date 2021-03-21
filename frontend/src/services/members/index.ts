@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { Ref, reactive, InjectionKey, inject } from 'vue'
+import { Ref, reactive, InjectionKey } from 'vue'
 import axios, { AxiosResponse, AxiosError } from 'axios'
 import {
   IAppConfig,
@@ -9,19 +9,29 @@ import {
 } from '@/types'
 import { TableColumnSetting } from '@/types/config/data'
 import { ToastData, SelectBoxType } from '@/types/applications/index'
-// import AuthApp from '@/plugins/auth/authApp'
+import { checkTextLength } from '@/util/validation'
 
 const config: IAppConfig = require('@/config/data')
 
 export const editableRole = ['master', 'administrator']
 
-export const roleItems: SelectBoxType[] = [
-  { text: 'role1', value: 1 },
-  { text: 'role2', value: 2 },
-  { text: 'role3', value: 3 },
-  { text: 'role4', value: 4 },
-  { text: 'role5', value: 5 }
-]
+export const formSchema = {
+  name(value: string): string {
+    return checkTextLength(value) ? '' : 'This is required'
+  },
+  email(value: string): string {
+    return checkTextLength(value) ? '' : 'This is required'
+  },
+  role(value: number): string {
+    return typeof value === 'number' ? '' : 'input number'
+  },
+  password(value: string): string {
+    return checkTextLength(value) ? '' : 'This is required'
+  },
+  confirmPassword(value: string): string {
+    return checkTextLength(value) ? '' : 'This is required'
+  }
+}
 
 export const tableSetting: TableColumnSetting<SelectBoxType>[] = [
   {
@@ -51,7 +61,6 @@ export const tableSetting: TableColumnSetting<SelectBoxType>[] = [
     header: 'Role',
     editable: true,
     type: 'select',
-    // items: roleItems,
     items: [] as SelectBoxType[],
     itemText: 'text',
     itemValue: 'value'
