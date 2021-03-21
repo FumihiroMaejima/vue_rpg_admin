@@ -1,22 +1,23 @@
 <template>
   <Button label="create" icon="pi pi-external-link" @click="display = true" />
   <Dialog
+    class="member-create-dialog"
     header="Member Create Modal"
     v-model:visible="display"
     :modal="true"
     :breakpoints="{ '960px': '90vw' }"
-    style="width:75vw;"
   >
     <div class="p-grid p-nogutter">
       <div class="p-col-12 p-md-2"></div>
       <div class="p-col-12 p-md-8">
         <div class="p-field p-grid">
-          <label for="name" class="p-col-fixed" style="width:20%">name</label>
+          <label for="name" class="p-col-fixed member-create-dialog__form-label">name</label>
           <div class="p-col">
             <div>
               <span class="p-float-label p-input-icon-right">
                 <InputText
                   id="name"
+                  class="p-col-fixed member-create-dialog__form-input"
                   :class="{ 'p-invalid': nameValue === '' }"
                   name="name"
                   type="text"
@@ -32,12 +33,13 @@
         </div>
 
         <div class="p-field p-grid">
-          <label for="email" class="p-col-fixed" style="width:20%">email</label>
+          <label for="email" class="p-col-fixed member-create-dialog__form-label">email</label>
           <div class="p-col">
             <div>
               <span class=" p-input-icon-right">
                 <InputText
                   id="email"
+                  class="p-col-fixed member-create-dialog__form-input"
                   :class="{ 'p-invalid': emailValue === '' }"
                   name="email"
                   type="text"
@@ -53,16 +55,16 @@
         </div>
 
         <div class="p-field p-grid">
-          <label for="role" class="p-col-fixed" style="width:20%">role</label>
+          <label for="role" class="p-col-fixed member-create-dialog__form-label">role</label>
           <div class="p-col">
             <div>
               <Dropdown
+                class="p-col-fixed member-create-dialog__form-dropdown"
                 v-model="roleValue"
                 :options="rolesList"
                 optionLabel="text"
                 optionValue="value"
                 placeholder="select role"
-                style="width:14rem;"
                 filter
               />
             </div>
@@ -71,14 +73,15 @@
         </div>
 
         <div class="p-field p-grid">
-          <label for="password" class="p-col-fixed" style="width:20%"
-            >password</label
-          >
+          <label for="password" class="p-col-fixed member-create-dialog__form-label">
+            password
+          </label>
           <div class="p-col">
             <div>
               <span class="p-float-label p-input-icon-right">
                 <InputText
                   id="password"
+                  class="p-col-fixed member-create-dialog__form-input"
                   :class="{ 'p-invalid': passwordValue === '' }"
                   name="password"
                   type="password"
@@ -92,14 +95,15 @@
         </div>
 
         <div class="p-field p-grid">
-          <label for="confirmPassword" class="p-col-fixed" style="width:20%"
-            >confirm password</label
-          >
+          <label for="confirmPassword" class="p-col-fixed member-create-dialog__form-label">
+            confirm password
+          </label>
           <div class="p-col">
             <div>
               <span class="p-float-label p-input-icon-right">
                 <InputText
                   id="confirmPassword"
+                  class="p-col-fixed member-create-dialog__form-input"
                   :class="{ 'p-invalid': confirmPasswordValue === '' }"
                   name="confirmPassword"
                   type="password"
@@ -297,3 +301,21 @@ export default defineComponent({
   }
 })
 </script>
+<style lang="scss">
+.member-create-dialog {
+  width: 75vw;
+
+  &__form-label {
+    width: 20%
+  }
+
+  &__form-dropdown {
+    width: 14rem;
+  }
+
+  &__form-input {
+    height: 36px;
+    width: 14rem;
+  }
+}
+</style>
