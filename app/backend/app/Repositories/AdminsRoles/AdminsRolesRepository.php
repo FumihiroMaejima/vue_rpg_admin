@@ -52,6 +52,16 @@ class AdminsRolesRepository implements AdminsRolesRepositoryInterface
      *
      * @return int
      */
+    public function createAdminsRole(array $resource): int
+    {
+        return DB::table($this->model->getTable())->insert($resource);
+    }
+
+    /**
+     * update Admins Role.
+     *
+     * @return int
+     */
     public function updateAdminsRoleData(array $resource, int $adminId): int
     {
         // admins

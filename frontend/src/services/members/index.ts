@@ -321,6 +321,37 @@ export const useState = () => {
       })
   }
 
+  const createMember = async (
+    options: AuthAppHeaderOptions
+  ): Promise<ServerRequestType> => {
+    axios.defaults.withCredentials = true
+    return await axios
+      .post(config.endpoint.members.create, {}, { headers: options.headers })
+      .then((response: AxiosResponse<any>) => {
+        setToastData(
+          'success',
+          'メンバー作成成功',
+          'メンバーを新規作成しました。'
+        )
+        return { data: response.data.data, status: response.status }
+      })
+      .catch((error: AxiosError<any>) => {
+        // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
+        setToastData(
+          'error',
+          'メンバー作成エラー',
+          'メンバーの新規作成に失敗しました。'
+        )
+        return {
+          data: error,
+          status: error.response ? error.response.status : 401
+        }
+      })
+      .finally(() => {
+        options.callback()
+      })
+  }
+
   return {
     state,
     getMembers,
@@ -333,7 +364,8 @@ export const useState = () => {
     updateMembersData,
     updateMembersRole,
     getMembersData,
-    getRoles
+    getRoles,
+    createMember
   }
 }
 

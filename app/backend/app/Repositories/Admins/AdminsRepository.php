@@ -78,6 +78,16 @@ class AdminsRepository implements AdminsRepositoryInterface
     }
 
     /**
+     * create Admin data.
+     *
+     * @return int
+     */
+    public function createAdmin(array $resource): int
+    {
+        return DB::table($this->model->getTable())->insert($resource);
+    }
+
+    /**
      * update Admin data.
      *
      * @return int

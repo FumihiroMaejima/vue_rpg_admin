@@ -9,5 +9,7 @@ interface AdminsRolesRepositoryInterface
 {
     public function getByAdminId(int $id): Collection;
 
+    public function createAdminsRole(array $resource): int;
+
     public function updateAdminsRoleData(array $resource, int $id): int;
 }

@@ -2,11 +2,14 @@
 
 namespace App\Services;
 
+use App\Http\Requests\MemberCreateRequest;
 use App\Http\Requests\MemberUpdateRequest;
 use App\Http\Resources\AdminsCollection;
 use App\Http\Resources\AdminsResource;
+use App\Http\Resources\AdminsRolesCreateResource;
 use App\Http\Resources\AdminsRolesUpdateResource;
 use App\Http\Resources\AdminUpdateResource;
+use App\Http\Resources\AdminCreateResource;
 use App\Repositories\Admins\AdminsRepositoryInterface;
 use App\Repositories\AdminsRoles\AdminsRolesRepositoryInterface;
 use Exception;
@@ -18,10 +21,12 @@ use Illuminate\Support\Facades\Log;
 class MembersService
 {
     protected $adminsRepository;
+    protected $adminsRolesRepository;
 
-    public function __construct(AdminsRepositoryInterface $adminsRepository)
+    public function __construct(AdminsRepositoryInterface $adminsRepository, AdminsRolesRepositoryInterface $adminsRolesRepository)
     {
         $this->adminsRepository = $adminsRepository;
+        $this->adminsRolesRepository = $adminsRolesRepository;
     }
 
     public function getAdmins(Request $request)
@@ -34,6 +39,44 @@ class MembersService
 
         return response()->json($resourceCollection->toArray($request), 200);
         // return response()->json($resource->toArray($request), 200);
+    }
+
+    /**
+     * update member data service
+     *
+     * @param  \App\Http\Requests\MemberCreateRequest  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function createMember(MemberCreateRequest $request)
+    {
+        DB::beginTransaction();
+        try {
+            Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'request all: ' . json_encode($request->all()));
+
+            $resource = app()->make(AdminCreateResource::class, ['resource' => $request])->toArray($request);
+
+            $insertRowCount = $this->adminsRepository->createAdmin($resource);
+            Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'insertRowCount: ' . json_encode($insertRowCount));
+
+            // 権限情報の作成
+            $roleIdResource = app()->make(AdminsRolesCreateResource::class, ['resource' => $request])->toArray($request);
+            $updatedAdminsRolesRowCount = $this->adminsRolesRepository->createAdminsRole($roleIdResource);
+            Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'roleIdResource: ' . json_encode($roleIdResource));
+            Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'updated row: ' . json_encode($updatedAdminsRolesRowCount));
+
+            DB::commit();
+
+            // 更新されて以内場合は304
+            $message = ($insertRowCount > 0 || $updatedAdminsRolesRowCount > 0) ? 'success' : 'not modified';
+            $status = ($insertRowCount > 0 || $updatedAdminsRolesRowCount > 0) ? 201 : 304;
+
+            return response()->json(['message' => $message, 'status' => $status], $status);
+        } catch (Exception $e) {
+            Log::error(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'message: ' . json_encode($e->getMessage()));
+            DB::rollback();
+            abort(500);
+        }
     }
 
     /**
@@ -56,7 +99,7 @@ class MembersService
 
             // 権限情報の更新
             $roleIdResource = app()->make(AdminsRolesUpdateResource::class, ['resource' => $request])->toArray($request);
-            $updatedAdminsRolesRowCount = app()->make(AdminsRolesRepositoryInterface::class)->updateAdminsRoleData($roleIdResource, $id);
+            $updatedAdminsRolesRowCount = $this->adminsRolesRepository->updateAdminsRoleData($roleIdResource, $id);
             Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'roleIdResource: ' . json_encode($roleIdResource));
             Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'updated row: ' . json_encode($updatedAdminsRolesRowCount));
 

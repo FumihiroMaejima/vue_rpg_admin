@@ -11,5 +11,7 @@ interface AdminsRepositoryInterface
 
     public function getAdminsList(): Collection;
 
+    public function createAdmin(array $resource): int;
+
     public function updateAdminData(array $resource, int $id): int;
 }
