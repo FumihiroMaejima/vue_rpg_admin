@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/camelcase */
 import { Ref, reactive, InjectionKey } from 'vue'
 import axios, { AxiosResponse, AxiosError } from 'axios'
 import {
@@ -44,6 +45,14 @@ export const formSchema = {
     )
   }
 }
+
+// export type CreateMemberData = Record<Exclude<keyof typeof formSchema, 'role'>, string> & Record<Extract<keyof typeof formSchema, 'role'>, number>
+export type CreateMemberData = Record<
+  Exclude<keyof typeof formSchema, 'role' | 'confirmPassword'>,
+  string
+> &
+  Record<'roleId', number> &
+  Record<'password_confirmation', string>
 
 export const tableSetting: TableColumnSetting<SelectBoxType>[] = [
   {
@@ -322,11 +331,12 @@ export const useState = () => {
   }
 
   const createMember = async (
+    data: CreateMemberData,
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
-      .post(config.endpoint.members.create, {}, { headers: options.headers })
+      .post(config.endpoint.members.create, data, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
         setToastData(
           'success',

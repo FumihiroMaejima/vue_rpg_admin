@@ -135,7 +135,6 @@ export function validateEmail(value: string): string {
  */
 export function validateSelectBoxNumberValue(value: number): string {
   let message = ''
-  const size = 5
   if (!checkPrimitiveType(value, 'number')) {
     return (message = 'invalid type')
   }

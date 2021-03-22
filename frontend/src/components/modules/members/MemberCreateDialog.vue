@@ -1,5 +1,10 @@
 <template>
-  <Button class="p-button-info" label="create" icon="pi pi-external-link" @click="display = true" />
+  <Button
+    class="p-button-info"
+    label="create"
+    icon="pi pi-external-link"
+    @click="display = true"
+  />
   <Dialog
     class="member-create-dialog"
     header="Member Create Modal"
@@ -11,7 +16,10 @@
       <div class="p-col-12 p-md-2"></div>
       <div class="p-col-12 p-md-8">
         <div class="p-field p-grid">
-          <label for="name" class="p-col-fixed member-create-dialog__form-label">
+          <label
+            for="name"
+            class="p-col-fixed member-create-dialog__form-label"
+          >
             name
           </label>
           <div class="p-col">
@@ -136,7 +144,13 @@
     <div class="p-grid p-nogutter">
       <div class="p-col-12 p-md-9"></div>
       <div class="p-col-12 p-md-1">
-        <Button class="p-button-success p-button-raised" icon="pi pi-check" label="create" :disabled="createDisabled" />
+        <Button
+          class="p-button-success p-button-raised"
+          icon="pi pi-check"
+          label="create"
+          :disabled="createDisabled"
+          @click="createMemberHandler"
+        />
       </div>
       <div class="p-col-12 p-md-2"></div>
     </div>
@@ -144,6 +158,7 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable @typescript-eslint/camelcase */
 import {
   defineComponent,
   ref,
@@ -265,7 +280,13 @@ export default defineComponent({
     })
 
     const createDisabled = computed((): boolean => {
-      return !(nameError.value === '' && emailError.value === '' && roleError.value === '' && passwordError.value === ''  && confirmPasswordError.value === '')
+      return !(
+        nameError.value === '' &&
+        emailError.value === '' &&
+        roleError.value === '' &&
+        passwordError.value === '' &&
+        confirmPasswordError.value === ''
+      )
     })
 
     // created
@@ -273,6 +294,29 @@ export default defineComponent({
     created() */
 
     // methods
+    /**
+     * catch create member event
+     * @return {void}
+     */
+    const createMemberHandler = async () => {
+      // サーバーへリクエスト
+      inversionFlag(loadingFlag)
+      const response = await membersService.createMember(
+        {
+          name: name.value,
+          email: email.value,
+          roleId: role.value,
+          password: password.value,
+          password_confirmation: confirmPassword.value
+        },
+        authApp.getHeaderOptions()
+      )
+
+      if (response.status !== 304) {
+        toast.add(membersService.getToastData())
+      }
+      inversionFlag(loadingFlag)
+    }
 
     return {
       display,
@@ -287,7 +331,8 @@ export default defineComponent({
       roleError,
       passwordError,
       confirmPasswordError,
-      createDisabled
+      createDisabled,
+      createMemberHandler
     }
   }
 })
