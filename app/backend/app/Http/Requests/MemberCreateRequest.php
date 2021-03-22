@@ -44,7 +44,6 @@ class MemberCreateRequest extends FormRequest
         $roleModel = app()->make(Roles::class);
 
         return [
-            // 'id'     => 'required|integer',
             'name'   => 'required|string|between:1,50',
             'email'  => 'required|string|email:rfc|between:1,50',
             // 'email' => ['regex:/^.+@.+$/i']
@@ -62,11 +61,12 @@ class MemberCreateRequest extends FormRequest
     public function messages()
     {
         return [
-            'id.numeric'  => ':attributeは整数で入力してください。',
             'email.email' => ':attributeの形式が正しくありません。',
             'required'    => ':attributeは必須項目です。',
             'string'      => ':attributeは文字列を入力してください。',
-            'between'     => ':attributeは:min〜:max文字以内で入力してください。'
+            'between'     => ':attributeは:min〜:max文字以内で入力してください。',
+            'confirmed'     => ':attributeは確認用にもう一度入力してください。',
+            'same'     => ':attributeは同一の値ではありません。'
             // 'email' => 'アルファベット半角で入力してください。'
             // 'tel.regex' => '「000-0000-0000」の形式で入力してください。'
         ];

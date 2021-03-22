@@ -66,7 +66,7 @@ class MemberUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'id.numeric'  => ':attributeは整数で入力してください。',
+            'id.integer'  => ':attributeは整数で入力してください。',
             'email.email' => ':attributeの形式が正しくありません。',
             'required'    => ':attributeは必須項目です。',
             'string'      => ':attributeは文字列を入力してください。',
