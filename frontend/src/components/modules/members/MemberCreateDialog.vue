@@ -1,5 +1,5 @@
 <template>
-  <Button label="create" icon="pi pi-external-link" @click="display = true" />
+  <Button class="p-button-info" label="create" icon="pi pi-external-link" @click="display = true" />
   <Dialog
     class="member-create-dialog"
     header="Member Create Modal"
@@ -136,7 +136,7 @@
     <div class="p-grid p-nogutter">
       <div class="p-col-12 p-md-9"></div>
       <div class="p-col-12 p-md-1">
-        <Button class="p-button-raised" icon="pi pi-check" label="create" />
+        <Button class="p-button-success p-button-raised" icon="pi pi-check" label="create" :disabled="createDisabled" />
       </div>
       <div class="p-col-12 p-md-2"></div>
     </div>
@@ -232,6 +232,7 @@ export default defineComponent({
       get: (): string => name.value,
       set: (value: string) => {
         name.value = value
+        console.log('test: ' + JSON.stringify(nameError, null, 2))
       }
     })
 
@@ -263,6 +264,10 @@ export default defineComponent({
       }
     })
 
+    const createDisabled = computed((): boolean => {
+      return !(nameError.value === '' && emailError.value === '' && roleError.value === '' && passwordError.value === ''  && confirmPasswordError.value === '')
+    })
+
     // created
     /* const created = async () => {}
     created() */
@@ -281,7 +286,8 @@ export default defineComponent({
       emailError,
       roleError,
       passwordError,
-      confirmPasswordError
+      confirmPasswordError,
+      createDisabled
     }
   }
 })
