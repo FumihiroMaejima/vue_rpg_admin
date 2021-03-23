@@ -2,7 +2,7 @@
   <Menubar :model="items">
     <template #start>
       <Button
-        icon="pi pi-home"
+        icon="pi pi-bars"
         class="p-button-rounded p-button-secondary"
         @click="openSideBar"
       />

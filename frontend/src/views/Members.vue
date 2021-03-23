@@ -2,17 +2,21 @@
   <div class="cp-fluid p-mx-md-6 p-mx-sm-2 p-mb-6">
     <h1 class="italic my-2">管理サービス-管理者情報</h1>
     <h2 class="italic my-2">管理者一覧</h2>
-    <div class="p-grid" v-if="editable">
-      <div class="p-col-12 p-md-10"></div>
-      <div class="p-col-12 p-md-1">
-        <member-create-dialog />
-      </div>
-      <div class="p-col-12 p-md-1"></div>
-    </div>
     <div class="p-grid">
       <div class="p-col-12 p-md-1"></div>
       <div class="p-col-12 p-md-10">
-        <members-table />
+        <div class="p-grid p-jc-end" v-if="editable">
+          <div class="p-col-2" style="justify-content:end">
+            <div class="p-d-flex p-jc-end">
+              <member-create-dialog />
+            </div>
+          </div>
+        </div>
+        <div class="p-grid">
+          <div class="p-col-12">
+            <members-table />
+          </div>
+        </div>
       </div>
       <div class="p-col-12 p-md-1"></div>
     </div>

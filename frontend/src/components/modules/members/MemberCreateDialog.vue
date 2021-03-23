@@ -2,7 +2,7 @@
   <Button
     class="p-button-info"
     label="create"
-    icon="pi pi-external-link"
+    icon="pi pi-user"
     @click="display = true"
   />
   <Dialog
@@ -146,7 +146,7 @@
       <div class="p-col-12 p-md-1">
         <Button
           class="p-button-success p-button-raised"
-          icon="pi pi-check"
+          icon="pi pi-send"
           label="create"
           :disabled="createDisabled"
           @click="createMemberHandler"
@@ -313,7 +313,7 @@ export default defineComponent({
       )
       toast.add(membersService.getToastData())
       if (response.status === 201) {
-        formContext.resetForm()
+        formContext.handleReset()
       }
       inversionFlag(loadingFlag)
     }
