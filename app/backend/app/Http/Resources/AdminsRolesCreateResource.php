@@ -16,7 +16,9 @@ class AdminsRolesCreateResource extends JsonResource
     {
         return [
             'role_id' => $request->roleId,
-            'admin_id' => $request->id
+            'admin_id' => $this->resource->id,
+            'created_at' => $this->resource->created_at,
+            'updated_at'  => $this->resource->updated_at
         ];
     }
 }

@@ -56,20 +56,21 @@ class MembersService
 
             $resource = app()->make(AdminCreateResource::class, ['resource' => $request])->toArray($request);
 
-            $insertRowCount = $this->adminsRepository->createAdmin($resource);
-            Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'insertRowCount: ' . json_encode($insertRowCount));
+            $insertCount = $this->adminsRepository->createAdmin($resource); // if created => count is 1
+            Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'insertCount: ' . json_encode($insertCount));
+            $latestAdmin = $this->adminsRepository->getLatestAdmin();
 
             // 権限情報の作成
-            $roleIdResource = app()->make(AdminsRolesCreateResource::class, ['resource' => $request])->toArray($request);
-            $updatedAdminsRolesRowCount = $this->adminsRolesRepository->createAdminsRole($roleIdResource);
-            Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'roleIdResource: ' . json_encode($roleIdResource));
-            Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'updated row: ' . json_encode($updatedAdminsRolesRowCount));
+            $adminsRolesResource = app()->make(AdminsRolesCreateResource::class, ['resource' => $latestAdmin])->toArray($request);
+            $insertAdminsRolesCount = $this->adminsRolesRepository->createAdminsRole($adminsRolesResource);
+            Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'roleIdResource: ' . json_encode($adminsRolesResource));
+            Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'insert roles conut: ' . json_encode($insertAdminsRolesCount));
 
             DB::commit();
 
-            // 更新されて以内場合は304
-            $message = ($insertRowCount > 0 || $updatedAdminsRolesRowCount > 0) ? 'success' : 'not modified';
-            $status = ($insertRowCount > 0 || $updatedAdminsRolesRowCount > 0) ? 201 : 304;
+            // 作成されている場合は304
+            $message = ($insertCount > 0 && $insertAdminsRolesCount > 0) ? 'success' : 'Bad Request';
+            $status = ($insertCount > 0 && $insertAdminsRolesCount > 0) ? 201 : 401;
 
             return response()->json(['message' => $message, 'status' => $status], $status);
         } catch (Exception $e) {
@@ -105,7 +106,7 @@ class MembersService
 
             DB::commit();
 
-            // 更新されて以内場合は304
+            // 更新されていない場合は304
             $message = ($updatedRowCount > 0 || $updatedAdminsRolesRowCount > 0) ? 'success' : 'not modified';
             $status = ($updatedRowCount > 0 || $updatedAdminsRolesRowCount > 0) ? 200 : 304;
 

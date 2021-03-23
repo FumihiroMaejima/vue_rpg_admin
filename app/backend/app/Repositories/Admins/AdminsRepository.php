@@ -80,6 +80,20 @@ class AdminsRepository implements AdminsRepositoryInterface
     /**
      * create Admin data.
      *
+     * @return Collection
+     * @return \Illuminate\Database\Eloquent\Model|object|static|null
+     */
+    public function getLatestAdmin(): object
+    {
+        return DB::table($this->model->getTable())
+            ->latest()
+            ->first();
+            // ->get();
+    }
+
+    /**
+     * create Admin data.
+     *
      * @return int
      */
     public function createAdmin(array $resource): int
