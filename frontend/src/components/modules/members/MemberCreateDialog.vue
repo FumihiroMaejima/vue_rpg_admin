@@ -219,7 +219,7 @@ export default defineComponent({
     const display = ref<boolean>(false)
     const rolesList = reactive<SelectBoxType[]>([])
 
-    useForm({
+    const formContext = useForm({
       validationSchema: formSchema
     })
 
@@ -247,7 +247,6 @@ export default defineComponent({
       get: (): string => name.value,
       set: (value: string) => {
         name.value = value
-        console.log('test: ' + JSON.stringify(nameError, null, 2))
       }
     })
 
@@ -299,6 +298,7 @@ export default defineComponent({
      * @return {void}
      */
     const createMemberHandler = async () => {
+      display.value = false
       // サーバーへリクエスト
       inversionFlag(loadingFlag)
       const response = await membersService.createMember(
@@ -311,9 +311,9 @@ export default defineComponent({
         },
         authApp.getHeaderOptions()
       )
-
-      if (response.status !== 304) {
-        toast.add(membersService.getToastData())
+      toast.add(membersService.getToastData())
+      if (response.status === 201) {
+        formContext.resetForm()
       }
       inversionFlag(loadingFlag)
     }

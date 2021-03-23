@@ -69,11 +69,6 @@ export function checkTextEquals(value: string, comparedValue: string): boolean {
 export function checkEmailRegex(value: string): boolean {
   const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   // const regexp = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/
-  console.log('regex:' + JSON.stringify(regex, null, 2))
-  console.log(
-    'String(value).toLowerCase():' +
-      JSON.stringify(String(value).toLowerCase(), null, 2)
-  )
   // 小文字に変換
   return regex.test(String(value).toLowerCase())
 }
@@ -86,11 +81,6 @@ export function checkEmailRegex(value: string): boolean {
 export function checkPasswordRegex(value: string): boolean {
   // 半角英数字8-100文字の正規表現
   const regex = /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,100}$/i
-  console.log('regex:' + JSON.stringify(regex, null, 2))
-  console.log(
-    'String(value).toLowerCase():' +
-      JSON.stringify(String(value).toLowerCase(), null, 2)
-  )
   return regex.test(String(value).toLowerCase())
 }
 
