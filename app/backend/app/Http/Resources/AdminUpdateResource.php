@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
 
 class AdminUpdateResource extends JsonResource
 {
@@ -14,9 +15,12 @@ class AdminUpdateResource extends JsonResource
      */
     public function toArray($request)
     {
+        $dateTime = Carbon::now()->format('Y-m-d H:i:s');
         return [
-            'name' => $request->name,
-            'email' => $request->email
+            'name'       => $request->name,
+            'email'      => $request->email,
+            'created_at' => $dateTime,
+            'updated_at' => $dateTime
         ];
     }
 }

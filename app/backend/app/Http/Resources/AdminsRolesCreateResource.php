@@ -15,10 +15,10 @@ class AdminsRolesCreateResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'role_id' => $request->roleId,
-            'admin_id' => $this->resource->id,
+            'role_id'    => $request->roleId,
+            'admin_id'   => $this->resource->id,
             'created_at' => $this->resource->created_at,
-            'updated_at'  => $this->resource->updated_at
+            'updated_at' => $this->resource->updated_at
         ];
     }
 }
