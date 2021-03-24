@@ -67,7 +67,7 @@ export default defineComponent({
 
     // computed
     const editable = computed((): boolean =>
-      authApp.getAuthAuthority().some((role) => editableRole.includes(role))
+      authApp.checkAuthority(editableRole)
     )
 
     // created
