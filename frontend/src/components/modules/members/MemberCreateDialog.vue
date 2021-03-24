@@ -12,134 +12,172 @@
     :modal="true"
     :breakpoints="{ '960px': '90vw' }"
   >
-    <div class="p-grid p-nogutter">
-      <div class="p-col-12 p-md-2"></div>
-      <div class="p-col-12 p-md-8">
-        <div class="p-field p-grid">
-          <label
-            for="name"
-            class="p-col-fixed member-create-dialog__form-label"
-          >
-            name
-          </label>
-          <div class="p-col">
-            <div>
-              <span class="p-float-label p-input-icon-right">
-                <InputText
-                  id="name"
-                  class="p-col-fixed member-create-dialog__form-input"
-                  :class="{ 'p-invalid': nameValue === '' }"
-                  name="name"
-                  type="text"
-                  maxlength="50"
-                  placeholder="input name"
-                  v-model="nameValue"
-                />
-                <i class="pi pi-user" />
-              </span>
+    <div class="p-grid p-nogutter p-jc-center">
+      <div class="p-col-12">
+        <div
+          class="p-grid p-nogutter p-jc-center p-ai-center vertical-container"
+        >
+          <div class="p-col-12 p-md-2">
+            <label
+              for="name"
+              class="p-col-fixed member-create-dialog__form-label"
+            >
+              name
+            </label>
+          </div>
+          <div class="p-col-12 p-md-10">
+            <div class="p-col">
+              <div>
+                <span
+                  class="p-float-label p-input-icon-right member-create-dialog__form-input"
+                >
+                  <InputText
+                    id="name"
+                    class="p-col-fixed"
+                    :class="{ 'p-invalid': nameValue === '' }"
+                    name="name"
+                    type="text"
+                    maxlength="50"
+                    placeholder="input name"
+                    v-model="nameValue"
+                  />
+                  <i class="pi pi-user" />
+                </span>
+              </div>
+              <small class="p-error">{{ nameError }}</small>
             </div>
-            <small class="p-error">{{ nameError }}</small>
           </div>
         </div>
 
-        <div class="p-field p-grid">
-          <label
-            for="email"
-            class="p-col-fixed member-create-dialog__form-label"
-          >
-            email
-          </label>
-          <div class="p-col">
-            <div>
-              <span class=" p-input-icon-right">
-                <InputText
-                  id="email"
-                  class="p-col-fixed member-create-dialog__form-input"
-                  :class="{ 'p-invalid': emailValue === '' }"
-                  name="email"
-                  type="text"
-                  maxlength="50"
-                  placeholder="test@example.com"
-                  v-model="emailValue"
-                />
-                <i class="pi pi-envelope" />
-              </span>
+        <div
+          class="p-grid p-nogutter p-jc-center p-ai-center vertical-container"
+        >
+          <div class="p-col-12 p-md-2">
+            <label
+              for="email"
+              class="p-col-fixed member-create-dialog__form-label"
+            >
+              email
+            </label>
+          </div>
+          <div class="p-col-12 p-md-10">
+            <div class="p-col">
+              <div>
+                <span
+                  class=" p-input-icon-right member-create-dialog__form-input"
+                >
+                  <InputText
+                    id="email"
+                    class="p-col-fixed"
+                    :class="{ 'p-invalid': emailValue === '' }"
+                    name="email"
+                    type="text"
+                    maxlength="50"
+                    placeholder="test@example.com"
+                    v-model="emailValue"
+                  />
+                  <i class="pi pi-envelope" />
+                </span>
+              </div>
+              <small class="p-error">{{ emailError }}</small>
             </div>
-            <small class="p-error">{{ emailError }}</small>
           </div>
         </div>
 
-        <div class="p-field p-grid">
-          <label for="role" class="p-col-fixed member-create-dialog__form-label"
-            >role</label
-          >
-          <div class="p-col">
-            <div>
-              <Dropdown
-                class="p-col-fixed member-create-dialog__form-dropdown"
-                v-model="roleValue"
-                :options="rolesList"
-                optionLabel="text"
-                optionValue="value"
-                placeholder="select role"
-                filter
-              />
+        <div
+          class="p-grid p-nogutter p-jc-center p-ai-center vertical-container"
+        >
+          <div class="p-col-12 p-md-2">
+            <label
+              for="role"
+              class="p-col-fixed member-create-dialog__form-label"
+              >role</label
+            >
+          </div>
+          <div class="p-col-12 p-md-10">
+            <div class="p-col">
+              <div>
+                <Dropdown
+                  class="p-col-fixed member-create-dialog__form-dropdown"
+                  v-model="roleValue"
+                  :options="rolesList"
+                  optionLabel="text"
+                  optionValue="value"
+                  placeholder="select role"
+                  filter
+                />
+              </div>
+              <small class="p-error">{{ roleError }}</small>
             </div>
-            <small class="p-error">{{ roleError }}</small>
           </div>
         </div>
 
-        <div class="p-field p-grid">
-          <label
-            for="password"
-            class="p-col-fixed member-create-dialog__form-label"
-          >
-            password
-          </label>
-          <div class="p-col">
-            <div>
-              <span class="p-float-label p-input-icon-right">
-                <InputText
-                  id="password"
-                  class="p-col-fixed member-create-dialog__form-input"
-                  :class="{ 'p-invalid': passwordValue === '' }"
-                  name="password"
-                  type="password"
-                  v-model="passwordValue"
-                />
-                <i class="pi pi-exclamation-triangle" />
-              </span>
+        <div
+          class="p-grid p-nogutter p-jc-center p-ai-center vertical-container"
+        >
+          <div class="p-col-12 p-md-2">
+            <label
+              for="password"
+              class="p-col-fixed member-create-dialog__form-label"
+            >
+              password
+            </label>
+          </div>
+          <div class="p-col-12 p-md-10">
+            <div class="p-col">
+              <div>
+                <span
+                  class="p-float-label p-input-icon-right member-create-dialog__form-input"
+                >
+                  <InputText
+                    id="password"
+                    class="p-col-fixed"
+                    :class="{ 'p-invalid': passwordValue === '' }"
+                    name="password"
+                    type="password"
+                    v-model="passwordValue"
+                  />
+                  <i class="pi pi-exclamation-triangle" />
+                </span>
+              </div>
+              <span class="p-error">{{ passwordError }}</span>
             </div>
-            <span class="p-error">{{ passwordError }}</span>
           </div>
         </div>
 
-        <div class="p-field p-grid">
-          <label
-            for="confirmPassword"
-            class="p-col-fixed member-create-dialog__form-label"
-          >
-            confirm password
-          </label>
-          <div class="p-col">
-            <div>
-              <span class="p-float-label p-input-icon-right">
-                <InputText
-                  id="confirmPassword"
-                  class="p-col-fixed member-create-dialog__form-input"
-                  :class="{ 'p-invalid': confirmPasswordValue === '' }"
-                  name="confirmPassword"
-                  type="password"
-                  v-model="confirmPasswordValue"
-                />
-                <i class="pi pi-exclamation-triangle" />
-              </span>
+        <div
+          class="p-grid p-nogutter p-jc-center p-ai-center vertical-container"
+        >
+          <div class="p-col-12 p-md-2">
+            <label
+              for="confirmPassword"
+              class="p-col-fixed member-create-dialog__form-label"
+            >
+              confirm password
+            </label>
+          </div>
+          <div class="p-col-12 p-md-10">
+            <div class="p-col">
+              <div>
+                <span
+                  class="p-float-label p-input-icon-right member-create-dialog__form-input"
+                >
+                  <InputText
+                    id="confirmPassword"
+                    class="p-col-fixed"
+                    :class="{ 'p-invalid': confirmPasswordValue === '' }"
+                    name="confirmPassword"
+                    type="password"
+                    v-model="confirmPasswordValue"
+                  />
+                  <i class="pi pi-exclamation-triangle" />
+                </span>
+              </div>
+              <span class="p-error">{{ confirmPasswordError }}</span>
             </div>
-            <span class="p-error">{{ confirmPasswordError }}</span>
           </div>
         </div>
       </div>
-      <div class="p-col-12 p-md-2"></div>
     </div>
     <div class="p-grid p-jc-end">
       <div class="p-col-6 p-md-4" style="justify-content:end">
@@ -342,16 +380,22 @@ export default defineComponent({
   width: 45vw;
 
   &__form-label {
-    width: 20%;
+    width: 100%;
   }
 
   &__form-dropdown {
-    width: 20rem;
+    width: 100%;
+  }
+
+  .member-create-dialog__form-dropdown.p-dropdown {
+    padding: 0 0 0 0 !important;
   }
 
   &__form-input {
-    height: 36px;
-    width: 20rem;
+    width: 100%;
+    input {
+      width: 100%;
+    }
   }
 }
 </style>
