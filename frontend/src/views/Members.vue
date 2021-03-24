@@ -6,7 +6,7 @@
       <div class="p-col-12 p-md-1"></div>
       <div class="p-col-12 p-md-10">
         <div class="p-grid p-jc-end" v-if="editable">
-          <div class="p-col-2" style="justify-content:end">
+          <div class="p-col-4 p-md-2" style="justify-content:end">
             <div class="p-d-flex p-jc-end">
               <member-create-dialog />
             </div>

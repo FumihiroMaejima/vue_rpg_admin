@@ -141,18 +141,18 @@
       </div>
       <div class="p-col-12 p-md-2"></div>
     </div>
-    <div class="p-grid p-nogutter">
-      <div class="p-col-12 p-md-9"></div>
-      <div class="p-col-12 p-md-1">
-        <Button
-          class="p-button-success p-button-raised"
-          icon="pi pi-send"
-          label="create"
-          :disabled="createDisabled"
-          @click="createMemberHandler"
-        />
+    <div class="p-grid p-jc-end">
+      <div class="p-col-6 p-md-4" style="justify-content:end">
+        <div class="p-d-flex p-jc-end">
+          <Button
+            class="p-button-success p-button-raised"
+            icon="pi pi-send"
+            label="create"
+            :disabled="createDisabled"
+            @click="createMemberHandler"
+          />
+        </div>
       </div>
-      <div class="p-col-12 p-md-2"></div>
     </div>
   </Dialog>
 </template>
@@ -339,19 +339,19 @@ export default defineComponent({
 </script>
 <style lang="scss">
 .member-create-dialog {
-  width: 75vw;
+  width: 45vw;
 
   &__form-label {
     width: 20%;
   }
 
   &__form-dropdown {
-    width: 14rem;
+    width: 20rem;
   }
 
   &__form-input {
     height: 36px;
-    width: 14rem;
+    width: 20rem;
   }
 }
 </style>
