@@ -87,6 +87,30 @@ class MemberServiceTest extends TestCase
      *
      * @return void
      */
+    public function testCreateMemberSuccess(): void
+    {
+        $response = $this->json('POST', route('admin.members.create'), Config::get('myapp.test.member.create.success'));
+        $response->assertStatus(201);
+    }
+
+    /**
+     * members update request test.
+     *
+     * @return void
+     */
+    public function testCreateMember422Failed(): void
+    {
+        $data = Config::get('myapp.test.member.create.success');
+        $data['name'] = '';
+        $response = $this->json('POST', route('admin.members.create'), $data);
+        $response->assertStatus(422);
+    }
+
+    /**
+     * members update request test.
+     *
+     * @return void
+     */
     public function testUpdateMembers(): void
     {
         $response = $this->json('PATCH', route('admin.members.update', ['id' => 1]), [
