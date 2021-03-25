@@ -8,7 +8,7 @@
         <div class="p-grid p-jc-end" v-if="editable">
           <div class="p-col-4 p-md-2" style="justify-content:end">
             <div class="p-d-flex p-jc-end">
-              <member-create-dialog />
+              <member-create-dialog @create-member="createMemberHandler" />
             </div>
           </div>
         </div>
@@ -100,9 +100,25 @@ export default defineComponent({
       console.log('catchAppInputEvent: ' + JSON.stringify(event, null, 2))
     }
 
+    /**
+     * handling create member event
+     * @return {void}
+     */
+    const createMemberHandler = async (event: boolean) => {
+      inversionFlag(loadingFlag)
+      const response = await membersService.getMembersData(
+        authApp.getHeaderOptions()
+      )
+      if (response.status !== 200) {
+        toast.add(membersService.getToastData())
+      }
+      inversionFlag(loadingFlag)
+    }
+
     return {
       editable,
-      catchAppInputEvent
+      catchAppInputEvent,
+      createMemberHandler
     }
   }
 })

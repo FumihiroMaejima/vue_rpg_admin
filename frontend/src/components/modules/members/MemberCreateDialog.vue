@@ -204,6 +204,7 @@ import {
   PropType,
   reactive,
   computed,
+  SetupContext,
   watch,
   inject
 } from 'vue'
@@ -249,7 +250,7 @@ export default defineComponent({
       default: false
     }
   }, */
-  setup() {
+  setup(__, context: SetupContext) {
     const toast = inject(ToastTypeKey) as ToastType
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
@@ -352,6 +353,7 @@ export default defineComponent({
       toast.add(membersService.getToastData())
       if (response.status === 201) {
         formContext.handleReset()
+        context.emit('create-member', true)
       }
       inversionFlag(loadingFlag)
     }
