@@ -22,15 +22,17 @@
     >
       <template
         #body="slotProps"
-        v-if="col.type === 'select' && col.items && col.itemValue"
       >
-        <span>{{
+        <span v-if="col.type === 'select' && col.items && col.itemValue">{{
           col.items.find(
             (item) =>
               item[col.itemValue] ===
               slotProps.data[slotProps.column.props.field]
           ).text
         }}</span>
+        <div v-else class="app-table__text-field">
+          {{ slotProps.data[slotProps.column.props.field] }}
+        </div>
       </template>
       <template #editor="slotProps" v-if="editable && col.editable">
         <template v-if="col.type === 'text'">
@@ -204,6 +206,10 @@ export default defineComponent({
     input {
       width: 100%;
     }
+  }
+
+  &__text-field {
+    word-break: break-all;
   }
 }
 </style>
