@@ -45,6 +45,7 @@ export type TableTextColumn = {
   header: string
   type: 'text'
   editable: boolean
+  style: string
 }
 
 export type TableSelectColumn<T = any> = {
@@ -53,6 +54,7 @@ export type TableSelectColumn<T = any> = {
   header: string
   type: 'select'
   editable: boolean
+  style: string
   items: T[]
   itemText: string
   itemValue: string

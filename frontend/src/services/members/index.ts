@@ -60,21 +60,24 @@ export const tableSetting: TableColumnSetting<SelectBoxType>[] = [
     field: 'id',
     header: 'ID',
     editable: false,
-    type: 'text'
+    type: 'text',
+    style: 'width:10%'
   },
   {
     identifier: 'id',
     field: 'name',
     header: 'Name',
     editable: true,
-    type: 'text'
+    type: 'text',
+    style: 'width:30%'
   },
   {
     identifier: 'id',
     field: 'email',
     header: 'Email',
     editable: true,
-    type: 'text'
+    type: 'text',
+    style: 'width:30%'
   },
   {
     identifier: 'id',
@@ -82,6 +85,7 @@ export const tableSetting: TableColumnSetting<SelectBoxType>[] = [
     header: 'Role',
     editable: true,
     type: 'select',
+    style: 'width:30%',
     items: [] as SelectBoxType[],
     itemText: 'text',
     itemValue: 'value'
