@@ -18,7 +18,6 @@ class AdminsRolesUpdateResource extends JsonResource
         $dateTime = Carbon::now()->format('Y-m-d H:i:s');
         return [
             'role_id'    => $request->roleId,
-            'created_at' => $dateTime,
             'updated_at' => $dateTime
         ];
     }

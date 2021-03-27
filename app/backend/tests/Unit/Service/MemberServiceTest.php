@@ -120,34 +120,22 @@ class MemberServiceTest extends TestCase
     {
         $this->createApplication();
 
-        $data = Config::get('myapp.test.member.create.success');
+        $caseKeys = ['no_name', 'no_email', 'no_exist_role', 'no_password', 'no_password_confirmation', 'not_same_password'];
 
-        $noName = $data;
-        $noName['name'] = '';
+        $testCase = [];
+        foreach($caseKeys as $key) {
+            $testCase[$key] = Config::get('myapp.test.member.create.success');
+        }
 
-        $noEmail = $data;
-        $noEmail['email'] = '';
+        // データの整形
+        $testCase['no_name']['name']                                   = '';
+        $testCase['no_email']['email']                                 = '';
+        $testCase['no_exist_role']['roleId']                           = 0;
+        $testCase['no_password']['password']                           = '';
+        $testCase['no_password_confirmation']['password_confirmation'] = '';
+        $testCase['not_same_password']['password_confirmation']        = '1234';
 
-        $noExistRole = $data;
-        $noExistRole['roleId'] = 0;
-
-        $noPassword = $data;
-        $noPassword['password'] = '';
-
-        $nopasswordConfirm = $data;
-        $nopasswordConfirm['password_confirmation'] = '';
-
-        $notSamePassword = $data;
-        $notSamePassword['password_confirmation'] = '1234';
-
-        return [
-            'no name'                  => $noName,
-            'no email'                 => $noEmail,
-            'no exist role'            => $noExistRole,
-            'no password'              => $noPassword,
-            'no password_confirmation' => $nopasswordConfirm,
-            'not same password'        => $notSamePassword
-        ];
+        return $testCase;
     }
 
     /**

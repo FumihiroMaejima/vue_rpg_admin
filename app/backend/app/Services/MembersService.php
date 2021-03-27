@@ -4,11 +4,14 @@ namespace App\Services;
 
 use App\Http\Requests\MemberCreateRequest;
 use App\Http\Requests\MemberUpdateRequest;
+use App\Http\Requests\MemberDeleteRequest;
 use App\Http\Resources\AdminsCollection;
 use App\Http\Resources\AdminsResource;
 use App\Http\Resources\AdminsRolesCreateResource;
 use App\Http\Resources\AdminsRolesUpdateResource;
+use App\Http\Resources\AdminsRolesDeleteResource;
 use App\Http\Resources\AdminUpdateResource;
+use App\Http\Resources\AdminDeleteResource;
 use App\Http\Resources\AdminCreateResource;
 use App\Repositories\Admins\AdminsRepositoryInterface;
 use App\Repositories\AdminsRoles\AdminsRolesRepositoryInterface;
@@ -109,6 +112,44 @@ class MembersService
             // 更新されていない場合は304
             $message = ($updatedRowCount > 0 || $updatedAdminsRolesRowCount > 0) ? 'success' : 'not modified';
             $status = ($updatedRowCount > 0 || $updatedAdminsRolesRowCount > 0) ? 200 : 304;
+
+            return response()->json(['message' => $message, 'status' => $status], $status);
+        } catch (Exception $e) {
+            Log::error(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'message: ' . json_encode($e->getMessage()));
+            DB::rollback();
+            abort(500);
+        }
+    }
+
+    /**
+     * delete member data service
+     *
+     * @param  \App\Http\Requests\MemberDeleteRequest  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteMember(MemberDeleteRequest $request)
+    {
+        DB::beginTransaction();
+        try {
+            $id = $request->id;
+
+            $resource = app()->make(AdminDeleteResource::class, ['resource' => $request])->toArray($request);
+
+            $deleteRowCount = $this->adminsRepository->deleteAdminData($resource, $id);
+            Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'deleteRowCount: ' . json_encode($deleteRowCount));
+
+            // 権限情報の更新
+            $roleIdResource = app()->make(AdminsRolesDeleteResource::class, ['resource' => $request])->toArray($request);
+            $deleteAdminsRolesRowCount = $this->adminsRolesRepository->deleteAdminsRoleData($roleIdResource, $id);
+            Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'roleIdResource: ' . json_encode($roleIdResource));
+            Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'delete row: ' . json_encode($deleteAdminsRolesRowCount));
+
+            DB::commit();
+
+            // 更新されていない場合は304
+            $message = ($deleteRowCount > 0 && $deleteAdminsRolesRowCount > 0) ? 'success' : 'not deleted';
+            $status = ($deleteRowCount > 0 && $deleteAdminsRolesRowCount > 0) ? 200 : 401;
 
             return response()->json(['message' => $message, 'status' => $status], $status);
         } catch (Exception $e) {

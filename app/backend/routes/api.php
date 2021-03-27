@@ -54,6 +54,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:api-admins'], function 
         Route::get('/', [MembersController::class, 'index'])->name('admin.members.index');
         Route::post('/member', [MembersController::class, 'create'])->name('admin.members.create');
         Route::patch('/member/{id}', [MembersController::class, 'update'])->name('admin.members.update');
+        Route::delete('/member', [MembersController::class, 'destroy'])->name('admin.members.delete');
     });
 
     // roles

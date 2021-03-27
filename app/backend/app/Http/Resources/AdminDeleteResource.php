@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
 
-class AdminUpdateResource extends JsonResource
+class AdminDeleteResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,9 +17,8 @@ class AdminUpdateResource extends JsonResource
     {
         $dateTime = Carbon::now()->format('Y-m-d H:i:s');
         return [
-            'name'       => $request->name,
-            'email'      => $request->email,
-            'updated_at' => $dateTime
+            'updated_at' => $dateTime,
+            'deleted_at' => $dateTime
         ];
     }
 }

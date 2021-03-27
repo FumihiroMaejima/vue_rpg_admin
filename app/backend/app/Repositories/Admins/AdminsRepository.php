@@ -134,4 +134,21 @@ class AdminsRepository implements AdminsRepositoryInterface
         // Facadeのupdate
         return DB::update($query, [$id]); */
     }
+
+    /**
+     * delete Admin data.
+     *
+     * @return int
+     */
+    public function deleteAdminData(array $resource): int
+    {
+        // admins
+        $admins = $this->model->getTable();
+
+        // Query Builderのupdate
+        return DB::table($admins)
+            // ->whereIn('id', [$id])
+            ->where('id', '=', [$resource['id']])
+            ->update($resource);
+    }
 }
