@@ -186,4 +186,53 @@ class MemberServiceTest extends TestCase
         ]);
         $response->assertStatus(422);
     }
+
+    /**
+     * member crerate data
+     * @return array
+     */
+    public function memberRemoveDataProvider(): array
+    {
+        $this->createApplication();
+
+        return [
+            'id is 3' => ['id' => 3]
+        ];
+    }
+
+    /**
+     * members create request test.
+     * @dataProvider memberRemoveDataProvider
+     * @return void
+     */
+    public function testRemoveMemberSuccess(int $id): void
+    {
+        $response = $this->json('DELETE', route('admin.members.delete', ['id' => $id]));
+        $response->assertStatus(200);
+    }
+
+    /**
+     * member crerate data
+     * @return array
+     */
+    public function memberRemoveValidationErrorDataProvider(): array
+    {
+        $this->createApplication();
+
+        return [
+            'no exist id' => ['id' => 100],
+            'not inteder value' => ['id' => (int)('string value')]
+        ];
+    }
+
+    /**
+     * members create request test.
+     * @dataProvider memberRemoveValidationErrorDataProvider
+     * @return void
+     */
+    public function testRemoveMemberValidationError(int $id): void
+    {
+        $response = $this->json('DELETE', route('admin.members.delete', ['id' => $id]));
+        $response->assertStatus(422);
+    }
 }
