@@ -38,8 +38,8 @@ return [
                     'name' => 'test name',
                     'email' => 'testadmin12345XXX' . '@example.com',
                     'roleId' => 1,
-                    'password' => env('TEST_ADMIN_SEEDER_PASSWORD', 'password') . '12345',
-                    'password_confirmation' => env('TEST_ADMIN_SEEDER_PASSWORD', 'password') . '12345'
+                    'password' => 'testpassword' . '12345',
+                    'password_confirmation' => 'testpassword' . '12345'
                 ]
             ]
         ]
