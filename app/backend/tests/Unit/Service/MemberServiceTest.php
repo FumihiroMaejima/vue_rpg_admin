@@ -123,7 +123,7 @@ class MemberServiceTest extends TestCase
         $caseKeys = ['no_name', 'no_email', 'no_exist_role', 'no_password', 'no_password_confirmation', 'not_same_password'];
 
         $testCase = [];
-        foreach($caseKeys as $key) {
+        foreach ($caseKeys as $key) {
             $testCase[$key] = Config::get('myapp.test.member.create.success');
         }
 
