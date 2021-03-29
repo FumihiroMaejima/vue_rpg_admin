@@ -8,7 +8,7 @@
         <div class="p-grid p-jc-end" v-if="editable">
           <div class="p-col-8 p-md-4" style="justify-content:end">
             <div class="p-d-flex p-jc-end">
-              <member-remove-dialog @remove-member="removeMemberHandler" />
+              <member-remove-dialog @remove-member="removeMemberHandler" :members="membersNameList" />
               <member-create-dialog @create-member="createMemberHandler" />
             </div>
           </div>
@@ -71,6 +71,12 @@ export default defineComponent({
     // computed
     const editable = computed((): boolean =>
       authApp.checkAuthority(editableRole)
+    )
+
+    const membersNameList = computed((): Pick<MembersType, 'id' | 'name'>[] =>
+      membersService.state.members.map(member => {
+        return {id: member.id, name: member.name}
+      })
     )
 
     // created
@@ -136,6 +142,7 @@ export default defineComponent({
     }
 
     return {
+      membersNameList,
       editable,
       catchAppInputEvent,
       createMemberHandler,

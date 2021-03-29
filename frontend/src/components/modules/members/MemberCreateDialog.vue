@@ -201,7 +201,6 @@ import {
   defineComponent,
   ref,
   Ref,
-  PropType,
   reactive,
   computed,
   SetupContext,
@@ -215,25 +214,14 @@ import Dropdown from 'primevue/dropdown'
 
 import {
   formSchema,
-  editableRole,
-  tableSetting,
-  MembersType,
-  MembersTextKeys,
-  MembersSelectKeys,
   MembersStateKey,
-  MembersStateType,
-  useState
+  MembersStateType
 } from '@/services/members'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
 import { useField, useForm } from 'vee-validate'
-import { checkTextLength } from '@/util/validation'
 import { ToastType, SelectBoxType } from '@/types/applications/index'
 import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
-
-/* type Props = {
-  display: boolean
-} */
 
 export default defineComponent({
   name: 'MemberCreateDialog',
@@ -243,13 +231,6 @@ export default defineComponent({
     InputText,
     Dropdown
   },
-  /* props: {
-    open: {
-      type: Boolean,
-      required: false,
-      default: false
-    }
-  }, */
   setup(__, context: SetupContext) {
     const toast = inject(ToastTypeKey) as ToastType
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>

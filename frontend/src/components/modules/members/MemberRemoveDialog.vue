@@ -31,9 +31,9 @@
                 <Dropdown
                   class="p-col-fixed member-remove-dialog__form-dropdown"
                   v-model="memberValue"
-                  :options="membersList"
-                  optionLabel="text"
-                  optionValue="value"
+                  :options="members"
+                  optionLabel="name"
+                  optionValue="id"
                   placeholder="select role"
                   filter
                 />
@@ -97,9 +97,9 @@ import { checkTextLength } from '@/util/validation'
 import { ToastType, SelectBoxType } from '@/types/applications/index'
 import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 
-/* type Props = {
-  display: boolean
-} */
+type Props = {
+  members: Pick<MembersType, 'id' | 'name'>[]
+}
 
 export default defineComponent({
   name: 'MemberRemoveDialog',
@@ -109,13 +109,13 @@ export default defineComponent({
     // InputText,
     Dropdown
   },
-  /* props: {
-    open: {
-      type: Boolean,
+  props: {
+    members: {
+      type: Array as PropType<Pick<MembersType, 'id' | 'name'>[]>,
       required: false,
-      default: false
+      default: []
     }
-  }, */
+  },
   setup(__, context: SetupContext) {
     const toast = inject(ToastTypeKey) as ToastType
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
@@ -123,7 +123,6 @@ export default defineComponent({
     const membersService = inject(MembersStateKey) as MembersStateType
     const display = ref<boolean>(false)
     const rolesList = reactive<SelectBoxType[]>([])
-    let membersList = reactive<SelectBoxType[]>([])
 
     const formContext = useForm({
       validationSchema: removeFormSchema
@@ -136,17 +135,6 @@ export default defineComponent({
       () => membersService.state.roles,
       (newValue, old) => {
         newValue.forEach((role) => rolesList.push(role))
-      }
-    )
-
-    watch(
-      () => membersService.state.members,
-      (newValue, old) => {
-        if (membersList.length !== 0) {
-          membersList = reactive<SelectBoxType[]>([])
-        }
-        newValue.forEach((member) => membersList.push({text: member.name, value: member.id}))
-        console.log('test: ' + JSON.stringify(membersList, null, 2))
       }
     )
 
@@ -182,7 +170,7 @@ export default defineComponent({
         authApp.getHeaderOptions()
       )
       toast.add(membersService.getToastData())
-      if (response.status === 201) {
+      if (response.status === 200) {
         formContext.handleReset()
         context.emit('remove-member', true)
       }
@@ -192,7 +180,6 @@ export default defineComponent({
     return {
       display,
       rolesList,
-      membersList,
       memberValue,
       memberError,
       removeDisabled,
