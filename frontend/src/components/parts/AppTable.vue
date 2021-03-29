@@ -20,9 +20,7 @@
       :sortable="sortable"
       :style="col.style"
     >
-      <template
-        #body="slotProps"
-      >
+      <template #body="slotProps">
         <span v-if="col.type === 'select' && col.items && col.itemValue">{{
           col.items.find(
             (item) =>

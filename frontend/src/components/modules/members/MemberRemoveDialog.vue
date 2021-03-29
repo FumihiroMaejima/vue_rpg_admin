@@ -128,7 +128,9 @@ export default defineComponent({
       validationSchema: removeFormSchema
     })
 
-    const { value: member, errorMessage: memberError } = useField<number>('member')
+    const { value: member, errorMessage: memberError } = useField<number>(
+      'member'
+    )
 
     // watch
     watch(
@@ -147,9 +149,7 @@ export default defineComponent({
     })
 
     const removeDisabled = computed((): boolean => {
-      return !(
-        memberError.value === ''
-      )
+      return !(memberError.value === '')
     })
 
     // created

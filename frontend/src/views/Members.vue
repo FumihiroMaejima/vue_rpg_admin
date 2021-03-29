@@ -8,7 +8,10 @@
         <div class="p-grid p-jc-end" v-if="editable">
           <div class="p-col-8 p-md-4" style="justify-content:end">
             <div class="p-d-flex p-jc-end">
-              <member-remove-dialog @remove-member="removeMemberHandler" :members="membersNameList" />
+              <member-remove-dialog
+                @remove-member="removeMemberHandler"
+                :members="membersNameList"
+              />
               <member-create-dialog @create-member="createMemberHandler" />
             </div>
           </div>
@@ -25,24 +28,12 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  Ref,
-  PropType,
-  reactive,
-  computed,
-  provide,
-  inject
-} from 'vue'
-import { useRouter } from 'vue-router'
+import { defineComponent, Ref, computed, provide, inject } from 'vue'
 import MemberCreateDialog from '@/components/modules/members/MemberCreateDialog.vue'
 import MemberRemoveDialog from '@/components/modules/members/MemberRemoveDialog.vue'
 import MembersTable from '@/components/modules/members/MembersTable.vue'
-import AppTable from '@/components/parts/AppTable.vue'
 import {
   editableRole,
-  tableSetting,
   MembersType,
   MembersStateKey,
   useState
@@ -63,7 +54,6 @@ export default defineComponent({
     const toast = inject(ToastTypeKey) as ToastType
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
-    // const isOpenCreateDialog = ref<boolean>(false)
 
     const membersService = useState()
     provide(MembersStateKey, membersService)
@@ -74,8 +64,8 @@ export default defineComponent({
     )
 
     const membersNameList = computed((): Pick<MembersType, 'id' | 'name'>[] =>
-      membersService.state.members.map(member => {
-        return {id: member.id, name: member.name}
+      membersService.state.members.map((member) => {
+        return { id: member.id, name: member.name }
       })
     )
 
@@ -92,23 +82,11 @@ export default defineComponent({
       if (response.status !== 200 || roleListData.status !== 200) {
         toast.add(membersService.getToastData())
       }
-      /* console.log(
-        'membersService.getMembersData(): ' +
-          JSON.stringify(membersService.getMembersData(), null, 2)
-      ) */
       inversionFlag(loadingFlag)
     }
     created()
 
     // methods
-    /**
-     * catch app-input event
-     * @return {void}
-     */
-    const catchAppInputEvent = (event: any) => {
-      console.log('catchAppInputEvent: ' + JSON.stringify(event, null, 2))
-    }
-
     /**
      * handling create member event
      * @param {boolean} event
@@ -144,7 +122,6 @@ export default defineComponent({
     return {
       membersNameList,
       editable,
-      catchAppInputEvent,
       createMemberHandler,
       removeMemberHandler
     }

@@ -52,7 +52,6 @@ export const removeFormSchema = {
   }
 }
 
-// export type CreateMemberData = Record<Exclude<keyof typeof formSchema, 'role'>, string> & Record<Extract<keyof typeof formSchema, 'role'>, number>
 export type CreateMemberData = Record<
   Exclude<keyof typeof formSchema, 'role' | 'confirmPassword'>,
   string
