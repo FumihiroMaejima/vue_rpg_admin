@@ -136,7 +136,7 @@ class MembersService
 
             $resource = app()->make(AdminDeleteResource::class, ['resource' => $request])->toArray($request);
 
-            $deleteRowCount = $this->adminsRepository->deleteAdminData($resource, $id);
+            $deleteRowCount = $this->adminsRepository->deleteAdminData($resource, $request->id);
             Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'deleteRowCount: ' . json_encode($deleteRowCount));
 
             // 権限情報の更新

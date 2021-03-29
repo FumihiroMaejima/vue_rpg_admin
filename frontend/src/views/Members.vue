@@ -6,8 +6,9 @@
       <div class="p-col-12 p-md-1"></div>
       <div class="p-col-12 p-md-10">
         <div class="p-grid p-jc-end" v-if="editable">
-          <div class="p-col-4 p-md-2" style="justify-content:end">
+          <div class="p-col-8 p-md-4" style="justify-content:end">
             <div class="p-d-flex p-jc-end">
+              <member-remove-dialog @remove-member="removeMemberHandler" />
               <member-create-dialog @create-member="createMemberHandler" />
             </div>
           </div>
@@ -36,6 +37,7 @@ import {
 } from 'vue'
 import { useRouter } from 'vue-router'
 import MemberCreateDialog from '@/components/modules/members/MemberCreateDialog.vue'
+import MemberRemoveDialog from '@/components/modules/members/MemberRemoveDialog.vue'
 import MembersTable from '@/components/modules/members/MembersTable.vue'
 import AppTable from '@/components/parts/AppTable.vue'
 import {
@@ -54,6 +56,7 @@ export default defineComponent({
   name: 'Members',
   components: {
     MemberCreateDialog,
+    MemberRemoveDialog,
     MembersTable
   },
   setup() {
@@ -102,6 +105,7 @@ export default defineComponent({
 
     /**
      * handling create member event
+     * @param {boolean} event
      * @return {void}
      */
     const createMemberHandler = async (event: boolean) => {
@@ -115,10 +119,27 @@ export default defineComponent({
       inversionFlag(loadingFlag)
     }
 
+    /**
+     * handling remove member event
+     * @param {boolean} event
+     * @return {void}
+     */
+    const removeMemberHandler = async (event: boolean) => {
+      inversionFlag(loadingFlag)
+      const response = await membersService.getMembersData(
+        authApp.getHeaderOptions()
+      )
+      if (response.status !== 200) {
+        toast.add(membersService.getToastData())
+      }
+      inversionFlag(loadingFlag)
+    }
+
     return {
       editable,
       catchAppInputEvent,
-      createMemberHandler
+      createMemberHandler,
+      removeMemberHandler
     }
   }
 })

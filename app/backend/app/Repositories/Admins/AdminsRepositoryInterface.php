@@ -17,5 +17,5 @@ interface AdminsRepositoryInterface
 
     public function updateAdminData(array $resource, int $id): int;
 
-    public function deleteAdminData(array $resource): int;
+    public function deleteAdminData(array $resource, int $id): int;
 }

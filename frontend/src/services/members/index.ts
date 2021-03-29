@@ -46,6 +46,12 @@ export const formSchema = {
   }
 }
 
+export const removeFormSchema = {
+  member(value: number): string {
+    return validateSelectBoxNumberValue(value)
+  }
+}
+
 // export type CreateMemberData = Record<Exclude<keyof typeof formSchema, 'role'>, string> & Record<Extract<keyof typeof formSchema, 'role'>, number>
 export type CreateMemberData = Record<
   Exclude<keyof typeof formSchema, 'role' | 'confirmPassword'>,
@@ -305,6 +311,11 @@ export const useState = () => {
       })
   }
 
+  /**
+   * get roles.
+   * @param {AuthAppHeaderOptions} options
+   * @return {Promise<ServerRequestType>}
+   */
   const getRoles = async (
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
@@ -334,6 +345,12 @@ export const useState = () => {
       })
   }
 
+  /**
+   * create member request.
+   * @param {CreateMemberData} data
+   * @param {AuthAppHeaderOptions} options
+   * @return {Promise<ServerRequestType>}
+   */
   const createMember = async (
     data: CreateMemberData,
     options: AuthAppHeaderOptions
@@ -366,6 +383,46 @@ export const useState = () => {
       })
   }
 
+  /**
+   * remove member request.
+   * @param {number} id
+   * @param {AuthAppHeaderOptions} options
+   * @return {Promise<ServerRequestType>}
+   */
+  const removeMember = async (
+    id: number,
+    options: AuthAppHeaderOptions
+  ): Promise<ServerRequestType> => {
+    axios.defaults.withCredentials = true
+    return await axios
+      .delete(config.endpoint.members.member.replace(/:id/g, String(id)), {
+        headers: options.headers
+      })
+      .then((response: AxiosResponse<any>) => {
+        setToastData(
+          'success',
+          'メンバー削除成功',
+          '選択したメンバーを削除しました。'
+        )
+        return { data: response.data.data, status: response.status }
+      })
+      .catch((error: AxiosError<any>) => {
+        // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
+        setToastData(
+          'error',
+          'メンバー削除エラー',
+          'メンバーの削除に失敗しました。'
+        )
+        return {
+          data: error,
+          status: error.response ? error.response.status : 401
+        }
+      })
+      .finally(() => {
+        options.callback()
+      })
+  }
+
   return {
     state,
     getMembers,
@@ -379,7 +436,8 @@ export const useState = () => {
     updateMembersRole,
     getMembersData,
     getRoles,
-    createMember
+    createMember,
+    removeMember
   }
 }
 

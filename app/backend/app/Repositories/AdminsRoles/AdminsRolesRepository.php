@@ -44,6 +44,7 @@ class AdminsRolesRepository implements AdminsRolesRepositoryInterface
             ->select([$adminsRoles . '.id', $adminsRoles . '.role_id', $adminsRoles . '.admin_id', $roles . '.code'])
             ->leftJoin($roles, $adminsRoles . '.role_id', '=', $roles . '.id')
             ->where('admin_id', '=', [$adminId])
+            ->where($adminsRoles . '.deleted_at', '=', null)
             ->get();
     }
 
@@ -59,7 +60,8 @@ class AdminsRolesRepository implements AdminsRolesRepositoryInterface
 
     /**
      * update Admins Role.
-     *
+     * @param array $resource
+     * @param int $adminId
      * @return int
      */
     public function updateAdminsRoleData(array $resource, int $adminId): int
@@ -73,12 +75,13 @@ class AdminsRolesRepository implements AdminsRolesRepositoryInterface
         // Query Builderのupdate
         return DB::table($adminsRoles)
             ->where('admin_id', '=', [$adminId])
+            ->where('deleted_at', '=', null)
             ->update($resource);
     }
 
     /**
      * delete Admins Role.
-     *
+     * @param array $resource
      * @return int
      */
     public function deleteAdminsRoleData(array $resource): int
@@ -89,6 +92,7 @@ class AdminsRolesRepository implements AdminsRolesRepositoryInterface
         // Query Builderのupdate
         return DB::table($adminsRoles)
             ->where('admin_id', '=', [$resource['admin_id']])
+            ->where('deleted_at', '=', null)
             ->update($resource);
     }
 }

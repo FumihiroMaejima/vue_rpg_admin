@@ -53,6 +53,7 @@ class AdminsRepository implements AdminsRepositoryInterface
         return DB::table($admins)
             ->select([$admins . '.id', $admins . '.name', $admins . '.email', $adminsRoles . '.role_id as roleId'])
             ->leftJoin($adminsRoles, $admins.'.id', '=', $adminsRoles.'.admin_id')
+            ->where($admins . '.deleted_at', '=', null)
             ->get();
 
         /*
@@ -86,6 +87,7 @@ class AdminsRepository implements AdminsRepositoryInterface
     {
         return DB::table($this->model->getTable())
             ->latest()
+            // ->where('deleted_at', '=', null)
             ->first();
             // ->get();
     }
@@ -114,6 +116,7 @@ class AdminsRepository implements AdminsRepositoryInterface
         return DB::table($admins)
             // ->whereIn('id', [$id])
             ->where('id', '=', [$id])
+            ->where('deleted_at', '=', null)
             ->update($resource);
 
         /* $keys = ['name', 'email'];
@@ -137,10 +140,11 @@ class AdminsRepository implements AdminsRepositoryInterface
 
     /**
      * delete Admin data.
-     *
+     * @param array $resource
+     * @param int $id
      * @return int
      */
-    public function deleteAdminData(array $resource): int
+    public function deleteAdminData(array $resource, int $id): int
     {
         // admins
         $admins = $this->model->getTable();
@@ -148,7 +152,8 @@ class AdminsRepository implements AdminsRepositoryInterface
         // Query Builderのupdate
         return DB::table($admins)
             // ->whereIn('id', [$id])
-            ->where('id', '=', [$resource['id']])
+            ->where('id', '=', $id)
+            ->where('deleted_at', '=', null)
             ->update($resource);
     }
 }

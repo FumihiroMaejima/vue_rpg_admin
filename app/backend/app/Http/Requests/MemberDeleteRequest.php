@@ -30,7 +30,7 @@ class MemberDeleteRequest extends FormRequest
     protected function prepareForValidation()
     {
         // ルーティングで設定しているidパラメーターをリクエストデータとして設定する
-        // $this->merge(['id' => $this->route('id')]);
+        $this->merge(['id' => $this->route('id')]);
     }
 
     /**
