@@ -18,22 +18,24 @@
       :field="col.field"
       :header="col.header"
       :sortable="sortable"
+      :style="col.style"
     >
-      <template
-        #body="slotProps"
-        v-if="col.type === 'select' && col.items && col.itemValue"
-      >
-        <span>{{
+      <template #body="slotProps">
+        <span v-if="col.type === 'select' && col.items && col.itemValue">{{
           col.items.find(
             (item) =>
               item[col.itemValue] ===
               slotProps.data[slotProps.column.props.field]
           ).text
         }}</span>
+        <div v-else class="app-table__text-field">
+          {{ slotProps.data[slotProps.column.props.field] }}
+        </div>
       </template>
       <template #editor="slotProps" v-if="editable && col.editable">
         <template v-if="col.type === 'text'">
           <InputText
+            class="app-table__form-input"
             type="text"
             :modelValue="slotProps.data[slotProps.column.props.field]"
             @blur="
@@ -50,6 +52,7 @@
         </template>
         <template v-else>
           <Dropdown
+            class="app-table__form-dropdown"
             :modelValue="slotProps.data[slotProps.column.props.field]"
             :options="col.items"
             :optionLabel="col.itemText"
@@ -186,3 +189,25 @@ export default defineComponent({
   }
 })
 </script>
+<style lang="scss">
+.app-table {
+  &__form-dropdown {
+    width: 100%;
+  }
+
+  .app-table__form-dropdown.p-dropdown {
+    padding: 0 0 0 0 !important;
+  }
+
+  &__form-input {
+    width: 100%;
+    input {
+      width: 100%;
+    }
+  }
+
+  &__text-field {
+    word-break: break-all;
+  }
+}
+</style>

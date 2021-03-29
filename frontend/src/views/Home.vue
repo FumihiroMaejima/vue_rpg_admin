@@ -30,13 +30,6 @@ export default defineComponent({
     const router = useRouter()
 
     // methods
-    /**
-     * catch app-input event
-     * @return {void}
-     */
-    const catchAppInputEvent = (event: any) => {
-      console.log('catchAppInputEvent: ' + JSON.stringify(event, null, 2))
-    }
 
     const testFunction = () => {
       router.push('/test')
@@ -44,8 +37,7 @@ export default defineComponent({
     return {
       items,
       columnOptions,
-      testFunction,
-      catchAppInputEvent
+      testFunction
     }
   }
 })

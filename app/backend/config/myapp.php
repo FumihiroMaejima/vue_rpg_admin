@@ -31,6 +31,17 @@ return [
                 'email' => 'testadmin1' . '@example.com',
                 'password' => env('TEST_ADMIN_SEEDER_PASSWORD', 'password')
             ]
+        ],
+        'member' => [
+            'create' => [
+                'success' => [
+                    'name' => 'test name',
+                    'email' => 'testadmin12345XXX' . '@example.com',
+                    'roleId' => 1,
+                    'password' => 'testpassword' . '12345',
+                    'password_confirmation' => 'testpassword' . '12345'
+                ]
+            ]
         ]
     ],
     'headers' => [

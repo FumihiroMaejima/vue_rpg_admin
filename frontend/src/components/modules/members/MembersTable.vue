@@ -32,7 +32,6 @@ import {
   MembersSelectKeys,
   MembersStateKey,
   MembersStateType,
-  roleItems,
   useState
 } from '@/services/members'
 import AuthApp from '@/plugins/auth/authApp'
@@ -54,7 +53,9 @@ export default defineComponent({
 
     // computed
     const members = computed((): MembersType[] => membersService.state.members)
-    const editable = computed((): boolean => authApp.getAuthAuthority().some(role => editableRole.includes(role) ))
+    const editable = computed((): boolean =>
+      authApp.checkAuthority(editableRole)
+    )
 
     // created
     /* const created = async () => {}
@@ -146,7 +147,6 @@ export default defineComponent({
       updateTextValue,
       catchBlurEventHandler,
       updateSelectValue,
-      roleItems,
       columnOptions
     }
   }

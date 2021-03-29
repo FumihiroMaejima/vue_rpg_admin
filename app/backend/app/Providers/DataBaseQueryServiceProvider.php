@@ -22,7 +22,8 @@ class DataBaseQueryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if (Config::get('app.env') === 'production') {
+        $env = Config::get('app.env');
+        if ($env === 'production' || $env === 'testing') {
             return;
         }
 

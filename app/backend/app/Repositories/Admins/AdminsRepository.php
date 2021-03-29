@@ -53,6 +53,7 @@ class AdminsRepository implements AdminsRepositoryInterface
         return DB::table($admins)
             ->select([$admins . '.id', $admins . '.name', $admins . '.email', $adminsRoles . '.role_id as roleId'])
             ->leftJoin($adminsRoles, $admins.'.id', '=', $adminsRoles.'.admin_id')
+            ->where($admins . '.deleted_at', '=', null)
             ->get();
 
         /*
@@ -78,6 +79,30 @@ class AdminsRepository implements AdminsRepositoryInterface
     }
 
     /**
+     * create Admin data.
+     *
+     * @return \Illuminate\Database\Eloquent\Model|object|static|null
+     */
+    public function getLatestAdmin(): object
+    {
+        return DB::table($this->model->getTable())
+            ->latest()
+            // ->where('deleted_at', '=', null)
+            ->first();
+            // ->get();
+    }
+
+    /**
+     * create Admin data.
+     *
+     * @return int
+     */
+    public function createAdmin(array $resource): int
+    {
+        return DB::table($this->model->getTable())->insert($resource);
+    }
+
+    /**
      * update Admin data.
      *
      * @return int
@@ -91,6 +116,7 @@ class AdminsRepository implements AdminsRepositoryInterface
         return DB::table($admins)
             // ->whereIn('id', [$id])
             ->where('id', '=', [$id])
+            ->where('deleted_at', '=', null)
             ->update($resource);
 
         /* $keys = ['name', 'email'];
@@ -110,5 +136,24 @@ class AdminsRepository implements AdminsRepositoryInterface
 
         // Facadeのupdate
         return DB::update($query, [$id]); */
+    }
+
+    /**
+     * delete Admin data.
+     * @param array $resource
+     * @param int $id
+     * @return int
+     */
+    public function deleteAdminData(array $resource, int $id): int
+    {
+        // admins
+        $admins = $this->model->getTable();
+
+        // Query Builderのupdate
+        return DB::table($admins)
+            // ->whereIn('id', [$id])
+            ->where('id', '=', $id)
+            ->where('deleted_at', '=', null)
+            ->update($resource);
     }
 }

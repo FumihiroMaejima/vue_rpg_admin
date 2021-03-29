@@ -4,10 +4,10 @@ namespace Tests\Unit\Service;
 
 // use PHPUnit\Framework\TestCase;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Config;
 
 class MemberServiceTest extends TestCase
 {
@@ -24,13 +24,13 @@ class MemberServiceTest extends TestCase
         Artisan::call('db:seed');
 
         $response = $this->json('POST', route('auth.admin'), [
-            'email' => Config::get('myapp.test.admin.login.email'),
+            'email'    => Config::get('myapp.test.admin.login.email'),
             'password' => Config::get('myapp.test.admin.login.password')
         ])->json();
 
         return [
-            'token' => $response['access_token'],
-            'user_id' => $response['user']['id'],
+            'token'          => $response['access_token'],
+            'user_id'        => $response['user']['id'],
             'user_authority' => $response['user']['authority']
         ];
     }
@@ -45,14 +45,14 @@ class MemberServiceTest extends TestCase
         $loginUser = [];
 
         if (!$this->initialized) {
-            $loginUser = $this->init();
+            $loginUser         = $this->init();
             $this->initialized = true;
         }
 
         $this->withHeaders([
-            'X-Auth-ID' => $loginUser['user_id'],
+            'X-Auth-ID'        => $loginUser['user_id'],
             'X-Auth-Authority' => $loginUser['user_authority'],
-            'Authorization' => 'Bearer ' . $loginUser['token'],
+            'Authorization'    => 'Bearer ' . $loginUser['token'],
         ]);
     }
 
@@ -83,6 +83,81 @@ class MemberServiceTest extends TestCase
     }
 
     /**
+     * member crerate data
+     * @return array
+     */
+    public function memberCreateDataProvider(): array
+    {
+        $this->createApplication();
+
+        return [
+            'create member data' => Config::get('myapp.test.member.create.success')
+        ];
+    }
+
+    /**
+     * members create request test.
+     * @dataProvider memberCreateDataProvider
+     * @return void
+     */
+    public function testCreateMemberSuccess(string $name, string $email, int $roleId, string $password, string $password_confirmation): void
+    {
+        $response = $this->json('POST', route('admin.members.create'), [
+            'name'                  => $name,
+            'email'                 => $email,
+            'roleId'                => $roleId,
+            'password'              => $password,
+            'password_confirmation' => $password_confirmation
+        ]);
+        $response->assertStatus(201);
+    }
+
+    /**
+     * member crerate 422 error data
+     * @return array
+     */
+    public function memberCreate422FailedDataProvider(): array
+    {
+        $this->createApplication();
+
+        $caseKeys = ['no_name', 'no_email', 'no_exist_role', 'no_password', 'no_password_confirmation', 'not_same_password'];
+
+        $testCase = [];
+        foreach ($caseKeys as $key) {
+            $testCase[$key] = Config::get('myapp.test.member.create.success');
+        }
+
+        // データの整形
+        $testCase['no_name']['name']                                   = '';
+        $testCase['no_email']['email']                                 = '';
+        $testCase['no_exist_role']['roleId']                           = 0;
+        $testCase['no_password']['password']                           = '';
+        $testCase['no_password_confirmation']['password_confirmation'] = '';
+        $testCase['not_same_password']['password_confirmation']        = '1234';
+
+        return $testCase;
+    }
+
+    /**
+     * members create 422 error request test.
+     * @dataProvider memberCreate422FailedDataProvider
+     * @return void
+     */
+    public function testCreateMember422Failed(string $name, string $email, int $roleId, string $password, string $password_confirmation): void
+    {
+        /* $data = Config::get('myapp.test.member.create.success');
+        $data['name'] = ''; */
+        $response = $this->json('POST', route('admin.members.create'), [
+            'name'                  => $name,
+            'email'                 => $email,
+            'roleId'                => $roleId,
+            'password'              => $password,
+            'password_confirmation' => $password_confirmation
+        ]);
+        $response->assertStatus(422);
+    }
+
+    /**
      * members update request test.
      *
      * @return void
@@ -90,8 +165,8 @@ class MemberServiceTest extends TestCase
     public function testUpdateMembers(): void
     {
         $response = $this->json('PATCH', route('admin.members.update', ['id' => 1]), [
-            'name' => 'test name',
-            'email' => Config::get('myapp.test.admin.login.email'),
+            'name'   => 'test name',
+            'email'  => Config::get('myapp.test.admin.login.email'),
             'roleId' => 1
         ]);
         $response->assertStatus(200);
@@ -105,10 +180,59 @@ class MemberServiceTest extends TestCase
     public function testUpdateFailedMembers(): void
     {
         $response = $this->json('PATCH', route('admin.members.update', ['id' => 1]), [
-            'name' => '',
-            'email' => Config::get('myapp.test.admin.login.email'),
+            'name'   => '',
+            'email'  => Config::get('myapp.test.admin.login.email'),
             'roleId' => 1
         ]);
+        $response->assertStatus(422);
+    }
+
+    /**
+     * member crerate data
+     * @return array
+     */
+    public function memberRemoveDataProvider(): array
+    {
+        $this->createApplication();
+
+        return [
+            'id is 3' => ['id' => 3]
+        ];
+    }
+
+    /**
+     * members create request test.
+     * @dataProvider memberRemoveDataProvider
+     * @return void
+     */
+    public function testRemoveMemberSuccess(int $id): void
+    {
+        $response = $this->json('DELETE', route('admin.members.delete', ['id' => $id]));
+        $response->assertStatus(200);
+    }
+
+    /**
+     * member crerate data
+     * @return array
+     */
+    public function memberRemoveValidationErrorDataProvider(): array
+    {
+        $this->createApplication();
+
+        return [
+            'no exist id' => ['id' => 100],
+            'not inteder value' => ['id' => (int)('string value')]
+        ];
+    }
+
+    /**
+     * members create request test.
+     * @dataProvider memberRemoveValidationErrorDataProvider
+     * @return void
+     */
+    public function testRemoveMemberValidationError(int $id): void
+    {
+        $response = $this->json('DELETE', route('admin.members.delete', ['id' => $id]));
         $response->assertStatus(422);
     }
 }

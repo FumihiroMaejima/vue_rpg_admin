@@ -8,12 +8,10 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Collection;
 use App\Models\Roles;
 use Illuminate\Contracts\Validation\Validator;
-// use Illuminate\Validation\ValidationException;
-// use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Config;
 
-class MemberUpdateRequest extends FormRequest
+class MemberCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -33,7 +31,7 @@ class MemberUpdateRequest extends FormRequest
     protected function prepareForValidation()
     {
         // ルーティングで設定しているidパラメーターをリクエストデータとして設定する
-        $this->merge(['id' => $this->route('id')]);
+        // $this->merge(['id' => $this->route('id')]);
     }
 
     /**
@@ -43,18 +41,15 @@ class MemberUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        // ロールリストのidのみの配列を取得
-        /* $rolesCollection = app()->make(RolesRepositoryInterface::class)->getRolesList();
-        Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'collection pluck: ' . json_encode($rolesCollection->pluck('id'))); */
         $roleModel = app()->make(Roles::class);
 
         return [
-            'id'     => 'required|integer',
             'name'   => 'required|string|between:1,50',
             'email'  => 'required|string|email:rfc|between:1,50',
+            // 'email' => ['regex:/^.+@.+$/i']
             'roleId' => 'required|integer|exists:' . $roleModel->getTable() . ',id',
-            // 'tel' => 'required|numeric|digits_between:8,11'
-            // 'tel' => 'required|regex:/^[0-9]{2,4}-[0-9]{2,4}-[0-9]{3,4}$/'
+            'password'   => 'required|string|between:8,100|confirmed',
+            'password_confirmation'   => 'same:password',
         ];
     }
 
@@ -66,11 +61,12 @@ class MemberUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'id.integer'  => ':attributeは整数で入力してください。',
             'email.email' => ':attributeの形式が正しくありません。',
             'required'    => ':attributeは必須項目です。',
             'string'      => ':attributeは文字列を入力してください。',
-            'between'     => ':attributeは:min〜:max文字以内で入力してください。'
+            'between'     => ':attributeは:min〜:max文字以内で入力してください。',
+            'confirmed'     => ':attributeは確認用にもう一度入力してください。',
+            'same'     => ':attributeは同一の値ではありません。'
             // 'email' => 'アルファベット半角で入力してください。'
             // 'tel.regex' => '「000-0000-0000」の形式で入力してください。'
         ];
@@ -87,7 +83,9 @@ class MemberUpdateRequest extends FormRequest
             'id'     => 'id',
             'name'   => '氏名',
             'email'  => 'メールアドレス',
-            'roleId' => '権限'
+            'roleId' => '権限',
+            'password' => 'パスワード',
+            'password_confirmation' => '確認用パスワード'
         ];
     }
 
@@ -127,10 +125,5 @@ class MemberUpdateRequest extends FormRequest
 
         $response['errors'] = $validator->errors()->toArray();
         throw (new HttpResponseException(response()->json($response, 422)));
-
-        // 本来のエラークラス
-        /* throw (new ValidationException($validator))
-            ->errorBag($this->errorBag)
-            ->redirectTo($this->getRedirectUrl()); */
     }
 }

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { Ref, reactive, InjectionKey, inject } from 'vue'
+/* eslint-disable @typescript-eslint/camelcase */
+import { Ref, reactive, InjectionKey } from 'vue'
 import axios, { AxiosResponse, AxiosError } from 'axios'
 import {
   IAppConfig,
@@ -9,19 +10,54 @@ import {
 } from '@/types'
 import { TableColumnSetting } from '@/types/config/data'
 import { ToastData, SelectBoxType } from '@/types/applications/index'
-// import AuthApp from '@/plugins/auth/authApp'
+import {
+  validateName,
+  validateEmail,
+  validateSelectBoxNumberValue,
+  validatePassword,
+  validateConfirmPassword
+} from '@/util/validation'
 
 const config: IAppConfig = require('@/config/data')
 
 export const editableRole = ['master', 'administrator']
 
-export const roleItems: SelectBoxType[] = [
-  { text: 'role1', value: 1 },
-  { text: 'role2', value: 2 },
-  { text: 'role3', value: 3 },
-  { text: 'role4', value: 4 },
-  { text: 'role5', value: 5 }
-]
+export const formSchema = {
+  name(value: string): string {
+    return validateName(value)
+  },
+  email(value: string): string {
+    return validateEmail(value)
+  },
+  role(value: number): string {
+    return validateSelectBoxNumberValue(value)
+  },
+  password(value: string): string {
+    return validatePassword(value)
+  },
+  confirmPassword(
+    value: string,
+    ctx: any /* FieldContext not exported */
+  ): string {
+    return validateConfirmPassword(
+      value,
+      ctx.form.password ? ctx.form.password : ''
+    )
+  }
+}
+
+export const removeFormSchema = {
+  member(value: number): string {
+    return validateSelectBoxNumberValue(value)
+  }
+}
+
+export type CreateMemberData = Record<
+  Exclude<keyof typeof formSchema, 'role' | 'confirmPassword'>,
+  string
+> &
+  Record<'roleId', number> &
+  Record<'password_confirmation', string>
 
 export const tableSetting: TableColumnSetting<SelectBoxType>[] = [
   {
@@ -29,21 +65,24 @@ export const tableSetting: TableColumnSetting<SelectBoxType>[] = [
     field: 'id',
     header: 'ID',
     editable: false,
-    type: 'text'
+    type: 'text',
+    style: 'width:10%'
   },
   {
     identifier: 'id',
     field: 'name',
     header: 'Name',
     editable: true,
-    type: 'text'
+    type: 'text',
+    style: 'width:30%'
   },
   {
     identifier: 'id',
     field: 'email',
     header: 'Email',
     editable: true,
-    type: 'text'
+    type: 'text',
+    style: 'width:30%'
   },
   {
     identifier: 'id',
@@ -51,7 +90,7 @@ export const tableSetting: TableColumnSetting<SelectBoxType>[] = [
     header: 'Role',
     editable: true,
     type: 'select',
-    // items: roleItems,
+    style: 'width:30%',
     items: [] as SelectBoxType[],
     itemText: 'text',
     itemValue: 'value'
@@ -271,6 +310,11 @@ export const useState = () => {
       })
   }
 
+  /**
+   * get roles.
+   * @param {AuthAppHeaderOptions} options
+   * @return {Promise<ServerRequestType>}
+   */
   const getRoles = async (
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
@@ -300,6 +344,84 @@ export const useState = () => {
       })
   }
 
+  /**
+   * create member request.
+   * @param {CreateMemberData} data
+   * @param {AuthAppHeaderOptions} options
+   * @return {Promise<ServerRequestType>}
+   */
+  const createMember = async (
+    data: CreateMemberData,
+    options: AuthAppHeaderOptions
+  ): Promise<ServerRequestType> => {
+    axios.defaults.withCredentials = true
+    return await axios
+      .post(config.endpoint.members.create, data, { headers: options.headers })
+      .then((response: AxiosResponse<any>) => {
+        setToastData(
+          'success',
+          'メンバー作成成功',
+          'メンバーを新規作成しました。'
+        )
+        return { data: response.data.data, status: response.status }
+      })
+      .catch((error: AxiosError<any>) => {
+        // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
+        setToastData(
+          'error',
+          'メンバー作成エラー',
+          'メンバーの新規作成に失敗しました。'
+        )
+        return {
+          data: error,
+          status: error.response ? error.response.status : 401
+        }
+      })
+      .finally(() => {
+        options.callback()
+      })
+  }
+
+  /**
+   * remove member request.
+   * @param {number} id
+   * @param {AuthAppHeaderOptions} options
+   * @return {Promise<ServerRequestType>}
+   */
+  const removeMember = async (
+    id: number,
+    options: AuthAppHeaderOptions
+  ): Promise<ServerRequestType> => {
+    axios.defaults.withCredentials = true
+    return await axios
+      .delete(config.endpoint.members.member.replace(/:id/g, String(id)), {
+        headers: options.headers
+      })
+      .then((response: AxiosResponse<any>) => {
+        setToastData(
+          'success',
+          'メンバー削除成功',
+          '選択したメンバーを削除しました。'
+        )
+        return { data: response.data.data, status: response.status }
+      })
+      .catch((error: AxiosError<any>) => {
+        // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
+        setToastData(
+          'error',
+          'メンバー削除エラー',
+          'メンバーの削除に失敗しました。'
+        )
+        return {
+          data: error,
+          status: error.response ? error.response.status : 401
+        }
+      })
+      .finally(() => {
+        options.callback()
+      })
+  }
+
   return {
     state,
     getMembers,
@@ -312,7 +434,9 @@ export const useState = () => {
     updateMembersData,
     updateMembersRole,
     getMembersData,
-    getRoles
+    getRoles,
+    createMember,
+    removeMember
   }
 }
 

@@ -4,10 +4,10 @@ namespace Tests\Unit\Service;
 
 // use PHPUnit\Framework\TestCase;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Config;
 
 class RolesServiceTest extends TestCase
 {
@@ -28,13 +28,13 @@ class RolesServiceTest extends TestCase
         Artisan::call('db:seed');
 
         $response = $this->json('POST', route('auth.admin'), [
-            'email' => Config::get('myapp.test.admin.login.email'),
+            'email'    => Config::get('myapp.test.admin.login.email'),
             'password' => Config::get('myapp.test.admin.login.password')
         ])->json();
 
         return [
-            'token' => $response['access_token'],
-            'user_id' => $response['user']['id'],
+            'token'          => $response['access_token'],
+            'user_id'        => $response['user']['id'],
             'user_authority' => $response['user']['authority']
         ];
     }
@@ -49,15 +49,15 @@ class RolesServiceTest extends TestCase
         $loginUser = [];
 
         if (!$this->initialized) {
-            $loginUser = $this->init();
+            $loginUser         = $this->init();
             $this->initialized = true;
         }
 
 
         $this->withHeaders([
-            'X-Auth-ID' => $loginUser['user_id'],
+            'X-Auth-ID'        => $loginUser['user_id'],
             'X-Auth-Authority' => $loginUser['user_authority'],
-            'Authorization' => 'Bearer '. $loginUser['token'],
+            'Authorization'    => 'Bearer '. $loginUser['token'],
          ]);
     }
 

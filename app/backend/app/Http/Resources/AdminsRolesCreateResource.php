@@ -3,9 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Carbon;
 
-class AdminUpdateResource extends JsonResource
+class AdminsRolesCreateResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,11 +14,11 @@ class AdminUpdateResource extends JsonResource
      */
     public function toArray($request)
     {
-        $dateTime = Carbon::now()->format('Y-m-d H:i:s');
         return [
-            'name'       => $request->name,
-            'email'      => $request->email,
-            'updated_at' => $dateTime
+            'role_id'    => $request->roleId,
+            'admin_id'   => $this->resource->id,
+            'created_at' => $this->resource->created_at,
+            'updated_at' => $this->resource->updated_at
         ];
     }
 }

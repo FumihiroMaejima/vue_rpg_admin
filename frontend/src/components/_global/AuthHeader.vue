@@ -2,7 +2,7 @@
   <Menubar :model="items">
     <template #start>
       <Button
-        icon="pi pi-home"
+        icon="pi pi-bars"
         class="p-button-rounded p-button-secondary"
         @click="openSideBar"
       />
@@ -85,7 +85,10 @@ export default defineComponent({
       loadingFlag.value ? 'Now Sign Out' : 'Sign Out'
     )
 
-    const name = computed((): string | null => `${props.authApp.getAuthAuthority()} ${props.authApp.getAuthName()}`)
+    const name = computed(
+      (): string | null =>
+        `${props.authApp.getAuthAuthority()} ${props.authApp.getAuthName()}`
+    )
 
     // methods
     /**

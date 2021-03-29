@@ -82,6 +82,15 @@ export default class AuthApp {
   }
 
   /**
+   * check own authority
+   * @param {string[]} scope
+   * @return {boolean}
+   */
+  public checkAuthority(scope: string[]): boolean {
+    return this.getAuthAuthority().some((role) => scope.includes(role))
+  }
+
+  /**
    * get authApp header options.
    * @return {AuthAppHeaderOptions} { headers, callback }
    */
