@@ -965,7 +965,7 @@ $ yarn add webpack-cli
 
 ---
 
-## Storybookの設定(v6.0.0以降)
+## Storybookの設定(v6.2.0以降)
 
 ### Storybookのインストール
 
