@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { action } from '@storybook/addon-actions'
-import { text } from '@storybook/addon-knobs'
-import HelloWorld from '../components/HelloWorld.vue'
-const textData = require('./notes/sample.md')
+import { boolean } from '@storybook/addon-knobs'
+import CircleLoading from '../../../components/parts/CircleLoading.vue'
+const textData = require('../../notes/sample.md')
 const markdown = textData.default
 
 // コンポーネントのメタデータを記述
 export default {
-  title: 'Test/HelloTest',
+  title: 'Test/CircleLoadingTest',
   parameters: {
     layout: 'centered',
     docs: {
@@ -22,17 +22,17 @@ export default {
   }
 }
 
-export const HelloTest = () => ({
-  components: { HelloWorld },
+export const CircleLoadingTest = () => ({
+  components: { CircleLoading },
   template: `
     <div>
-      <HelloWorld :msg="msg" />
+      <CircleLoading :open="open" />
     </div>
   `,
   props: {
-    msg: {
-      type: String,
-      default: text('msg', 'default text')
+    open: {
+      type: Boolean,
+      default: boolean('open', true)
     }
   },
   data() {
