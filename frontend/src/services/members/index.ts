@@ -322,8 +322,12 @@ export const useState = () => {
     return await axios
       .get(config.endpoint.members.csv, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
-        // メンバーの設定
-        setMembers(response.data.data)
+        setToastData(
+          'success',
+          'CSVファイル出力成功',
+          'ファイルをダウンロードしました。'
+        )
+
         return { data: response.data.data, status: response.status }
       })
       .catch((error: AxiosError<any>) => {

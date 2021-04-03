@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Exports\AdminsExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Config;
 
 class MembersService
 {
@@ -60,7 +61,15 @@ class MembersService
         $resourceCollection = app()->make(AdminsCollection::class, ['resource' => $data]);
         // $resource = app()->make(AdminsResource::class, ['resource' => $data]);
 
-        return Excel::store(new AdminsExport, 'output.xlsx', 'local');
+        // return Excel::store(new AdminsExport($data), 'file/' . 'output.xlsx', 'local');
+        // return Excel::store(new AdminsExport($data), Config::get('myapp.file.download.storage.local') . 'output.xlsx', Config::get('app.env', 'local'));
+        if (Config::get('app.env') === 'production') {
+            return Excel::download(new AdminsExport($data), 'output.xlsx');
+        } else {
+            return Excel::store(new AdminsExport($data), Config::get('myapp.file.download.storage.local') . 'output.xlsx', 'local');
+        }
+
+        // return Excel::store(new AdminsExport, 'file/'. 'output.xlsx', 'local');
         // return Excel::download(new AdminsExport, 'output.xlsx');
         // return response()->json($resourceCollection->toArray($request), 200);
     }
