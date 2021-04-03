@@ -10,5 +10,6 @@ describe('AppIcon.vue', () => {
     })
 
     expect(wrapper.props().name).toBe(name)
+    expect(wrapper.props().size).toBe(size)
   })
 })
