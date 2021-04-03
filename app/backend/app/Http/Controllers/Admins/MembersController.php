@@ -56,6 +56,33 @@ class MembersController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function download(Request $request)
+    {
+        // 権限チェック
+        if (!$this->checkRequestAuthority($request, Config::get('myapp.executionRole.services.members'))) {
+            return response()->json(['error' => 'Forbidden'], 403);
+        }
+
+        // 処理速度の計測
+        $time_start = microtime(true);
+
+        // サービスの実行
+        $response = $this->service->downloadCSV($request);
+
+        $time = microtime(true) - $time_start;
+        // PHPによって割り当てられたメモリの最大値の取得
+        Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'peak usage memory size: ' . (string)memory_get_peak_usage());
+        // サービス処理の実行時間の取得
+        Log::debug(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'service execution time: ' . (string)$time);
+        return $response;
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @param  \App\Http\Requests\MemberCreateRequest  $request

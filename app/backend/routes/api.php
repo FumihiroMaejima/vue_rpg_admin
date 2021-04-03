@@ -52,6 +52,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:api-admins'], function 
     // members
     Route::group(['prefix' => 'members'], function () {
         Route::get('/', [MembersController::class, 'index'])->name('admin.members.index');
+        Route::get('/csv', [MembersController::class, 'download'])->name('admin.members.download');
         Route::post('/member', [MembersController::class, 'create'])->name('admin.members.create');
         Route::patch('/member/{id}', [MembersController::class, 'update'])->name('admin.members.update');
         Route::delete('/member/{id}', [MembersController::class, 'destroy'])->name('admin.members.delete');

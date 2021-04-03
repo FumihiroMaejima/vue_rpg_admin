@@ -16,6 +16,19 @@
             </div>
           </div>
         </div>
+        <div class="p-grid p-jc-end" v-if="editable">
+          <div class="p-col-8 p-md-4" style="justify-content:end">
+            <div class="p-d-flex p-jc-end">
+
+              <Button
+                class="p-button-success"
+                label="download"
+                icon="pi pi-file"
+                @click="downloadFileHandler"
+              />
+            </div>
+          </div>
+        </div>
         <div class="p-grid">
           <div class="p-col-12">
             <members-table />
@@ -29,6 +42,7 @@
 
 <script lang="ts">
 import { defineComponent, Ref, computed, provide, inject } from 'vue'
+import Button from 'primevue/button'
 import MemberCreateDialog from '@/components/modules/members/MemberCreateDialog.vue'
 import MemberRemoveDialog from '@/components/modules/members/MemberRemoveDialog.vue'
 import MembersTable from '@/components/modules/members/MembersTable.vue'
@@ -46,6 +60,7 @@ import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 export default defineComponent({
   name: 'Members',
   components: {
+    Button,
     MemberCreateDialog,
     MemberRemoveDialog,
     MembersTable
@@ -119,11 +134,28 @@ export default defineComponent({
       inversionFlag(loadingFlag)
     }
 
+    /**
+     * handling create member event
+     * @param {boolean} event
+     * @return {void}
+     */
+    const downloadFileHandler = async () => {
+      inversionFlag(loadingFlag)
+      const response = await membersService.downloadMemberCSV(
+        authApp.getHeaderOptions()
+      )
+      if (response.status !== 200) {
+        toast.add(membersService.getToastData())
+      }
+      inversionFlag(loadingFlag)
+    }
+
     return {
       membersNameList,
       editable,
       createMemberHandler,
-      removeMemberHandler
+      removeMemberHandler,
+      downloadFileHandler
     }
   }
 })

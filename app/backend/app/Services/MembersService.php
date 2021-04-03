@@ -20,6 +20,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Exports\AdminsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MembersService
 {
@@ -42,6 +44,25 @@ class MembersService
 
         return response()->json($resourceCollection->toArray($request), 200);
         // return response()->json($resource->toArray($request), 200);
+    }
+
+    /**
+     * update member data service
+     *
+     * @param  \Illuminate\Http\Request;  $request
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function downloadCSV(Request $request)
+    {
+        $data = $this->adminsRepository->getAdminsList();
+        // サービスコンテナからリソースクラスインスタンスを依存解決
+        // コンストラクタのresourceに割り当てる値を渡す
+        $resourceCollection = app()->make(AdminsCollection::class, ['resource' => $data]);
+        // $resource = app()->make(AdminsResource::class, ['resource' => $data]);
+
+        return Excel::store(new AdminsExport, 'output.xlsx', 'local');
+        // return Excel::download(new AdminsExport, 'output.xlsx');
+        // return response()->json($resourceCollection->toArray($request), 200);
     }
 
     /**

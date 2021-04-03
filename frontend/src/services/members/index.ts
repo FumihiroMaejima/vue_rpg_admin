@@ -311,6 +311,39 @@ export const useState = () => {
   }
 
   /**
+   * get auth user info.
+   * @param {BaseAddHeaderResponse} header
+   * @return {void}
+   */
+  const downloadMemberCSV = async (
+    options: AuthAppHeaderOptions
+  ): Promise<ServerRequestType> => {
+    axios.defaults.withCredentials = true
+    return await axios
+      .get(config.endpoint.members.csv, { headers: options.headers })
+      .then((response: AxiosResponse<any>) => {
+        // メンバーの設定
+        setMembers(response.data.data)
+        return { data: response.data.data, status: response.status }
+      })
+      .catch((error: AxiosError<any>) => {
+        // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
+        setToastData(
+          'error',
+          'CSVダウンロードエラー',
+          'CSVファイルのダウンロードに失敗しました。'
+        )
+        return {
+          data: error,
+          status: error.response ? error.response.status : 401
+        }
+      })
+      .finally(() => {
+        options.callback()
+      })
+  }
+
+  /**
    * get roles.
    * @param {AuthAppHeaderOptions} options
    * @return {Promise<ServerRequestType>}
@@ -434,6 +467,7 @@ export const useState = () => {
     updateMembersData,
     updateMembersRole,
     getMembersData,
+    downloadMemberCSV,
     getRoles,
     createMember,
     removeMember
