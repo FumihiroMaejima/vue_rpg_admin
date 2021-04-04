@@ -19,7 +19,6 @@
         <div class="p-grid p-jc-end" v-if="editable">
           <div class="p-col-8 p-md-4" style="justify-content:end">
             <div class="p-d-flex p-jc-end">
-
               <Button
                 class="p-button-success"
                 label="download"

@@ -66,7 +66,8 @@ class MembersService
         if (Config::get('app.env') === 'production') {
             return Excel::download(new AdminsExport($data), 'output.xlsx');
         } else {
-            return Excel::store(new AdminsExport($data), Config::get('myapp.file.download.storage.local') . 'output.xlsx', 'local');
+            return Excel::download(new AdminsExport($data), 'output.csv');
+            // return Excel::store(new AdminsExport($data), Config::get('myapp.file.download.storage.local') . 'output.xlsx', 'local');
         }
 
         // return Excel::store(new AdminsExport, 'file/'. 'output.xlsx', 'local');

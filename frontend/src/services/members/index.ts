@@ -17,6 +17,7 @@ import {
   validatePassword,
   validateConfirmPassword
 } from '@/util/validation'
+import { makeDataUrl, downloadFile } from '@/util'
 
 const config: IAppConfig = require('@/config/data')
 
@@ -322,13 +323,22 @@ export const useState = () => {
     return await axios
       .get(config.endpoint.members.csv, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
+        // download
+        downloadFile(
+          makeDataUrl(response.data, 'text/csv'),
+          response.headers['content-disposition'].replace(
+            'attachment; filename=',
+            ''
+          )
+        )
+
         setToastData(
           'success',
           'CSVファイル出力成功',
           'ファイルをダウンロードしました。'
         )
 
-        return { data: response.data.data, status: response.status }
+        return { data: {}, status: response.status }
       })
       .catch((error: AxiosError<any>) => {
         // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
