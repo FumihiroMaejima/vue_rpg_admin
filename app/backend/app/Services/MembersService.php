@@ -6,6 +6,7 @@ use App\Http\Requests\MemberCreateRequest;
 use App\Http\Requests\MemberUpdateRequest;
 use App\Http\Requests\MemberDeleteRequest;
 use App\Http\Resources\AdminsCollection;
+use App\Http\Resources\AdminsCSVCollection;
 use App\Http\Resources\AdminsResource;
 use App\Http\Resources\AdminsRolesCreateResource;
 use App\Http\Resources\AdminsRolesUpdateResource;
@@ -23,6 +24,7 @@ use Illuminate\Support\Facades\Log;
 use App\Exports\AdminsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Carbon;
 
 class MembersService
 {
@@ -51,22 +53,23 @@ class MembersService
      * update member data service
      *
      * @param  \Illuminate\Http\Request;  $request
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function downloadCSV(Request $request)
     {
         $data = $this->adminsRepository->getAdminsList();
         // サービスコンテナからリソースクラスインスタンスを依存解決
         // コンストラクタのresourceに割り当てる値を渡す
-        $resourceCollection = app()->make(AdminsCollection::class, ['resource' => $data]);
+        $resourceCollection = app()->make(AdminsCSVCollection::class, ['resource' => $data]);
+        // $test = $resourceCollection->toArray($request);
         // $resource = app()->make(AdminsResource::class, ['resource' => $data]);
 
         // return Excel::store(new AdminsExport($data), 'file/' . 'output.xlsx', 'local');
         // return Excel::store(new AdminsExport($data), Config::get('myapp.file.download.storage.local') . 'output.xlsx', Config::get('app.env', 'local'));
         if (Config::get('app.env') === 'production') {
-            return Excel::download(new AdminsExport($data), 'output.xlsx');
+            return Excel::download(new AdminsExport($data), 'member_info_' . Carbon::now()->format('YmdHis') . '.csv');
         } else {
-            return Excel::download(new AdminsExport($data), 'output.csv');
+            return Excel::download(new AdminsExport($data), 'member_info_' . Carbon::now()->format('YmdHis') . '.csv');
             // return Excel::store(new AdminsExport($data), Config::get('myapp.file.download.storage.local') . 'output.xlsx', 'local');
         }
 
