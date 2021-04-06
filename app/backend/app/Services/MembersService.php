@@ -60,7 +60,7 @@ class MembersService
         $data = $this->adminsRepository->getAdminsList();
         // サービスコンテナからリソースクラスインスタンスを依存解決
         // コンストラクタのresourceに割り当てる値を渡す
-        $resourceCollection = app()->make(AdminsCSVCollection::class, ['resource' => $data]);
+        // $resourceCollection = app()->make(AdminsCSVCollection::class, ['resource' => $data]);
         // $test = $resourceCollection->toArray($request);
         // $resource = app()->make(AdminsResource::class, ['resource' => $data]);
 

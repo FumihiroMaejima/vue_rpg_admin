@@ -7,12 +7,17 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
+use Maatwebsite\Excel\Concerns\WithMapping;
 use Illuminate\Support\Collection;
+use App\Repositories\Roles\RolesRepositoryInterface;
+use Illuminate\Support\Arr;
 
-class AdminsExport implements FromCollection, WithHeadings, WithTitle
+class AdminsExport implements FromCollection, WithHeadings, WithTitle, WithMapping
 {
     use Exportable;
     private $resource;
+    private $roleIds;
+    private $roles;
 
     /**
      * @param \Illuminate\Support\Collection $resource
@@ -21,6 +26,9 @@ class AdminsExport implements FromCollection, WithHeadings, WithTitle
     public function __construct(Collection $resource)
     {
         $this->resource = $resource;
+        $roles = app()->make(RolesRepositoryInterface::class)->getRolesList();
+        $this->roleIds = $roles->pluck('id')->toArray();
+        $this->roles = $roles->toArray();
     }
 
     /**
@@ -53,6 +61,31 @@ class AdminsExport implements FromCollection, WithHeadings, WithTitle
     public function title(): string
     {
         return 'メンバー検索結果';
+    }
+
+    /**
+     * 1行あたりのデータの設定を行う
+     * @return string
+     */
+    public function map($item): array
+    {
+        // return $data;
+        return [
+            'id' => $item->id,
+            'name' => $item->name,
+            'email' => $item->email,
+            'roleId' => $this->getRoleName($item->roleId),
+        ];
+    }
+
+    /**
+     * idに紐付く権限名の取得
+     * @return string
+     */
+    public function getRoleName(int $id)
+    {
+        // $index = array_search($id, $this->roleIds, true);
+        return $this->roles[array_search($id, $this->roleIds, true)]->name;
     }
 
 
