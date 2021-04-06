@@ -10,7 +10,6 @@ use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Illuminate\Support\Collection;
 use App\Repositories\Roles\RolesRepositoryInterface;
-use Illuminate\Support\Arr;
 
 class AdminsExport implements FromCollection, WithHeadings, WithTitle, WithMapping
 {
@@ -37,7 +36,6 @@ class AdminsExport implements FromCollection, WithHeadings, WithTitle, WithMappi
     public function collection()
     {
         return $this->resource;
-        // return Admins::all();
     }
 
     /**
@@ -84,7 +82,6 @@ class AdminsExport implements FromCollection, WithHeadings, WithTitle, WithMappi
      */
     public function getRoleName(int $id)
     {
-        // $index = array_search($id, $this->roleIds, true);
         return $this->roles[array_search($id, $this->roleIds, true)]->name;
     }
 

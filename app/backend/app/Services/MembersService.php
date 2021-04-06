@@ -58,24 +58,8 @@ class MembersService
     public function downloadCSV(Request $request)
     {
         $data = $this->adminsRepository->getAdminsList();
-        // サービスコンテナからリソースクラスインスタンスを依存解決
-        // コンストラクタのresourceに割り当てる値を渡す
-        // $resourceCollection = app()->make(AdminsCSVCollection::class, ['resource' => $data]);
-        // $test = $resourceCollection->toArray($request);
-        // $resource = app()->make(AdminsResource::class, ['resource' => $data]);
 
-        // return Excel::store(new AdminsExport($data), 'file/' . 'output.xlsx', 'local');
-        // return Excel::store(new AdminsExport($data), Config::get('myapp.file.download.storage.local') . 'output.xlsx', Config::get('app.env', 'local'));
-        if (Config::get('app.env') === 'production') {
-            return Excel::download(new AdminsExport($data), 'member_info_' . Carbon::now()->format('YmdHis') . '.csv');
-        } else {
-            return Excel::download(new AdminsExport($data), 'member_info_' . Carbon::now()->format('YmdHis') . '.csv');
-            // return Excel::store(new AdminsExport($data), Config::get('myapp.file.download.storage.local') . 'output.xlsx', 'local');
-        }
-
-        // return Excel::store(new AdminsExport, 'file/'. 'output.xlsx', 'local');
-        // return Excel::download(new AdminsExport, 'output.xlsx');
-        // return response()->json($resourceCollection->toArray($request), 200);
+        return Excel::download(new AdminsExport($data), 'member_info_' . Carbon::now()->format('YmdHis') . '.csv');
     }
 
     /**
