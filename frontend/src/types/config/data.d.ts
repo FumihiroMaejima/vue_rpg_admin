@@ -34,6 +34,7 @@ export type AuthInfoServiceEndipont = {
 export type MembersServiceEndipont = {
   [key: string]: string
   members: string
+  csv: string
   member: string
   create: string
   roles: string

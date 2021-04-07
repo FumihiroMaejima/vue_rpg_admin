@@ -17,6 +17,7 @@ import {
   validatePassword,
   validateConfirmPassword
 } from '@/util/validation'
+import { makeDataUrl, downloadFile } from '@/util'
 
 const config: IAppConfig = require('@/config/data')
 
@@ -311,6 +312,52 @@ export const useState = () => {
   }
 
   /**
+   * get auth user info.
+   * @param {BaseAddHeaderResponse} header
+   * @return {void}
+   */
+  const downloadMemberCSV = async (
+    options: AuthAppHeaderOptions
+  ): Promise<ServerRequestType> => {
+    axios.defaults.withCredentials = true
+    return await axios
+      .get(config.endpoint.members.csv, { headers: options.headers })
+      .then((response: AxiosResponse<any>) => {
+        // download
+        downloadFile(
+          makeDataUrl(response.data, 'text/csv'),
+          response.headers['content-disposition'].replace(
+            'attachment; filename=',
+            ''
+          )
+        )
+
+        setToastData(
+          'success',
+          'CSVファイル出力成功',
+          'ファイルをダウンロードしました。'
+        )
+
+        return { data: {}, status: response.status }
+      })
+      .catch((error: AxiosError<any>) => {
+        // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
+        setToastData(
+          'error',
+          'CSVダウンロードエラー',
+          'CSVファイルのダウンロードに失敗しました。'
+        )
+        return {
+          data: error,
+          status: error.response ? error.response.status : 401
+        }
+      })
+      .finally(() => {
+        options.callback()
+      })
+  }
+
+  /**
    * get roles.
    * @param {AuthAppHeaderOptions} options
    * @return {Promise<ServerRequestType>}
@@ -434,6 +481,7 @@ export const useState = () => {
     updateMembersData,
     updateMembersRole,
     getMembersData,
+    downloadMemberCSV,
     getRoles,
     createMember,
     removeMember

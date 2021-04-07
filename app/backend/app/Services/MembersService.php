@@ -6,6 +6,7 @@ use App\Http\Requests\MemberCreateRequest;
 use App\Http\Requests\MemberUpdateRequest;
 use App\Http\Requests\MemberDeleteRequest;
 use App\Http\Resources\AdminsCollection;
+use App\Http\Resources\AdminsCSVCollection;
 use App\Http\Resources\AdminsResource;
 use App\Http\Resources\AdminsRolesCreateResource;
 use App\Http\Resources\AdminsRolesUpdateResource;
@@ -20,6 +21,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Exports\AdminsExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Carbon;
 
 class MembersService
 {
@@ -42,6 +47,19 @@ class MembersService
 
         return response()->json($resourceCollection->toArray($request), 200);
         // return response()->json($resource->toArray($request), 200);
+    }
+
+    /**
+     * update member data service
+     *
+     * @param  \Illuminate\Http\Request;  $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function downloadCSV(Request $request)
+    {
+        $data = $this->adminsRepository->getAdminsList();
+
+        return Excel::download(new AdminsExport($data), 'member_info_' . Carbon::now()->format('YmdHis') . '.csv');
     }
 
     /**

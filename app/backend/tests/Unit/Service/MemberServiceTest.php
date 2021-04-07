@@ -157,6 +157,20 @@ class MemberServiceTest extends TestCase
         $response->assertStatus(422);
     }
 
+
+    /**
+     * members file download test.
+     * output dir storage/framework/laravel-excel
+     *
+     * @return void
+     */
+    public function testDownloadMembersCsvFile(): void
+    {
+        $response = $this->get(route('admin.members.download'));
+        $response->assertStatus(200)
+            ->assertHeader('content-type', 'application/csv');
+    }
+
     /**
      * members update request test.
      *

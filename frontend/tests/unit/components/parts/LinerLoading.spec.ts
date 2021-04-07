@@ -1,21 +1,23 @@
-import { shallowMount } from '@vue/test-utils'
+import { shallowMount, VueWrapper } from '@vue/test-utils'
 import LinerLoading from '@/components/parts/LinerLoading.vue'
 
+const open = true
+
 describe('LinerLoading.vue', () => {
-  it('check props value', () => {
-    const open = true
-    const wrapper = shallowMount(LinerLoading, {
+  let wrapper: VueWrapper<any>
+
+  beforeEach(() => {
+    wrapper = shallowMount(LinerLoading, {
       props: { open }
     })
+  })
 
+  it('check props value', () => {
     expect(wrapper.props().open).toBe(true)
   })
 
-  it('check display none', () => {
-    const open = false
-    const wrapper = shallowMount(LinerLoading, {
-      props: { open }
-    })
+  it('check display none', async () => {
+    await wrapper.setProps({ open: false })
 
     const regex = 'style="display: none;"'
     expect(wrapper.html()).toContain(regex)

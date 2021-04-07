@@ -28,7 +28,7 @@ return [
     'test' => [
         'admin' => [
             'login' => [
-                'email' => 'testadmin1' . '@example.com',
+                'email' => 'test' . 'admin1' . '@example.com',
                 'password' => env('TEST_ADMIN_SEEDER_PASSWORD', 'password')
             ]
         ],
@@ -36,7 +36,7 @@ return [
             'create' => [
                 'success' => [
                     'name' => 'test name',
-                    'email' => 'testadmin12345XXX' . '@example.com',
+                    'email' => 'testadmin'. '12345XXX' . '@example.com',
                     'roleId' => 1,
                     'password' => 'testpassword' . '12345',
                     'password_confirmation' => 'testpassword' . '12345'
@@ -52,6 +52,16 @@ return [
         'services' => [
             'members' => ['master', 'administrator', 'develop'],
             'roles' => ['master', 'administrator', 'develop']
+        ]
+    ],
+    'file' => [
+        'download' => [
+            'storage' => [
+                'local'      => 'file/',
+                'testing'    => 'file/',
+                'staging'    => 'file/',
+                'production' => 's3',
+            ],
         ]
     ]
 ];

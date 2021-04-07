@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admins;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Services\MembersService;
 use App\Http\Requests\MemberCreateRequest;
 use App\Http\Requests\MemberUpdateRequest;
@@ -46,6 +47,33 @@ class MembersController extends Controller
 
         // サービスの実行
         $response = $this->service->getAdmins($request);
+
+        $time = microtime(true) - $time_start;
+        // PHPによって割り当てられたメモリの最大値の取得
+        Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'peak usage memory size: ' . (string)memory_get_peak_usage());
+        // サービス処理の実行時間の取得
+        Log::debug(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'service execution time: ' . (string)$time);
+        return $response;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function download(Request $request)
+    {
+        // 権限チェック
+        if (!$this->checkRequestAuthority($request, Config::get('myapp.executionRole.services.members'))) {
+            return response()->json(['error' => 'Forbidden'], 403);
+        }
+
+        // 処理速度の計測
+        $time_start = microtime(true);
+
+        // サービスの実行
+        $response = $this->service->downloadCSV($request);
 
         $time = microtime(true) - $time_start;
         // PHPによって割り当てられたメモリの最大値の取得
