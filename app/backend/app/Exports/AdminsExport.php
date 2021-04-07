@@ -84,6 +84,4 @@ class AdminsExport implements FromCollection, WithHeadings, WithTitle, WithMappi
     {
         return $this->roles[array_search($id, $this->roleIds, true)]->name;
     }
-
-
 }
