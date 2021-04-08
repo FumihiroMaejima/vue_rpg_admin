@@ -765,6 +765,45 @@ php artisan make:middleware TestMiddleWare
 php artisan make:request TestPostRequest
 ```
 
+### Excel,CSVファイルの入出力
+
+- Laravel-Excelのインストール
+
+```shell-session
+$ composer require maatwebsite/excel
+```
+
+- サービスプロパイダとファサードを登録
+
+app.php
+
+```PHP
+Maatwebsite\Excel\ExcelServiceProvider::class,
+
+'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+```
+
+- stubの作成
+
+```shell-session
+$ php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider"
+```
+
+- エクスポートクラスとインポートクラスの作成
+
+```shell-session
+$ php artisan make:export TestExport --model=App\\Models\\Admins
+$ php artisan make:import TestImport --model=App\\Models\\Admins
+```
+
+- ファイルダウンロード
+
+```shell-session
+use Maatwebsite\Excel\Facades\Excel;
+
+return Excel::download(new TestExport($data), 'filename_' . Carbon::now()->format('YmdHis') . '.csv');
+```
+
 ---
 # Swaggerの設定
 
