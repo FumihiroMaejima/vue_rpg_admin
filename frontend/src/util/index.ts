@@ -10,7 +10,7 @@ export function inversionFlag(flag: Ref) {
 }
 
 /**
- * inversion boolean flag.
+ * make binary data object url.
  * [0xef, 0xbb, 0xbf]はbyte order mark(BOM)。Unicodeで符号化したテキストの先頭に付与される数バイトのデータ。
  * 8ビット符号なし整数値を表現可能なUint8Array()メソッドでバイナリデータとしてセットする事で文字コードをBOM付きのUTF-8と指定する。
  * @param {string} data
