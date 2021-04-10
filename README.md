@@ -806,6 +806,12 @@ return Excel::download(new TestExport($collection), 'filename_' . Carbon::now()-
 
 ### 通知の作成
 
+slack通知の場合は`slack-notification-channel`をインストールする。
+
+```shell-session
+$ composer require laravel/slack-notification-channel
+```
+
 ```shell-session
 $ php artisan make:notification TestNotification
 ```
