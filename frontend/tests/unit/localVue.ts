@@ -8,6 +8,7 @@ import { GlobalMountOptions } from '@vue/test-utils/dist/types'
 import AppComponent from '@/App.vue'
 import router from '@/router'
 import store from '@/store'
+import axios, { AxiosStatic } from 'axios'
 import { IAppConfig, RootState } from '@/types'
 const config: IAppConfig = require('@/config/data')
 
@@ -26,6 +27,14 @@ localClient.get.mockResolvedValue({data: {key: 'value'}}) */
 jest.mock('axios')
 const client = axios as jest.Mocked<AxiosStatic>
 client.get.mockResolvedValue({ data: { key: 'value' } }) */
+
+/**
+ * get axios mock.
+ * @return {jest.Mocked<AxiosStatic>}
+ */
+export function getLocalAxios() {
+  return axios as jest.Mocked<AxiosStatic>
+}
 
 /**
  * get router.
