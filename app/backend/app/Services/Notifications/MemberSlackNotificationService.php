@@ -19,7 +19,9 @@ class MemberSlackNotificationService
      */
     public function send($message = null, $attachment = null)
     {
-        $this->notify(new MemberUpdateNotification($message, $attachment));
+        if (Config::get('app.env') !== 'testing') {
+            $this->notify(new MemberUpdateNotification($message, $attachment));
+        }
     }
 
     /**
