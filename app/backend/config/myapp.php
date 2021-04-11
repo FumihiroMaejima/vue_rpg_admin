@@ -63,5 +63,11 @@ return [
                 'production' => 's3',
             ],
         ]
+        ],
+    'slack' => [
+        'channel' => env('APP_SLACK_CHANNEL', 'channel_title'),
+        'name' => env('APP_SLACK_NAME', 'bot-name'),
+        'icon' => env('APP_SLACK_ICON', ':ghost:'),
+        'url' => env('APP_SLACK_WEBHOOK_URL', 'https://hooks.slack.com/services/test'),
     ]
 ];

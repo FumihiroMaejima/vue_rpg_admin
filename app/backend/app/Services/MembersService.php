@@ -25,6 +25,7 @@ use App\Exports\AdminsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Carbon;
+use App\Services\Notifications\MemberSlackNotificationService;
 
 class MembersService
 {
@@ -124,6 +125,9 @@ class MembersService
             $updatedAdminsRolesRowCount = $this->adminsRolesRepository->updateAdminsRoleData($roleIdResource, $id);
             Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'roleIdResource: ' . json_encode($roleIdResource));
             Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'updated row: ' . json_encode($updatedAdminsRolesRowCount));
+
+            // slack通知
+            app()->make(MemberSlackNotificationService::class)->send(":tada: Update Member Data \n" . "ID: " . $id . PHP_EOL . "Name: " . $request->name . PHP_EOL);
 
             DB::commit();
 

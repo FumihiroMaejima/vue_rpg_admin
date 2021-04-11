@@ -703,7 +703,7 @@ $ php artisan make:policy TestPolicy
 ### テストコードの作成
 
 ```shell-session
- $ php artisan make:test SampleTest --unit
+$ php artisan make:test SampleTest --unit
 ```
 
 ### ログの設定
@@ -731,38 +731,108 @@ Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' .'log test
 `.env`の`LOG_CHANNEL`を下記の通りに設定する。(defaultが`stack`)
 
 ```shell-session
-php artisan make:listener TestHandler
+$ php artisan make:listener TestHandler
 ```
 
 ### サービスプロパイダーの作成
 
 ```shell-session
-php artisan make:provider TestServiceProvider
+$ php artisan make:provider TestServiceProvider
 ```
 
 ### リソースの作成
 
 ```shell-session
-php artisan make:resource Test
+$ php artisan make:resource Test
 ```
 ### コレクションリソースの作成
 
 ```shell-session
-php artisan make:resource Test --collection
+$ php artisan make:resource Test --collection
 or
-php artisan make:resource TestCollection
+$ php artisan make:resource TestCollection
 ```
 
 ### ミドルウェアの作成
 
 ```shell-session
-php artisan make:middleware TestMiddleWare
+$ php artisan make:middleware TestMiddleWare
 ```
 
 ### フォームリクエストの作成(バリデーションルール)
 
 ```shell-session
-php artisan make:request TestPostRequest
+$ php artisan make:request TestPostRequest
+```
+
+### Excel,CSVファイルの入出力
+
+- Laravel-Excelのインストール
+
+```shell-session
+$ composer require maatwebsite/excel
+```
+
+- サービスプロパイダとファサードを登録
+
+app.php
+
+```PHP
+Maatwebsite\Excel\ExcelServiceProvider::class,
+
+'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+```
+
+- stubの作成
+
+```shell-session
+$ php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider"
+```
+
+- エクスポートクラスとインポートクラスの作成
+
+```shell-session
+$ php artisan make:export TestExport --model=App\\Models\\Admins
+$ php artisan make:import TestImport --model=App\\Models\\Admins
+```
+
+- ファイルダウンロード
+
+```PHP
+use Maatwebsite\Excel\Facades\Excel;
+
+return Excel::download(new TestExport($collection), 'filename_' . Carbon::now()->format('YmdHis') . '.csv');
+```
+
+### 通知の作成
+
+slack通知の場合は`slack-notification-channel`をインストールする。
+
+```shell-session
+$ composer require laravel/slack-notification-channel
+```
+
+```shell-session
+$ php artisan make:notification TestNotification
+```
+
+- Notifiableトレイトの使用
+
+```PHP
+use Illuminate\Notifications\Notifiable;
+
+class User extends Authenticatable
+{
+    use Notifiable;
+}
+```
+
+モデルのインスタンスかわnotifyトレイトを使い通知を実行する
+
+```PHP
+use App\Notifications\TestNotification;
+
+$user->notify(new TestNotification($data));
 ```
 
 ---
