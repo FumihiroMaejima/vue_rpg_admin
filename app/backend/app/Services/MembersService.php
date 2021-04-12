@@ -12,6 +12,7 @@ use App\Http\Resources\AdminsRolesCreateResource;
 use App\Http\Resources\AdminsRolesUpdateResource;
 use App\Http\Resources\AdminsRolesDeleteResource;
 use App\Http\Resources\AdminUpdateResource;
+use App\Http\Resources\AdminUpdateNotificationResource;
 use App\Http\Resources\AdminDeleteResource;
 use App\Http\Resources\AdminCreateResource;
 use App\Repositories\Admins\AdminsRepositoryInterface;
@@ -127,7 +128,8 @@ class MembersService
             Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'updated row: ' . json_encode($updatedAdminsRolesRowCount));
 
             // slack通知
-            app()->make(MemberSlackNotificationService::class)->send(":tada: Update Member Data \n" . "ID: " . $id . PHP_EOL . "Name: " . $request->name . PHP_EOL);
+            $attachmentResource = app()->make(AdminUpdateNotificationResource::class, ['resource' => ":tada: Update Member Data \n"])->toArray($request);
+            app()->make(MemberSlackNotificationService::class)->send('update member data.', $attachmentResource);
 
             DB::commit();
 

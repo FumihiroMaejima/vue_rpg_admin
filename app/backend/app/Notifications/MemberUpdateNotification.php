@@ -65,7 +65,23 @@ class MemberUpdateNotification extends Notification
         return (new SlackMessage)
             ->from(Config::get('app.name') . ': ' . Config::get('myapp.slack.name'), Config::get('myapp.slack.icon'))
             ->to(Config::get('myapp.slack.channel'))
-            ->content(':book: Check following message.' . "\n" . $this->message);
+            ->content(':book: Check following message.' . "\n" . $this->message)
+            ->attachment(function ($attachment) {
+                if ($this->attachment) {
+                    // Illuminate\Notifications\Messages\SlackAttachment $attachment
+                    $attachment->pretext($this->attachment['pretext'])
+                        ->title($this->attachment['title'], $this->attachment['titleLink'])
+                        ->content($this->attachment['content'])
+                        ->color($this->attachment['color'])
+                        ->fields([
+                            'ID'     => $this->attachment['id'],
+                            'Name'   => $this->attachment['name'],
+                            'Status' => $this->attachment['status'],
+                            'Detail' => $this->attachment['detail'],
+                        ])
+                        ->footer('@' . Config::get('app.name'));
+                }
+            });
     }
 
     /**
