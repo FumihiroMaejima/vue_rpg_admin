@@ -75,25 +75,17 @@ import {
 } from 'vue'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
-import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 
 import {
-  formSchema,
   removeFormSchema,
-  editableRole,
-  tableSetting,
   MembersType,
-  MembersTextKeys,
-  MembersSelectKeys,
   MembersStateKey,
-  MembersStateType,
-  useState
+  MembersStateType
 } from '@/services/members'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
 import { useField, useForm } from 'vee-validate'
-import { checkTextLength } from '@/util/validation'
 import { ToastType, SelectBoxType } from '@/types/applications/index'
 import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 
@@ -106,14 +98,15 @@ export default defineComponent({
   components: {
     Button,
     Dialog,
-    // InputText,
     Dropdown
   },
   props: {
     members: {
       type: Array as PropType<Pick<MembersType, 'id' | 'name'>[]>,
       required: false,
-      default: []
+      default: () => {
+        return []
+      }
     }
   },
   setup(__, context: SetupContext) {
