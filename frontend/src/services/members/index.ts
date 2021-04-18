@@ -325,7 +325,7 @@ export const useState = () => {
       .then((response: AxiosResponse<any>) => {
         // download
         downloadFile(
-          makeDataUrl(response.data, 'text/csv'),
+          makeDataUrl(response.data, response.headers['content-type']),
           response.headers['content-disposition'].replace(
             'attachment; filename=',
             ''
