@@ -18,6 +18,8 @@ tags:
   externalDocs:
     description: "Find out more"
     url: "http://swagger.io"
+- name: "roles"
+  description: "Roles infomation"
 - name: "auth"
   description: "Operations about authentication"
   externalDocs:
@@ -227,6 +229,30 @@ paths:
       - members_auth:
         - "write:members"
         - "read:members"
+  /admin/roles:
+    get:
+      tags:
+      - "roles"
+      summary: "Find roles"
+      description: "Returns roles data"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Roles"
+        "404":
+          description: "Roles not found"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+        default:
+          description: "unsuccessful operation"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+      security:
+      - api_key: []
   /auth/admin/login:
     post:
       tags:
@@ -422,6 +448,16 @@ definitions:
         type: "integer"
         format: "int64"
         description: "Admin`s role id"
+    xml:
+      name: "Member"
+  Roles:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
     xml:
       name: "Member"
   FileData:
