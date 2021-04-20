@@ -22,7 +22,7 @@ class RolesRepository implements RolesRepositoryInterface
     }
 
     /**
-     * Get All Admins Data.
+     * Get All Role Data.
      *
      * @return Collection
      */
@@ -34,7 +34,7 @@ class RolesRepository implements RolesRepositoryInterface
     }
 
     /**
-     * Get Admins as List.
+     * Get Roles as List.
      *
      * @return Collection
      */
@@ -47,5 +47,52 @@ class RolesRepository implements RolesRepositoryInterface
         return DB::table($roles)
             ->select([$roles . '.id', $roles . '.name'])
             ->get();
+    }
+
+    /**
+     * create Admin data.
+     *
+     * @return int
+     */
+    public function createRole(array $resource): int
+    {
+        return DB::table($this->model->getTable())->insert($resource);
+    }
+
+    /**
+     * update Role data.
+     *
+     * @return int
+     */
+    public function updateRoleData(array $resource, int $id): int
+    {
+        // admins
+        $admins = $this->model->getTable();
+
+        // Query Builderのupdate
+        return DB::table($admins)
+            // ->whereIn('id', [$id])
+            ->where('id', '=', [$id])
+            ->where('deleted_at', '=', null)
+            ->update($resource);
+    }
+
+    /**
+     * delete Role data.
+     * @param array $resource
+     * @param int $id
+     * @return int
+     */
+    public function deleteRoleData(array $resource, int $id): int
+    {
+        // admins
+        $admins = $this->model->getTable();
+
+        // Query Builderのupdate
+        return DB::table($admins)
+            // ->whereIn('id', [$id])
+            ->where('id', '=', $id)
+            ->where('deleted_at', '=', null)
+            ->update($resource);
     }
 }
