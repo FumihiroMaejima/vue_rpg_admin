@@ -18,10 +18,14 @@ export function inversionFlag(flag: Ref) {
  * @return {string}
  */
 export const makeDataUrl = (data: string, mimeType = 'text/csv'): string => {
-  const bom = new Uint8Array([0xef, 0xbb, 0xbf])
-  // バイナリデータを表すBlobオブジェクトに設定したいデータとmimetypeを指定する
-  const blob = new Blob([bom, data], { type: mimeType })
-  return (window.URL || window.webkitURL).createObjectURL(blob)
+  if (!(mimeType === 'text/csv' || mimeType === 'application/csv')) {
+    return (window.URL || window.webkitURL).createObjectURL(new Blob([data]))
+  } else {
+    const bom = new Uint8Array([0xef, 0xbb, 0xbf])
+    // バイナリデータを表すBlobオブジェクトに設定したいデータとmimetypeを指定する
+    const blob = new Blob([bom, data], { type: mimeType })
+    return (window.URL || window.webkitURL).createObjectURL(blob)
+  }
 }
 
 /**

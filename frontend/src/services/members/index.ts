@@ -321,7 +321,10 @@ export const useState = () => {
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
-      .get(config.endpoint.members.csv, { headers: options.headers })
+      .get(config.endpoint.members.csv, {
+        headers: options.headers,
+        responseType: 'blob'
+      })
       .then((response: AxiosResponse<any>) => {
         // download
         downloadFile(
