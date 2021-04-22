@@ -50,6 +50,18 @@ class RolesRepository implements RolesRepositoryInterface
     }
 
     /**
+     * get Latest Role data.
+     *
+     * @return \Illuminate\Database\Eloquent\Model|object|static|null
+     */
+    public function getLatestRole(): object
+    {
+        return DB::table($this->model->getTable())
+            ->latest()
+            ->first();
+    }
+
+    /**
      * create Admin data.
      *
      * @return int

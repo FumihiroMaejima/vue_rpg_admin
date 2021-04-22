@@ -20,7 +20,7 @@ module.exports = {
       csv: '/api/admin/members/csv',
       member: '/api/admin/members/member/:id',
       create: '/api/admin/members/member',
-      roles: '/api/admin/roles'
+      roles: '/api/admin/roles/list'
     }
   },
   headerMenuContents: [

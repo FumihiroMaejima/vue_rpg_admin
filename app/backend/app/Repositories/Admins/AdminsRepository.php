@@ -79,7 +79,7 @@ class AdminsRepository implements AdminsRepositoryInterface
     }
 
     /**
-     * create Admin data.
+     * get Latest Admin data.
      *
      * @return \Illuminate\Database\Eloquent\Model|object|static|null
      */

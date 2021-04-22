@@ -61,6 +61,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:api-admins'], function 
     // roles
     Route::group(['prefix' => 'roles'], function () {
         Route::get('/', [RolesController::class, 'index'])->name('admin.roles.index');
+        Route::get('/list', [RolesController::class, 'list'])->name('admin.roles.list');
         Route::get('/csv', [RolesController::class, 'download'])->name('admin.roles.download');
         Route::post('/role', [RolesController::class, 'create'])->name('admin.roles.create');
         Route::patch('/role/{id}', [RolesController::class, 'update'])->name('admin.roles.update');

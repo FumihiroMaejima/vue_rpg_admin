@@ -17,8 +17,10 @@ class RoleUpdateResource extends JsonResource
     {
         $dateTime = Carbon::now()->format('Y-m-d H:i:s');
         return [
+            'name'        => $request->name,
+            'code'        => $request->code,
             'permissions' => $request->permissions,
-            'updated_at' => $dateTime
+            'updated_at'  => $dateTime
         ];
     }
 }

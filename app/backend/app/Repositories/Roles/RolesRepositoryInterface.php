@@ -10,6 +10,8 @@ interface RolesRepositoryInterface
 
     public function getRolesList(): Collection;
 
+    public function getLatestRole(): object;
+
     public function createRole(array $resource): int;
 
     public function updateRoleData(array $resource, int $id): int;

@@ -66,9 +66,9 @@ class RolesServiceTest extends TestCase
      *
      * @return void
      */
-    public function testGetRoles(): void
+    public function testGetRolesList(): void
     {
-        $response = $this->get(route('admin.roles.index'));
+        $response = $this->get(route('admin.roles.list'));
         $response->assertStatus(200)
             ->assertJsonCount(5, 'data');
     }

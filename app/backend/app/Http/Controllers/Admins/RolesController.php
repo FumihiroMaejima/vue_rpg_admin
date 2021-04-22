@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Services\RolesService;
+use App\Http\Requests\RoleCreateRequest;
+use App\Http\Requests\RoleUpdateRequest;
+use App\Http\Requests\RoleDeleteRequest;
 use App\Trait\CheckHeaderTrait;
 use Illuminate\Support\Facades\Config;
 
@@ -38,28 +41,54 @@ class RolesController extends Controller
             return response()->json(['error' => 'Forbidden'], 403);
         }
 
-        // 処理速度の計測
-        $time_start = microtime(true);
-
         // サービスの実行
-        $response = $this->service->getRoles($request);
-
-        $time = microtime(true) - $time_start;
-        // PHPによって割り当てられたメモリの最大値の取得
-        Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'peak usage memory size: ' . (string)memory_get_peak_usage());
-        // サービス処理の実行時間の取得
-        Log::debug(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'service execution time: ' . (string)$time);
-        return $response;
+        return $this->service->getRoles($request);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function create()
+    public function list(Request $request)
     {
-        //
+        // 権限チェック
+        if (!$this->checkRequestAuthority($request, Config::get('myapp.executionRole.services.roles'))) {
+            return response()->json(['error' => 'Forbidden'], 403);
+        }
+
+        // サービスの実行
+        return $this->service->getRolesList($request);
+    }
+
+    /**
+     * download a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function download(Request $request)
+    {
+        // 権限チェック
+        if (!$this->checkRequestAuthority($request, Config::get('myapp.executionRole.services.members'))) {
+            return response()->json(['error' => 'Forbidden'], 403);
+        }
+
+        // サービスの実行
+        return $this->service->downloadCSV($request);
+    }
+
+    /**
+     * creating a new resource.
+     *
+     * @param  \App\Http\Requests\RoleCreateRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create(RoleCreateRequest  $request)
+    {
+        // サービスの実行
+        return $this->service->createRole($request);
     }
 
     /**
@@ -98,23 +127,25 @@ class RolesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\RoleUpdateRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RoleUpdateRequest $request, int $id)
     {
-        //
+        // サービスの実行
+        return $this->service->updateRoleData($request, $id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Http\Requests\RoleDeleteRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(RoleDeleteRequest $request)
     {
-        //
+        // サービスの実行
+        return $this->service->deleteRole($request);
     }
 }
