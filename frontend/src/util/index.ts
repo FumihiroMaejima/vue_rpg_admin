@@ -17,7 +17,7 @@ export function inversionFlag(flag: Ref) {
  * @param {string} mimeType - default 'text/csv'
  * @return {string}
  */
-export const makeDataUrl = (data: string, mimeType = 'text/csv'): string => {
+export const makeDataUrl = (data: BlobPart, mimeType = 'text/csv'): string => {
   if (!(mimeType === 'text/csv' || mimeType === 'application/csv')) {
     return (window.URL || window.webkitURL).createObjectURL(new Blob([data]))
   } else {
