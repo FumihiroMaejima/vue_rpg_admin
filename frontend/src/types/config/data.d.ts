@@ -24,6 +24,7 @@ export type EndpointType = {
   [key: string]: string | AuthInfoServiceEndipont | MembersServiceEndipont
   authinfo: AuthInfoServiceEndipont
   members: MembersServiceEndipont
+  roles: RolesServiceEndipont
 }
 
 export type AuthInfoServiceEndipont = {
@@ -38,6 +39,15 @@ export type MembersServiceEndipont = {
   member: string
   create: string
   roles: string
+}
+
+export type RolesServiceEndipont = {
+  [key: string]: string
+  roles: string
+  csv: string
+  role: string
+  create: string
+  permissions: string
 }
 
 export type TableTextColumn = {
