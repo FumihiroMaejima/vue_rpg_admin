@@ -228,7 +228,7 @@ export const useState = () => {
     }
 
     axios.defaults.withCredentials = true
-    const url = config.endpoint.members.member.replace(/:id/g, String(id))
+    const url = config.endpoint.roles.role.replace(/:id/g, String(id))
     await axios
       .patch(url, { ...state.roles[index] }, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
@@ -282,7 +282,7 @@ export const useState = () => {
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
-      .get(config.endpoint.members.members, { headers: options.headers })
+      .get(config.endpoint.roles.roles, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
         // ロールの設定
         setRoles(response.data.data)
@@ -315,7 +315,7 @@ export const useState = () => {
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
-      .get(config.endpoint.members.csv, {
+      .get(config.endpoint.roles.csv, {
         headers: options.headers,
         responseType: 'blob'
       })
@@ -364,7 +364,7 @@ export const useState = () => {
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
-      .get(config.endpoint.members.roles, { headers: options.headers })
+      .get(config.endpoint.roles.permissions, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
         // 権限リストの設定
         getPermissions(response.data.data)
@@ -400,7 +400,7 @@ export const useState = () => {
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
-      .post(config.endpoint.members.create, data, { headers: options.headers })
+      .post(config.endpoint.roles.create, data, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
         setToastData('success', 'ロール作成成功', 'ロールを新規作成しました。')
         return { data: response.data.data, status: response.status }
@@ -434,7 +434,7 @@ export const useState = () => {
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
-      .delete(config.endpoint.members.member.replace(/:id/g, String(id)), {
+      .delete(config.endpoint.roles.role.replace(/:id/g, String(id)), {
         headers: options.headers
       })
       .then((response: AxiosResponse<any>) => {
@@ -482,7 +482,7 @@ export const useState = () => {
 }
 
 // get return type of a function type
-export type MembersStateType = ReturnType<typeof useState>
-export const MembersStateKey: InjectionKey<MembersStateType> = Symbol(
+export type RolesStateType = ReturnType<typeof useState>
+export const RolesStateKey: InjectionKey<RolesStateType> = Symbol(
   'membersState'
 )
