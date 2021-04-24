@@ -51,7 +51,7 @@ import { ToastType } from '@/types/applications/index'
 import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 
 export default defineComponent({
-  name: 'Role',
+  name: 'Roles',
   components: {
     Button,
     RoleCreateDialog,

@@ -201,7 +201,7 @@ module.exports = {
         {
           label: 'ロール管理',
           icon: 'pi pi-fw pi-table',
-          to: '/role'
+          to: '/roles'
         },
         {
           separator: true

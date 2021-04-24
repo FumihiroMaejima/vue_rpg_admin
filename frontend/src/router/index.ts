@@ -4,7 +4,7 @@ import AuthUser from '../views/AuthUser.vue'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Test from '../views/Test.vue'
-import Role from '../views/Role.vue'
+import Roles from '../views/Roles.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -43,9 +43,9 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/role',
-    name: 'Role',
-    component: Role,
+    path: '/roles',
+    name: 'Roles',
+    component: Roles,
     meta: {
       requiresAuth: true,
       permissions: ['master', 'administrator']
