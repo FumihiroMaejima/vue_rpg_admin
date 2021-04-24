@@ -21,6 +21,13 @@ module.exports = {
       member: '/api/admin/members/member/:id',
       create: '/api/admin/members/member',
       roles: '/api/admin/roles/list'
+    },
+    roles: {
+      roles: '/api/admin/roles',
+      csv: '/api/admin/roles/csv',
+      role: '/api/admin/roles/role/:id',
+      create: '/api/admin/roles/role',
+      permissions: '/api/roles/permissions/list'
     }
   },
   headerMenuContents: [

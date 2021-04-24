@@ -10,13 +10,7 @@ import {
 } from '@/types'
 import { TableColumnSetting } from '@/types/config/data'
 import { ToastData, SelectBoxType } from '@/types/applications/index'
-import {
-  validateName,
-  validateEmail,
-  validateSelectBoxNumberValue,
-  validatePassword,
-  validateConfirmPassword
-} from '@/util/validation'
+import { validateName, validateSelectBoxNumberValue } from '@/util/validation'
 import { makeDataUrl, downloadFile } from '@/util'
 
 const config: IAppConfig = require('@/config/data')
@@ -27,38 +21,28 @@ export const formSchema = {
   name(value: string): string {
     return validateName(value)
   },
-  email(value: string): string {
-    return validateEmail(value)
+  code(value: string): string {
+    return validateName(value)
   },
-  role(value: number): string {
+  detail(value: string): string {
+    return validateName(value)
+  },
+  permissions(value: number): string {
     return validateSelectBoxNumberValue(value)
-  },
-  password(value: string): string {
-    return validatePassword(value)
-  },
-  confirmPassword(
-    value: string,
-    ctx: any /* FieldContext not exported */
-  ): string {
-    return validateConfirmPassword(
-      value,
-      ctx.form.password ? ctx.form.password : ''
-    )
   }
 }
 
 export const removeFormSchema = {
-  member(value: number): string {
+  role(value: number): string {
     return validateSelectBoxNumberValue(value)
   }
 }
 
-export type CreateMemberData = Record<
-  Exclude<keyof typeof formSchema, 'role' | 'confirmPassword'>,
+export type CreateRoleData = Record<
+  Exclude<keyof typeof formSchema, 'permissions'>,
   string
 > &
-  Record<'roleId', number> &
-  Record<'password_confirmation', string>
+  Record<'permissions', number>
 
 export const tableSetting: TableColumnSetting<SelectBoxType>[] = [
   {
@@ -79,16 +63,24 @@ export const tableSetting: TableColumnSetting<SelectBoxType>[] = [
   },
   {
     identifier: 'id',
-    field: 'email',
-    header: 'Email',
+    field: 'code',
+    header: 'Code',
     editable: true,
     type: 'text',
     style: 'width:30%'
   },
   {
     identifier: 'id',
-    field: 'roleId',
-    header: 'Role',
+    field: 'detail',
+    header: 'Detail',
+    editable: true,
+    type: 'text',
+    style: 'width:30%'
+  },
+  {
+    identifier: 'id',
+    field: 'permissionId',
+    header: 'Permission',
     editable: true,
     type: 'select',
     style: 'width:30%',
@@ -105,24 +97,26 @@ export const toastData: ToastData = {
   life: 5000
 }
 
-const membersData = {
+const rolesData = {
   id: 0,
   name: '',
-  email: '',
-  roleId: 0
+  code: '',
+  detail: '',
+  permissions: 0
 }
 
-export type MembersType = typeof membersData
-export type MembersTypeKeys = keyof MembersType
-export type MembersTextKeys = Exclude<MembersTypeKeys, 'roleId' | 'id'>
-export type MembersSelectKeys = Exclude<MembersTypeKeys, MembersTextKeys | 'id'>
-// export type MembersTypeKeysTest = Omit<MembersType, 'name'>
+export type RolesType = typeof rolesData
+export type RolesTypeKeys = keyof RolesType
+export type RolesTextKeys = Exclude<RolesTypeKeys, 'permissions' | 'id'>
+export type RolesSelectKeys = Exclude<RolesTypeKeys, RolesTextKeys | 'id'>
+// export type MembersTypeKeysTest = Omit<RolesType, 'name'>
 
 export const useState = () => {
   const state = reactive({
     toast: { ...toastData },
-    roles: [] as SelectBoxType[],
-    members: [] as MembersType[]
+    rolesList: [] as SelectBoxType[],
+    permissions: [] as SelectBoxType[],
+    roles: [] as RolesType[]
   })
 
   /**
@@ -134,11 +128,11 @@ export const useState = () => {
   }
 
   /**
-   * return members data
-   * @return {MembersType[]} state.members
+   * return roles data
+   * @return {RolesType[]} state.members
    */
-  const getMembers = () => {
-    return state.members
+  const getRoles = () => {
+    return state.roles
   }
 
   /**
@@ -162,21 +156,21 @@ export const useState = () => {
   }
 
   /**
-   * set role list
+   * set permissions list
    * @param {SelectBoxType[]} value
    * @return {void}
    */
-  const setRoles = (value: SelectBoxType[]) => {
-    state.roles = value
+  const getPermissions = (value: SelectBoxType[]) => {
+    state.permissions = value
   }
 
   /**
-   * insert members data to state
-   * @param {MembersType[]} value
+   * insert role data to state
+   * @param {RolesType[]} value
    * @return {void}
    */
-  const setMembers = (value: MembersType[]) => {
-    state.members = value
+  const setRoles = (value: RolesType[]) => {
+    state.roles = value
   }
 
   /**
@@ -186,22 +180,22 @@ export const useState = () => {
   const resetState = () => {
     state.toast = { ...toastData }
     state.roles = []
-    state.members = []
+    state.roles = []
   }
 
   /**
-   * update memebers name
+   * update roles name
    * @param {number} id
    * @param {string} key
    * @param {string} value
    * @return {void}
    */
-  const updateMembersTextValue = (
+  const updateRolesTextValue = (
     id: number,
-    key: MembersTextKeys,
+    key: RolesTextKeys,
     value: string
   ) => {
-    state.members.find((member) => member.id === id)![key] = value
+    state.roles.find((role) => role.id === id)![key] = value
   }
 
   /**
@@ -211,17 +205,17 @@ export const useState = () => {
    * @param {AuthAppHeaderOptions} options
    * @return {void}
    */
-  const updateMembersData = async (
+  const updateRolesData = async (
     id: number,
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     let result = { data: {}, status: 0 } as ServerRequestType
-    const index = state.members.findIndex((member) => member.id === id)
+    const index = state.roles.findIndex((role) => role.id === id)
     if (index === -1) {
       setToastData(
         'error',
-        'メンバー情報更新失敗エラー',
-        '存在しないメンバーです。'
+        'ロール情報更新失敗エラー',
+        '存在しないロールです。'
       )
       result.status = 404
       return result
@@ -236,10 +230,10 @@ export const useState = () => {
     axios.defaults.withCredentials = true
     const url = config.endpoint.members.member.replace(/:id/g, String(id))
     await axios
-      .patch(url, { ...state.members[index] }, { headers: options.headers })
+      .patch(url, { ...state.roles[index] }, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
         msg.severity = 'success'
-        msg.summary = 'メンバー情報更新'
+        msg.summary = 'ロール情報更新'
         msg.detail = 'メンバー情報を更新しました。'
 
         result = { data: response.data.data, status: response.status }
@@ -247,8 +241,8 @@ export const useState = () => {
       .catch((error: AxiosError<any>) => {
         // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
         msg.severity = 'error'
-        msg.summary = 'メンバー情報更新失敗エラー'
-        msg.detail = 'メンバー情報の更新に失敗しました。'
+        msg.summary = 'ロール情報更新失敗エラー'
+        msg.detail = 'ロール情報の更新に失敗しました。'
 
         result = {
           data: error,
@@ -264,42 +258,42 @@ export const useState = () => {
   }
 
   /**
-   * update memebers role id
+   * update role`s permission ids
    * @param {number} id
    * @param {string} key
    * @param {number} value
    * @return {void}
    */
-  const updateMembersRole = (
+  const updateRolesPermissions = (
     id: number,
-    key: MembersSelectKeys,
+    key: RolesSelectKeys,
     value: number
   ) => {
-    state.members.find((member) => member.id === id)![key] = value
+    state.roles.find((role) => role.id === id)![key] = value
   }
 
   /**
-   * get members data.
+   * get roles data.
    * @param {BaseAddHeaderResponse} header
    * @return {void}
    */
-  const getMembersData = async (
+  const getRolesData = async (
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
       .get(config.endpoint.members.members, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
-        // メンバーの設定
-        setMembers(response.data.data)
+        // ロールの設定
+        setRoles(response.data.data)
         return { data: response.data.data, status: response.status }
       })
       .catch((error: AxiosError<any>) => {
         // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
         setToastData(
           'error',
-          'メンバー情報取得エラー',
-          'メンバー情報の取得に失敗しました。'
+          'ロール情報取得エラー',
+          'ロール情報の取得に失敗しました。'
         )
         return {
           data: error,
@@ -361,11 +355,11 @@ export const useState = () => {
   }
 
   /**
-   * get roles.
+   * get permissions request.
    * @param {AuthAppHeaderOptions} options
    * @return {Promise<ServerRequestType>}
    */
-  const getRoles = async (
+  const getPermissionsList = async (
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
@@ -373,16 +367,16 @@ export const useState = () => {
       .get(config.endpoint.members.roles, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
         // 権限リストの設定
-        setRoles(response.data.data)
-        // setMembers(response.data.data)
+        getPermissions(response.data.data)
+        // setRoles(response.data.data)
         return { data: response.data.data, status: response.status }
       })
       .catch((error: AxiosError<any>) => {
         // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
         setToastData(
           'error',
-          '権限情報取得エラー',
-          '権限情報の取得に失敗しました。'
+          '認可情報取得エラー',
+          '認可情報の取得に失敗しました。'
         )
         return {
           data: error,
@@ -395,32 +389,28 @@ export const useState = () => {
   }
 
   /**
-   * create member request.
-   * @param {CreateMemberData} data
+   * create role request.
+   * @param {CreateRoleData} data
    * @param {AuthAppHeaderOptions} options
    * @return {Promise<ServerRequestType>}
    */
-  const createMember = async (
-    data: CreateMemberData,
+  const createRole = async (
+    data: CreateRoleData,
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
       .post(config.endpoint.members.create, data, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
-        setToastData(
-          'success',
-          'メンバー作成成功',
-          'メンバーを新規作成しました。'
-        )
+        setToastData('success', 'ロール作成成功', 'ロールを新規作成しました。')
         return { data: response.data.data, status: response.status }
       })
       .catch((error: AxiosError<any>) => {
         // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
         setToastData(
           'error',
-          'メンバー作成エラー',
-          'メンバーの新規作成に失敗しました。'
+          'ロール作成エラー',
+          'ロールの新規作成に失敗しました。'
         )
         return {
           data: error,
@@ -433,12 +423,12 @@ export const useState = () => {
   }
 
   /**
-   * remove member request.
+   * remove role request.
    * @param {number} id
    * @param {AuthAppHeaderOptions} options
    * @return {Promise<ServerRequestType>}
    */
-  const removeMember = async (
+  const removeRole = async (
     id: number,
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
@@ -450,8 +440,8 @@ export const useState = () => {
       .then((response: AxiosResponse<any>) => {
         setToastData(
           'success',
-          'メンバー削除成功',
-          '選択したメンバーを削除しました。'
+          'ロール削除成功',
+          '選択したロールを削除しました。'
         )
         return { data: response.data.data, status: response.status }
       })
@@ -459,8 +449,8 @@ export const useState = () => {
         // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
         setToastData(
           'error',
-          'メンバー削除エラー',
-          'メンバーの削除に失敗しました。'
+          'ロール削除エラー',
+          'ロールの削除に失敗しました。'
         )
         return {
           data: error,
@@ -474,20 +464,20 @@ export const useState = () => {
 
   return {
     state,
-    getMembers,
+    getRoles,
     getToastData,
     setToastData,
+    Permissions,
     setRoles,
-    setMembers,
     resetState,
-    updateMembersTextValue,
-    updateMembersData,
-    updateMembersRole,
-    getMembersData,
+    updateRolesTextValue,
+    updateRolesData,
+    updateRolesPermissions,
+    getRolesData,
     downloadMemberCSV,
-    getRoles,
-    createMember,
-    removeMember
+    getPermissionsList,
+    createRole,
+    removeRole
   }
 }
 
