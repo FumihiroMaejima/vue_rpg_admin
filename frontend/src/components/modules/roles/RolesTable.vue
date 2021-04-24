@@ -2,6 +2,7 @@
   <div>
     <DataTable
       :value="members"
+      v-model:selection="selectedRoles"
       dataKey="id"
       :rowHover="true"
       class="p-datatable-sm p-datatable-gridlines editable-cells-table"
@@ -190,12 +191,20 @@ export default defineComponent({
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
     const membersService = inject(MembersStateKey) as MembersStateType
+    const selectValue = ref<MembersType[]>([]);
 
     // computed
     const members = computed((): MembersType[] => membersService.state.members)
     const editable = computed((): boolean =>
       authApp.checkAuthority(editableRole)
     )
+
+    const selectedRoles = computed({
+      get: (): MembersType[] => selectValue.value,
+      set: (value: MembersType[]) => {
+        selectValue.value = value
+      }
+    })
 
     // created
     /* const created = async () => {}
@@ -286,6 +295,7 @@ export default defineComponent({
       catchTextChange,
       catchSelectChange,
       colOpt,
+      selectedRoles,
       columnOptions
     }
   }
