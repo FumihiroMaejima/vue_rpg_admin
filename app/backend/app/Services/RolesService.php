@@ -39,19 +39,36 @@ class RolesService
 {
     protected $rolesRepository;
 
+    /**
+     * create PermissionsService instance
+     * @param  \App\RolesService\Roles\RolesRepositoryInterface  $rolesRepository
+     * @return void
+     */
     public function __construct(RolesRepositoryInterface $rolesRepository)
     {
         $this->rolesRepository = $rolesRepository;
     }
 
+    /**
+     * get roles data
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function getRoles(Request $request)
     {
-        $data = $this->rolesRepository->getRolesList();
+        $data = $this->rolesRepository->getRoles();
         $resourceCollection = app()->make(RolesCollection::class, ['resource' => $data]);
 
         return response()->json($resourceCollection->toArray($request), 200);
     }
 
+    /**
+     * get roles data for frontend parts
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function getRolesList(Request $request)
     {
         $data = $this->rolesRepository->getRolesList();

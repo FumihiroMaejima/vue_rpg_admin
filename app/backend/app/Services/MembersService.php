@@ -33,12 +33,24 @@ class MembersService
     protected $adminsRepository;
     protected $adminsRolesRepository;
 
+    /**
+     * create MembersService instance
+     * @param  \App\RolesService\Admins\AdminsRepositoryInterface  $adminsRepository
+     * @param  \App\RolesService\AdminsRoles\AdminsRolesRepositoryInterface  $adminsRepository
+     * @return void
+     */
     public function __construct(AdminsRepositoryInterface $adminsRepository, AdminsRolesRepositoryInterface $adminsRolesRepository)
     {
         $this->adminsRepository = $adminsRepository;
         $this->adminsRolesRepository = $adminsRolesRepository;
     }
 
+    /**
+     * get members data
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function getAdmins(Request $request)
     {
         $data = $this->adminsRepository->getAdminsList();
@@ -52,7 +64,7 @@ class MembersService
     }
 
     /**
-     * update member data service
+     * download member data by csv
      *
      * @param  \Illuminate\Http\Request;  $request
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse

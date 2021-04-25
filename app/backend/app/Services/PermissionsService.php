@@ -16,11 +16,22 @@ class PermissionsService
 {
     protected $permissionsRepository;
 
+    /**
+     * create PermissionsService instance
+     * @param  \App\Repositories\Permissions\PermissionsRepositoryInterface  $permissionsRepository
+     * @return void
+     */
     public function __construct(PermissionsRepositoryInterface $permissionsRepository)
     {
         $this->permissionsRepository = $permissionsRepository;
     }
 
+    /**
+     * get permissions data for frontend parts
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function getPermissionsList(Request $request)
     {
         $collection = $this->permissionsRepository->getPermissionsList();

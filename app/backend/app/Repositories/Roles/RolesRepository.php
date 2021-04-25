@@ -3,22 +3,25 @@
 namespace App\Repositories\Roles;
 
 use App\Models\Roles;
-use App\Models\AdminsRoles;
+use App\Models\RolePermissions;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 
 class RolesRepository implements RolesRepositoryInterface
 {
     protected $model;
+    protected $rolePermissionsModel;
 
     /**
-     * Create a new AuthInfoController instance.
-     *
+     * Create a new RolesRepository instance.
+     * @param \App\Models\Roles $model
+     * @param \App\Models\RolePermissions $rolePermissions
      * @return void
      */
-    public function __construct(Roles $model)
+    public function __construct(Roles $model, RolePermissions $rolePermissionsModel)
     {
         $this->model = $model;
+        $this->rolePermissionsModel = $rolePermissionsModel;
     }
 
     /**
@@ -28,9 +31,18 @@ class RolesRepository implements RolesRepositoryInterface
      */
     public function getRoles(): Collection
     {
-        return DB::table($this->model->getTable())->get();
-        // Eloquent
-        // return Role::get();
+        // roles
+        $roles = $this->model->getTable();
+        // role_permissions
+        $rolePermissions = $this->rolePermissionsModel->getTable();
+
+        // collection
+        return DB::table($roles)
+            ->select([$roles . '.id', $roles . '.name', $roles . '.code', $roles . '.detail', $rolePermissions . '.permission_id as permissionId', $rolePermissions . '.short_name as shortName'])
+            ->leftJoin($rolePermissions, $roles . '.id', '=', $rolePermissions . '.role_id')
+            ->where($roles . '.deleted_at', '=', null, 'and')
+            ->where($rolePermissions . '.deleted_at', '=', null)
+            ->get();
     }
 
     /**
