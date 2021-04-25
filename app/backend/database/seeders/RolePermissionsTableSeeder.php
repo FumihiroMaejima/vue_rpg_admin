@@ -45,21 +45,25 @@ class RolePermissionsTableSeeder extends Seeder
             if ($i <= $this->masterCount) {
                 // マスターの場合
                 $row['name']          = $roles[0]->name . '_' . $permissions[$i - 1]->name;
+                $row['short_name']    = $permissions[$i - 1]->name;
                 $row['role_id']       = $roles[0]->key;
                 $row['permission_id'] = $permissions[$i - 1]->key;
             } elseif (($this->masterCount < $i) && ($i <= $this->adminCount)) {
                 // 管理者の場合
                 $row['name']          = $roles[1]->name . '_' . $permissions[$i - 5]->name;
+                $row['short_name']    = $permissions[$i - 5]->name;
                 $row['role_id']       = $roles[1]->key;
                 $row['permission_id'] = $permissions[$i - 5]->key;
             } elseif (($this->adminCount < $i) && ($i <= $this->developCount)) {
                 // 開発者の場合
                 $row['name']          = $roles[2]->name . '_' . $permissions[$i - 9]->name;
+                $row['short_name']    = $permissions[$i - 9]->name;
                 $row['role_id']       = $roles[2]->key;
                 $row['permission_id'] = $permissions[$i - 9]->key;
             } elseif (($i === $this->readOnlyCount)) {
                 // 読取専用の場合
                 $row['name']          = $roles[3]->name . '_' . $permissions[1]->name;
+                $row['short_name']    = $permissions[1]->name;
                 $row['role_id']       = $roles[3]->key;
                 $row['permission_id'] = $permissions[1]->key;
             }
