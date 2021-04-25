@@ -40,7 +40,7 @@ class RolesRepository implements RolesRepositoryInterface
      */
     public function getRolesList(): Collection
     {
-        // admins
+        // roles
         $roles = $this->model->getTable();
 
         // collection
@@ -78,11 +78,11 @@ class RolesRepository implements RolesRepositoryInterface
      */
     public function updateRoleData(array $resource, int $id): int
     {
-        // admins
-        $admins = $this->model->getTable();
+        // roles
+        $roles = $this->model->getTable();
 
         // Query Builderのupdate
-        return DB::table($admins)
+        return DB::table($roles)
             // ->whereIn('id', [$id])
             ->where('id', '=', [$id])
             ->where('deleted_at', '=', null)
@@ -97,11 +97,11 @@ class RolesRepository implements RolesRepositoryInterface
      */
     public function deleteRoleData(array $resource, int $id): int
     {
-        // admins
-        $admins = $this->model->getTable();
+        // roles
+        $roles = $this->model->getTable();
 
         // Query Builderのupdate
-        return DB::table($admins)
+        return DB::table($roles)
             // ->whereIn('id', [$id])
             ->where('id', '=', $id)
             ->where('deleted_at', '=', null)

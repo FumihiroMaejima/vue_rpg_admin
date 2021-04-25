@@ -39,12 +39,12 @@ class PermissionsRepository implements PermissionsRepositoryInterface
      */
     public function getPermissionsList(): Collection
     {
-        // admins
-        $roles = $this->model->getTable();
+        // permissions
+        $permissions = $this->model->getTable();
 
         // collection
-        return DB::table($roles)
-            ->select([$roles . '.id', $roles . '.name'])
+        return DB::table($permissions)
+            ->select([$permissions . '.id', $permissions . '.name'])
             ->get();
     }
 
@@ -65,11 +65,11 @@ class PermissionsRepository implements PermissionsRepositoryInterface
      */
     public function updatePermissionData(array $resource, int $id): int
     {
-        // admins
-        $admins = $this->model->getTable();
+        // permissions
+        $permissions = $this->model->getTable();
 
         // Query Builderのupdate
-        return DB::table($admins)
+        return DB::table($permissions)
             // ->whereIn('id', [$id])
             ->where('id', '=', [$id])
             ->where('deleted_at', '=', null)
@@ -84,11 +84,11 @@ class PermissionsRepository implements PermissionsRepositoryInterface
      */
     public function deletePermissionsData(array $resource, int $id): int
     {
-        // admins
-        $admins = $this->model->getTable();
+        // permissions
+        $permissions = $this->model->getTable();
 
         // Query Builderのupdate
-        return DB::table($admins)
+        return DB::table($permissions)
             // ->whereIn('id', [$id])
             ->where('id', '=', $id)
             ->where('deleted_at', '=', null)

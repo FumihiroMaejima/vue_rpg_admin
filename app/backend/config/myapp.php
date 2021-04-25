@@ -51,6 +51,7 @@ return [
     'executionRole' => [
         'services' => [
             'members' => ['master', 'administrator', 'develop'],
+            'permissions' => ['master', 'administrator', 'develop'],
             'roles' => ['master', 'administrator', 'develop']
         ]
     ],

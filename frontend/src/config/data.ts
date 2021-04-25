@@ -27,7 +27,7 @@ module.exports = {
       csv: '/api/admin/roles/csv',
       role: '/api/admin/roles/role/:id',
       create: '/api/admin/roles/role',
-      permissions: '/api/roles/permissions/list'
+      permissions: '/api/admin/permissions/list'
     }
   },
   headerMenuContents: [
