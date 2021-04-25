@@ -4,7 +4,6 @@ namespace App\Repositories\Permissions;
 
 use App\Models\Roles;
 use App\Models\Permissions;
-use App\Models\AdminsRoles;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 
@@ -13,8 +12,8 @@ class PermissionsRepository implements PermissionsRepositoryInterface
     protected $model;
 
     /**
-     * Create a new AuthInfoController instance.
-     *
+     * Create a new PermissionsRepository instance.
+     * @param \App\Models\Permissions $model
      * @return void
      */
     public function __construct(Permissions $model)

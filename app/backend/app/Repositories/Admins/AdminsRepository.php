@@ -15,7 +15,9 @@ class AdminsRepository implements AdminsRepositoryInterface
     protected $adminsRolesModel;
 
     /**
-     * Create a new AuthInfoController instance.
+     * Create a new AdminsRepository instance.
+     * @param \App\Models\Admins $model
+     * @param \App\Models\AdminsRoles $adminsRolesModel
      *
      * @return void
      */

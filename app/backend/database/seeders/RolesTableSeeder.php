@@ -26,6 +26,7 @@ class RolesTableSeeder extends Seeder
 
         $nameList = Config::get('myapp.seeder.authority.rolesNameList');
         $codeList = Config::get('myapp.seeder.authority.rolesCodeList');
+        $detailList = Config::get('myapp.seeder.authority.rolesDetailList');
 
         // insert用データ
         $data = [];
@@ -35,6 +36,7 @@ class RolesTableSeeder extends Seeder
             $row = $template;
             $row['name'] = $nameList[$i - 1];
             $row['code'] = $codeList[$i - 1];
+            $row['detail'] = $detailList[$i - 1];
 
             $data[] = $row;
         }

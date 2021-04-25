@@ -9,6 +9,7 @@ return [
         'authority' => [
             'rolesNameList' => ['マスター', '管理者', '開発者', 'マネージャー', '一般'],
             'rolesCodeList' => ['master', 'administrator', 'develop', 'manager', 'general'],
+            'rolesDetailList' => ['masterロール', 'administratorロール', 'develop権限ロール', 'managerロール', 'generalロール'],
             'permissionsNameList' => ['作成', '読取', '更新', '削除'],
             'roles' => [
                 (object)['key' => 1, 'name' => 'マスター'],
