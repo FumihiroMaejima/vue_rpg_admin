@@ -58,8 +58,8 @@ class RolesService
      */
     public function getRoles(Request $request)
     {
-        $data = $this->rolesRepository->getRoles();
-        $resourceCollection = app()->make(RolesServiceResource::class, ['resource' => $data]);
+        $collection = $this->rolesRepository->getRoles();
+        $resourceCollection = app()->make(RolesServiceResource::class, ['resource' => $collection]);
 
         return response()->json($resourceCollection->toArray($request), 200);
     }

@@ -38,10 +38,11 @@ class RolesRepository implements RolesRepositoryInterface
 
         // collection
         return DB::table($roles)
-            ->select([$roles . '.id', $roles . '.name', $roles . '.code', $roles . '.detail', $rolePermissions . '.permission_id as permissionId', $rolePermissions . '.short_name as shortName'])
+            ->select([$roles . '.id', $roles . '.name', $roles . '.code', $roles . '.detail', DB::raw('group_concat(' . $rolePermissions . '.permission_id) as permissions, ' . 'group_concat(' . $rolePermissions . '.short_name) as shortNames')])
             ->leftJoin($rolePermissions, $roles . '.id', '=', $rolePermissions . '.role_id')
-            ->where($roles . '.deleted_at', '=', null, 'and')
+            ->where($roles . '.deleted_at', '=', null)
             ->where($rolePermissions . '.deleted_at', '=', null)
+            ->groupBy($roles . '.id')
             ->get();
     }
 
