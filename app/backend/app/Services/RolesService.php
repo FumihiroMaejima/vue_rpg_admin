@@ -28,6 +28,7 @@ use App\Http\Resources\RoleDeleteResource;
 use App\Http\Resources\RoleCreateResource;
 use App\Http\Resources\RoleUpdateResource;
 use App\Http\Resources\RoleResource;
+use App\Http\Resources\RolesServiceResource;
 use App\Http\Resources\RolesListResource;
 use App\Http\Requests\RoleCreateRequest;
 use App\Http\Requests\RoleUpdateRequest;
@@ -58,7 +59,7 @@ class RolesService
     public function getRoles(Request $request)
     {
         $data = $this->rolesRepository->getRoles();
-        $resourceCollection = app()->make(RolesCollection::class, ['resource' => $data]);
+        $resourceCollection = app()->make(RolesServiceResource::class, ['resource' => $data]);
 
         return response()->json($resourceCollection->toArray($request), 200);
     }
