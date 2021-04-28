@@ -1,7 +1,7 @@
 <template>
   <div>
     <DataTable
-      :value="members"
+      :value="roles"
       v-model:selection="selectedRoles"
       dataKey="id"
       :rowHover="true"
@@ -74,7 +74,7 @@
       >
         <template #body="{data}">
           <div class="app-table__text-field">
-            {{ data.email }}
+            {{ data.code }}
           </div>
         </template>
         <template #editor="slotProps" v-if="editable">
@@ -99,6 +99,7 @@
           />
         </template>
       </Column>
+
       <Column
         :field="colOpt[3].field"
         :header="colOpt[3].header"
@@ -106,34 +107,68 @@
         :style="colOpt[3].style"
       >
         <template #body="{data}">
+          <div class="app-table__text-field">
+            {{ data.detail }}
+          </div>
+        </template>
+        <template #editor="slotProps" v-if="editable">
+          <InputText
+            class="roles-table__form-input"
+            type="text"
+            :modelValue="slotProps.data[slotProps.column.props.field]"
+            @blur="
+              catchTextBlurEvent(
+                $event,
+                colOpt[3].field,
+                slotProps.data[colOpt[3].identifier]
+              )
+            "
+            @update:modelValue="
+              catchTextChange(
+                $event,
+                colOpt[2].field,
+                slotProps.data[colOpt[3].identifier]
+              )
+            "
+          />
+        </template>
+      </Column>
+
+      <Column
+        :field="colOpt[4].field"
+        :header="colOpt[4].header"
+        :sortable="true"
+        :style="colOpt[4].style"
+      >
+        <template #body="{data}">
           <span
             v-if="
-              colOpt[3].type === 'select' &&
-                colOpt[3].items &&
-                colOpt[3].itemValue
+              colOpt[4].type === 'select' &&
+                colOpt[4].items &&
+                colOpt[4].itemValue
             "
             >{{
-              colOpt[3].items.find((item) => item.value === data.roleId)?.text
+              colOpt[4].items.find((item) => item.value === data.permissions)?.text
             }}</span
           >
         </template>
         <template
           #editor="slotProps"
-          v-if="editable && colOpt[3].type === 'select'"
+          v-if="editable && colOpt[4].type === 'select'"
         >
           <Dropdown
             class="roles-table__form-dropdown"
             :modelValue="slotProps.data[slotProps.column.props.field]"
-            :options="colOpt[3].items"
-            :optionLabel="colOpt[3].itemText"
-            :optionValue="colOpt[3].itemValue"
+            :options="colOpt[4].items"
+            :optionLabel="colOpt[4].itemText"
+            :optionValue="colOpt[4].itemValue"
             placeholder="select item"
             filter
             @change="
               catchSelectChange(
                 $event,
-                colOpt[3].field,
-                slotProps.data[colOpt[3].identifier]
+                colOpt[4].field,
+                slotProps.data[colOpt[4].identifier]
               )
             "
           />
@@ -161,8 +196,8 @@ import InputText from 'primevue/inputtext'
 import MultiSelect from 'primevue/multiselect'
 import Dropdown from 'primevue/dropdown'
 import {
-  editableRole,
-  tableSetting,
+  // editableRole,
+  // tableSetting,
   MembersType,
   MembersTextKeys,
   MembersSelectKeys,
@@ -170,6 +205,15 @@ import {
   MembersStateType,
   useState
 } from '@/services/members'
+import {
+  editableRole,
+  tableSetting,
+  RolesType,
+  RolesTextKeys,
+  RolesSelectKeys,
+  RolesStateKey,
+  RolesStateType
+} from '@/services/roles'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
 import { ToastType } from '@/types/applications/index'
@@ -186,22 +230,36 @@ export default defineComponent({
   },
   setup() {
     const toast = inject(ToastTypeKey) as ToastType
-    const columnOptions = reactive(tableSetting)
     const colOpt = reactive(tableSetting)
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
     const membersService = inject(MembersStateKey) as MembersStateType
-    const selectValue = ref<MembersType[]>([]);
+    const rolesService = inject(RolesStateKey) as RolesStateType
+    const selectValue = ref<RolesType[]>([])
+
+    // TODO membersサービスの差し替え
+
+    // watch
+    watch(
+      () => rolesService.state.permissions,
+      (newValue, old) => {
+        if (colOpt[4].type === 'select') {
+          colOpt[4].items = [...newValue]
+        }
+        /* ... */
+      }
+    )
 
     // computed
     const members = computed((): MembersType[] => membersService.state.members)
+    const roles = computed((): RolesType[] => rolesService.state.roles)
     const editable = computed((): boolean =>
       authApp.checkAuthority(editableRole)
     )
 
     const selectedRoles = computed({
-      get: (): MembersType[] => selectValue.value,
-      set: (value: MembersType[]) => {
+      get: (): RolesType[] => selectValue.value,
+      set: (value: RolesType[]) => {
         selectValue.value = value
       }
     })
@@ -209,17 +267,6 @@ export default defineComponent({
     // created
     /* const created = async () => {}
     created() */
-
-    // watch
-    watch(
-      () => membersService.state.roles,
-      (newValue, old) => {
-        if (columnOptions[3].type === 'select') {
-          columnOptions[3].items = [...newValue]
-        }
-        /* ... */
-      }
-    )
 
     // methods
     /**
@@ -290,13 +337,13 @@ export default defineComponent({
 
     return {
       members,
+      roles,
       editable,
       catchTextBlurEvent,
       catchTextChange,
       catchSelectChange,
       colOpt,
-      selectedRoles,
-      columnOptions
+      selectedRoles
     }
   }
 })

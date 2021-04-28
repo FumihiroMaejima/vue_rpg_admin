@@ -79,7 +79,7 @@ export const tableSetting: TableColumnSetting<SelectBoxType>[] = [
   },
   {
     identifier: 'id',
-    field: 'permissionId',
+    field: 'permissions',
     header: 'Permission',
     editable: true,
     type: 'select',
@@ -102,7 +102,7 @@ const rolesData = {
   name: '',
   code: '',
   detail: '',
-  permissions: 0
+  permissions: [] as number[]
 }
 
 export type RolesType = typeof rolesData
@@ -114,7 +114,6 @@ export type RolesSelectKeys = Exclude<RolesTypeKeys, RolesTextKeys | 'id'>
 export const useState = () => {
   const state = reactive({
     toast: { ...toastData },
-    rolesList: [] as SelectBoxType[],
     permissions: [] as SelectBoxType[],
     roles: [] as RolesType[]
   })
@@ -180,7 +179,7 @@ export const useState = () => {
   const resetState = () => {
     state.toast = { ...toastData }
     state.roles = []
-    state.roles = []
+    state.permissions = []
   }
 
   /**
@@ -269,7 +268,7 @@ export const useState = () => {
     key: RolesSelectKeys,
     value: number
   ) => {
-    state.roles.find((role) => role.id === id)![key] = value
+    state.roles.find((role) => role.id === id)![key] = [value]
   }
 
   /**
