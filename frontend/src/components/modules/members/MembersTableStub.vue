@@ -14,10 +14,10 @@
       :rows="10"
     >
       <template #empty>
-          No Roles found.
+        No Roles found.
       </template>
       <template #loading>
-          Loading roles data. Please wait.
+        Loading roles data. Please wait.
       </template>
       <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
 

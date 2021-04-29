@@ -1,4 +1,5 @@
 import { Ref } from 'vue'
+import { SelectBoxType } from '@/types'
 
 /**
  * inversion boolean flag.
@@ -7,6 +8,18 @@ import { Ref } from 'vue'
  */
 export function inversionFlag(flag: Ref) {
   flag.value = !flag.value
+}
+
+/**
+ * get selected item`s text.
+ * @param {number[]} value
+ * @param {SelectBoxType[]} items
+ * @return {string[]}
+ */
+export function getMultiSelectLabel(value: number[], items: SelectBoxType[]) {
+  return items
+    .filter((item) => value.includes(item.value))
+    .map((item) => item.text)
 }
 
 /**

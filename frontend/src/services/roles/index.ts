@@ -260,15 +260,15 @@ export const useState = () => {
    * update role`s permission ids
    * @param {number} id
    * @param {string} key
-   * @param {number} value
+   * @param {number[]} value
    * @return {void}
    */
   const updateRolesPermissions = (
     id: number,
     key: RolesSelectKeys,
-    value: number
+    value: number[]
   ) => {
-    state.roles.find((role) => role.id === id)![key] = [value]
+    state.roles.find((role) => role.id === id)![key] = value
   }
 
   /**

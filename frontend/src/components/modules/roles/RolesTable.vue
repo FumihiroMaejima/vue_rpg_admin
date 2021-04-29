@@ -14,10 +14,10 @@
       :rows="10"
     >
       <template #empty>
-          No Roles found.
+        No Roles found.
       </template>
       <template #loading>
-          Loading roles data. Please wait.
+        Loading roles data. Please wait.
       </template>
       <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
 
@@ -147,16 +147,24 @@
                 colOpt[4].items &&
                 colOpt[4].itemValue
             "
-            >{{
-              colOpt[4].items.find((item) => item.value === data.permissions)?.text
-            }}</span
           >
+            <span
+              class="roles-table__chip"
+              v-for="(item, index) of getMultiSelectLabel(
+                data.permissions,
+                colOpt[4].items
+              )"
+              :key="index"
+            >
+              {{ item }}
+            </span>
+          </span>
         </template>
         <template
           #editor="slotProps"
           v-if="editable && colOpt[4].type === 'select'"
         >
-          <Dropdown
+          <MultiSelect
             class="roles-table__form-dropdown"
             :modelValue="slotProps.data[slotProps.column.props.field]"
             :options="colOpt[4].items"
@@ -205,7 +213,7 @@ import {
   RolesStateType
 } from '@/services/roles'
 import AuthApp from '@/plugins/auth/authApp'
-import { inversionFlag } from '@/util'
+import { inversionFlag, getMultiSelectLabel } from '@/util'
 import { ToastType } from '@/types/applications/index'
 import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 
@@ -214,8 +222,8 @@ export default defineComponent({
   components: {
     Column,
     DataTable,
-    Dropdown,
-    // MultiSelect,
+    // Dropdown,
+    MultiSelect,
     InputText
   },
   setup() {
@@ -292,20 +300,20 @@ export default defineComponent({
 
     /**
      * catch update select event
-     * @param {{ originalEvent: Event; value: string | number }} event
+     * @param {{ originalEvent: Event; value: string[] | number[] }} event
      * @param {number} id
      * @param {string} key
-     * @return {{id: number, key: string, value: string | null}}
+     * @return {void}
      */
     const catchSelectChange = async (
-      event: { originalEvent: Event; value: string | number },
+      event: { originalEvent: Event; value: string[] | number[] },
       key: string,
       id: number
     ) => {
       rolesService.updateRolesPermissions(
         id,
         key as RolesSelectKeys,
-        event.value as number
+        event.value as number[]
       )
 
       // サーバーへリクエスト
@@ -322,6 +330,7 @@ export default defineComponent({
     }
 
     return {
+      getMultiSelectLabel,
       roles,
       editable,
       catchTextBlurEvent,
@@ -352,6 +361,23 @@ export default defineComponent({
 
   &__text-field {
     word-break: break-all;
+  }
+
+  &__chip {
+    display: inline-flex;
+    margin: 0 2px;
+    padding: 0 4px;
+    flex-direction: row;
+    background-color: #e5e5e5;
+    cursor: default;
+    height: 30px;
+    font-size: 14px;
+    color: #333333;
+    font-family: 'Open Sans', sans-serif;
+    white-space: nowrap;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
   }
 }
 </style>
