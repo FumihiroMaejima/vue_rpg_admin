@@ -196,16 +196,6 @@ import InputText from 'primevue/inputtext'
 import MultiSelect from 'primevue/multiselect'
 import Dropdown from 'primevue/dropdown'
 import {
-  // editableRole,
-  // tableSetting,
-  MembersType,
-  MembersTextKeys,
-  MembersSelectKeys,
-  MembersStateKey,
-  MembersStateType,
-  useState
-} from '@/services/members'
-import {
   editableRole,
   tableSetting,
   RolesType,
@@ -233,11 +223,8 @@ export default defineComponent({
     const colOpt = reactive(tableSetting)
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
-    const membersService = inject(MembersStateKey) as MembersStateType
     const rolesService = inject(RolesStateKey) as RolesStateType
     const selectValue = ref<RolesType[]>([])
-
-    // TODO membersサービスの差し替え
 
     // watch
     watch(
@@ -251,7 +238,6 @@ export default defineComponent({
     )
 
     // computed
-    const members = computed((): MembersType[] => membersService.state.members)
     const roles = computed((): RolesType[] => rolesService.state.roles)
     const editable = computed((): boolean =>
       authApp.checkAuthority(editableRole)
@@ -277,7 +263,7 @@ export default defineComponent({
      * @return {{id: number, key: string, value: string}}
      */
     const catchTextChange = (value: string, key: string, id: number) => {
-      membersService.updateMembersTextValue(id, key as MembersTextKeys, value)
+      rolesService.updateRolesTextValue(id, key as RolesTextKeys, value)
     }
 
     /**
@@ -293,13 +279,13 @@ export default defineComponent({
       id: number
     ) => {
       inversionFlag(loadingFlag)
-      const response = await membersService.updateMembersData(
+      const response = await rolesService.updateRolesData(
         id,
         authApp.getHeaderOptions()
       )
 
       if (response.status !== 304) {
-        toast.add(membersService.getToastData())
+        toast.add(rolesService.getToastData())
       }
       inversionFlag(loadingFlag)
     }
@@ -316,27 +302,26 @@ export default defineComponent({
       key: string,
       id: number
     ) => {
-      membersService.updateMembersRole(
+      rolesService.updateRolesPermissions(
         id,
-        key as MembersSelectKeys,
+        key as RolesSelectKeys,
         event.value as number
       )
 
       // サーバーへリクエスト
       inversionFlag(loadingFlag)
-      const response = await membersService.updateMembersData(
+      const response = await rolesService.updateRolesData(
         id,
         authApp.getHeaderOptions()
       )
 
       if (response.status !== 304) {
-        toast.add(membersService.getToastData())
+        toast.add(rolesService.getToastData())
       }
       inversionFlag(loadingFlag)
     }
 
     return {
-      members,
       roles,
       editable,
       catchTextBlurEvent,

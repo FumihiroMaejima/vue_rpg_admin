@@ -45,7 +45,7 @@
         </template>
         <template #editor="slotProps" v-if="editable">
           <InputText
-            class="roles-table__form-input"
+            class="members-table__form-input"
             type="text"
             :modelValue="slotProps.data[slotProps.column.props.field]"
             @blur="
@@ -79,7 +79,7 @@
         </template>
         <template #editor="slotProps" v-if="editable">
           <InputText
-            class="roles-table__form-input"
+            class="members-table__form-input"
             type="text"
             :modelValue="slotProps.data[slotProps.column.props.field]"
             @blur="
@@ -122,7 +122,7 @@
           v-if="editable && colOpt[3].type === 'select'"
         >
           <Dropdown
-            class="roles-table__form-dropdown"
+            class="members-table__form-dropdown"
             :modelValue="slotProps.data[slotProps.column.props.field]"
             :options="colOpt[3].items"
             :optionLabel="colOpt[3].itemText"
@@ -191,7 +191,18 @@ export default defineComponent({
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
     const membersService = inject(MembersStateKey) as MembersStateType
-    const selectValue = ref<MembersType[]>([]);
+    const selectValue = ref<MembersType[]>([])
+
+    // watch
+    watch(
+      () => membersService.state.roles,
+      (newValue, old) => {
+        if (columnOptions[3].type === 'select') {
+          columnOptions[3].items = [...newValue]
+        }
+        /* ... */
+      }
+    )
 
     // computed
     const members = computed((): MembersType[] => membersService.state.members)
@@ -209,17 +220,6 @@ export default defineComponent({
     // created
     /* const created = async () => {}
     created() */
-
-    // watch
-    watch(
-      () => membersService.state.roles,
-      (newValue, old) => {
-        if (columnOptions[3].type === 'select') {
-          columnOptions[3].items = [...newValue]
-        }
-        /* ... */
-      }
-    )
 
     // methods
     /**
@@ -302,12 +302,12 @@ export default defineComponent({
 })
 </script>
 <style lang="scss">
-.roles-table {
+.members-table {
   &__form-dropdown {
     width: 100%;
   }
 
-  .roles-table__form-dropdown.p-dropdown {
+  .members-table__form-dropdown.p-dropdown {
     padding: 0 0 0 0 !important;
   }
 
