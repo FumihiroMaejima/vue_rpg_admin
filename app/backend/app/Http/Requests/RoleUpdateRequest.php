@@ -49,7 +49,8 @@ class RoleUpdateRequest extends FormRequest
             'id'          => 'required|integer',
             'name'        => 'required|string|between:1,50',
             'code'        => 'required|string|between:1,50',
-            'permissions' => 'required|integer|exists:' . $permissionsModel->getTable() . ',id'
+            'detail'      => 'required|string|between:1,100',
+            'permissions' => 'required|array|exists:' . $permissionsModel->getTable() . ',id'
         ];
     }
 
@@ -61,10 +62,11 @@ class RoleUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'id.integer'  => ':attributeは整数で入力してください。',
-            'required'    => ':attributeは必須項目です。',
-            'string'      => ':attributeは文字列を入力してください。',
-            'between'     => ':attributeは:min〜:max文字以内で入力してください。'
+            'id.integer' => ':attributeは整数で入力してください。',
+            'required'   => ':attributeは必須項目です。',
+            'string'     => ':attributeは文字列を入力してください。',
+            'array'      => ':attributeは配列で入力してください。',
+            'between'    => ':attributeは:min〜:max文字以内で入力してください。'
         ];
     }
 
@@ -79,6 +81,7 @@ class RoleUpdateRequest extends FormRequest
             'id'          => 'id',
             'name'        => 'ロール名',
             'code'        => 'ロールコード',
+            'detail'      => '詳細',
             'permissions' => 'パーミッション'
         ];
     }
@@ -119,10 +122,5 @@ class RoleUpdateRequest extends FormRequest
 
         $response['errors'] = $validator->errors()->toArray();
         throw (new HttpResponseException(response()->json($response, 422)));
-
-        // 本来のエラークラス
-        /* throw (new ValidationException($validator))
-            ->errorBag($this->errorBag)
-            ->redirectTo($this->getRedirectUrl()); */
     }
 }

@@ -35,8 +35,8 @@ class MembersService
 
     /**
      * create MembersService instance
-     * @param  \App\RolesService\Admins\AdminsRepositoryInterface  $adminsRepository
-     * @param  \App\RolesService\AdminsRoles\AdminsRolesRepositoryInterface  $adminsRepository
+     * @param  \App\Repositories\Admins\AdminsRepositoryInterface  $adminsRepository
+     * @param  \App\Repositories\AdminsRoles\AdminsRolesRepositoryInterface  $adminsRepository
      * @return void
      */
     public function __construct(AdminsRepositoryInterface $adminsRepository, AdminsRolesRepositoryInterface $adminsRolesRepository)
