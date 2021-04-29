@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use App\Repositories\Permissions\PermissionsRepositoryInterface;
 use App\Http\Resources\PermissionsListResource;
 
-
 class PermissionsService
 {
     protected $permissionsRepository;

@@ -14,8 +14,16 @@ class RolesServiceResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'data' => $this->resource
-        ];
+        // レスポンス
+        $response = [];
+
+        foreach ($this->resource as $item) {
+            $item->permissions =  array_map(function ($permission) {
+                return (int)$permission;
+            }, explode(',', $item->permissions));
+            $response['data'][] = $item;
+        }
+
+        return $response;
     }
 }

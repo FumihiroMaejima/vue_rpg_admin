@@ -22,7 +22,7 @@ trait ProcessingRoleDataTrait
 
         foreach ($roleIds as $id) {
             // パーミッションをまとめて重複の無い状態でロールをまとめる
-            $result = array_values(array_filter($roles, function ($role) use($id) {
+            $result = array_values(array_filter($roles, function ($role) use ($id) {
                 return $role->id === $id;
             }));
 
