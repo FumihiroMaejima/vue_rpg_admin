@@ -19,6 +19,7 @@ class RoleUpdateResource extends JsonResource
         return [
             'name'        => $request->name,
             'code'        => $request->code,
+            'detail'      => $request->detail,
             'permissions' => $request->permissions,
             'updated_at'  => $dateTime
         ];

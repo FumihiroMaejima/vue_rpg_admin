@@ -18,7 +18,7 @@ class RolesServiceResource extends JsonResource
         $response = [];
 
         foreach ($this->resource as $item) {
-            $item->permissions =  array_map(function ($permission) {
+            $item->permissions = !$item->permissions ? [] : array_map(function ($permission) {
                 return (int)$permission;
             }, explode(',', $item->permissions));
             $response['data'][] = $item;
