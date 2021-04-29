@@ -3,10 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Carbon;
 
-class RoleCreateResource extends JsonResource
+class RolePermissionsUpdateResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,16 +15,10 @@ class RoleCreateResource extends JsonResource
      */
     public function toArray($request)
     {
-        /* $carbon = new Carbon();
-        $test = $carbon->now()->format('Y-m-d H:i:s'); */
         $dateTime = Carbon::now()->format('Y-m-d H:i:s');
-
         return [
-            'name'        => $request->name,
-            'code'        => $request->code,
-            'detail'      => $request->detail,
-            'created_at'  => $dateTime,
-            'updated_at'  => $dateTime
+            'role_id'    => $request->roleId,
+            'updated_at' => $dateTime
         ];
     }
 }

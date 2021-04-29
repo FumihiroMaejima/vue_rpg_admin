@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use App\Repositories\Roles\RolesRepositoryInterface;
+use App\Repositories\RolePermissions\RolePermissionsRepositoryInterface;
 use App\Http\Resources\RolesCollection;
 use App\Services\Notifications\MemberSlackNotificationService;
 use App\Repositories\AdminsRoles\AdminsRolesRepositoryInterface;
@@ -28,6 +29,9 @@ use App\Http\Resources\RoleDeleteResource;
 use App\Http\Resources\RoleCreateResource;
 use App\Http\Resources\RoleUpdateResource;
 use App\Http\Resources\RoleResource;
+use App\Http\Resources\RolePermissionsCreateResource;
+use App\Http\Resources\RolePermissionsDeleteResource;
+use App\Http\Resources\RolePermissionsUpdateResource;
 use App\Http\Resources\RolesServiceResource;
 use App\Http\Resources\RolesListResource;
 use App\Http\Requests\RoleCreateRequest;
@@ -39,15 +43,18 @@ use Exception;
 class RolesService
 {
     protected $rolesRepository;
+    protected $rolePermissionsRepository;
 
     /**
-     * create PermissionsService instance
-     * @param  \App\RolesService\Roles\RolesRepositoryInterface  $rolesRepository
+     * create RolesService instance
+     * @param  \App\Repositories\Roles\RolesRepositoryInterface  $rolesRepository
+     * @param  \App\Repositories\RolePermissions\RolePermissionsRepositoryInterface  $rolePermissionsRepository
      * @return void
      */
-    public function __construct(RolesRepositoryInterface $rolesRepository)
+    public function __construct(RolesRepositoryInterface $rolesRepository, RolePermissionsRepositoryInterface $rolePermissionsRepository)
     {
         $this->rolesRepository = $rolesRepository;
+        $this->rolePermissionsRepository = $rolePermissionsRepository;
     }
 
     /**
@@ -105,7 +112,7 @@ class RolesService
     {
         DB::beginTransaction();
         try {
-            $resource = app()->make(RoleCreateRequest::class, ['resource' => $request])->toArray($request);
+            $resource = app()->make(RoleCreateResource::class, ['resource' => $request])->toArray($request);
 
             $insertCount = $this->rolesRepository->createRole($resource); // if created => count is 1
             $latestAdmin = $this->rolesRepository->getLatestRole();
@@ -139,17 +146,20 @@ class RolesService
     {
         DB::beginTransaction();
         try {
-            $resource = app()->make(RoleUpdateRequest::class, ['resource' => $request])->toArray($request);
+            $resource = app()->make(RoleUpdateResource::class, ['resource' => $request])->toArray($request);
 
             $updatedRowCount = $this->rolesRepository->updateRoleData($resource, $id);
 
             // 権限情報の更新
-            $roleIdResource = app()->make(AdminsRolesUpdateResource::class, ['resource' => $request])->toArray($request);
-            $updatedAdminsRolesRowCount = $this->adminsRolesRepository->updateRoleData($roleIdResource, $id);
+            $removeResource = app()->make(RolePermissionsDeleteResource::class, ['resource' => $request])->toArray($request);
+            $updatedAdminsRolesRowCount = $this->rolePermissionsRepository->deleteRolePermissionsData($removeResource, $id);
+
+            $insertResource = app()->make(RolePermissionsCreateResource::class, ['resource' => $request])->toArray($request);
+            $updatedAdminsRolesRowCount = $this->rolePermissionsRepository->createRolePermission($insertResource, $id);
 
             // slack通知
-            $attachmentResource = app()->make(AdminUpdateNotificationResource::class, ['resource' => ":tada: Update Member Data \n"])->toArray($request);
-            app()->make(MemberSlackNotificationService::class)->send('update member data.', $attachmentResource);
+            /* $attachmentResource = app()->make(AdminUpdateNotificationResource::class, ['resource' => ":tada: Update Role Data \n"])->toArray($request);
+            app()->make(MemberSlackNotificationService::class)->send('update member data.', $attachmentResource); */
 
             DB::commit();
 

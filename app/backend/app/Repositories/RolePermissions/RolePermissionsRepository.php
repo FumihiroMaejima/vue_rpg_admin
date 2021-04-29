@@ -36,7 +36,6 @@ class RolePermissionsRepository implements RolePermissionsRepositoryInterface
         $rolePermissions = $this->model->getTable();
         $roles = $this->rolesModel->getTable();
 
-        // Query Builderのupdate
         return DB::table($rolePermissions)
             ->select([$rolePermissions . '.id', $rolePermissions . '.role_id', $rolePermissions . '.permission_id', $roles .'.name', $roles . '.code'])
             ->leftJoin($roles, $rolePermissions . '.role_id', '=', $roles . '.id')
@@ -60,7 +59,7 @@ class RolePermissionsRepository implements RolePermissionsRepositoryInterface
      * @param int $roleId
      * @return int
      */
-    public function updateRolePermissionData(array $resource, int $roleId): int
+    public function updateRolePermissionsData(array $resource, int $roleId): int
     {
         // admins
         $rolePermissions = $this->model->getTable();
