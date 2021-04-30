@@ -46,7 +46,7 @@ class RoleUpdateRequest extends FormRequest
         $permissionsModel = app()->make(Roles::class);
 
         return [
-            'id'          => 'required|integer',
+            'id'          => 'required|integer|min:4',  // master~developmentは更新不可
             'name'        => 'required|string|between:1,50',
             'code'        => 'required|string|between:1,50',
             'detail'      => 'required|string|between:1,100',
@@ -66,7 +66,8 @@ class RoleUpdateRequest extends FormRequest
             'required'   => ':attributeは必須項目です。',
             'string'     => ':attributeは文字列を入力してください。',
             'array'      => ':attributeは配列で入力してください。',
-            'between'    => ':attributeは:min〜:max文字以内で入力してください。'
+            'between'    => ':attributeは:min〜:max文字以内で入力してください。',
+            'min'        => ':attributeは:min以上で入力してください。'
         ];
     }
 

@@ -1,7 +1,9 @@
 <template>
   <Sidebar class="app-side-bar" v-model:visible="openSideBar" position="left">
     <h1>sidebar content</h1>
-    <Menu :model="items" @click="hideMenu" />
+    <div class="app-side-bar__menu">
+      <Menu :model="items" @click="hideMenu" />
+    </div>
   </Sidebar>
 </template>
 
@@ -15,6 +17,7 @@ import {
 } from 'vue'
 import Menu from 'primevue/menu'
 import Sidebar from 'primevue/sidebar'
+import { SideBarContentsType } from '@/types'
 
 type Props = {
   value: boolean
@@ -33,7 +36,7 @@ export default defineComponent({
     }
   },
   setup(props: Props, context: SetupContext) {
-    let items = ref<string[]>([])
+    let items = ref<SideBarContentsType[]>([])
 
     // computed
     const openSideBar = computed({
@@ -65,6 +68,9 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .app-side-bar {
-  overflow: scroll;
+  &__menu {
+    max-height: 80vh;
+    overflow: scroll !important;
+  }
 }
 </style>

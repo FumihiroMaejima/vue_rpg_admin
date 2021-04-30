@@ -72,3 +72,18 @@ export type TableSelectColumn<T = any> = {
 }
 
 export type TableColumnSetting<T = any> = TableTextColumn | TableSelectColumn<T>
+
+export type SideBarContentsType = {
+  label: string
+  icon: string
+  items: (
+    | {
+        label: string
+        icon: string
+        to: string
+      }
+    | {
+        separator: boolean
+      }
+  )[]
+}
