@@ -6,7 +6,7 @@
     @click="display = true"
   />
   <Dialog
-    class="member-create-dialog"
+    class="role-create-dialog"
     header="Member Create Modal"
     v-model:visible="display"
     :modal="true"
@@ -20,7 +20,7 @@
           <div class="p-col-12 p-md-2">
             <label
               for="name"
-              class="p-col-fixed member-create-dialog__form-label"
+              class="p-col-fixed role-create-dialog__form-label"
             >
               name
             </label>
@@ -29,7 +29,7 @@
             <div class="p-col">
               <div>
                 <span
-                  class="p-float-label p-input-icon-right member-create-dialog__form-input"
+                  class="p-float-label p-input-icon-right role-create-dialog__form-input"
                 >
                   <InputText
                     id="name"
@@ -54,32 +54,67 @@
         >
           <div class="p-col-12 p-md-2">
             <label
-              for="email"
-              class="p-col-fixed member-create-dialog__form-label"
+              for="code"
+              class="p-col-fixed role-create-dialog__form-label"
             >
-              email
+              code
             </label>
           </div>
           <div class="p-col-12 p-md-10">
             <div class="p-col">
               <div>
                 <span
-                  class=" p-input-icon-right member-create-dialog__form-input"
+                  class="p-float-label p-input-icon-right role-create-dialog__form-input"
                 >
                   <InputText
-                    id="email"
+                    id="code"
                     class="p-col-fixed"
-                    :class="{ 'p-invalid': emailValue === '' }"
-                    name="email"
+                    :class="{ 'p-invalid': codeValue === '' }"
+                    name="code"
                     type="text"
                     maxlength="50"
-                    placeholder="test@example.com"
-                    v-model="emailValue"
+                    placeholder="input code"
+                    v-model="codeValue"
                   />
-                  <i class="pi pi-envelope" />
+                  <i class="pi pi-user" />
                 </span>
               </div>
-              <small class="p-error">{{ emailError }}</small>
+              <small class="p-error">{{ codeError }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="p-grid p-nogutter p-jc-center p-ai-center vertical-container"
+        >
+          <div class="p-col-12 p-md-2">
+            <label
+              for="name"
+              class="p-col-fixed role-create-dialog__form-label"
+            >
+              detail
+            </label>
+          </div>
+          <div class="p-col-12 p-md-10">
+            <div class="p-col">
+              <div>
+                <span
+                  class="p-float-label p-input-icon-right role-create-dialog__form-input"
+                >
+                  <InputText
+                    id="detail"
+                    class="p-col-fixed"
+                    :class="{ 'p-invalid': detailValue === '' }"
+                    name="detail"
+                    type="text"
+                    maxlength="50"
+                    placeholder="input detail"
+                    v-model="detailValue"
+                  />
+                  <i class="pi pi-user" />
+                </span>
+              </div>
+              <small class="p-error">{{ detailError }}</small>
             </div>
           </div>
         </div>
@@ -90,93 +125,28 @@
           <div class="p-col-12 p-md-2">
             <label
               for="role"
-              class="p-col-fixed member-create-dialog__form-label"
-              >role</label
+              class="p-col-fixed role-create-dialog__form-label"
+              >permissions</label
             >
           </div>
           <div class="p-col-12 p-md-10">
             <div class="p-col">
               <div>
-                <Dropdown
-                  class="p-col-fixed member-create-dialog__form-dropdown"
-                  v-model="roleValue"
-                  :options="rolesList"
+                <MultiSelect
+                  class="p-col-fixed role-create-dialog__form-dropdown"
+                  v-model="permissionsValue"
+                  :options="permissionsList"
                   optionLabel="text"
                   optionValue="value"
                   placeholder="select role"
                   filter
                 />
               </div>
-              <small class="p-error">{{ roleError }}</small>
+              <small class="p-error">{{ permissionsError }}</small>
             </div>
           </div>
         </div>
 
-        <div
-          class="p-grid p-nogutter p-jc-center p-ai-center vertical-container"
-        >
-          <div class="p-col-12 p-md-2">
-            <label
-              for="password"
-              class="p-col-fixed member-create-dialog__form-label"
-            >
-              password
-            </label>
-          </div>
-          <div class="p-col-12 p-md-10">
-            <div class="p-col">
-              <div>
-                <span
-                  class="p-float-label p-input-icon-right member-create-dialog__form-input"
-                >
-                  <InputText
-                    id="password"
-                    class="p-col-fixed"
-                    :class="{ 'p-invalid': passwordValue === '' }"
-                    name="password"
-                    type="password"
-                    v-model="passwordValue"
-                  />
-                  <i class="pi pi-exclamation-triangle" />
-                </span>
-              </div>
-              <span class="p-error">{{ passwordError }}</span>
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="p-grid p-nogutter p-jc-center p-ai-center vertical-container"
-        >
-          <div class="p-col-12 p-md-2">
-            <label
-              for="confirmPassword"
-              class="p-col-fixed member-create-dialog__form-label"
-            >
-              confirm password
-            </label>
-          </div>
-          <div class="p-col-12 p-md-10">
-            <div class="p-col">
-              <div>
-                <span
-                  class="p-float-label p-input-icon-right member-create-dialog__form-input"
-                >
-                  <InputText
-                    id="confirmPassword"
-                    class="p-col-fixed"
-                    :class="{ 'p-invalid': confirmPasswordValue === '' }"
-                    name="confirmPassword"
-                    type="password"
-                    v-model="confirmPasswordValue"
-                  />
-                  <i class="pi pi-exclamation-triangle" />
-                </span>
-              </div>
-              <span class="p-error">{{ confirmPasswordError }}</span>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     <div class="p-grid p-jc-end">
@@ -187,7 +157,7 @@
             icon="pi pi-send"
             label="create"
             :disabled="createDisabled"
-            @click="createMemberHandler"
+            @click="createRoleHandler"
           />
         </div>
       </div>
@@ -210,13 +180,19 @@ import {
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
+import MultiSelect from 'primevue/multiselect'
 import Dropdown from 'primevue/dropdown'
 
 import {
-  formSchema,
+  // formSchema,
   MembersStateKey,
   MembersStateType
 } from '@/services/members'
+import {
+  formSchema,
+  RolesStateKey,
+  RolesStateType
+} from '@/services/roles'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
 import { useField, useForm } from 'vee-validate'
@@ -227,23 +203,28 @@ export default defineComponent({
   name: 'RoleCreateDialog',
   components: {
     Button,
+    MultiSelect,
     Dialog,
-    InputText,
-    Dropdown
+    InputText/* ,
+    Dropdown */
   },
   setup(__, context: SetupContext) {
     const toast = inject(ToastTypeKey) as ToastType
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
     const membersService = inject(MembersStateKey) as MembersStateType
+    const rolesService = inject(RolesStateKey) as RolesStateType
     const display = ref<boolean>(false)
-    const rolesList = reactive<SelectBoxType[]>([])
+    const permissionsList = reactive<SelectBoxType[]>([])
 
     const formContext = useForm({
       validationSchema: formSchema
     })
 
     const { value: name, errorMessage: nameError } = useField<string>('name')
+    const { value: code, errorMessage: codeError } = useField<string>('code')
+    const { value: detail, errorMessage: detailError } = useField<string>('detail')
+    const { value: permissions, errorMessage: permissionsError } = useField<number[]>('permissions')
     const { value: email, errorMessage: emailError } = useField<string>('email')
     const { value: role, errorMessage: roleError } = useField<number>('role')
     const { value: password, errorMessage: passwordError } = useField<string>(
@@ -256,9 +237,9 @@ export default defineComponent({
 
     // watch
     watch(
-      () => membersService.state.roles,
+      () => rolesService.state.roles,
       (newValue, old) => {
-        newValue.forEach((role) => rolesList.push(role))
+        newValue.forEach((permission) => permissionsList.push(permission))
       }
     )
 
@@ -270,6 +251,27 @@ export default defineComponent({
       }
     })
 
+    const codeValue = computed({
+      get: (): string => code.value,
+      set: (value: string) => {
+        code.value = value
+      }
+    })
+
+    const detailValue = computed({
+      get: (): string => detail.value,
+      set: (value: string) => {
+        detail.value = value
+      }
+    })
+
+    const permissionsValue = computed({
+      get: (): number[] => permissions.value,
+      set: (value: number[]) => {
+        permissions.value = value
+      }
+    })
+
     const emailValue = computed({
       get: (): string => email.value,
       set: (value: string) => {
@@ -277,34 +279,12 @@ export default defineComponent({
       }
     })
 
-    const roleValue = computed({
-      get: (): number => role.value,
-      set: (value: number) => {
-        role.value = value
-      }
-    })
-
-    const passwordValue = computed({
-      get: (): string => password.value,
-      set: (value: string) => {
-        password.value = value
-      }
-    })
-
-    const confirmPasswordValue = computed({
-      get: (): string => confirmPassword.value,
-      set: (value: string) => {
-        confirmPassword.value = value
-      }
-    })
-
     const createDisabled = computed((): boolean => {
       return !(
         nameError.value === '' &&
-        emailError.value === '' &&
-        roleError.value === '' &&
-        passwordError.value === '' &&
-        confirmPasswordError.value === ''
+        codeError.value === '' &&
+        detailError.value === '' &&
+        permissionsError.value === ''
       )
     })
 
@@ -317,49 +297,46 @@ export default defineComponent({
      * catch create member event
      * @return {void}
      */
-    const createMemberHandler = async () => {
+    const createRoleHandler = async () => {
       display.value = false
       // サーバーへリクエスト
       inversionFlag(loadingFlag)
-      const response = await membersService.createMember(
+      const response = await rolesService.createRole(
         {
           name: name.value,
-          email: email.value,
-          roleId: role.value,
-          password: password.value,
-          password_confirmation: confirmPassword.value
+          code: code.value,
+          detail: detail.value,
+          permissions: permissions.value
         },
         authApp.getHeaderOptions()
       )
-      toast.add(membersService.getToastData())
+      toast.add(rolesService.getToastData())
       if (response.status === 201) {
         formContext.handleReset()
-        context.emit('create-member', true)
+        context.emit('create-role', true)
       }
       inversionFlag(loadingFlag)
     }
 
     return {
       display,
-      rolesList,
+      permissionsList,
       nameValue,
-      emailValue,
-      roleValue,
-      passwordValue,
-      confirmPasswordValue,
+      codeValue,
+      detailValue,
+      permissionsValue,
       nameError,
-      emailError,
-      roleError,
-      passwordError,
-      confirmPasswordError,
+      codeError,
+      detailError,
+      permissionsError,
       createDisabled,
-      createMemberHandler
+      createRoleHandler
     }
   }
 })
 </script>
 <style lang="scss">
-.member-create-dialog {
+.role-create-dialog {
   width: 45vw;
 
   &__form-label {
@@ -370,7 +347,7 @@ export default defineComponent({
     width: 100%;
   }
 
-  .member-create-dialog__form-dropdown.p-dropdown {
+  .role-create-dialog__form-dropdown.p-dropdown {
     padding: 0 0 0 0 !important;
   }
 

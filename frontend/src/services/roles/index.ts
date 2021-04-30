@@ -10,7 +10,13 @@ import {
 } from '@/types'
 import { TableColumnSetting } from '@/types/config/data'
 import { ToastData, SelectBoxType } from '@/types/applications/index'
-import { validateName, validateSelectBoxNumberValue } from '@/util/validation'
+import {
+  validateName,
+  validateSelectBoxNumberValue,
+  validateRoleCode,
+  validateRoleDetail,
+  validateMultipleNumberValue
+} from '@/util/validation'
 import { makeDataUrl, downloadFile } from '@/util'
 
 const config: IAppConfig = require('@/config/data')
@@ -22,13 +28,13 @@ export const formSchema = {
     return validateName(value)
   },
   code(value: string): string {
-    return validateName(value)
+    return validateRoleCode(value)
   },
   detail(value: string): string {
-    return validateName(value)
+    return validateRoleDetail(value)
   },
-  permissions(value: number): string {
-    return validateSelectBoxNumberValue(value)
+  permissions(value: number[]): string {
+    return validateMultipleNumberValue(value)
   }
 }
 
@@ -42,7 +48,7 @@ export type CreateRoleData = Record<
   Exclude<keyof typeof formSchema, 'permissions'>,
   string
 > &
-  Record<'permissions', number>
+  Record<'permissions', number[]>
 
 export const tableSetting: TableColumnSetting<SelectBoxType>[] = [
   {
