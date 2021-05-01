@@ -6,8 +6,8 @@
     @click="display = true"
   />
   <Dialog
-    class="member-remove-dialog"
-    header="Member Remove Modal"
+    class="role-remove-dialog"
+    header="Role Remove Modal"
     v-model:visible="display"
     :modal="true"
     :breakpoints="{ '960px': '90vw' }"
@@ -20,25 +20,22 @@
           <div class="p-col-12 p-md-2">
             <label
               for="role"
-              class="p-col-fixed member-remove-dialog__form-label"
+              class="p-col-fixed role-remove-dialog__form-label"
             >
-              member
+              roles
             </label>
           </div>
           <div class="p-col-12 p-md-10">
             <div class="p-col">
               <div>
-                <Dropdown
-                  class="p-col-fixed member-remove-dialog__form-dropdown"
-                  v-model="memberValue"
-                  :options="members"
-                  optionLabel="name"
-                  optionValue="id"
-                  placeholder="select role"
-                  filter
-                />
+                <span
+                  class="role-remove-dialog__chip"
+                  v-for="(item, i) of rolesNameList"
+                  :key="i"
+                >
+                  {{ item }}
+                </span>
               </div>
-              <small class="p-error">{{ memberError }}</small>
             </div>
           </div>
         </div>
@@ -77,12 +74,7 @@ import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import Dropdown from 'primevue/dropdown'
 
-import {
-  removeFormSchema,
-  MembersType,
-  MembersStateKey,
-  MembersStateType
-} from '@/services/members'
+import { RolesType, RolesStateKey, RolesStateType } from '@/services/roles'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
 import { useField, useForm } from 'vee-validate'
@@ -90,59 +82,39 @@ import { ToastType, SelectBoxType } from '@/types/applications/index'
 import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 
 type Props = {
-  members: Pick<MembersType, 'id' | 'name'>[]
+  roles: RolesType[]
 }
 
 export default defineComponent({
   name: 'RoleRemoveDialog',
   components: {
     Button,
-    Dialog,
-    Dropdown
+    Dialog /* ,
+    Dropdown */
   },
   props: {
-    members: {
-      type: Array as PropType<Pick<MembersType, 'id' | 'name'>[]>,
+    roles: {
+      type: Array as PropType<RolesType[]>,
       required: false,
       default: () => {
         return []
       }
     }
   },
-  setup(__, context: SetupContext) {
+  setup(props: Props, context: SetupContext) {
     const toast = inject(ToastTypeKey) as ToastType
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
-    const membersService = inject(MembersStateKey) as MembersStateType
+    const rolesService = inject(RolesStateKey) as RolesStateType
     const display = ref<boolean>(false)
-    const rolesList = reactive<SelectBoxType[]>([])
-
-    const formContext = useForm({
-      validationSchema: removeFormSchema
-    })
-
-    const { value: member, errorMessage: memberError } = useField<number>(
-      'member'
-    )
-
-    // watch
-    watch(
-      () => membersService.state.roles,
-      (newValue, old) => {
-        newValue.forEach((role) => rolesList.push(role))
-      }
-    )
 
     // computed
-    const memberValue = computed({
-      get: (): number => member.value,
-      set: (value: number) => {
-        member.value = value
-      }
-    })
+    const rolesNameList = computed((): string[] =>
+      props.roles.map((role) => role.name)
+    )
 
     const removeDisabled = computed((): boolean => {
-      return !(memberError.value === '')
+      return !(props.roles.length !== 0)
     })
 
     // created
@@ -151,30 +123,29 @@ export default defineComponent({
 
     // methods
     /**
-     * catch create member event
+     * catch create role event
      * @return {void}
      */
     const removeMemberHandler = async () => {
       display.value = false
       // サーバーへリクエスト
       inversionFlag(loadingFlag)
-      const response = await membersService.removeMember(
-        member.value,
+      const response = await rolesService.removeRole(
+        props.roles.map((role) => role.id),
         authApp.getHeaderOptions()
       )
-      toast.add(membersService.getToastData())
+      toast.add(rolesService.getToastData())
       if (response.status === 200) {
-        formContext.handleReset()
-        context.emit('remove-member', true)
+        // formContext.handleReset()
+        context.emit('remove-role', true)
       }
       inversionFlag(loadingFlag)
     }
 
     return {
       display,
-      rolesList,
-      memberValue,
-      memberError,
+      // rolesList,
+      rolesNameList,
       removeDisabled,
       removeMemberHandler
     }
@@ -182,7 +153,7 @@ export default defineComponent({
 })
 </script>
 <style lang="scss">
-.member-remove-dialog {
+.role-remove-dialog {
   width: 45vw;
 
   &__form-label {
@@ -193,7 +164,7 @@ export default defineComponent({
     width: 100%;
   }
 
-  .member-remove-dialog__form-dropdown.p-dropdown {
+  .role-remove-dialog__form-dropdown.p-dropdown {
     padding: 0 0 0 0 !important;
   }
 
@@ -202,6 +173,23 @@ export default defineComponent({
     input {
       width: 100%;
     }
+  }
+
+  &__chip {
+    display: inline-flex;
+    margin: 2px 2px;
+    padding: 0 4px;
+    flex-direction: row;
+    background-color: #e5e5e5;
+    cursor: default;
+    height: 30px;
+    font-size: 14px;
+    color: #333333;
+    font-family: 'Open Sans', sans-serif;
+    white-space: nowrap;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
   }
 }
 </style>

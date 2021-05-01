@@ -66,7 +66,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:api-admins'], function 
         Route::get('/csv', [RolesController::class, 'download'])->name('admin.roles.download');
         Route::post('/role', [RolesController::class, 'create'])->name('admin.roles.create');
         Route::patch('/role/{id}', [RolesController::class, 'update'])->name('admin.roles.update');
-        Route::delete('/role/{id}', [RolesController::class, 'destroy'])->name('admin.roles.delete');
+        Route::delete('/role', [RolesController::class, 'destroy'])->name('admin.roles.delete');
     });
 
     Route::group(['prefix' => 'permissions'], function () {

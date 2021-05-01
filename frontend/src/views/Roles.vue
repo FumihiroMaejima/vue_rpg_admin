@@ -9,22 +9,22 @@
           <div class="p-col-10 p-md-8" style="justify-content:end">
             <div class="p-d-flex p-jc-end">
               <role-remove-dialog
-                @remove-member="removeMemberHandler"
-                :members="membersNameList"
+                :roles="selectedRolesValue"
+                @remove-role="removeRoleHandler"
               />
-              <Button
+              <!-- <Button
                 class="p-button-success p-mr-2"
                 label="download"
                 icon="pi pi-file"
                 @click="downloadFileHandler"
-              />
-              <role-create-dialog @create-member="createMemberHandler" />
+              /> -->
+              <role-create-dialog @create-role="createRoleHandler" />
             </div>
           </div>
         </div>
         <div class="p-grid">
           <div class="p-col-12">
-            <roles-table />
+            <roles-table v-model:selectRoles="selectedRolesValue" />
           </div>
         </div>
       </div>
@@ -34,17 +34,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, computed, provide, inject } from 'vue'
+import { defineComponent, ref, Ref, computed, provide, inject } from 'vue'
 import Button from 'primevue/button'
 import RoleCreateDialog from '@/components/modules/roles/RoleCreateDialog.vue'
 import RoleRemoveDialog from '@/components/modules/roles/RoleRemoveDialog.vue'
 import RolesTable from '@/components/modules/roles/RolesTable.vue'
 import {
-  editableRole,
+  // editableRole,
   MembersType,
-  MembersStateKey,
-  useState
+  MembersStateKey
+  // useState
 } from '@/services/members'
+import {
+  editableRole,
+  RolesType,
+  RolesStateKey,
+  useState
+} from '@/services/roles'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
 import { ToastType } from '@/types/applications/index'
@@ -53,7 +59,7 @@ import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 export default defineComponent({
   name: 'Roles',
   components: {
-    Button,
+    // Button,
     RoleCreateDialog,
     RoleRemoveDialog,
     RolesTable
@@ -62,33 +68,41 @@ export default defineComponent({
     const toast = inject(ToastTypeKey) as ToastType
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
-
-    const membersService = useState()
-    provide(MembersStateKey, membersService)
+    const selectedRoles = ref<RolesType[]>([])
+    const rolesService = useState()
+    provide(RolesStateKey, rolesService)
 
     // computed
     const editable = computed((): boolean =>
       authApp.checkAuthority(editableRole)
     )
 
-    const membersNameList = computed((): Pick<MembersType, 'id' | 'name'>[] =>
-      membersService.state.members.map((member) => {
-        return { id: member.id, name: member.name }
+    const rolesNameList = computed((): Pick<MembersType, 'id' | 'name'>[] =>
+      rolesService.state.roles.map((role) => {
+        return { id: role.id, name: role.name }
       })
     )
+
+    const selectedRolesValue = computed({
+      get: (): RolesType[] => selectedRoles.value,
+      set: (value: RolesType[]) => {
+        selectedRoles.value = value
+      }
+    })
 
     // created
     const created = async () => {
       inversionFlag(loadingFlag)
 
-      const roleListData = await membersService.getRoles(
+      const permissionsListData = await rolesService.getPermissionsList(
         authApp.getHeaderOptions()
       )
-      const response = await membersService.getMembersData(
+      const response = await rolesService.getRolesData(
         authApp.getHeaderOptions()
       )
-      if (response.status !== 200 || roleListData.status !== 200) {
-        toast.add(membersService.getToastData())
+
+      if (response.status !== 200 || permissionsListData.status !== 200) {
+        toast.add(rolesService.getToastData())
       }
       inversionFlag(loadingFlag)
     }
@@ -96,59 +110,47 @@ export default defineComponent({
 
     // methods
     /**
-     * handling create member event
+     * handling create role event
      * @param {boolean} event
      * @return {void}
      */
-    const createMemberHandler = async (event: boolean) => {
+    const createRoleHandler = async (event: boolean) => {
       inversionFlag(loadingFlag)
-      const response = await membersService.getMembersData(
+      const response = await rolesService.getRolesData(
         authApp.getHeaderOptions()
       )
       if (response.status !== 200) {
-        toast.add(membersService.getToastData())
+        toast.add(rolesService.getToastData())
       }
       inversionFlag(loadingFlag)
     }
 
     /**
-     * handling remove member event
+     * handling remove role event
      * @param {boolean} event
      * @return {void}
      */
-    const removeMemberHandler = async (event: boolean) => {
+    const removeRoleHandler = async (event: boolean) => {
+      selectedRoles.value = []
       inversionFlag(loadingFlag)
-      const response = await membersService.getMembersData(
+      const response = await rolesService.getRolesData(
         authApp.getHeaderOptions()
       )
       if (response.status !== 200) {
-        toast.add(membersService.getToastData())
-      }
-      inversionFlag(loadingFlag)
-    }
-
-    /**
-     * handling create member event
-     * @param {boolean} event
-     * @return {void}
-     */
-    const downloadFileHandler = async () => {
-      inversionFlag(loadingFlag)
-      const response = await membersService.downloadMemberCSV(
-        authApp.getHeaderOptions()
-      )
-      if (response.status !== 304) {
-        toast.add(membersService.getToastData())
+        toast.add(rolesService.getToastData())
       }
       inversionFlag(loadingFlag)
     }
 
     return {
-      membersNameList,
+      rolesNameList,
       editable,
-      createMemberHandler,
+      selectedRolesValue,
+      createRoleHandler,
+      removeRoleHandler /* ,
+      createRoleHandler,
       removeMemberHandler,
-      downloadFileHandler
+      downloadFileHandler */
     }
   }
 })

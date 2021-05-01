@@ -123,9 +123,7 @@
           class="p-grid p-nogutter p-jc-center p-ai-center vertical-container"
         >
           <div class="p-col-12 p-md-2">
-            <label
-              for="role"
-              class="p-col-fixed role-create-dialog__form-label"
+            <label for="role" class="p-col-fixed role-create-dialog__form-label"
               >permissions</label
             >
           </div>
@@ -146,7 +144,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
     <div class="p-grid p-jc-end p-pr-2">
@@ -182,11 +179,7 @@ import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
 import MultiSelect from 'primevue/multiselect'
 
-import {
-  formSchema,
-  RolesStateKey,
-  RolesStateType
-} from '@/services/roles'
+import { formSchema, RolesStateKey, RolesStateType } from '@/services/roles'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
 import { useField, useForm } from 'vee-validate'
@@ -215,8 +208,12 @@ export default defineComponent({
 
     const { value: name, errorMessage: nameError } = useField<string>('name')
     const { value: code, errorMessage: codeError } = useField<string>('code')
-    const { value: detail, errorMessage: detailError } = useField<string>('detail')
-    const { value: permissions, errorMessage: permissionsError } = useField<number[]>('permissions')
+    const { value: detail, errorMessage: detailError } = useField<string>(
+      'detail'
+    )
+    const { value: permissions, errorMessage: permissionsError } = useField<
+      number[]
+    >('permissions')
 
     // watch
     watch(

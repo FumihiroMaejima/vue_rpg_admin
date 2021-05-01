@@ -47,6 +47,7 @@ export type RolesServiceEndipont = {
   csv: string
   role: string
   create: string
+  delete: string
   permissions: string
 }
 
