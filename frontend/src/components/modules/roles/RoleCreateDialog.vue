@@ -183,10 +183,6 @@ import InputText from 'primevue/inputtext'
 import MultiSelect from 'primevue/multiselect'
 
 import {
-  MembersStateKey,
-  MembersStateType
-} from '@/services/members'
-import {
   formSchema,
   RolesStateKey,
   RolesStateType
@@ -209,7 +205,6 @@ export default defineComponent({
     const toast = inject(ToastTypeKey) as ToastType
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
-    const membersService = inject(MembersStateKey) as MembersStateType
     const rolesService = inject(RolesStateKey) as RolesStateType
     const display = ref<boolean>(false)
     const permissionsList = reactive<SelectBoxType[]>([])

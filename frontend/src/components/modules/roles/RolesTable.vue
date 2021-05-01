@@ -196,6 +196,7 @@ import {
   computed,
   provide,
   watch,
+  SetupContext,
   inject
 } from 'vue'
 import Column from 'primevue/column'
@@ -217,6 +218,10 @@ import { inversionFlag, getMultiSelectLabel } from '@/util'
 import { ToastType } from '@/types/applications/index'
 import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 
+type Props = {
+  selectRoles: RolesType[]
+}
+
 export default defineComponent({
   name: 'RolesTable',
   components: {
@@ -226,7 +231,16 @@ export default defineComponent({
     MultiSelect,
     InputText
   },
-  setup() {
+  props: {
+    selectRoles: {
+      type: Array as PropType<RolesType[]>,
+      required: false,
+      default: () => {
+        return []
+      }
+    }
+  },
+  setup(props: Props, context: SetupContext) {
     const toast = inject(ToastTypeKey) as ToastType
     const colOpt = reactive(tableSetting)
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
@@ -252,9 +266,9 @@ export default defineComponent({
     )
 
     const selectedRoles = computed({
-      get: (): RolesType[] => selectValue.value,
+      get: (): RolesType[] => props.selectRoles,
       set: (value: RolesType[]) => {
-        selectValue.value = value
+        context.emit('update:selectRoles', value)
       }
     })
 
