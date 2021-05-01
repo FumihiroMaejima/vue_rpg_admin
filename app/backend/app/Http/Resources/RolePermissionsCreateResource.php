@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 
 class RolePermissionsCreateResource extends JsonResource
@@ -18,17 +17,16 @@ class RolePermissionsCreateResource extends JsonResource
     {
         // insert用データ
         $data = [];
-        $dateTime = Carbon::now()->format('Y-m-d H:i:s');
         $permissionsNameList = Config::get('myapp.seeder.authority.permissionsNameList');
 
         foreach (range(0, (count($request->permissions) - 1)) as $i) {
             $row = [
                 'name'          => $request->name . '_' . $permissionsNameList[$i],
                 'short_name'    => $permissionsNameList[$i],
-                'role_id'       => $request->id,
+                'role_id'       => $this->resource->id,
                 'permission_id' => $request->permissions[$i],
-                'created_at'    => $dateTime,
-                'updated_at'    => $dateTime
+                'created_at'    => $this->resource->created_at,
+                'updated_at'    => $this->resource->updated_at
             ];
             $data[] = $row;
         }

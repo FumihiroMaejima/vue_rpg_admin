@@ -149,7 +149,7 @@
 
       </div>
     </div>
-    <div class="p-grid p-jc-end">
+    <div class="p-grid p-jc-end p-pr-2">
       <div class="p-col-6 p-md-4" style="justify-content:end">
         <div class="p-d-flex p-jc-end">
           <Button
@@ -181,10 +181,8 @@ import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
 import MultiSelect from 'primevue/multiselect'
-import Dropdown from 'primevue/dropdown'
 
 import {
-  // formSchema,
   MembersStateKey,
   MembersStateType
 } from '@/services/members'
@@ -205,8 +203,7 @@ export default defineComponent({
     Button,
     MultiSelect,
     Dialog,
-    InputText/* ,
-    Dropdown */
+    InputText
   },
   setup(__, context: SetupContext) {
     const toast = inject(ToastTypeKey) as ToastType
@@ -225,19 +222,10 @@ export default defineComponent({
     const { value: code, errorMessage: codeError } = useField<string>('code')
     const { value: detail, errorMessage: detailError } = useField<string>('detail')
     const { value: permissions, errorMessage: permissionsError } = useField<number[]>('permissions')
-    const { value: email, errorMessage: emailError } = useField<string>('email')
-    const { value: role, errorMessage: roleError } = useField<number>('role')
-    const { value: password, errorMessage: passwordError } = useField<string>(
-      'password'
-    )
-    const {
-      value: confirmPassword,
-      errorMessage: confirmPasswordError
-    } = useField<string>('confirmPassword')
 
     // watch
     watch(
-      () => rolesService.state.roles,
+      () => rolesService.state.permissions,
       (newValue, old) => {
         newValue.forEach((permission) => permissionsList.push(permission))
       }
@@ -269,13 +257,6 @@ export default defineComponent({
       get: (): number[] => permissions.value,
       set: (value: number[]) => {
         permissions.value = value
-      }
-    })
-
-    const emailValue = computed({
-      get: (): string => email.value,
-      set: (value: string) => {
-        email.value = value
       }
     })
 
@@ -341,6 +322,7 @@ export default defineComponent({
 
   &__form-label {
     width: 100%;
+    word-break: break-all;
   }
 
   &__form-dropdown {
@@ -348,6 +330,10 @@ export default defineComponent({
   }
 
   .role-create-dialog__form-dropdown.p-dropdown {
+    padding: 0 0 0 0 !important;
+  }
+
+  .role-create-dialog__form-dropdown.p-multiselect {
     padding: 0 0 0 0 !important;
   }
 

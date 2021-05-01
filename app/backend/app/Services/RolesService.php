@@ -115,17 +115,17 @@ class RolesService
             $resource = app()->make(RoleCreateResource::class, ['resource' => $request])->toArray($request);
 
             $insertCount = $this->rolesRepository->createRole($resource); // if created => count is 1
-            $latestAdmin = $this->rolesRepository->getLatestRole();
+            $latestRoles = $this->rolesRepository->getLatestRole();
 
             // 権限情報の作成
-            $adminsRolesResource = app()->make(AdminsRolesCreateResource::class, ['resource' => $latestAdmin])->toArray($request);
-            $insertAdminsRolesCount = $this->adminsRolesRepository->createAdminsRole($adminsRolesResource);
+            $permissonsResource = app()->make(RolePermissionsCreateResource::class, ['resource' => $latestRoles])->toArray($request);
+            $insertRolePermissionsCount = $this->rolePermissionsRepository->createRolePermission($permissonsResource);
 
             DB::commit();
 
             // 作成されている場合は304
-            $message = ($insertCount > 0 && $insertAdminsRolesCount > 0) ? 'success' : 'Bad Request';
-            $status = ($insertCount > 0 && $insertAdminsRolesCount > 0) ? 201 : 401;
+            $message = ($insertCount > 0 && $insertRolePermissionsCount > 0) ? 'success' : 'Bad Request';
+            $status = ($insertCount > 0 && $insertRolePermissionsCount > 0) ? 201 : 401;
 
             return response()->json(['message' => $message, 'status' => $status], $status);
         } catch (Exception $e) {
@@ -154,8 +154,8 @@ class RolesService
             $removeResource = app()->make(RolePermissionsDeleteResource::class, ['resource' => $request])->toArray($request);
             $updatedAdminsRolesRowCount = $this->rolePermissionsRepository->deleteRolePermissionsData($removeResource, $id);
 
-            $insertResource = app()->make(RolePermissionsCreateResource::class, ['resource' => $request])->toArray($request);
-            $updatedAdminsRolesRowCount = $this->rolePermissionsRepository->createRolePermission($insertResource, $id);
+            $updateResource = app()->make(RolePermissionsUpdateResource::class, ['resource' => $request])->toArray($request);
+            $updatedAdminsRolesRowCount = $this->rolePermissionsRepository->createRolePermission($updateResource, $id);
 
             // slack通知
             /* $attachmentResource = app()->make(AdminUpdateNotificationResource::class, ['resource' => ":tada: Update Role Data \n"])->toArray($request);

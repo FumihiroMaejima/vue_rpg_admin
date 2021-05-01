@@ -206,9 +206,10 @@ export function validateRoleDetail(value: string): string {
  */
 export function validateMultipleNumberValue(value: number[]): string {
   let message = ''
-  console.log('typeof: value' + typeof value)
-  if (!checkPrimitiveType(value, 'number')) {
+  if (!checkPrimitiveType(value, 'object')) {
     return (message = 'invalid type')
+  } else if (value.length === 0) {
+    return (message = `select at least one permission`)
   }
   return message
 }

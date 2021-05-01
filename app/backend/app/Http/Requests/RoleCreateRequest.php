@@ -43,9 +43,10 @@ class RoleCreateRequest extends FormRequest
         $permissionsModel = app()->make(Permissions::class);
 
         return [
-            'name'   => 'required|string|between:1,50',
-            'code'   => 'required|string|between:1,50',
-            'permissions' => 'required|integer|exists:' . $permissionsModel->getTable() . ',id'
+            'name'        => 'required|string|between:1,50',
+            'code'        => 'required|string|between:1,50',
+            'detail'      => 'required|string|between:1,100',
+            'permissions' => 'required|array|exists:' . $permissionsModel->getTable() . ',id'
         ];
     }
 
@@ -57,9 +58,10 @@ class RoleCreateRequest extends FormRequest
     public function messages()
     {
         return [
-            'required'    => ':attributeは必須項目です。',
-            'string'      => ':attributeは文字列を入力してください。',
-            'between'     => ':attributeは:min〜:max文字以内で入力してください。'
+            'required'   => ':attributeは必須項目です。',
+            'string'     => ':attributeは文字列を入力してください。',
+            'array'      => ':attributeは配列で入力してください。',
+            'between'    => ':attributeは:min〜:max文字以内で入力してください。'
         ];
     }
 
@@ -71,9 +73,9 @@ class RoleCreateRequest extends FormRequest
     public function attributes()
     {
         return [
-            'id'     => 'id',
-            'name'   => 'ロール名',
-            'code'   => 'ロールコード',
+            'name'        => 'ロール名',
+            'code'        => 'ロールコード',
+            'detail'      => '詳細',
             'permissions' => 'パーミッション'
         ];
     }
