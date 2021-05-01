@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
 
-class RolePermissionsDeleteResource extends JsonResource
+class RolePermissionsDeleteByUpdateResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,6 +17,7 @@ class RolePermissionsDeleteResource extends JsonResource
     {
         $dateTime = Carbon::now()->format('Y-m-d H:i:s');
         return [
+            'name'       => $request->name . '_' . $dateTime,
             'updated_at' => $dateTime,
             'deleted_at' => $dateTime
         ];

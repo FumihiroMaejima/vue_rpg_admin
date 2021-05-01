@@ -61,7 +61,8 @@ class RoleCreateRequest extends FormRequest
             'required'   => ':attributeは必須項目です。',
             'string'     => ':attributeは文字列を入力してください。',
             'array'      => ':attributeは配列で入力してください。',
-            'between'    => ':attributeは:min〜:max文字以内で入力してください。'
+            'between'    => ':attributeは:min〜:max文字以内で入力してください。',
+            'exists'     => '指定した:attributeは存在しません。'
         ];
     }
 
@@ -90,8 +91,8 @@ class RoleCreateRequest extends FormRequest
     protected function failedAuthorization()
     {
         $response = [
-            'status' => 403,
-            'errors' => [],
+            'status'  => 403,
+            'errors'  => [],
             'message' => 'Forbidden'
         ];
 
@@ -109,8 +110,8 @@ class RoleCreateRequest extends FormRequest
     protected function failedValidation(Validator $validator)
     {
         $response = [
-            'status' => 422,
-            'errors' => [],
+            'status'  => 422,
+            'errors'  => [],
             'message' => 'Unprocessable Entity'
         ];
 

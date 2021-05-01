@@ -67,7 +67,8 @@ class RoleUpdateRequest extends FormRequest
             'string'     => ':attributeは文字列を入力してください。',
             'array'      => ':attributeは配列で入力してください。',
             'between'    => ':attributeは:min〜:max文字以内で入力してください。',
-            'min'        => ':attributeは:min以上で入力してください。'
+            'min'        => ':attributeは:min以上で入力してください。',
+            'exists'     => '指定した:attributeは存在しません。'
         ];
     }
 

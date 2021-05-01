@@ -31,7 +31,7 @@ class RoleDeleteRequest extends FormRequest
     protected function prepareForValidation()
     {
         // ルーティングで設定しているidパラメーターをリクエストデータとして設定する
-        $this->merge(['id' => $this->route('id')]);
+        // $this->merge(['id' => $this->route('id')]);
     }
 
     /**
@@ -43,7 +43,7 @@ class RoleDeleteRequest extends FormRequest
     {
         $rolesModel = app()->make(Roles::class);
         return [
-            'id' => 'required|integer|exists:' . $rolesModel->getTable() . ',id'
+            'roles' => 'required|array|exists:' . $rolesModel->getTable() . ',id'
         ];
     }
 
@@ -56,7 +56,7 @@ class RoleDeleteRequest extends FormRequest
     {
         return [
             'required' => ':attributeは必須項目です。',
-            'integer'  => ':attributeは整数を入力してください。',
+            'array'    => ':attributeは配列で入力してください。',
             'exists'   => '指定した:attributeは存在しません。'
         ];
     }
@@ -69,7 +69,7 @@ class RoleDeleteRequest extends FormRequest
     public function attributes()
     {
         return [
-            'id' => 'ロールID'
+            'roles' => 'ロール'
         ];
     }
 
@@ -83,8 +83,8 @@ class RoleDeleteRequest extends FormRequest
     protected function failedAuthorization()
     {
         $response = [
-            'status' => 403,
-            'errors' => [],
+            'status'  => 403,
+            'errors'  => [],
             'message' => 'Forbidden'
         ];
 
@@ -102,8 +102,8 @@ class RoleDeleteRequest extends FormRequest
     protected function failedValidation(Validator $validator)
     {
         $response = [
-            'status' => 422,
-            'errors' => [],
+            'status'  => 422,
+            'errors'  => [],
             'message' => 'Unprocessable Entity'
         ];
 

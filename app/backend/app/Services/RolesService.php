@@ -31,6 +31,7 @@ use App\Http\Resources\RoleUpdateResource;
 use App\Http\Resources\RoleResource;
 use App\Http\Resources\RolePermissionsCreateResource;
 use App\Http\Resources\RolePermissionsDeleteResource;
+use App\Http\Resources\RolePermissionsDeleteByUpdateResource;
 use App\Http\Resources\RolePermissionsUpdateResource;
 use App\Http\Resources\RolesServiceResource;
 use App\Http\Resources\RolesListResource;
@@ -151,11 +152,11 @@ class RolesService
             $updatedRowCount = $this->rolesRepository->updateRoleData($resource, $id);
 
             // 権限情報の更新
-            $removeResource = app()->make(RolePermissionsDeleteResource::class, ['resource' => $request])->toArray($request);
-            $updatedAdminsRolesRowCount = $this->rolePermissionsRepository->deleteRolePermissionsData($removeResource, $id);
+            $removeResource = app()->make(RolePermissionsDeleteByUpdateResource::class, ['resource' => $request])->toArray($request);
+            $this->rolePermissionsRepository->deleteRolePermissionsData($removeResource, $id);
 
             $updateResource = app()->make(RolePermissionsUpdateResource::class, ['resource' => $request])->toArray($request);
-            $updatedAdminsRolesRowCount = $this->rolePermissionsRepository->createRolePermission($updateResource, $id);
+            $updatedRolePermissionsRowCount = $this->rolePermissionsRepository->createRolePermission($updateResource, $id);
 
             // slack通知
             /* $attachmentResource = app()->make(AdminUpdateNotificationResource::class, ['resource' => ":tada: Update Role Data \n"])->toArray($request);
@@ -164,8 +165,8 @@ class RolesService
             DB::commit();
 
             // 更新されていない場合は304
-            $message = ($updatedRowCount > 0 || $updatedAdminsRolesRowCount > 0) ? 'success' : 'not modified';
-            $status = ($updatedRowCount > 0 || $updatedAdminsRolesRowCount > 0) ? 200 : 304;
+            $message = ($updatedRowCount > 0 || $updatedRolePermissionsRowCount > 0) ? 'success' : 'not modified';
+            $status = ($updatedRowCount > 0 || $updatedRolePermissionsRowCount > 0) ? 200 : 304;
 
             return response()->json(['message' => $message, 'status' => $status], $status);
         } catch (Exception $e) {
@@ -186,21 +187,21 @@ class RolesService
     {
         DB::beginTransaction();
         try {
-            $id = $request->id;
+            $roleIds = $request->roles;
 
-            $resource = app()->make(RoleDeleteRequest::class, ['resource' => $request])->toArray($request);
+            $resource = app()->make(RoleDeleteResource::class, ['resource' => $request])->toArray($request);
 
-            $deleteRowCount = $this->rolesRepository->deleteRoleData($resource, $request->id);
+            $deleteRowCount = $this->rolesRepository->deleteRoleData($resource, $roleIds);
 
             // 権限情報の更新
-            $roleIdResource = app()->make(AdminsRolesDeleteResource::class, ['resource' => $request])->toArray($request);
-            $deleteAdminsRolesRowCount = $this->adminsRolesRepository->deleteAdminsRoleData($roleIdResource, $id);
+            $rolePermissionsResource = app()->make(RolePermissionsDeleteResource::class, ['resource' => $request])->toArray($request);
+            $deleteRolePermissionsRowCount = $this->rolePermissionsRepository->deleteRolePermissionsByIds($rolePermissionsResource, $roleIds);
 
             DB::commit();
 
             // 更新されていない場合は304
-            $message = ($deleteRowCount > 0 && $deleteAdminsRolesRowCount > 0) ? 'success' : 'not deleted';
-            $status = ($deleteRowCount > 0 && $deleteAdminsRolesRowCount > 0) ? 200 : 401;
+            $message = ($deleteRowCount > 0 && $deleteRolePermissionsRowCount > 0) ? 'success' : 'not deleted';
+            $status = ($deleteRowCount > 0 && $deleteRolePermissionsRowCount > 0) ? 200 : 401;
 
             return response()->json(['message' => $message, 'status' => $status], $status);
         } catch (Exception $e) {

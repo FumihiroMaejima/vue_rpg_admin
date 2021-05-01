@@ -105,18 +105,18 @@ class RolesRepository implements RolesRepositoryInterface
     /**
      * delete Role data.
      * @param array $resource
-     * @param int $id
+     * @param array $ids
      * @return int
      */
-    public function deleteRoleData(array $resource, int $id): int
+    public function deleteRoleData(array $resource, array $ids): int
     {
         // roles
         $roles = $this->model->getTable();
 
         // Query Builderのupdate
         return DB::table($roles)
-            // ->whereIn('id', [$id])
-            ->where('id', '=', $id)
+            ->whereIn('id', $ids)
+            // ->where('id', '=', $id)
             ->where('deleted_at', '=', null)
             ->update($resource);
     }

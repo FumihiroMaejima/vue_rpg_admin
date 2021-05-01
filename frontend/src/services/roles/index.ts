@@ -434,13 +434,13 @@ export const useState = () => {
    * @return {Promise<ServerRequestType>}
    */
   const removeRole = async (
-    id: number[],
+    ids: number[],
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
       .delete(config.endpoint.roles.delete, {
-        data: { roles: id },
+        data: { roles: ids },
         headers: options.headers
       })
       .then((response: AxiosResponse<any>) => {
