@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Test from '../views/Test.vue'
 import Roles from '../views/Roles.vue'
+import GameCharacters from '../views/GameCharacters.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -46,6 +47,15 @@ const routes: Array<RouteRecordRaw> = [
     path: '/roles',
     name: 'Roles',
     component: Roles,
+    meta: {
+      requiresAuth: true,
+      permissions: ['master', 'administrator']
+    }
+  },
+  {
+    path: '/game/characters',
+    name: 'GameCharacters',
+    component: GameCharacters,
     meta: {
       requiresAuth: true,
       permissions: ['master', 'administrator']
