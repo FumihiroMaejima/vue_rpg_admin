@@ -315,7 +315,7 @@ export const useState = () => {
    * @param {BaseAddHeaderResponse} header
    * @return {void}
    */
-  const downloadMemberCSV = async (
+  const downloadRolesCSV = async (
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
@@ -473,14 +473,13 @@ export const useState = () => {
     getRoles,
     getToastData,
     setToastData,
-    Permissions,
     setRoles,
     resetState,
     updateRolesTextValue,
     updateRolesData,
     updateRolesPermissions,
     getRolesData,
-    downloadMemberCSV,
+    downloadRolesCSV,
     getPermissionsList,
     createRole,
     removeRole

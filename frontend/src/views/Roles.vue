@@ -149,7 +149,7 @@ export default defineComponent({
      */
     const downloadFileHandler = async () => {
       inversionFlag(loadingFlag)
-      const response = await rolesService.downloadMemberCSV(
+      const response = await rolesService.downloadRolesCSV(
         authApp.getHeaderOptions()
       )
       if (response.status !== 304) {
