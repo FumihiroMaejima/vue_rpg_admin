@@ -122,8 +122,8 @@ export type CharacterSelectKeys = Exclude<
 export const useState = () => {
   const state = reactive({
     toast: { ...toastData },
-    permissions: [] as SelectBoxType[],
-    roles: [] as CharacterType[]
+    // permissions: [] as SelectBoxType[],
+    characters: [] as CharacterType[]
   })
 
   /**
@@ -139,7 +139,7 @@ export const useState = () => {
    * @return {CharacterType[]} state.members
    */
   const getCharacters = () => {
-    return state.roles
+    return state.characters
   }
 
   /**
@@ -163,21 +163,12 @@ export const useState = () => {
   }
 
   /**
-   * set permissions list
-   * @param {SelectBoxType[]} value
-   * @return {void}
-   */
-  const getPermissions = (value: SelectBoxType[]) => {
-    state.permissions = value
-  }
-
-  /**
    * insert role data to state
    * @param {CharacterType[]} value
    * @return {void}
    */
   const setCharacters = (value: CharacterType[]) => {
-    state.roles = value
+    state.characters = value
   }
 
   /**
@@ -186,8 +177,8 @@ export const useState = () => {
    */
   const resetState = () => {
     state.toast = { ...toastData }
-    state.roles = []
-    state.permissions = []
+    state.characters = []
+    // state.permissions = []
   }
 
   /**
@@ -202,7 +193,7 @@ export const useState = () => {
     key: CharacterTextKeys,
     value: string
   ) => {
-    state.roles.find((role) => role.id === id)![key] = value
+    state.characters.find((role) => role.id === id)![key] = value
   }
 
   /**
@@ -217,7 +208,7 @@ export const useState = () => {
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     let result = { data: {}, status: 0 } as ServerRequestType
-    const index = state.roles.findIndex((role) => role.id === id)
+    const index = state.characters.findIndex((role) => role.id === id)
     if (index === -1) {
       setToastData(
         'error',
@@ -235,9 +226,12 @@ export const useState = () => {
     }
 
     axios.defaults.withCredentials = true
-    const url = config.endpoint.roles.role.replace(/:id/g, String(id))
+    const url = config.endpoint.game.characters.character.replace(
+      /:id/g,
+      String(id)
+    )
     await axios
-      .patch(url, { ...state.roles[index] }, { headers: options.headers })
+      .patch(url, { ...state.characters[index] }, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
         msg.severity = 'success'
         msg.summary = 'キャラクター情報更新'
@@ -274,7 +268,9 @@ export const useState = () => {
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
-      .get(config.endpoint.roles.roles, { headers: options.headers })
+      .get(config.endpoint.game.characters.characters, {
+        headers: options.headers
+      })
       .then((response: AxiosResponse<any>) => {
         // キャラクターの設定
         setCharacters(response.data.data)
@@ -307,7 +303,7 @@ export const useState = () => {
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
-      .get(config.endpoint.roles.csv, {
+      .get(config.endpoint.game.characters.csv, {
         headers: options.headers,
         responseType: 'blob'
       })
@@ -358,7 +354,9 @@ export const useState = () => {
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
-      .post(config.endpoint.roles.create, data, { headers: options.headers })
+      .post(config.endpoint.game.characters.create, data, {
+        headers: options.headers
+      })
       .then((response: AxiosResponse<any>) => {
         setToastData(
           'success',
@@ -396,8 +394,8 @@ export const useState = () => {
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
-      .delete(config.endpoint.roles.delete, {
-        data: { roles: ids },
+      .delete(config.endpoint.game.characters.delete, {
+        data: { characters: ids },
         headers: options.headers
       })
       .then((response: AxiosResponse<any>) => {

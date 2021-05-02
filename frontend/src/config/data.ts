@@ -33,8 +33,11 @@ module.exports = {
     game: {
       characters: {
         characters: '/api/v1/admin/game/characters',
+        character: '/api/v1/admin/game/characters/character/:id',
         template: '/api/v1/admin/game/characters/file/template',
-        csv: '/api/v1/admin/game/characters/csv'
+        csv: '/api/v1/admin/game/characters/csv',
+        create: '/api/v1/admin/game/characters/character',
+        delete: '/api/v1/admin/game/characters/character'
       }
     }
   },

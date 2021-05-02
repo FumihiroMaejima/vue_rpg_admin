@@ -60,8 +60,11 @@ export type GameTotalEndipont = {
 export type GameCharactersServiceEndipont = {
   [key: string]: string
   characters: string
+  character: string
   template: string
   csv: string
+  create: string
+  delete: string
 }
 
 export type TableTextColumn = {
