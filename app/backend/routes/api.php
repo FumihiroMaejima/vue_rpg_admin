@@ -46,7 +46,7 @@ Route::group(['prefix' => 'auth/admin', 'middleware' => 'auth:api-admins'], func
 });
 
 // admin
-Route::group(['prefix' => 'admin', 'middleware' => 'auth:api-admins'], function () {
+Route::group(['prefix' => 'v1/admin', 'middleware' => 'auth:api-admins'], function () {
     // auth info
     Route::get('/authinfo', [AuthInfoController::class, 'index']);
 
@@ -69,6 +69,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:api-admins'], function 
         Route::delete('/role', [RolesController::class, 'destroy'])->name('admin.roles.delete');
     });
 
+    // permissions
     Route::group(['prefix' => 'permissions'], function () {
         Route::get('/list', [PermissionsController::class, 'list'])->name('admin.permissions.list');
     });

@@ -13,22 +13,29 @@ module.exports = {
   },
   endpoint: {
     authinfo: {
-      authInfomation: '/api/admin/authinfo'
+      authInfomation: '/api/v1/admin/authinfo'
     },
     members: {
-      members: '/api/admin/members',
-      csv: '/api/admin/members/csv',
-      member: '/api/admin/members/member/:id',
-      create: '/api/admin/members/member',
-      roles: '/api/admin/roles/list'
+      members: '/api/v1/admin/members',
+      csv: '/api/v1/admin/members/csv',
+      member: '/api/v1/admin/members/member/:id',
+      create: '/api/v1/admin/members/member',
+      roles: '/api/v1/admin/roles/list'
     },
     roles: {
-      roles: '/api/admin/roles',
-      csv: '/api/admin/roles/csv',
-      role: '/api/admin/roles/role/:id',
-      create: '/api/admin/roles/role',
-      delete: '/api/admin/roles/role',
-      permissions: '/api/admin/permissions/list'
+      roles: '/api/v1/admin/roles',
+      csv: '/api/v1/admin/roles/csv',
+      role: '/api/v1/admin/roles/role/:id',
+      create: '/api/v1/admin/roles/role',
+      delete: '/api/v1/admin/roles/role',
+      permissions: '/api/v1/admin/permissions/list'
+    },
+    game: {
+      charactors: {
+        charactors: '/api/v1/admin/game/charactors',
+        template: '/api/v1/admin/game/charactors/file/template',
+        csv: '/api/v1/admin/game/charactors/csv'
+      }
     }
   },
   headerMenuContents: [
@@ -216,7 +223,7 @@ module.exports = {
         }
       ]
     },
-    {
+    /* {
       label: 'アビリティ',
       icon: 'pi pi-fw pi-pencil',
       items: [
@@ -271,7 +278,7 @@ module.exports = {
           separator: true
         }
       ]
-    },
+    }, */
     {
       label: 'キャラクター',
       icon: 'pi pi-fw pi-pencil',
@@ -279,7 +286,7 @@ module.exports = {
         {
           label: 'キャラクター管理',
           icon: 'pi pi-fw pi-user',
-          to: '/test'
+          to: '/game/charactors'
         },
         {
           separator: true

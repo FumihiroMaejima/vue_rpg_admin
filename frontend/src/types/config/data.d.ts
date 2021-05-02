@@ -25,6 +25,7 @@ export type EndpointType = {
   authinfo: AuthInfoServiceEndipont
   members: MembersServiceEndipont
   roles: RolesServiceEndipont
+  game: GameTotalEndipont
 }
 
 export type AuthInfoServiceEndipont = {
@@ -49,6 +50,18 @@ export type RolesServiceEndipont = {
   create: string
   delete: string
   permissions: string
+}
+
+export type GameTotalEndipont = {
+  [key: string]: string
+  charactors: GameCharactorsServiceEndipont
+}
+
+export type GameCharactorsServiceEndipont = {
+  [key: string]: string
+  charactors: string
+  template: string
+  csv: string
 }
 
 export type TableTextColumn = {
