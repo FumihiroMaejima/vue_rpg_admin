@@ -12,12 +12,12 @@
                 :roles="selectedRolesValue"
                 @remove-role="removeRoleHandler"
               />
-              <!-- <Button
+              <Button
                 class="p-button-success p-mr-2"
                 label="download"
                 icon="pi pi-file"
                 @click="downloadFileHandler"
-              /> -->
+              />
               <role-create-dialog @create-role="createRoleHandler" />
             </div>
           </div>
@@ -59,7 +59,7 @@ import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 export default defineComponent({
   name: 'Roles',
   components: {
-    // Button,
+    Button,
     RoleCreateDialog,
     RoleRemoveDialog,
     RolesTable
@@ -142,15 +142,29 @@ export default defineComponent({
       inversionFlag(loadingFlag)
     }
 
+    /**
+     * handling download role event
+     * @param {boolean} event
+     * @return {void}
+     */
+    const downloadFileHandler = async () => {
+      inversionFlag(loadingFlag)
+      const response = await rolesService.downloadMemberCSV(
+        authApp.getHeaderOptions()
+      )
+      if (response.status !== 304) {
+        toast.add(rolesService.getToastData())
+      }
+      inversionFlag(loadingFlag)
+    }
+
     return {
       rolesNameList,
       editable,
       selectedRolesValue,
       createRoleHandler,
-      removeRoleHandler /* ,
-      createRoleHandler,
-      removeMemberHandler,
-      downloadFileHandler */
+      removeRoleHandler,
+      downloadFileHandler
     }
   }
 })

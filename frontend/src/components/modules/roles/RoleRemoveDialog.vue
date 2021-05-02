@@ -28,13 +28,20 @@
           <div class="p-col-12 p-md-10">
             <div class="p-col">
               <div>
-                <span
-                  class="role-remove-dialog__chip"
-                  v-for="(item, i) of rolesNameList"
-                  :key="i"
-                >
-                  {{ item }}
-                </span>
+                <template v-if="rolesNameList.length === 0">
+                  <div>
+                    no roles selected.
+                  </div>
+                </template>
+                <template v-else>
+                  <span
+                    class="role-remove-dialog__chip"
+                    v-for="(item, i) of rolesNameList"
+                    :key="i"
+                  >
+                    {{ item }}
+                  </span>
+                </template>
               </div>
             </div>
           </div>

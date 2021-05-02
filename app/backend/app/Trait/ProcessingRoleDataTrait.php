@@ -49,4 +49,20 @@ trait ProcessingRoleDataTrait
 
         return $data;
     }
+
+    /**
+     * processing role`s persmissions
+     * @param array $ids
+     * @param array $permissions
+     * @param array $permissionIds
+     * @return string
+     */
+    public function processingPermissions(array $ids, array $permissions, array $permissionIds): string
+    {
+        $data = array_map(function ($id) use ($permissions, $permissionIds) {
+            return $permissions[array_search((int)$id, $permissionIds, true)]->name;
+        }, $ids);
+
+        return implode(',', $data);
+    }
 }

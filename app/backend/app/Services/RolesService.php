@@ -39,6 +39,7 @@ use App\Http\Requests\RoleCreateRequest;
 use App\Http\Requests\RoleUpdateRequest;
 use App\Http\Requests\RoleDeleteRequest;
 use App\Exports\AdminsExport;
+use App\Exports\RolesExport;
 use Exception;
 
 class RolesService
@@ -84,7 +85,6 @@ class RolesService
         // サービスコンテナからリソースクラスインスタンスを依存解決
         // コンストラクタのresourceに割り当てる値を渡す
         $resource = app()->make(RolesListResource::class, ['resource' => $data]);
-        // $resource = app()->make(AdminsResource::class, ['resource' => $data]);
 
         return response()->json($resource->toArray($request), 200);
     }
@@ -97,9 +97,9 @@ class RolesService
      */
     public function downloadCSV(Request $request)
     {
-        $data = $this->rolesRepository->getRolesList();
+        $data = $this->rolesRepository->getRoles();
 
-        return Excel::download(new AdminsExport($data), 'roles_info_' . Carbon::now()->format('YmdHis') . '.csv');
+        return Excel::download(new RolesExport($data), 'roles_info_' . Carbon::now()->format('YmdHis') . '.csv');
     }
 
     /**
