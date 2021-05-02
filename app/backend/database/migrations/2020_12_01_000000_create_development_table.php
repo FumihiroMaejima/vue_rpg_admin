@@ -45,7 +45,7 @@ class CreateDevelopmentTable extends Migration
          */
         Schema::create('permissions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->comment('パーミッション名');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -55,8 +55,9 @@ class CreateDevelopmentTable extends Migration
          */
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('code');
+            $table->string('name')->comment('ロール名');
+            $table->string('code')->comment('ロールコード名');
+            $table->string('detail')->comment('詳細');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -66,7 +67,8 @@ class CreateDevelopmentTable extends Migration
          */
         Schema::create('role_permissions', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
+            $table->string('short_name')->comment('省略名');
             $table->foreignId('role_id')->constrained('roles')->comment('ロールID');
             $table->foreignId('permission_id')->constrained('permissions')->comment('パーミッションID');
             $table->timestamps();

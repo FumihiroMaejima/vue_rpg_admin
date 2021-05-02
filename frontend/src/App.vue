@@ -1,15 +1,15 @@
 <template>
-  <dev>
+  <div>
     <Toast position="top-right" />
     <liner-loading :open="openLinerLoading" />
     <circle-loading :open="openCircleLoading" />
     <global-header @click-icon="onSideBarInput" />
-    <app-side-bar :value="openSideBar" @close="onSideBarInput" />
+    <app-side-bar v-model:value="isOpenSideBar" @close="onSideBarInput" />
     <section class="p-mx-2 p-mb-2">
       <router-view />
     </section>
     <global-footer />
-  </dev>
+  </div>
 </template>
 
 <script lang="ts">
@@ -49,12 +49,10 @@ export default defineComponent({
     provide(ToastTypeKey, toast)
 
     // computed
-    // v-modelのsetterが通らない
     const isOpenSideBar = computed({
-      get: () => openSideBar,
-      set: (value) => {
-        console.log('setter isOpenSideBar: ' + JSON.stringify(value, null, 2))
-        // openSideBar.value = value
+      get: (): boolean => openSideBar.value,
+      set: (value: boolean) => {
+        openSideBar.value = value
       }
     })
 

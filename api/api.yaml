@@ -43,7 +43,19 @@ paths:
       # operationId: "getPetById"
       produces:
       - "application/json"
-      parameters: []
+      parameters:
+      - name: "authenticaion_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "string"
+      - name: "authority_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "array"
+        items:
+          type: "string"
       responses:
         "200":
           description: "successful operation"
@@ -58,7 +70,8 @@ paths:
           schema:
             $ref: "#/definitions/ApiErrorResponse"
       security:
-      - api_key: []
+      - authenticaion_key: []
+      - authority_key: []
   /admin/members/csv:
     get:
       tags:
@@ -68,7 +81,20 @@ paths:
       # operationId: "getPetById"
       produces:
       - "application/csv"
-      parameters: []
+      # parameters: []
+      parameters:
+      - name: "authenticaion_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "string"
+      - name: "authority_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "array"
+        items:
+          type: "string"
       responses:
         "200":
           description: "successful operation"
@@ -83,7 +109,8 @@ paths:
           schema:
             $ref: "#/definitions/ApiErrorResponse"
       security:
-      - api_key: []
+      - authenticaion_key: []
+      - authority_key: []
   /admin/members/member:
     post:
       tags:
@@ -97,11 +124,18 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "api_key"
+      - name: "authenticaion_key"
         in: "header"
         description: "api key"
-        required: false
+        required: true
         type: "string"
+      - name: "authority_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "array"
+        items:
+          type: "string"
       - name: "name"
         in: "formData"
         description: "name of administrator"
@@ -128,6 +162,10 @@ paths:
         required: true
         type: "string"
       responses:
+        "201":
+          description: "successful Logout"
+          schema:
+            $ref: "#/definitions/ApiSuccessResponse"
         "405":
           description: "Invalid input"
           schema:
@@ -153,11 +191,18 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "api_key"
+      - name: "authenticaion_key"
         in: "header"
         description: "api key"
-        required: false
+        required: true
         type: "string"
+      - name: "authority_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "array"
+        items:
+          type: "string"
       - name: "id"
         in: "path"
         description: "ID of member"
@@ -180,6 +225,10 @@ paths:
         required: true
         type: "integer"
       responses:
+        "200":
+          description: "successful Logout"
+          schema:
+            $ref: "#/definitions/ApiSuccessResponse"
         "405":
           description: "Invalid input"
           schema:
@@ -201,11 +250,18 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "api_key"
+      - name: "authenticaion_key"
         in: "header"
         description: "api key"
-        required: false
+        required: true
         type: "string"
+      - name: "authority_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "array"
+        items:
+          type: "string"
       - name: "id"
         in: "path"
         description: "ID of member"
@@ -213,6 +269,10 @@ paths:
         type: "integer"
         format: "int64"
       responses:
+        "200":
+          description: "successful Delete"
+          schema:
+            $ref: "#/definitions/ApiSuccessResponse"
         "400":
           description: "Invalid ID supplied"
           schema:
@@ -237,7 +297,19 @@ paths:
       description: "Returns roles data"
       produces:
       - "application/json"
-      parameters: []
+      parameters:
+      - name: "authenticaion_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "string"
+      - name: "authority_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "array"
+        items:
+          type: "string"
       responses:
         "200":
           description: "successful operation"
@@ -252,7 +324,223 @@ paths:
           schema:
             $ref: "#/definitions/ApiErrorResponse"
       security:
-      - api_key: []
+      - authenticaion_key: []
+      - authority_key: []
+  /admin/roles/csv:
+    get:
+      tags:
+      - "roles"
+      summary: "Find roles CSV data"
+      description: "Returns roles CSV data"
+      produces:
+      - "application/csv"
+      parameters:
+      - name: "authenticaion_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "string"
+      - name: "authority_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "array"
+        items:
+          type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/FileData"
+        "404":
+          description: "Roles not found"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+        default:
+          description: "unsuccessful operation"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+      security:
+      - authenticaion_key: []
+      - authority_key: []
+  /admin/roles/role:
+    post:
+      tags:
+      - "roles"
+      summary: "Create Role"
+      description: ""
+      operationId: "createRoleWithForm"
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authenticaion_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "string"
+      - name: "authority_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "array"
+        items:
+          type: "string"
+      - name: "name"
+        in: "formData"
+        description: "name of Role"
+        required: true
+        type: "string"
+      - name: "code"
+        in: "formData"
+        description: "code of Role"
+        required: true
+        type: "string"
+      - name: "permissionId"
+        in: "formData"
+        description: "id of Permission"
+        required: true
+        type: "integer"
+      - name: "detail"
+        in: "formData"
+        description: "detail of Role"
+        required: true
+        type: "string"
+      responses:
+        "201":
+          description: "successful Create"
+          schema:
+            $ref: "#/definitions/ApiSuccessResponse"
+        "405":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+        "422":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+      security:
+      - members_auth:
+        - "write:members"
+        - "read:members"
+  /admin/roles/role/{id}:
+    patch:
+      tags:
+      - "roles"
+      summary: "Update Role"
+      description: ""
+      operationId: "UpdateRoleWithForm"
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authenticaion_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "string"
+      - name: "authority_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "array"
+        items:
+          type: "string"
+      - name: "id"
+        in: "path"
+        description: "ID of Role"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "name"
+        in: "formData"
+        description: "name of Role"
+        required: true
+        type: "string"
+      - name: "code"
+        in: "formData"
+        description: "code of Role"
+        required: true
+        type: "string"
+      - name: "permissionId"
+        in: "formData"
+        description: "id of Permission"
+        required: true
+        type: "integer"
+      - name: "detail"
+        in: "formData"
+        description: "detail of Role"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful UPdate"
+          schema:
+            $ref: "#/definitions/ApiSuccessResponse"
+        "405":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+        "422":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+      security:
+      - members_auth:
+        - "write:members"
+        - "read:members"
+    delete:
+      tags:
+      - "roles"
+      summary: "Deletes a role"
+      description: ""
+      operationId: "deleteRole"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authenticaion_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "string"
+      - name: "authority_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "array"
+        items:
+          type: "string"
+      - name: "id"
+        in: "path"
+        description: "ID of role"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful Delete"
+          schema:
+            $ref: "#/definitions/ApiSuccessResponse"
+        "400":
+          description: "Invalid ID supplied"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+        "422":
+          description: "Invalid ID supplied"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+        "404":
+          description: "Membeer not found"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+      security:
+      - members_auth:
+        - "write:members"
+        - "read:members"
   /auth/admin/login:
     post:
       tags:
@@ -305,11 +593,18 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "api_key"
+      - name: "authenticaion_key"
         in: "header"
         description: "api key"
-        required: false
+        required: true
         type: "string"
+      - name: "authority_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "array"
+        items:
+          type: "string"
       responses:
         "200":
           description: "successful Logout"
@@ -335,11 +630,18 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "api_key"
+      - name: "authenticaion_key"
         in: "header"
         description: "api key"
-        required: false
+        required: true
         type: "string"
+      - name: "authority_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "array"
+        items:
+          type: "string"
       responses:
         "200":
           description: "Authenticated"
@@ -365,11 +667,18 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "api_key"
+      - name: "authenticaion_key"
         in: "header"
         description: "api key"
-        required: false
+        required: true
         type: "string"
+      - name: "authority_key"
+        in: "header"
+        description: "api key"
+        required: true
+        type: "array"
+        items:
+          type: "string"
       responses:
         "200":
           description: "Authenticated"
@@ -384,13 +693,6 @@ paths:
           schema:
             $ref: "#/definitions/ApiErrorResponse"
 securityDefinitions:
-  petstore_auth:
-    type: "oauth2"
-    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
-    flow: "implicit"
-    scopes:
-      write:pets: "modify pets in your account"
-      read:pets: "read your pets"
   members_auth:
     type: "oauth2"
     authorizationUrl: "http://example.com"
@@ -398,6 +700,14 @@ securityDefinitions:
     scopes:
       write:members: "modify members in your account"
       read:members: "read your members"
+  authenticaion_key:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+  authority_key:
+    type: "apiKey"
+    name: "X-Auth-Authority"
+    in: "header"
   api_key:
     type: "apiKey"
     name: "api_key"
@@ -453,10 +763,10 @@ definitions:
   Roles:
     type: "object"
     properties:
-      id:
+      value:
         type: "integer"
         format: "int64"
-      name:
+      text:
         type: "string"
     xml:
       name: "Member"

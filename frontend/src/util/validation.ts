@@ -45,7 +45,7 @@ export function checkTextMinLength(value: string, maxlength = 0): boolean {
  * @return {boolean}
  */
 export function checkPrimitiveType(
-  value: string | number | Record<string, any>,
+  value: string | number | string[] | number[] | Record<string, any>,
   target = 'string'
 ): boolean {
   return typeof value === target
@@ -163,6 +163,53 @@ export function validateConfirmPassword(
     return (message = 'This is required')
   } else if (!checkTextEquals(value, comparedValue)) {
     return (message = 'please input same value')
+  }
+  return message
+}
+
+/**
+ * validate role code.
+ * @param {string} value
+ * @return {string} message
+ */
+export function validateRoleCode(value: string): string {
+  let message = ''
+  const size = 5
+  if (!checkTextLength(value)) {
+    return (message = 'This is required')
+  } else if (!checkTextMinLength(value, size)) {
+    return (message = `input over ${size} length text`)
+  }
+  return message
+}
+
+/**
+ * validate role deetail.
+ * @param {string} value
+ * @return {string} message
+ */
+export function validateRoleDetail(value: string): string {
+  let message = ''
+  const size = 5
+  if (!checkTextLength(value)) {
+    return (message = 'This is required')
+  } else if (!checkTextMinLength(value, size)) {
+    return (message = `input over ${size} length text`)
+  }
+  return message
+}
+
+/**
+ * check text white space.
+ * @param {string} value
+ * @return {string} message
+ */
+export function validateMultipleNumberValue(value: number[]): string {
+  let message = ''
+  if (!checkPrimitiveType(value, 'object')) {
+    return (message = 'invalid type')
+  } else if (value.length === 0) {
+    return (message = `select at least one permission`)
   }
   return message
 }

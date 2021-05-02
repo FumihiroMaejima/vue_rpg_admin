@@ -1,4 +1,5 @@
 import { Ref } from 'vue'
+import { SelectBoxType } from '@/types'
 
 /**
  * inversion boolean flag.
@@ -10,6 +11,18 @@ export function inversionFlag(flag: Ref) {
 }
 
 /**
+ * get selected item`s text.
+ * @param {number[]} value
+ * @param {SelectBoxType[]} items
+ * @return {string[]}
+ */
+export function getMultiSelectLabel(value: number[], items: SelectBoxType[]) {
+  return items
+    .filter((item) => value.includes(item.value))
+    .map((item) => item.text)
+}
+
+/**
  * make binary data object url.
  * [0xef, 0xbb, 0xbf]はbyte order mark(BOM)。Unicodeで符号化したテキストの先頭に付与される数バイトのデータ。
  * 8ビット符号なし整数値を表現可能なUint8Array()メソッドでバイナリデータとしてセットする事で文字コードをBOM付きのUTF-8と指定する。
@@ -17,11 +30,15 @@ export function inversionFlag(flag: Ref) {
  * @param {string} mimeType - default 'text/csv'
  * @return {string}
  */
-export const makeDataUrl = (data: string, mimeType = 'text/csv'): string => {
-  const bom = new Uint8Array([0xef, 0xbb, 0xbf])
-  // バイナリデータを表すBlobオブジェクトに設定したいデータとmimetypeを指定する
-  const blob = new Blob([bom, data], { type: mimeType })
-  return (window.URL || window.webkitURL).createObjectURL(blob)
+export const makeDataUrl = (data: BlobPart, mimeType = 'text/csv'): string => {
+  if (!(mimeType === 'text/csv' || mimeType === 'application/csv')) {
+    return (window.URL || window.webkitURL).createObjectURL(new Blob([data]))
+  } else {
+    const bom = new Uint8Array([0xef, 0xbb, 0xbf])
+    // バイナリデータを表すBlobオブジェクトに設定したいデータとmimetypeを指定する
+    const blob = new Blob([bom, data], { type: mimeType })
+    return (window.URL || window.webkitURL).createObjectURL(blob)
+  }
 }
 
 /**

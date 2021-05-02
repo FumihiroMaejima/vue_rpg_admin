@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admins\MembersController;
 use App\Http\Controllers\Admins\AuthController as AdminAuthController;
 use App\Http\Controllers\Admins\AuthInfoController;
+use App\Http\Controllers\Admins\PermissionsController;
 use App\Http\Controllers\Admins\RolesController;
 use App\Http\Controllers\Users\AuthController;
 
@@ -61,6 +62,15 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:api-admins'], function 
     // roles
     Route::group(['prefix' => 'roles'], function () {
         Route::get('/', [RolesController::class, 'index'])->name('admin.roles.index');
+        Route::get('/list', [RolesController::class, 'list'])->name('admin.roles.list');
+        Route::get('/csv', [RolesController::class, 'download'])->name('admin.roles.download');
+        Route::post('/role', [RolesController::class, 'create'])->name('admin.roles.create');
+        Route::patch('/role/{id}', [RolesController::class, 'update'])->name('admin.roles.update');
+        Route::delete('/role', [RolesController::class, 'destroy'])->name('admin.roles.delete');
+    });
+
+    Route::group(['prefix' => 'permissions'], function () {
+        Route::get('/list', [PermissionsController::class, 'list'])->name('admin.permissions.list');
     });
 });
 

@@ -215,7 +215,7 @@ class MemberServiceTest extends TestCase
     }
 
     /**
-     * members create request test.
+     * members delete request test.
      * @dataProvider memberRemoveDataProvider
      * @return void
      */
@@ -226,7 +226,7 @@ class MemberServiceTest extends TestCase
     }
 
     /**
-     * member crerate data
+     * member delete data
      * @return array
      */
     public function memberRemoveValidationErrorDataProvider(): array
@@ -240,7 +240,7 @@ class MemberServiceTest extends TestCase
     }
 
     /**
-     * members create request test.
+     * members delete request test.
      * @dataProvider memberRemoveValidationErrorDataProvider
      * @return void
      */

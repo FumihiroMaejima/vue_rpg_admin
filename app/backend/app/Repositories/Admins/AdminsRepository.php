@@ -15,7 +15,9 @@ class AdminsRepository implements AdminsRepositoryInterface
     protected $adminsRolesModel;
 
     /**
-     * Create a new AuthInfoController instance.
+     * Create a new AdminsRepository instance.
+     * @param \App\Models\Admins $model
+     * @param \App\Models\AdminsRoles $adminsRolesModel
      *
      * @return void
      */
@@ -79,7 +81,7 @@ class AdminsRepository implements AdminsRepositoryInterface
     }
 
     /**
-     * create Admin data.
+     * get Latest Admin data.
      *
      * @return \Illuminate\Database\Eloquent\Model|object|static|null
      */

@@ -24,6 +24,7 @@ export type EndpointType = {
   [key: string]: string | AuthInfoServiceEndipont | MembersServiceEndipont
   authinfo: AuthInfoServiceEndipont
   members: MembersServiceEndipont
+  roles: RolesServiceEndipont
 }
 
 export type AuthInfoServiceEndipont = {
@@ -38,6 +39,16 @@ export type MembersServiceEndipont = {
   member: string
   create: string
   roles: string
+}
+
+export type RolesServiceEndipont = {
+  [key: string]: string
+  roles: string
+  csv: string
+  role: string
+  create: string
+  delete: string
+  permissions: string
 }
 
 export type TableTextColumn = {
@@ -62,3 +73,18 @@ export type TableSelectColumn<T = any> = {
 }
 
 export type TableColumnSetting<T = any> = TableTextColumn | TableSelectColumn<T>
+
+export type SideBarContentsType = {
+  label: string
+  icon: string
+  items: (
+    | {
+        label: string
+        icon: string
+        to: string
+      }
+    | {
+        separator: boolean
+      }
+  )[]
+}

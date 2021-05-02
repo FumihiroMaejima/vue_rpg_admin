@@ -1,6 +1,8 @@
 <template>
   <DataTable
     :value="items"
+    dataKey="id"
+    :rowHover="true"
     class="p-datatable-sm p-datatable-gridlines editable-cells-table"
     :class="{ 'editable-cells-table': editable }"
     paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
