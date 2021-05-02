@@ -9,36 +9,22 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
+use App\Services\Notifications\RoleSlackNotificationService;
 use App\Repositories\Roles\RolesRepositoryInterface;
 use App\Repositories\RolePermissions\RolePermissionsRepositoryInterface;
-use App\Http\Resources\RolesCollection;
-use App\Services\Notifications\MemberSlackNotificationService;
-use App\Repositories\AdminsRoles\AdminsRolesRepositoryInterface;
-use App\Repositories\Admins\AdminsRepositoryInterface;
-use App\Http\Resources\AdminUpdateResource;
-use App\Http\Resources\AdminUpdateNotificationResource;
-use App\Http\Resources\AdminsRolesUpdateResource;
-use App\Http\Resources\AdminsRolesDeleteResource;
-use App\Http\Resources\AdminsRolesCreateResource;
-use App\Http\Resources\AdminsResource;
-use App\Http\Resources\AdminsCSVCollection;
-use App\Http\Resources\AdminsCollection;
-use App\Http\Resources\AdminDeleteResource;
-use App\Http\Resources\AdminCreateResource;
-use App\Http\Resources\RoleDeleteResource;
-use App\Http\Resources\RoleCreateResource;
 use App\Http\Resources\RoleUpdateResource;
-use App\Http\Resources\RoleResource;
-use App\Http\Resources\RolePermissionsCreateResource;
-use App\Http\Resources\RolePermissionsDeleteResource;
-use App\Http\Resources\RolePermissionsDeleteByUpdateResource;
-use App\Http\Resources\RolePermissionsUpdateResource;
+use App\Http\Resources\RoleUpdateNotificationResource;
 use App\Http\Resources\RolesServiceResource;
 use App\Http\Resources\RolesListResource;
-use App\Http\Requests\RoleCreateRequest;
+use App\Http\Resources\RolePermissionsUpdateResource;
+use App\Http\Resources\RolePermissionsDeleteResource;
+use App\Http\Resources\RolePermissionsDeleteByUpdateResource;
+use App\Http\Resources\RolePermissionsCreateResource;
+use App\Http\Resources\RoleDeleteResource;
+use App\Http\Resources\RoleCreateResource;
 use App\Http\Requests\RoleUpdateRequest;
 use App\Http\Requests\RoleDeleteRequest;
-use App\Exports\AdminsExport;
+use App\Http\Requests\RoleCreateRequest;
 use App\Exports\RolesExport;
 use Exception;
 
@@ -159,8 +145,8 @@ class RolesService
             $updatedRolePermissionsRowCount = $this->rolePermissionsRepository->createRolePermission($updateResource, $id);
 
             // slack通知
-            /* $attachmentResource = app()->make(AdminUpdateNotificationResource::class, ['resource' => ":tada: Update Role Data \n"])->toArray($request);
-            app()->make(MemberSlackNotificationService::class)->send('update member data.', $attachmentResource); */
+            $attachmentResource = app()->make(RoleUpdateNotificationResource::class, ['resource' => ":tada: Update Role Data \n"])->toArray($request);
+            app()->make(RoleSlackNotificationService::class)->send('update role data.', $attachmentResource);
 
             DB::commit();
 

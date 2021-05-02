@@ -2,7 +2,6 @@
 
 namespace App\Exports;
 
-use App\Models\Admins;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -18,8 +17,6 @@ class RolesExport implements FromCollection, WithHeadings, WithTitle, WithMappin
     use ProcessingRoleDataTrait;
 
     private $resource;
-    private $roleIds;
-    private $roles;
     private $permissions;
     private $permissionIds;
 
