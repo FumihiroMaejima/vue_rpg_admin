@@ -54,12 +54,12 @@ export type RolesServiceEndipont = {
 
 export type GameTotalEndipont = {
   [key: string]: string
-  charactors: GameCharactorsServiceEndipont
+  characters: GameCharactersServiceEndipont
 }
 
-export type GameCharactorsServiceEndipont = {
+export type GameCharactersServiceEndipont = {
   [key: string]: string
-  charactors: string
+  characters: string
   template: string
   csv: string
 }

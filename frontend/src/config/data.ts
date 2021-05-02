@@ -31,10 +31,10 @@ module.exports = {
       permissions: '/api/v1/admin/permissions/list'
     },
     game: {
-      charactors: {
-        charactors: '/api/v1/admin/game/charactors',
-        template: '/api/v1/admin/game/charactors/file/template',
-        csv: '/api/v1/admin/game/charactors/csv'
+      characters: {
+        characters: '/api/v1/admin/game/characters',
+        template: '/api/v1/admin/game/characters/file/template',
+        csv: '/api/v1/admin/game/characters/csv'
       }
     }
   },
@@ -286,7 +286,7 @@ module.exports = {
         {
           label: 'キャラクター管理',
           icon: 'pi pi-fw pi-user',
-          to: '/game/charactors'
+          to: '/game/characters'
         },
         {
           separator: true

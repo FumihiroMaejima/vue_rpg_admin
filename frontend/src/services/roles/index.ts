@@ -488,6 +488,4 @@ export const useState = () => {
 
 // get return type of a function type
 export type RolesStateType = ReturnType<typeof useState>
-export const RolesStateKey: InjectionKey<RolesStateType> = Symbol(
-  'membersState'
-)
+export const RolesStateKey: InjectionKey<RolesStateType> = Symbol('rolesState')
