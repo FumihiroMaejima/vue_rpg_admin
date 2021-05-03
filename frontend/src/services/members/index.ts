@@ -196,10 +196,25 @@ export const useState = () => {
    * @param {string} value
    * @return {void}
    */
-  const updateMembersTextValue = (
+  const updateStateTextValue = (
     id: number,
     key: MembersTextKeys,
     value: string
+  ) => {
+    state.members.find((member) => member.id === id)![key] = value
+  }
+
+  /**
+   * update memebers role id
+   * @param {number} id
+   * @param {string} key
+   * @param {number} value
+   * @return {void}
+   */
+  const updateStateSelectValue = (
+    id: number,
+    key: MembersSelectKeys,
+    value: number
   ) => {
     state.members.find((member) => member.id === id)![key] = value
   }
@@ -209,9 +224,9 @@ export const useState = () => {
    * @param {number} id
    * @param {string} key
    * @param {AuthAppHeaderOptions} options
-   * @return {void}
+   * @return {Promise<ServerRequestType>}
    */
-  const updateMembersData = async (
+  const updateMembersDataRequest = async (
     id: number,
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
@@ -264,26 +279,11 @@ export const useState = () => {
   }
 
   /**
-   * update memebers role id
-   * @param {number} id
-   * @param {string} key
-   * @param {number} value
-   * @return {void}
-   */
-  const updateMembersRole = (
-    id: number,
-    key: MembersSelectKeys,
-    value: number
-  ) => {
-    state.members.find((member) => member.id === id)![key] = value
-  }
-
-  /**
    * get members data.
    * @param {BaseAddHeaderResponse} header
    * @return {void}
    */
-  const getMembersData = async (
+  const getMembersDataRequest = async (
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
@@ -316,7 +316,7 @@ export const useState = () => {
    * @param {BaseAddHeaderResponse} header
    * @return {void}
    */
-  const downloadMemberCSV = async (
+  const downloadMemberCSVRequest = async (
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
@@ -365,7 +365,7 @@ export const useState = () => {
    * @param {AuthAppHeaderOptions} options
    * @return {Promise<ServerRequestType>}
    */
-  const getRoles = async (
+  const getRolesListRequest = async (
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
@@ -400,7 +400,7 @@ export const useState = () => {
    * @param {AuthAppHeaderOptions} options
    * @return {Promise<ServerRequestType>}
    */
-  const createMember = async (
+  const createMemberRequest = async (
     data: CreateMemberData,
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
@@ -438,7 +438,7 @@ export const useState = () => {
    * @param {AuthAppHeaderOptions} options
    * @return {Promise<ServerRequestType>}
    */
-  const removeMember = async (
+  const removeMemberRequest = async (
     id: number,
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
@@ -480,14 +480,14 @@ export const useState = () => {
     setRoles,
     setMembers,
     resetState,
-    updateMembersTextValue,
-    updateMembersData,
-    updateMembersRole,
-    getMembersData,
-    downloadMemberCSV,
-    getRoles,
-    createMember,
-    removeMember
+    updateStateTextValue,
+    updateStateSelectValue,
+    updateMembersDataRequest,
+    getMembersDataRequest,
+    downloadMemberCSVRequest,
+    getRolesListRequest,
+    createMemberRequest,
+    removeMemberRequest
   }
 }
 

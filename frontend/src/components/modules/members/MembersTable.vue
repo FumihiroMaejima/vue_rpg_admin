@@ -83,7 +83,7 @@ export default defineComponent({
       key: string
       value: string
     }) => {
-      membersService.updateMembersTextValue(
+      membersService.updateStateTextValue(
         event.id,
         event.key as MembersTextKeys,
         event.value
@@ -101,7 +101,7 @@ export default defineComponent({
       value: boolean
     }) => {
       inversionFlag(loadingFlag)
-      const response = await membersService.updateMembersData(
+      const response = await membersService.updateMembersDataRequest(
         event.id,
         authApp.getHeaderOptions()
       )
@@ -122,7 +122,7 @@ export default defineComponent({
       key: string
       value: number
     }) => {
-      membersService.updateMembersRole(
+      membersService.updateStateSelectValue(
         event.id,
         event.key as MembersSelectKeys,
         event.value
@@ -130,7 +130,7 @@ export default defineComponent({
 
       // サーバーへリクエスト
       inversionFlag(loadingFlag)
-      const response = await membersService.updateMembersData(
+      const response = await membersService.updateMembersDataRequest(
         event.id,
         authApp.getHeaderOptions()
       )

@@ -233,7 +233,7 @@ export const useState = () => {
    * @param {number} id
    * @param {string} key
    * @param {number} value
-   * @return {void}
+   * @return {Promise<ServerRequestType>}
    */
   const updateStateNumberValue = (
     id: number,

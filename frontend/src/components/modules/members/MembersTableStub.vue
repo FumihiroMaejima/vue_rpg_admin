@@ -39,7 +39,7 @@
         :style="colOpt[1].style"
       >
         <template #body="{data}">
-          <div class="app-table__text-field">
+          <div>
             {{ data.name }}
           </div>
         </template>
@@ -73,7 +73,7 @@
         :style="colOpt[2].style"
       >
         <template #body="{data}">
-          <div class="app-table__text-field">
+          <div>
             {{ data.email }}
           </div>
         </template>
@@ -230,7 +230,7 @@ export default defineComponent({
      * @return {{id: number, key: string, value: string}}
      */
     const catchTextChange = (value: string, key: string, id: number) => {
-      membersService.updateMembersTextValue(id, key as MembersTextKeys, value)
+      membersService.updateStateTextValue(id, key as MembersTextKeys, value)
     }
 
     /**
@@ -246,7 +246,7 @@ export default defineComponent({
       id: number
     ) => {
       inversionFlag(loadingFlag)
-      const response = await membersService.updateMembersData(
+      const response = await membersService.updateMembersDataRequest(
         id,
         authApp.getHeaderOptions()
       )
@@ -269,7 +269,7 @@ export default defineComponent({
       key: string,
       id: number
     ) => {
-      membersService.updateMembersRole(
+      membersService.updateSelectValue(
         id,
         key as MembersSelectKeys,
         event.value as number
@@ -277,7 +277,7 @@ export default defineComponent({
 
       // サーバーへリクエスト
       inversionFlag(loadingFlag)
-      const response = await membersService.updateMembersData(
+      const response = await membersService.updateMembersDataRequest(
         id,
         authApp.getHeaderOptions()
       )

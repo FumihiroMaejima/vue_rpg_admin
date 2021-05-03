@@ -158,7 +158,7 @@ export default defineComponent({
       display.value = false
       // サーバーへリクエスト
       inversionFlag(loadingFlag)
-      const response = await membersService.removeMember(
+      const response = await membersService.removeMemberRequest(
         member.value,
         authApp.getHeaderOptions()
       )

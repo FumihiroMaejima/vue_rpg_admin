@@ -92,10 +92,10 @@ export default defineComponent({
     const created = async () => {
       inversionFlag(loadingFlag)
 
-      const permissionsListData = await rolesService.getPermissionsList(
+      const permissionsListData = await rolesService.getPermissionsListRequest(
         authApp.getHeaderOptions()
       )
-      const response = await rolesService.getRolesData(
+      const response = await rolesService.getRolesDataRequest(
         authApp.getHeaderOptions()
       )
 
@@ -114,7 +114,7 @@ export default defineComponent({
      */
     const downloadFileHandler = async () => {
       inversionFlag(loadingFlag)
-      const response = await rolesService.downloadRolesCSV(
+      const response = await rolesService.downloadRolesCSVRequest(
         authApp.getHeaderOptions()
       )
       if (response.status !== 304) {

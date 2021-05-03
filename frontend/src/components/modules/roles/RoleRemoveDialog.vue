@@ -137,7 +137,7 @@ export default defineComponent({
       display.value = false
       // サーバーへリクエスト
       inversionFlag(loadingFlag)
-      const response = await rolesService.removeRole(
+      const response = await rolesService.removeRoleRequest(
         props.roles.map((role) => role.id),
         authApp.getHeaderOptions()
       )

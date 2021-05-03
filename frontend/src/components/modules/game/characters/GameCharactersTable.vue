@@ -293,7 +293,7 @@ export default defineComponent({
      * @return {{id: number, key: string, value: string}}
      */
     const catchTextChange = (value: string, key: string, id: number) => {
-      rolesService.updateRolesTextValue(id, key as RolesTextKeys, value)
+      rolesService.updateStateTextValue(id, key as RolesTextKeys, value)
     }
 
     /**
@@ -309,7 +309,7 @@ export default defineComponent({
       id: number
     ) => {
       inversionFlag(loadingFlag)
-      const response = await rolesService.updateRolesData(
+      const response = await rolesService.updateRolesDataRequest(
         id,
         authApp.getHeaderOptions()
       )
@@ -332,7 +332,7 @@ export default defineComponent({
       key: string,
       id: number
     ) => {
-      rolesService.updateRolesPermissions(
+      rolesService.updateStateSelectValue(
         id,
         key as RolesSelectKeys,
         event.value as number[]
@@ -340,7 +340,7 @@ export default defineComponent({
 
       // サーバーへリクエスト
       inversionFlag(loadingFlag)
-      const response = await rolesService.updateRolesData(
+      const response = await rolesService.updateRolesDataRequest(
         id,
         authApp.getHeaderOptions()
       )
