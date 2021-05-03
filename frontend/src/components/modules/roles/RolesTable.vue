@@ -39,7 +39,7 @@
         :style="colOpt[1].style"
       >
         <template #body="{data}">
-          <div>
+          <div class="roles-table__text-field">
             {{ data.name }}
           </div>
         </template>
@@ -73,7 +73,7 @@
         :style="colOpt[2].style"
       >
         <template #body="{data}">
-          <div>
+          <div class="roles-table__text-field">
             {{ data.code }}
           </div>
         </template>
@@ -107,7 +107,7 @@
         :style="colOpt[3].style"
       >
         <template #body="{data}">
-          <div>
+          <div class="roles-table__text-field">
             {{ data.detail }}
           </div>
         </template>

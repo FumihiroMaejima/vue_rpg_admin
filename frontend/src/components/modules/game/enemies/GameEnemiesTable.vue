@@ -39,7 +39,7 @@
         :style="colOpt[1].style"
       >
         <template #body="{data}">
-          <div>
+          <div class="enemies-table__text-field">
             {{ data.name }}
           </div>
         </template>
@@ -73,7 +73,7 @@
         :style="colOpt[2].style"
       >
         <template #body="{data}">
-          <div>
+          <div class="enemies-table__text-field">
             {{ data.level }}
           </div>
         </template>
@@ -107,7 +107,7 @@
         :style="colOpt[3].style"
       >
         <template #body="{data}">
-          <div>
+          <div class="enemies-table__text-field">
             {{ data.hp }}
           </div>
         </template>
@@ -141,7 +141,7 @@
         :style="colOpt[4].style"
       >
         <template #body="{data}">
-          <div>
+          <div class="enemies-table__text-field">
             {{ data.mp }}
           </div>
         </template>
@@ -175,7 +175,7 @@
         :style="colOpt[5].style"
       >
         <template #body="{data}">
-          <div>
+          <div class="enemies-table__text-field">
             {{ data.offence }}
           </div>
         </template>
@@ -209,7 +209,7 @@
         :style="colOpt[6].style"
       >
         <template #body="{data}">
-          <div>
+          <div class="enemies-table__text-field">
             {{ data.defense }}
           </div>
         </template>
@@ -243,7 +243,7 @@
         :style="colOpt[7].style"
       >
         <template #body="{data}">
-          <div>
+          <div class="enemies-table__text-field">
             {{ data.speed }}
           </div>
         </template>
@@ -277,7 +277,7 @@
         :style="colOpt[8].style"
       >
         <template #body="{data}">
-          <div>
+          <div class="enemies-table__text-field">
             {{ data.magic }}
           </div>
         </template>

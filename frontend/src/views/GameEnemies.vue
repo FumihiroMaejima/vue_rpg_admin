@@ -4,7 +4,7 @@
     <h2 class="italic my-2">敵キャラクター一覧</h2>
     <div class="p-grid">
       <div class="p-col-12 p-md-1"></div>
-      <div class="p-col-12 p-md-10">
+      <div class="p-col-12 p-md-12">
         <div class="p-grid p-jc-end" v-if="editable">
           <div class="p-col-10 p-md-8" style="justify-content:end">
             <div class="p-d-flex p-jc-end">
