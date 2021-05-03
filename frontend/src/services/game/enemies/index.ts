@@ -69,21 +69,61 @@ export const tableSetting: TableColumnSetting<SelectBoxType>[] = [
   },
   {
     identifier: 'id',
-    field: 'code',
-    header: 'Code',
+    field: 'level',
+    header: 'Level',
     editable: true,
     type: 'text',
-    style: 'width:30%'
+    style: 'width:10%'
   },
   {
     identifier: 'id',
-    field: 'detail',
-    header: 'Detail',
+    field: 'hp',
+    header: 'HP',
     editable: true,
     type: 'text',
-    style: 'width:30%'
+    style: 'width:10%'
   },
   {
+    identifier: 'id',
+    field: 'mp',
+    header: 'MP',
+    editable: true,
+    type: 'text',
+    style: 'width:10%'
+  },
+  {
+    identifier: 'id',
+    field: 'offence',
+    header: 'Offence',
+    editable: true,
+    type: 'text',
+    style: 'width:10%'
+  },
+  {
+    identifier: 'id',
+    field: 'defense',
+    header: 'Defense',
+    editable: true,
+    type: 'text',
+    style: 'width:10%'
+  },
+  {
+    identifier: 'id',
+    field: 'speed',
+    header: 'Speed',
+    editable: true,
+    type: 'text',
+    style: 'width:10%'
+  },
+  {
+    identifier: 'id',
+    field: 'magic',
+    header: 'Magic',
+    editable: true,
+    type: 'text',
+    style: 'width:10%'
+  }
+  /* {
     identifier: 'id',
     field: 'permissions',
     header: 'Permission',
@@ -93,7 +133,7 @@ export const tableSetting: TableColumnSetting<SelectBoxType>[] = [
     items: [] as SelectBoxType[],
     itemText: 'text',
     itemValue: 'value'
-  }
+  } */
 ]
 
 export const toastData: ToastData = {
@@ -107,14 +147,19 @@ export const toastData: ToastData = {
 const enemyData = {
   id: 0,
   name: '',
-  code: '',
-  detail: '',
-  permissions: [] as number[]
+  level: 0,
+  hp: 0,
+  mp: 0,
+  offence: 0,
+  defense: 0,
+  speed: 0,
+  magic: 0
 }
 
 export type EnemyType = typeof enemyData
 export type EnemyTypeKeys = keyof EnemyType
-export type EnemyTextKeys = Exclude<EnemyTypeKeys, 'permissions' | 'id'>
+export type EnemyTextKeys = Extract<EnemyTypeKeys, 'name'>
+export type EnemyNumberKeys = Exclude<EnemyTypeKeys, 'id' | EnemyTextKeys>
 export type EnemySelectKeys = Exclude<EnemyTypeKeys, EnemyTextKeys | 'id'>
 
 export const useState = () => {
@@ -161,7 +206,7 @@ export const useState = () => {
   }
 
   /**
-   * insert role data to state
+   * insert enemy data to state
    * @param {EnemyType[]} value
    * @return {void}
    */
@@ -191,11 +236,26 @@ export const useState = () => {
     key: EnemyTextKeys,
     value: string
   ) => {
-    state.enemies.find((role) => role.id === id)![key] = value
+    state.enemies.find((enemy) => enemy.id === id)![key] = value
   }
 
   /**
-   * run update role request.
+   * update enemies number value
+   * @param {number} id
+   * @param {string} key
+   * @param {number} value
+   * @return {void}
+   */
+  const updateEnemiesNumberValue = (
+    id: number,
+    key: EnemyNumberKeys,
+    value: number
+  ) => {
+    state.enemies.find((enemy) => enemy.id === id)![key] = value
+  }
+
+  /**
+   * run update enemy request.
    * @param {number} id
    * @param {string} key
    * @param {AuthAppHeaderOptions} options
@@ -206,7 +266,7 @@ export const useState = () => {
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     let result = { data: {}, status: 0 } as ServerRequestType
-    const index = state.enemies.findIndex((role) => role.id === id)
+    const index = state.enemies.findIndex((enemy) => enemy.id === id)
     if (index === -1) {
       setToastData(
         'error',
@@ -338,7 +398,7 @@ export const useState = () => {
   }
 
   /**
-   * create role request.
+   * create enemy request.
    * @param {CreateEnemiesData} data
    * @param {AuthAppHeaderOptions} options
    * @return {Promise<ServerRequestType>}
@@ -378,7 +438,7 @@ export const useState = () => {
   }
 
   /**
-   * remove role request.
+   * remove enemy request.
    * @param {number} id
    * @param {AuthAppHeaderOptions} options
    * @return {Promise<ServerRequestType>}
@@ -426,6 +486,7 @@ export const useState = () => {
     setEnemies,
     resetState,
     updateEnemiesTextValue,
+    updateEnemiesNumberValue,
     updateEnemiesRequest,
     getEnemiesRequest,
     downloadEnemiesCSV,

@@ -45,7 +45,7 @@
         </template>
         <template #editor="slotProps" v-if="editable">
           <InputText
-            class="roles-table__form-input"
+            class="game-enemies-table__form-input"
             type="text"
             :modelValue="slotProps.data[slotProps.column.props.field]"
             @blur="
@@ -79,7 +79,7 @@
         </template>
         <template #editor="slotProps" v-if="editable">
           <InputText
-            class="roles-table__form-input"
+            class="game-enemies-table__form-input"
             type="text"
             :modelValue="slotProps.data[slotProps.column.props.field]"
             @blur="
@@ -113,7 +113,7 @@
         </template>
         <template #editor="slotProps" v-if="editable">
           <InputText
-            class="roles-table__form-input"
+            class="game-enemies-table__form-input"
             type="text"
             :modelValue="slotProps.data[slotProps.column.props.field]"
             @blur="
@@ -149,7 +149,7 @@
             "
           >
             <span
-              class="roles-table__chip"
+              class="game-enemies-table__chip"
               v-for="(item, index) of getMultiSelectLabel(
                 data.permissions,
                 colOpt[4].items
@@ -165,7 +165,7 @@
           v-if="editable && colOpt[4].type === 'select'"
         >
           <MultiSelect
-            class="roles-table__form-dropdown"
+            class="game-enemies-table__form-dropdown"
             :modelValue="slotProps.data[slotProps.column.props.field]"
             :options="colOpt[4].items"
             :optionLabel="colOpt[4].itemText"
@@ -217,6 +217,7 @@ import {
   editableRole,
   EnemyType,
   EnemyTextKeys,
+  EnemyNumberKeys,
   EnemySelectKeys,
   EnemiesStateKey
   // useState
@@ -365,12 +366,12 @@ export default defineComponent({
 })
 </script>
 <style lang="scss">
-.roles-table {
+.game-enemies-table {
   &__form-dropdown {
     width: 100%;
   }
 
-  .roles-table__form-dropdown.p-dropdown {
+  .game-enemies-table__form-dropdown.p-dropdown {
     padding: 0 0 0 0 !important;
   }
 
