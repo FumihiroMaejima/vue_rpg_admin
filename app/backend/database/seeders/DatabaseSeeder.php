@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(GameAreaTableSeeder::class);
         $this->call(GameDefenseEquipmentTableSeeder::class);
         $this->call(GameOffenceEquipmentTableSeeder::class);
-        $this->call(GameEnemyTableSeeder::class);
+        $this->call(GameEnemiesTableSeeder::class);
         $this->call(GameCharacterTableSeeder::class);
         $this->call(GameEventTableSeeder::class);
         $this->call(GameItemTableSeeder::class);

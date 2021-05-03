@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class GameEnemy extends Model
+class GameEnemies extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
     //テーブル名指定
-    protected $table = 'game_enemy';
+    protected $table = 'game_enemies';
 
     /**
      * Indicates if the model should be timestamped.

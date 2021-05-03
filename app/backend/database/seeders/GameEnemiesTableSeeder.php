@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 
-class GameEnemyTableSeeder extends Seeder
+class GameEnemiesTableSeeder extends Seeder
 {
-    private $table = 'game_enemy';
+    private $table = 'game_enemies';
     private $count = 12;
 
     /**

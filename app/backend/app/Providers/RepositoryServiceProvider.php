@@ -19,6 +19,8 @@ use App\Repositories\RolePermissions\RolePermissionsRepository;
 use App\Repositories\RolePermissions\RolePermissionsRepositoryInterface;
 use App\Repositories\Roles\RolesRepository;
 use App\Repositories\Roles\RolesRepositoryInterface;
+use App\Repositories\GameEnemies\GameEnemiesRepository;
+use App\Repositories\GameEnemies\GameEnemiesRepositoryInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -40,6 +42,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(PermissionsRepositoryInterface::class, PermissionsRepository::class);
         $this->app->bind(RolePermissionsRepositoryInterface::class, RolePermissionsRepository::class);
         $this->app->bind(RolesRepositoryInterface::class, RolesRepository::class);
+        $this->app->bind(GameEnemiesRepositoryInterface::class, GameEnemiesRepository::class);
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admins\AuthController as AdminAuthController;
 use App\Http\Controllers\Admins\AuthInfoController;
 use App\Http\Controllers\Admins\PermissionsController;
 use App\Http\Controllers\Admins\RolesController;
+use App\Http\Controllers\Admins\Game\EnemiesController;
 use App\Http\Controllers\Users\AuthController;
 
 /*
@@ -72,6 +73,14 @@ Route::group(['prefix' => 'v1/admin', 'middleware' => 'auth:api-admins'], functi
     // permissions
     Route::group(['prefix' => 'permissions'], function () {
         Route::get('/list', [PermissionsController::class, 'list'])->name('admin.permissions.list');
+    });
+
+    // game
+    Route::group(['prefix' => 'game'], function () {
+        // enemies
+        Route::group(['prefix' => 'enemies'], function () {
+            Route::get('/', [EnemiesController::class, 'index'])->name('admin.game.enemies.index');
+        });
     });
 });
 
