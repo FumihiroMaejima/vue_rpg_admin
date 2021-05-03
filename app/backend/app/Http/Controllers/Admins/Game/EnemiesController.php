@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Services\RolesService;
+use App\Services\Game\GameEnemiesService;
 use App\Http\Requests\RoleCreateRequest;
 use App\Http\Requests\RoleUpdateRequest;
 use App\Http\Requests\RoleDeleteRequest;
@@ -22,10 +23,10 @@ class EnemiesController extends Controller
      *
      * @return void
      */
-    public function __construct(RolesService $rolesService)
+    public function __construct(GameEnemiesService $enemiesService)
     {
         $this->middleware('auth:api-admins');
-        $this->service = $rolesService;
+        $this->service = $enemiesService;
     }
 
     /**
@@ -37,12 +38,12 @@ class EnemiesController extends Controller
     public function index(Request $request)
     {
         // 権限チェック
-        if (!$this->checkRequestAuthority($request, Config::get('myapp.executionRole.services.roles'))) {
+        if (!$this->checkRequestAuthority($request, Config::get('myapp.executionRole.services.game.enemies'))) {
             return response()->json(['error' => 'Forbidden'], 403);
         }
 
         // サービスの実行
-        return $this->service->getRoles($request);
+        return $this->service->getEnemies($request);
     }
 
     /**
@@ -54,7 +55,7 @@ class EnemiesController extends Controller
     /* public function download(Request $request)
     {
         // 権限チェック
-        if (!$this->checkRequestAuthority($request, Config::get('myapp.executionRole.services.members'))) {
+        if (!$this->checkRequestAuthority($request, Config::get('myapp.executionRole.services.game.enemies'))) {
             return response()->json(['error' => 'Forbidden'], 403);
         }
 

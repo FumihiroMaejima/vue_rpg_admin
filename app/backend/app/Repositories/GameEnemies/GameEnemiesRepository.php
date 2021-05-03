@@ -59,8 +59,8 @@ class GameEnemiesRepository implements GameEnemiesRepositoryInterface
         // collection
         return DB::table($enemies)
             ->select($row)
-            ->leftJoin($offenceEquipment, $enemies . '.id', '=', $offenceEquipment . '.offence_equipment_id')
-            ->leftJoin($defenseEquipment, $enemies . '.id', '=', $defenseEquipment . '.defense_equipment_id')
+            ->leftJoin($offenceEquipment, $enemies . '.offence_equipment_id', '=', $offenceEquipment . '.id')
+            ->leftJoin($defenseEquipment, $enemies . '.defense_equipment_id', '=', $defenseEquipment . '.id')
             ->where($enemies . '.deleted_at', '=', null)
             ->where($offenceEquipment . '.deleted_at', '=', null)
             ->where($defenseEquipment . '.deleted_at', '=', null)
