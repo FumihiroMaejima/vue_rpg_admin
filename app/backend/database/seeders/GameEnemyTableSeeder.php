@@ -35,7 +35,7 @@ class GameEnemyTableSeeder extends Seeder
             'ability3_id'           => null,
             'item'                  => 'item',
             'event_only_flg'        => 0,
-            'emcount_area_id'       => 1,
+            'encount_area_id'       => 1,
             'image_name'            => Str::random(20),
             'image_url'             => 'https://' . Str::random(20),
             'created_at'            => '2021-01-14 00:00:00',

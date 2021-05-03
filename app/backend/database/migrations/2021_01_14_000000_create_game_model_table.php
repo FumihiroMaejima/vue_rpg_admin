@@ -95,7 +95,7 @@ class CreateGameModelTable extends Migration
             $table->integer('ability3_id')->nullable()->comment('能力3');
             $table->text('item')->nullable()->comment('持ち物');
             $table->tinyInteger('event_only_flg')->default(0)->comment('イベントのみ出現フラグ');
-            $table->integer('emcount_area_id')->comment('出現エリアID');
+            $table->integer('encount_area_id')->comment('出現エリアID');
             $table->string('image_name', 255)->unique()->comment('イメージネーム');
             $table->string('image_url', 255)->unique()->comment('イメージパス');
             $table->timestamps();
