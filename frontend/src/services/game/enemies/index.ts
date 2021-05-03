@@ -123,17 +123,6 @@ export const tableSetting: TableColumnSetting<SelectBoxType>[] = [
     type: 'text',
     style: 'width:10%'
   }
-  /* {
-    identifier: 'id',
-    field: 'permissions',
-    header: 'Permission',
-    editable: true,
-    type: 'select',
-    style: 'width:30%',
-    items: [] as SelectBoxType[],
-    itemText: 'text',
-    itemValue: 'value'
-  } */
 ]
 
 export const toastData: ToastData = {
@@ -231,7 +220,7 @@ export const useState = () => {
    * @param {string} value
    * @return {void}
    */
-  const updateEnemiesTextValue = (
+  const updateStateTextValue = (
     id: number,
     key: EnemyTextKeys,
     value: string
@@ -246,7 +235,7 @@ export const useState = () => {
    * @param {number} value
    * @return {void}
    */
-  const updateEnemiesNumberValue = (
+  const updateStateNumberValue = (
     id: number,
     key: EnemyNumberKeys,
     value: number
@@ -353,7 +342,7 @@ export const useState = () => {
    * @param {BaseAddHeaderResponse} header
    * @return {void}
    */
-  const downloadEnemiesCSV = async (
+  const downloadEnemiesCSVRequest = async (
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
@@ -403,7 +392,7 @@ export const useState = () => {
    * @param {AuthAppHeaderOptions} options
    * @return {Promise<ServerRequestType>}
    */
-  const createEnemies = async (
+  const createEnemiesRequest = async (
     data: CreateEnemiesData,
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
@@ -443,7 +432,7 @@ export const useState = () => {
    * @param {AuthAppHeaderOptions} options
    * @return {Promise<ServerRequestType>}
    */
-  const removeEnemies = async (
+  const removeEnemiesRequest = async (
     ids: number[],
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
@@ -485,13 +474,13 @@ export const useState = () => {
     getEnemies,
     setEnemies,
     resetState,
-    updateEnemiesTextValue,
-    updateEnemiesNumberValue,
+    updateStateTextValue,
+    updateStateNumberValue,
     updateEnemiesRequest,
     getEnemiesRequest,
-    downloadEnemiesCSV,
-    createEnemies,
-    removeEnemies
+    downloadEnemiesCSVRequest,
+    createEnemiesRequest,
+    removeEnemiesRequest
   }
 }
 

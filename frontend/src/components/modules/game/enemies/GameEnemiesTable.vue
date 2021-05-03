@@ -1,8 +1,8 @@
 <template>
   <div>
     <DataTable
-      :value="roles"
-      v-model:selection="selectedRoles"
+      :value="enemies"
+      v-model:selection="selectedEnemies"
       dataKey="id"
       :rowHover="true"
       class="p-datatable-sm p-datatable-gridlines editable-cells-table"
@@ -39,7 +39,7 @@
         :style="colOpt[1].style"
       >
         <template #body="{data}">
-          <div class="app-table__text-field">
+          <div>
             {{ data.name }}
           </div>
         </template>
@@ -73,8 +73,8 @@
         :style="colOpt[2].style"
       >
         <template #body="{data}">
-          <div class="app-table__text-field">
-            {{ data.code }}
+          <div>
+            {{ data.level }}
           </div>
         </template>
         <template #editor="slotProps" v-if="editable">
@@ -107,8 +107,8 @@
         :style="colOpt[3].style"
       >
         <template #body="{data}">
-          <div class="app-table__text-field">
-            {{ data.detail }}
+          <div>
+            {{ data.hp }}
           </div>
         </template>
         <template #editor="slotProps" v-if="editable">
@@ -141,39 +141,24 @@
         :style="colOpt[4].style"
       >
         <template #body="{data}">
-          <span
-            v-if="
-              colOpt[4].type === 'select' &&
-                colOpt[4].items &&
-                colOpt[4].itemValue
-            "
-          >
-            <span
-              class="game-enemies-table__chip"
-              v-for="(item, index) of getMultiSelectLabel(
-                data.permissions,
-                colOpt[4].items
-              )"
-              :key="index"
-            >
-              {{ item }}
-            </span>
-          </span>
+          <div>
+            {{ data.mp }}
+          </div>
         </template>
-        <template
-          #editor="slotProps"
-          v-if="editable && colOpt[4].type === 'select'"
-        >
-          <MultiSelect
-            class="game-enemies-table__form-dropdown"
+        <template #editor="slotProps" v-if="editable">
+          <InputText
+            class="game-enemies-table__form-input"
+            type="text"
             :modelValue="slotProps.data[slotProps.column.props.field]"
-            :options="colOpt[4].items"
-            :optionLabel="colOpt[4].itemText"
-            :optionValue="colOpt[4].itemValue"
-            placeholder="select item"
-            filter
-            @change="
-              catchSelectChange(
+            @blur="
+              catchTextBlurEvent(
+                $event,
+                colOpt[4].field,
+                slotProps.data[colOpt[4].identifier]
+              )
+            "
+            @update:modelValue="
+              catchTextChange(
                 $event,
                 colOpt[4].field,
                 slotProps.data[colOpt[4].identifier]
@@ -182,6 +167,143 @@
           />
         </template>
       </Column>
+
+      <Column
+        :field="colOpt[5].field"
+        :header="colOpt[5].header"
+        :sortable="true"
+        :style="colOpt[5].style"
+      >
+        <template #body="{data}">
+          <div>
+            {{ data.offence }}
+          </div>
+        </template>
+        <template #editor="slotProps" v-if="editable">
+          <InputText
+            class="game-enemies-table__form-input"
+            type="text"
+            :modelValue="slotProps.data[slotProps.column.props.field]"
+            @blur="
+              catchTextBlurEvent(
+                $event,
+                colOpt[5].field,
+                slotProps.data[colOpt[5].identifier]
+              )
+            "
+            @update:modelValue="
+              catchTextChange(
+                $event,
+                colOpt[5].field,
+                slotProps.data[colOpt[5].identifier]
+              )
+            "
+          />
+        </template>
+      </Column>
+
+      <Column
+        :field="colOpt[6].field"
+        :header="colOpt[6].header"
+        :sortable="true"
+        :style="colOpt[6].style"
+      >
+        <template #body="{data}">
+          <div>
+            {{ data.defense }}
+          </div>
+        </template>
+        <template #editor="slotProps" v-if="editable">
+          <InputText
+            class="game-enemies-table__form-input"
+            type="text"
+            :modelValue="slotProps.data[slotProps.column.props.field]"
+            @blur="
+              catchTextBlurEvent(
+                $event,
+                colOpt[6].field,
+                slotProps.data[colOpt[6].identifier]
+              )
+            "
+            @update:modelValue="
+              catchTextChange(
+                $event,
+                colOpt[6].field,
+                slotProps.data[colOpt[6].identifier]
+              )
+            "
+          />
+        </template>
+      </Column>
+
+      <Column
+        :field="colOpt[7].field"
+        :header="colOpt[7].header"
+        :sortable="true"
+        :style="colOpt[7].style"
+      >
+        <template #body="{data}">
+          <div>
+            {{ data.speed }}
+          </div>
+        </template>
+        <template #editor="slotProps" v-if="editable">
+          <InputText
+            class="game-enemies-table__form-input"
+            type="text"
+            :modelValue="slotProps.data[slotProps.column.props.field]"
+            @blur="
+              catchTextBlurEvent(
+                $event,
+                colOpt[7].field,
+                slotProps.data[colOpt[7].identifier]
+              )
+            "
+            @update:modelValue="
+              catchTextChange(
+                $event,
+                colOpt[7].field,
+                slotProps.data[colOpt[7].identifier]
+              )
+            "
+          />
+        </template>
+      </Column>
+
+      <Column
+        :field="colOpt[8].field"
+        :header="colOpt[8].header"
+        :sortable="true"
+        :style="colOpt[8].style"
+      >
+        <template #body="{data}">
+          <div>
+            {{ data.magic }}
+          </div>
+        </template>
+        <template #editor="slotProps" v-if="editable">
+          <InputText
+            class="game-enemies-table__form-input"
+            type="text"
+            :modelValue="slotProps.data[slotProps.column.props.field]"
+            @blur="
+              catchTextBlurEvent(
+                $event,
+                colOpt[8].field,
+                slotProps.data[colOpt[8].identifier]
+              )
+            "
+            @update:modelValue="
+              catchTextChange(
+                $event,
+                colOpt[8].field,
+                slotProps.data[colOpt[8].identifier]
+              )
+            "
+          />
+        </template>
+      </Column>
+
     </DataTable>
   </div>
 </template>
@@ -205,30 +327,23 @@ import InputText from 'primevue/inputtext'
 import MultiSelect from 'primevue/multiselect'
 import Dropdown from 'primevue/dropdown'
 import {
-  // editableRole,
-  tableSetting,
-  RolesType,
-  RolesTextKeys,
-  RolesSelectKeys,
-  RolesStateKey,
-  RolesStateType
-} from '@/services/roles'
-import {
   editableRole,
+  tableSetting,
   EnemyType,
   EnemyTextKeys,
   EnemyNumberKeys,
   EnemySelectKeys,
-  EnemiesStateKey
+  EnemiesStateKey,
+  GameEnemiesStateType
   // useState
 } from '@/services/game/enemies'
 import AuthApp from '@/plugins/auth/authApp'
-import { inversionFlag, getMultiSelectLabel } from '@/util'
+import { inversionFlag, getMultiSelectLabel, InvalidStateErrorUtil } from '@/util'
 import { ToastType } from '@/types/applications/index'
 import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 
 type Props = {
-  selectRoles: RolesType[]
+  selectEnemies: EnemyType[]
 }
 
 export default defineComponent({
@@ -237,12 +352,12 @@ export default defineComponent({
     Column,
     DataTable,
     // Dropdown,
-    MultiSelect,
+    // MultiSelect,
     InputText
   },
   props: {
-    selectRoles: {
-      type: Array as PropType<RolesType[]>,
+    selectEnemies: {
+      type: Array as PropType<EnemyType[]>,
       required: false,
       default: () => {
         return []
@@ -254,30 +369,18 @@ export default defineComponent({
     const colOpt = reactive(tableSetting)
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
-    const rolesService = inject(RolesStateKey) as RolesStateType
-    const selectValue = ref<RolesType[]>([])
-
-    // watch
-    watch(
-      () => rolesService.state.permissions,
-      (newValue, old) => {
-        if (colOpt[4].type === 'select') {
-          colOpt[4].items = [...newValue]
-        }
-        /* ... */
-      }
-    )
+    const gameEnemiesService = inject(EnemiesStateKey) as GameEnemiesStateType
 
     // computed
-    const roles = computed((): RolesType[] => rolesService.state.roles)
+    const enemies = computed((): EnemyType[] => gameEnemiesService.state.enemies)
     const editable = computed((): boolean =>
       authApp.checkAuthority(editableRole)
     )
 
-    const selectedRoles = computed({
-      get: (): RolesType[] => props.selectRoles,
-      set: (value: RolesType[]) => {
-        context.emit('update:selectRoles', value)
+    const selectedEnemies = computed({
+      get: (): EnemyType[] => props.selectEnemies,
+      set: (value: EnemyType[]) => {
+        context.emit('update:selectEnemies', value)
       }
     })
 
@@ -288,13 +391,20 @@ export default defineComponent({
     // methods
     /**
      * catch update text event
-     * @param {string} value
+     * @param {string | number} value
      * @param {string} key
      * @param {number} id
-     * @return {{id: number, key: string, value: string}}
+     * @return {void}
      */
-    const catchTextChange = (value: string, key: string, id: number) => {
-      rolesService.updateRolesTextValue(id, key as RolesTextKeys, value)
+    const catchTextChange = (value: string | number, key: string, id: number) => {
+
+      if (typeof value === 'string') {
+        gameEnemiesService.updateStateTextValue(id, key as EnemyTextKeys, value)
+      } else if (typeof value === 'number') {
+        gameEnemiesService.updateStateNumberValue(id, key as EnemyNumberKeys, value)
+      } else {
+        throw new InvalidStateErrorUtil(value as never, `invalid value of ${value}`)
+      }
     }
 
     /**
@@ -302,7 +412,7 @@ export default defineComponent({
      * @param {Event} event
      * @param {string} key
      * @param {number} id
-     * @return {{id: number, key: string, value: boolean}}
+     * @return {void}
      */
     const catchTextBlurEvent = async (
       event: Event,
@@ -310,57 +420,25 @@ export default defineComponent({
       id: number
     ) => {
       inversionFlag(loadingFlag)
-      const response = await rolesService.updateRolesData(
+      const response = await gameEnemiesService.updateEnemiesRequest(
         id,
         authApp.getHeaderOptions()
       )
 
       if (response.status !== 304) {
-        toast.add(rolesService.getToastData())
-      }
-      inversionFlag(loadingFlag)
-    }
-
-    /**
-     * catch update select event
-     * @param {{ originalEvent: Event; value: string[] | number[] }} event
-     * @param {number} id
-     * @param {string} key
-     * @return {void}
-     */
-    const catchSelectChange = async (
-      event: { originalEvent: Event; value: string[] | number[] },
-      key: string,
-      id: number
-    ) => {
-      rolesService.updateRolesPermissions(
-        id,
-        key as RolesSelectKeys,
-        event.value as number[]
-      )
-
-      // サーバーへリクエスト
-      inversionFlag(loadingFlag)
-      const response = await rolesService.updateRolesData(
-        id,
-        authApp.getHeaderOptions()
-      )
-
-      if (response.status !== 304) {
-        toast.add(rolesService.getToastData())
+        toast.add(gameEnemiesService.getToastData())
       }
       inversionFlag(loadingFlag)
     }
 
     return {
       getMultiSelectLabel,
-      roles,
+      enemies,
       editable,
       catchTextBlurEvent,
       catchTextChange,
-      catchSelectChange,
       colOpt,
-      selectedRoles
+      selectedEnemies
     }
   }
 })

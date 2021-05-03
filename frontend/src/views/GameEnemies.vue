@@ -24,7 +24,7 @@
         </div>
         <div class="p-grid">
           <div class="p-col-12">
-            <game-enemies-table v-model:selectRoles="selectedEnemiesValue" />
+            <game-enemies-table v-model:selectEnemies="selectedEnemiesValue" />
           </div>
         </div>
       </div>
@@ -44,13 +44,13 @@ import {
   // editableRole,
   RolesType,
   RolesStateKey,
-  useState
+  // useState
 } from '@/services/roles'
 import {
   editableRole,
   EnemyType,
-  EnemiesStateKey
-  // useState
+  EnemiesStateKey,
+  useState
 } from '@/services/game/enemies'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
@@ -70,9 +70,9 @@ export default defineComponent({
     const toast = inject(ToastTypeKey) as ToastType
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
-    const selectedEnemies = ref<RolesType[]>([])
-    const rolesService = useState()
-    provide(RolesStateKey, rolesService)
+    const selectedEnemies = ref<EnemyType[]>([])
+    const gameEnemiesService = useState()
+    provide(EnemiesStateKey, gameEnemiesService)
 
     // computed
     const editable = computed((): boolean =>
@@ -80,8 +80,8 @@ export default defineComponent({
     )
 
     const selectedEnemiesValue = computed({
-      get: (): RolesType[] => selectedEnemies.value,
-      set: (value: RolesType[]) => {
+      get: (): EnemyType[] => selectedEnemies.value,
+      set: (value: EnemyType[]) => {
         selectedEnemies.value = value
       }
     })
@@ -90,15 +90,12 @@ export default defineComponent({
     const created = async () => {
       inversionFlag(loadingFlag)
 
-      const permissionsListData = await rolesService.getPermissionsList(
-        authApp.getHeaderOptions()
-      )
-      const response = await rolesService.getRolesData(
+      const response = await gameEnemiesService.getEnemiesRequest(
         authApp.getHeaderOptions()
       )
 
-      if (response.status !== 200 || permissionsListData.status !== 200) {
-        toast.add(rolesService.getToastData())
+      if (response.status !== 200) {
+        toast.add(gameEnemiesService.getToastData())
       }
       inversionFlag(loadingFlag)
     }
@@ -106,17 +103,17 @@ export default defineComponent({
 
     // methods
     /**
-     * handling download role event
+     * handling download enemies event
      * @param {boolean} event
      * @return {void}
      */
     const downloadFileHandler = async () => {
       inversionFlag(loadingFlag)
-      const response = await rolesService.downloadRolesCSV(
+      const response = await gameEnemiesService.downloadEnemiesCSVRequest(
         authApp.getHeaderOptions()
       )
       if (response.status !== 304) {
-        toast.add(rolesService.getToastData())
+        toast.add(gameEnemiesService.getToastData())
       }
       inversionFlag(loadingFlag)
     }
