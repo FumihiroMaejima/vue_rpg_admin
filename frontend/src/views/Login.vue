@@ -33,6 +33,7 @@
                   name="password"
                   type="password"
                   v-model="passwordlValue"
+                  @keyup.enter="loginAction"
                 />
                 <i class="pi pi-exclamation-triangle" />
               </span>
