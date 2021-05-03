@@ -44,7 +44,7 @@ export const removeFormSchema = {
   }
 }
 
-export type CreateCharactersData = Record<
+export type CreateEnemiesData = Record<
   Exclude<keyof typeof formSchema, 'permissions'>,
   string
 > &
@@ -104,7 +104,7 @@ export const toastData: ToastData = {
 }
 
 // TODO make data model
-const characterData = {
+const enemyData = {
   id: 0,
   name: '',
   code: '',
@@ -112,19 +112,16 @@ const characterData = {
   permissions: [] as number[]
 }
 
-export type CharacterType = typeof characterData
-export type CharacterTypeKeys = keyof CharacterType
-export type CharacterTextKeys = Exclude<CharacterTypeKeys, 'permissions' | 'id'>
-export type CharacterSelectKeys = Exclude<
-  CharacterTypeKeys,
-  CharacterTextKeys | 'id'
->
+export type EnemyType = typeof enemyData
+export type EnemyTypeKeys = keyof EnemyType
+export type EnemyTextKeys = Exclude<EnemyTypeKeys, 'permissions' | 'id'>
+export type EnemySelectKeys = Exclude<EnemyTypeKeys, EnemyTextKeys | 'id'>
 
 export const useState = () => {
   const state = reactive({
     toast: { ...toastData },
     // permissions: [] as SelectBoxType[],
-    characters: [] as CharacterType[]
+    enemies: [] as EnemyType[]
   })
 
   /**
@@ -136,11 +133,11 @@ export const useState = () => {
   }
 
   /**
-   * return characters data
-   * @return {CharacterType[]} state.members
+   * return enemies data
+   * @return {EnemyType[]} state.members
    */
-  const getCharacters = () => {
-    return state.characters
+  const getEnemies = () => {
+    return state.enemies
   }
 
   /**
@@ -165,11 +162,11 @@ export const useState = () => {
 
   /**
    * insert role data to state
-   * @param {CharacterType[]} value
+   * @param {EnemyType[]} value
    * @return {void}
    */
-  const setCharacters = (value: CharacterType[]) => {
-    state.characters = value
+  const setEnemies = (value: EnemyType[]) => {
+    state.enemies = value
   }
 
   /**
@@ -178,23 +175,23 @@ export const useState = () => {
    */
   const resetState = () => {
     state.toast = { ...toastData }
-    state.characters = []
+    state.enemies = []
     // state.permissions = []
   }
 
   /**
-   * update characters name
+   * update enemies name
    * @param {number} id
    * @param {string} key
    * @param {string} value
    * @return {void}
    */
-  const updateCharactersTextValue = (
+  const updateEnemiesTextValue = (
     id: number,
-    key: CharacterTextKeys,
+    key: EnemyTextKeys,
     value: string
   ) => {
-    state.characters.find((role) => role.id === id)![key] = value
+    state.enemies.find((role) => role.id === id)![key] = value
   }
 
   /**
@@ -204,17 +201,17 @@ export const useState = () => {
    * @param {AuthAppHeaderOptions} options
    * @return {void}
    */
-  const updateCharactersRequest = async (
+  const updateEnemiesRequest = async (
     id: number,
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     let result = { data: {}, status: 0 } as ServerRequestType
-    const index = state.characters.findIndex((role) => role.id === id)
+    const index = state.enemies.findIndex((role) => role.id === id)
     if (index === -1) {
       setToastData(
         'error',
-        'キャラクター情報更新失敗エラー',
-        '存在しないキャラクターです。'
+        '敵キャラクター情報更新失敗エラー',
+        '存在しない敵キャラクターです。'
       )
       result.status = 404
       return result
@@ -227,15 +224,12 @@ export const useState = () => {
     }
 
     axios.defaults.withCredentials = true
-    const url = config.endpoint.game.characters.character.replace(
-      /:id/g,
-      String(id)
-    )
+    const url = config.endpoint.game.enemies.enemy.replace(/:id/g, String(id))
     await axios
-      .patch(url, { ...state.characters[index] }, { headers: options.headers })
+      .patch(url, { ...state.enemies[index] }, { headers: options.headers })
       .then((response: AxiosResponse<any>) => {
         msg.severity = 'success'
-        msg.summary = 'キャラクター情報更新'
+        msg.summary = '敵キャラクター情報更新'
         msg.detail = 'メンバー情報を更新しました。'
 
         result = { data: response.data.data, status: response.status }
@@ -243,8 +237,8 @@ export const useState = () => {
       .catch((error: AxiosError<any>) => {
         // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
         msg.severity = 'error'
-        msg.summary = 'キャラクター情報更新失敗エラー'
-        msg.detail = 'キャラクター情報の更新に失敗しました。'
+        msg.summary = '敵キャラクター情報更新失敗エラー'
+        msg.detail = '敵キャラクター情報の更新に失敗しました。'
 
         result = {
           data: error,
@@ -260,29 +254,29 @@ export const useState = () => {
   }
 
   /**
-   * get characters data request.
+   * get enemies data request.
    * @param {BaseAddHeaderResponse} header
    * @return {void}
    */
-  const getCharactersRequest = async (
+  const getEnemiesRequest = async (
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
-      .get(config.endpoint.game.characters.characters, {
+      .get(config.endpoint.game.enemies.enemies, {
         headers: options.headers
       })
       .then((response: AxiosResponse<any>) => {
-        // キャラクターの設定
-        setCharacters(response.data.data)
+        // 敵キャラクターの設定
+        setEnemies(response.data.data)
         return { data: response.data.data, status: response.status }
       })
       .catch((error: AxiosError<any>) => {
         // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
         setToastData(
           'error',
-          'キャラクター情報取得エラー',
-          'キャラクター情報の取得に失敗しました。'
+          '敵キャラクター情報取得エラー',
+          '敵キャラクター情報の取得に失敗しました。'
         )
         return {
           data: error,
@@ -299,12 +293,12 @@ export const useState = () => {
    * @param {BaseAddHeaderResponse} header
    * @return {void}
    */
-  const downloadCharactersCSV = async (
+  const downloadEnemiesCSV = async (
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
-      .get(config.endpoint.game.characters.csv, {
+      .get(config.endpoint.game.enemies.csv, {
         headers: options.headers,
         responseType: 'blob'
       })
@@ -345,24 +339,24 @@ export const useState = () => {
 
   /**
    * create role request.
-   * @param {CreateCharactersData} data
+   * @param {CreateEnemiesData} data
    * @param {AuthAppHeaderOptions} options
    * @return {Promise<ServerRequestType>}
    */
-  const createCharacters = async (
-    data: CreateCharactersData,
+  const createEnemies = async (
+    data: CreateEnemiesData,
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
-      .post(config.endpoint.game.characters.create, data, {
+      .post(config.endpoint.game.enemies.create, data, {
         headers: options.headers
       })
       .then((response: AxiosResponse<any>) => {
         setToastData(
           'success',
-          'キャラクター作成成功',
-          'キャラクターを新規作成しました。'
+          '敵キャラクター作成成功',
+          '敵キャラクターを新規作成しました。'
         )
         return { data: response.data.data, status: response.status }
       })
@@ -370,8 +364,8 @@ export const useState = () => {
         // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
         setToastData(
           'error',
-          'キャラクター作成エラー',
-          'キャラクターの新規作成に失敗しました。'
+          '敵キャラクター作成エラー',
+          '敵キャラクターの新規作成に失敗しました。'
         )
         return {
           data: error,
@@ -389,21 +383,21 @@ export const useState = () => {
    * @param {AuthAppHeaderOptions} options
    * @return {Promise<ServerRequestType>}
    */
-  const removeCharacters = async (
+  const removeEnemies = async (
     ids: number[],
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
     return await axios
-      .delete(config.endpoint.game.characters.delete, {
-        data: { characters: ids },
+      .delete(config.endpoint.game.enemies.delete, {
+        data: { enemies: ids },
         headers: options.headers
       })
       .then((response: AxiosResponse<any>) => {
         setToastData(
           'success',
-          'キャラクター削除成功',
-          '選択したキャラクターを削除しました。'
+          '敵キャラクター削除成功',
+          '選択した敵キャラクターを削除しました。'
         )
         return { data: response.data.data, status: response.status }
       })
@@ -411,8 +405,8 @@ export const useState = () => {
         // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
         setToastData(
           'error',
-          'キャラクター削除エラー',
-          'キャラクターの削除に失敗しました。'
+          '敵キャラクター削除エラー',
+          '敵キャラクターの削除に失敗しました。'
         )
         return {
           data: error,
@@ -428,20 +422,20 @@ export const useState = () => {
     state,
     getToastData,
     setToastData,
-    getCharacters,
-    setCharacters,
+    getEnemies,
+    setEnemies,
     resetState,
-    updateCharactersTextValue,
-    updateCharactersRequest,
-    getCharactersRequest,
-    downloadCharactersCSV,
-    createCharacters,
-    removeCharacters
+    updateEnemiesTextValue,
+    updateEnemiesRequest,
+    getEnemiesRequest,
+    downloadEnemiesCSV,
+    createEnemies,
+    removeEnemies
   }
 }
 
 // get return type of a function type
-export type GameCharactersStateType = ReturnType<typeof useState>
-export const CharactersStateKey: InjectionKey<GameCharactersStateType> = Symbol(
-  'gameCharactersState'
+export type GameEnemiesStateType = ReturnType<typeof useState>
+export const EnemiesStateKey: InjectionKey<GameEnemiesStateType> = Symbol(
+  'gameEnemiesState'
 )

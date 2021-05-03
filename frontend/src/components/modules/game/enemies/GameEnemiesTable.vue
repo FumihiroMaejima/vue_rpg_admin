@@ -14,10 +14,10 @@
       :rows="10"
     >
       <template #empty>
-        No Character found.
+        No Enemy found.
       </template>
       <template #loading>
-        Loading character data. Please wait.
+        Loading enemy data. Please wait.
       </template>
       <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
 
@@ -215,12 +215,12 @@ import {
 } from '@/services/roles'
 import {
   editableRole,
-  CharacterType,
-  CharacterTextKeys,
-  CharacterSelectKeys,
-  CharactersStateKey
+  EnemyType,
+  EnemyTextKeys,
+  EnemySelectKeys,
+  EnemiesStateKey
   // useState
-} from '@/services/game/characters'
+} from '@/services/game/enemies'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag, getMultiSelectLabel } from '@/util'
 import { ToastType } from '@/types/applications/index'
@@ -231,7 +231,7 @@ type Props = {
 }
 
 export default defineComponent({
-  name: 'GameCharactersTable',
+  name: 'GameEnemiesTable',
   components: {
     Column,
     DataTable,

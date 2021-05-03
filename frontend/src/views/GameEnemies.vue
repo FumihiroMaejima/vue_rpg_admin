@@ -1,7 +1,7 @@
 <template>
   <div class="cp-fluid p-mx-md-6 p-mx-sm-2 p-mb-6">
-    <h1 class="italic my-2">管理サービス-キャラクター情報</h1>
-    <h2 class="italic my-2">キャラクター一覧</h2>
+    <h1 class="italic my-2">管理サービス-敵キャラクター情報</h1>
+    <h2 class="italic my-2">敵キャラクター一覧</h2>
     <div class="p-grid">
       <div class="p-col-12 p-md-1"></div>
       <div class="p-col-12 p-md-10">
@@ -9,7 +9,7 @@
           <div class="p-col-10 p-md-8" style="justify-content:end">
             <div class="p-d-flex p-jc-end">
               <!-- <role-remove-dialog
-                :roles="selectedCharactorValue"
+                :roles="selectedEnemiesValue"
                 @remove-role="removeRoleHandler"
               /> -->
               <Button
@@ -24,9 +24,7 @@
         </div>
         <div class="p-grid">
           <div class="p-col-12">
-            <game-characters-table
-              v-model:selectRoles="selectedCharactorValue"
-            />
+            <game-enemies-table v-model:selectRoles="selectedEnemiesValue" />
           </div>
         </div>
       </div>
@@ -41,7 +39,7 @@ import Button from 'primevue/button'
 import RoleCreateDialog from '@/components/modules/roles/RoleCreateDialog.vue'
 import RoleRemoveDialog from '@/components/modules/roles/RoleRemoveDialog.vue'
 import RolesTable from '@/components/modules/roles/RolesTable.vue'
-import GameCharactersTable from '@/components/modules/game/characters/GameCharactersTable.vue'
+import GameEnemiesTable from '@/components/modules/game/enemies/GameEnemiesTable.vue'
 import {
   // editableRole,
   RolesType,
@@ -50,29 +48,29 @@ import {
 } from '@/services/roles'
 import {
   editableRole,
-  CharacterType,
-  CharactersStateKey
+  EnemyType,
+  EnemiesStateKey
   // useState
-} from '@/services/game/characters'
+} from '@/services/game/enemies'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
 import { ToastType } from '@/types/applications/index'
 import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 
 export default defineComponent({
-  name: 'GameCharacters',
+  name: 'GameEnemies',
   components: {
     Button,
     // RoleCreateDialog,
     // RoleRemoveDialog,
-    GameCharactersTable
+    GameEnemiesTable
     // RolesTable
   },
   setup() {
     const toast = inject(ToastTypeKey) as ToastType
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
-    const selectedCharactor = ref<RolesType[]>([])
+    const selectedEnemies = ref<RolesType[]>([])
     const rolesService = useState()
     provide(RolesStateKey, rolesService)
 
@@ -81,10 +79,10 @@ export default defineComponent({
       authApp.checkAuthority(editableRole)
     )
 
-    const selectedCharactorValue = computed({
-      get: (): RolesType[] => selectedCharactor.value,
+    const selectedEnemiesValue = computed({
+      get: (): RolesType[] => selectedEnemies.value,
       set: (value: RolesType[]) => {
-        selectedCharactor.value = value
+        selectedEnemies.value = value
       }
     })
 
@@ -125,7 +123,7 @@ export default defineComponent({
 
     return {
       editable,
-      selectedCharactorValue,
+      selectedEnemiesValue,
       downloadFileHandler
     }
   }

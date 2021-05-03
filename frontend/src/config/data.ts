@@ -38,6 +38,14 @@ module.exports = {
         csv: '/api/v1/admin/game/characters/csv',
         create: '/api/v1/admin/game/characters/character',
         delete: '/api/v1/admin/game/characters/character'
+      },
+      enemies: {
+        enemies: '/api/v1/admin/game/enemies',
+        enemy: '/api/v1/admin/game/enemies/enemy/:id',
+        template: '/api/v1/admin/game/enemies/file/template',
+        csv: '/api/v1/admin/game/enemies/csv',
+        create: '/api/v1/admin/game/enemies/enemy',
+        delete: '/api/v1/admin/game/enemies/enemy'
       }
     }
   },
@@ -286,10 +294,15 @@ module.exports = {
       label: 'キャラクター',
       icon: 'pi pi-fw pi-pencil',
       items: [
-        {
+        /* {
           label: 'キャラクター管理',
           icon: 'pi pi-fw pi-user',
           to: '/game/characters'
+        }, */
+        {
+          label: '敵キャラクター',
+          icon: 'pi pi-fw pi-user',
+          to: '/game/enemies'
         },
         {
           separator: true

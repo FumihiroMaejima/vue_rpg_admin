@@ -55,12 +55,23 @@ export type RolesServiceEndipont = {
 export type GameTotalEndipont = {
   [key: string]: string
   characters: GameCharactersServiceEndipont
+  enemies: GameEnemiesServiceEndipont
 }
 
 export type GameCharactersServiceEndipont = {
   [key: string]: string
   characters: string
   character: string
+  template: string
+  csv: string
+  create: string
+  delete: string
+}
+
+export type GameEnemiesServiceEndipont = {
+  [key: string]: string
+  enemies: string
+  enemy: string
   template: string
   csv: string
   create: string
