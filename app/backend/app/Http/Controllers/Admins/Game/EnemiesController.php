@@ -52,7 +52,7 @@ class EnemiesController extends Controller
      * @return \Illuminate\Http\Response
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    /* public function download(Request $request)
+    public function download(Request $request)
     {
         // 権限チェック
         if (!$this->checkRequestAuthority($request, Config::get('myapp.executionRole.services.game.enemies'))) {
@@ -61,7 +61,7 @@ class EnemiesController extends Controller
 
         // サービスの実行
         return $this->service->downloadCSV($request);
-    } */
+    }
 
     /**
      * creating a new resource.

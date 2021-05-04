@@ -28,6 +28,7 @@ use App\Http\Requests\RoleUpdateRequest;
 use App\Http\Requests\RoleDeleteRequest;
 use App\Http\Requests\RoleCreateRequest;
 use App\Http\Resources\Game\GameEnemiesServiceResource;
+use App\Exports\Game\EnemiesExport;
 use App\Exports\RolesExport;
 use Exception;
 
@@ -60,15 +61,15 @@ class GameEnemiesService
     }
 
     /**
-     * download role data service
+     * download enemies csv data service
      *
      * @param  \Illuminate\Http\Request;  $request
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    /* public function downloadCSV(Request $request)
+    public function downloadCSV(Request $request)
     {
-        $data = $this->enemiesRepository->getEnemies();
+        $data = $this->enemiesRepository->getGameEnemies();
 
-        return Excel::download(new RolesExport($data), 'roles_info_' . Carbon::now()->format('YmdHis') . '.csv');
-    } */
+        return Excel::download(new EnemiesExport($data), 'game_enemies_info_' . Carbon::now()->format('YmdHis') . '.csv');
+    }
 }

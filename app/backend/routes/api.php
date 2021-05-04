@@ -80,6 +80,7 @@ Route::group(['prefix' => 'v1/admin', 'middleware' => 'auth:api-admins'], functi
         // enemies
         Route::group(['prefix' => 'enemies'], function () {
             Route::get('/', [EnemiesController::class, 'index'])->name('admin.game.enemies.index');
+            Route::get('/csv', [EnemiesController::class, 'download'])->name('admin.game.enemies.download');
         });
     });
 });
