@@ -12,12 +12,14 @@
                 :roles="selectedEnemiesValue"
                 @remove-role="removeRoleHandler"
               /> -->
+
               <Button
                 class="p-button-success"
-                label="template download"
+                label="download"
                 icon="pi pi-file"
                 @click="downloadFileHandler"
               />
+              <enemies-import-dialog />
               <!-- <role-create-dialog @create-role="createRoleHandler" /> -->
             </div>
           </div>
@@ -40,6 +42,7 @@ import RoleCreateDialog from '@/components/modules/roles/RoleCreateDialog.vue'
 import RoleRemoveDialog from '@/components/modules/roles/RoleRemoveDialog.vue'
 import RolesTable from '@/components/modules/roles/RolesTable.vue'
 import GameEnemiesTable from '@/components/modules/game/enemies/GameEnemiesTable.vue'
+import EnemiesImportDialog from '@/components/modules/game/enemies/EnemiesImportDialog.vue'
 import {
   // editableRole,
   RolesType,
@@ -63,6 +66,7 @@ export default defineComponent({
     Button,
     // RoleCreateDialog,
     // RoleRemoveDialog,
+    EnemiesImportDialog,
     GameEnemiesTable
     // RolesTable
   },

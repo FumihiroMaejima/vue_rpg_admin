@@ -29,7 +29,7 @@ use App\Http\Requests\RoleDeleteRequest;
 use App\Http\Requests\RoleCreateRequest;
 use App\Http\Resources\Game\GameEnemiesServiceResource;
 use App\Exports\Game\EnemiesExport;
-use App\Exports\RolesExport;
+use App\Exports\Game\EnemiesTemplateExport;
 use Exception;
 
 class GameEnemiesService
@@ -71,5 +71,16 @@ class GameEnemiesService
         $data = $this->enemiesRepository->getGameEnemies();
 
         return Excel::download(new EnemiesExport($data), 'game_enemies_info_' . Carbon::now()->format('YmdHis') . '.csv');
+    }
+
+    /**
+     * download enemies template data service
+     *
+     * @param  \Illuminate\Http\Request;  $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function downloadTemplate(Request $request)
+    {
+        return Excel::download(new EnemiesTemplateExport(collect(Config::get('myapp.game.template.enemies'))), 'game_enemies_template_' . Carbon::now()->format('YmdHis') . '.xlsx');
     }
 }

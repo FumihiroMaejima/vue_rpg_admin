@@ -64,6 +64,23 @@ class EnemiesController extends Controller
     }
 
     /**
+     * download import template for import the resource.
+     *
+     * @return \Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function template(Request $request)
+    {
+        // 権限チェック
+        if (!$this->checkRequestAuthority($request, Config::get('myapp.executionRole.services.game.enemies'))) {
+            return response()->json(['error' => 'Forbidden'], 403);
+        }
+
+        // サービスの実行
+        return $this->service->downloadTemplate($request);
+    }
+
+    /**
      * creating a new resource.
      *
      * @param  \App\Http\Requests\RoleCreateRequest  $request

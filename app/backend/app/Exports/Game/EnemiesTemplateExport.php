@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Illuminate\Support\Collection;
 
-class EnemiesExport implements FromCollection, WithHeadings, WithTitle, WithMapping
+class EnemiesTemplateExport implements FromCollection, WithHeadings, WithTitle, WithMapping
 {
     use Exportable;
 
@@ -39,7 +39,6 @@ class EnemiesExport implements FromCollection, WithHeadings, WithTitle, WithMapp
     public function headings(): array
     {
         return [
-            'id',
             '敵キャラクター名',
             'レベル',
             'HP',
@@ -57,7 +56,7 @@ class EnemiesExport implements FromCollection, WithHeadings, WithTitle, WithMapp
      */
     public function title(): string
     {
-        return '敵キャラクター検索結果';
+        return '敵キャラクター作成テンプレート';
     }
 
     /**
@@ -68,7 +67,6 @@ class EnemiesExport implements FromCollection, WithHeadings, WithTitle, WithMapp
     {
         // return $data;
         return [
-            'id'      => $item->id,
             'name'    => $item->name,
             'level'   => $item->level,
             'hp'      => $item->hp,

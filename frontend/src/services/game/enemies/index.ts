@@ -387,6 +387,55 @@ export const useState = () => {
   }
 
   /**
+   * downlaoad template file request.
+   * @param {BaseAddHeaderResponse} header
+   * @return {void}
+   */
+  const downloadTemplateRequest = async (
+    options: AuthAppHeaderOptions
+  ): Promise<ServerRequestType> => {
+    axios.defaults.withCredentials = true
+    return await axios
+      .get(config.endpoint.game.enemies.template, {
+        headers: options.headers,
+        responseType: 'blob'
+      })
+      .then((response: AxiosResponse<any>) => {
+        // download
+        downloadFile(
+          makeDataUrl(response.data, response.headers['content-type']),
+          response.headers['content-disposition'].replace(
+            'attachment; filename=',
+            ''
+          )
+        )
+
+        setToastData(
+          'success',
+          'テンプレートファイル出力成功',
+          'テンプレートファイルをダウンロードしました。'
+        )
+
+        return { data: {}, status: response.status }
+      })
+      .catch((error: AxiosError<any>) => {
+        // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
+        setToastData(
+          'error',
+          'テンプレートダウンロードエラー',
+          'テンプレートファイルのダウンロードに失敗しました。'
+        )
+        return {
+          data: error,
+          status: error.response ? error.response.status : 401
+        }
+      })
+      .finally(() => {
+        options.callback()
+      })
+  }
+
+  /**
    * create enemy request.
    * @param {CreateEnemiesData} data
    * @param {AuthAppHeaderOptions} options
@@ -479,6 +528,7 @@ export const useState = () => {
     updateEnemiesRequest,
     getEnemiesRequest,
     downloadEnemiesCSVRequest,
+    downloadTemplateRequest,
     createEnemiesRequest,
     removeEnemiesRequest
   }

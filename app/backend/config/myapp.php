@@ -84,5 +84,21 @@ return [
         'name'    => env('APP_SLACK_NAME', 'bot-name'),
         'icon'    => env('APP_SLACK_ICON', ':ghost:'),
         'url'     => env('APP_SLACK_WEBHOOK_URL', 'https://hooks.slack.com/services/test'),
+    ],
+    'game' => [
+        'template' => [
+            'enemies' => [
+                (object)[
+                    'name'    => 'test enemies',
+                    'level'   => 1,
+                    'hp'      => 10,
+                    'mp'      => 10,
+                    'offence' => 10,
+                    'defense' => 10,
+                    'speed'   => 10,
+                    'magic'   => 10
+                ]
+            ]
+        ]
     ]
 ];

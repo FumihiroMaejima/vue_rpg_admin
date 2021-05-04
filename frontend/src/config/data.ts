@@ -43,7 +43,7 @@ module.exports = {
         enemies: '/api/v1/admin/game/enemies',
         enemy: '/api/v1/admin/game/enemies/enemy/:id',
         template: '/api/v1/admin/game/enemies/file/template',
-        csv: '/api/v1/admin/game/enemies/csv',
+        csv: '/api/v1/admin/game/enemies/file/csv',
         create: '/api/v1/admin/game/enemies/enemy',
         delete: '/api/v1/admin/game/enemies/enemy'
       }
