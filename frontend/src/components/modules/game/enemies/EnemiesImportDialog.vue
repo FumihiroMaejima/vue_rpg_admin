@@ -2,70 +2,74 @@
   <Button
     class="p-button-primary p-ml-2"
     label="Import"
-    icon="pi pi-user"
+    icon="pi pi-users"
     @click="display = true"
   />
   <Dialog
     class="enemies-import-dialog"
-    header="Role Remove Modal"
+    header="Template Import Modal"
     v-model:visible="display"
     :modal="true"
     :breakpoints="{ '960px': '90vw' }"
   >
-    <div class="p-grid p-nogutter p-jc-center">
-      <div class="p-col-12">
-        <div
-          class="p-grid p-nogutter p-jc-center p-ai-center vertical-container"
+    <div class="p-grid p-nogutter p-jc-center p-ai-center vertical-container">
+      <div class="p-col-12 p-md-2">
+        <label
+          for="template"
+          class="p-col-fixed enemies-import-dialog__form-label"
         >
-          <div class="p-col-12 p-md-2">
-            <label
-              for="role"
-              class="p-col-fixed enemies-import-dialog__form-label"
-            >
-              roles
-            </label>
-          </div>
-          <div class="p-col-12 p-md-10">
-            <div class="p-col">
-              <!-- <div>
-                <template v-if="rolesNameList.length === 0">
-                  <div>
-                    no roles selected.
-                  </div>
-                </template>
-                <template v-else>
-                  <span
-                    class="enemies-import-dialog__chip"
-                    v-for="(item, i) of rolesNameList"
-                    :key="i"
-                  >
-                    {{ item }}
-                  </span>
-                </template>
-              </div> -->
-            </div>
+          template
+        </label>
+      </div>
+      <div class="p-col-12 p-md-10">
+        <div class="p-col p-pr-0">
+          <div class="p-d-flex p-jc-end">
+            <Button
+              class="p-button-success p-button-raised"
+              :icon="iconValue"
+              label="template"
+              @click="downloadTemplateHandler"
+            />
           </div>
         </div>
       </div>
     </div>
-    <div class="p-grid p-jc-end">
-      <div class="p-col-6 p-md-12" style="justify-content:end">
-        <div class="p-d-flex p-jc-end">
-          <Button
-            class="p-button-success p-button-raised"
-            icon="pi pi-file"
-            label="template download"
-            @click="downloadTemplateHandler"
-          />
+
+    <div class="p-grid p-nogutter p-jc-center p-ai-center vertical-container">
+      <div class="p-col-12 p-md-2">
+        <label
+          for="upload"
+          class="p-col-fixed enemies-import-dialog__form-label"
+        >
+          upload
+        </label>
+      </div>
+      <div class="p-col-12 p-md-10">
+        <div class="p-col p-pr-0">
+          <div class="p-d-flex p-jc-end">
+            <FileUpload
+              class="enemies-import-dialog__file-upload-button"
+              mode="basic"
+              name="template"
+              chooseLabel="select file"
+              :multiple="false"
+              :showCancelButton="true"
+              accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              :maxFileSize="1000000"
+              :fileLimit="1"
+              @select="selectFileHandler"
+            />
+          </div>
         </div>
       </div>
     </div>
+
     <div class="p-grid p-jc-end">
       <div class="p-col-6 p-md-12" style="justify-content:end">
         <div class="p-d-flex p-jc-end">
           <Button
             class="p-button-primary p-button-raised"
-            icon="pi pi-send"
+            icon="pi pi-cloud-upload"
             label="import"
             :disabled="false"
             @click="importEnemiesHandler"
@@ -79,6 +83,7 @@
 <script lang="ts">
 /* eslint-disable @typescript-eslint/camelcase */
 import {
+  App,
   defineComponent,
   ref,
   Ref,
@@ -87,24 +92,29 @@ import {
   computed,
   SetupContext,
   watch,
+  onMounted,
   inject
 } from 'vue'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
+import FileUpload from 'primevue/fileupload'
 
-import { RolesType, RolesStateKey, RolesStateType } from '@/services/roles'
-import { EnemyType, EnemiesStateKey, GameEnemiesStateType } from '@/services/game/enemies'
+import {
+  EnemyType,
+  EnemiesStateKey,
+  GameEnemiesStateType
+} from '@/services/game/enemies'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
 import { useField, useForm } from 'vee-validate'
 import { ToastType, SelectBoxType } from '@/types/applications/index'
 import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 
-
 export default defineComponent({
   name: 'EnemiesImportDialog',
   components: {
     Button,
+    FileUpload,
     Dialog
   },
   props: {},
@@ -112,15 +122,16 @@ export default defineComponent({
     const toast = inject(ToastTypeKey) as ToastType
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
-    const rolesService = inject(RolesStateKey) as RolesStateType
     const enemiesService = inject(EnemiesStateKey) as GameEnemiesStateType
-    const display = ref<boolean>(false)
+    const display = ref<boolean>(true)
+    const test: FormData = new FormData()
 
     // computed
-    /* const rolesNameList = computed((): string[] =>
-      props.roles.map((role) => role.name)
+    const iconValue = computed((): string =>
+      loadingFlag.value ? 'pi pi-spin pi-spinner' : 'pi pi-cloud-download'
     )
 
+    /*
     const removeDisabled = computed((): boolean => {
       return !(props.roles.length !== 0)
     }) */
@@ -128,6 +139,11 @@ export default defineComponent({
     // created
     /* const created = async () => {}
     created() */
+
+    // mounted
+    /* onMounted(() => {
+      console.log(uploaderRef.value) // 3: <img>
+    }) */
 
     // methods
     /**
@@ -148,6 +164,19 @@ export default defineComponent({
       inversionFlag(loadingFlag)
     }
 
+    const selectFileHandler = async (event: { originalEvent: Event, files: File[] }) => {
+      const data = new FormData()
+      data.append("file", event.files[0])
+      console.log('uplaod10: ' + JSON.stringify(data.values()))
+
+      /* console.log('uploaderRef1: ' + JSON.stringify(uploaderRef.value))
+      console.log('uploaderRef2: ' + JSON.stringify(uploaderRef.value.))
+      console.log('uploaderRef3: ' + JSON.stringify(uploaderRef.value)) */
+      /* console.log('uploaderRef2: ' + JSON.stringify(uploaderRef.data))
+      console.log('uploaderRef3: ' + JSON.stringify(uploaderRef.props)) */
+      // uploaderRef.value
+    }
+
     /**
      * catch import enemies event
      * @return {void}
@@ -156,22 +185,23 @@ export default defineComponent({
       display.value = false
       // サーバーへリクエスト
       inversionFlag(loadingFlag)
-      /* const response = await rolesService.removeRoleRequest(
-        props.roles.map((role) => role.id),
+      const file = new FormData()
+      const response = await enemiesService.importEnemiesRequest(
+        file,
         authApp.getHeaderOptions()
       )
-      toast.add(rolesService.getToastData())
+      toast.add(enemiesService.getToastData())
       if (response.status === 200) {
         // formContext.handleReset()
         context.emit('remove-role', true)
-      } */
+      }
       inversionFlag(loadingFlag)
     }
 
     return {
       display,
-      // rolesList,
-      // rolesNameList,
+      iconValue,
+      selectFileHandler,
       // removeDisabled,
       downloadTemplateHandler,
       importEnemiesHandler
@@ -199,6 +229,13 @@ export default defineComponent({
     width: 100%;
     input {
       width: 100%;
+    }
+  }
+
+
+  &__file-upload-button {
+    .p-fileupload-choose-selected.p-fileupload-choose{
+      pointer-events: none;
     }
   }
 

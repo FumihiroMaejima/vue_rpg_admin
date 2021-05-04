@@ -146,6 +146,7 @@ export default class AuthApp {
       Authorization: `${this.headerPrefix} ${data.token ? data.token : ''}`,
       'X-Auth-ID': data.id ? data.id : '',
       'X-Auth-Authority': data.authority ? data.authority : '',
+      'Content-Type': 'application/json;charset=UTF-8'
     }
   }
 

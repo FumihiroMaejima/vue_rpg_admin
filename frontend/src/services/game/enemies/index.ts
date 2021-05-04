@@ -436,6 +436,50 @@ export const useState = () => {
   }
 
   /**
+   * inport enemies by file request.
+   * @param {CreateEnemiesData} data
+   * @param {AuthAppHeaderOptions} options
+   * @return {Promise<ServerRequestType>}
+   */
+  const importEnemiesRequest = async (
+    data: FormData,
+    // data: CreateEnemiesData,
+    options: AuthAppHeaderOptions
+  ): Promise<ServerRequestType> => {
+    axios.defaults.withCredentials = true
+    const headers = { ...options.headers }
+    // Content-Typeの書き換え
+    headers['Content-Type'] = 'multipart/form-data'
+    return await axios
+      .post(config.endpoint.game.enemies.template, data, {
+        headers: headers
+      })
+      .then((response: AxiosResponse<any>) => {
+        setToastData(
+          'success',
+          '敵キャラクターインポート成功',
+          '敵キャラクターをインポートしました。'
+        )
+        return { data: response.data.data, status: response.status }
+      })
+      .catch((error: AxiosError<any>) => {
+        // for check console.error('axios error' + JSON.stringify(error.message, null, 2))
+        setToastData(
+          'error',
+          '敵キャラクターインポートエラー',
+          '敵キャラクターのインポートに失敗しました。'
+        )
+        return {
+          data: error,
+          status: error.response ? error.response.status : 401
+        }
+      })
+      .finally(() => {
+        options.callback()
+      })
+  }
+
+  /**
    * create enemy request.
    * @param {CreateEnemiesData} data
    * @param {AuthAppHeaderOptions} options
@@ -529,6 +573,7 @@ export const useState = () => {
     getEnemiesRequest,
     downloadEnemiesCSVRequest,
     downloadTemplateRequest,
+    importEnemiesRequest,
     createEnemiesRequest,
     removeEnemiesRequest
   }

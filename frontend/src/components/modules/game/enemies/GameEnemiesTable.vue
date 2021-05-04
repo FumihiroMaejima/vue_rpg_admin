@@ -303,7 +303,6 @@
           />
         </template>
       </Column>
-
     </DataTable>
   </div>
 </template>
@@ -338,7 +337,11 @@ import {
   // useState
 } from '@/services/game/enemies'
 import AuthApp from '@/plugins/auth/authApp'
-import { inversionFlag, getMultiSelectLabel, InvalidStateErrorUtil } from '@/util'
+import {
+  inversionFlag,
+  getMultiSelectLabel,
+  InvalidStateErrorUtil
+} from '@/util'
 import { ToastType } from '@/types/applications/index'
 import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 
@@ -372,7 +375,9 @@ export default defineComponent({
     const gameEnemiesService = inject(EnemiesStateKey) as GameEnemiesStateType
 
     // computed
-    const enemies = computed((): EnemyType[] => gameEnemiesService.state.enemies)
+    const enemies = computed(
+      (): EnemyType[] => gameEnemiesService.state.enemies
+    )
     const editable = computed((): boolean =>
       authApp.checkAuthority(editableRole)
     )
@@ -396,14 +401,24 @@ export default defineComponent({
      * @param {number} id
      * @return {void}
      */
-    const catchTextChange = (value: string | number, key: string, id: number) => {
-
+    const catchTextChange = (
+      value: string | number,
+      key: string,
+      id: number
+    ) => {
       if (typeof value === 'string') {
         gameEnemiesService.updateStateTextValue(id, key as EnemyTextKeys, value)
       } else if (typeof value === 'number') {
-        gameEnemiesService.updateStateNumberValue(id, key as EnemyNumberKeys, value)
+        gameEnemiesService.updateStateNumberValue(
+          id,
+          key as EnemyNumberKeys,
+          value
+        )
       } else {
-        throw new InvalidStateErrorUtil(value as never, `invalid value of ${value}`)
+        throw new InvalidStateErrorUtil(
+          value as never,
+          `invalid value of ${value}`
+        )
       }
     }
 
