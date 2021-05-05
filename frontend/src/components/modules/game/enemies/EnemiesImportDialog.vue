@@ -47,6 +47,12 @@
       <div class="p-col-12 p-md-10">
         <div class="p-col p-pr-0">
           <div class="p-d-flex p-jc-end">
+            <AppFileInput
+              :value="fileDataValue"
+              accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              @update:value="catchSelectFileHandler"
+              @reset-file="catchResetFileHandler"
+            />
             <FileUpload
               class="enemies-import-dialog__file-upload-button"
               mode="basic"
@@ -83,7 +89,6 @@
 <script lang="ts">
 /* eslint-disable @typescript-eslint/camelcase */
 import {
-  App,
   defineComponent,
   ref,
   Ref,
@@ -98,6 +103,7 @@ import {
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import FileUpload from 'primevue/fileupload'
+import AppFileInput from '@/components/parts/AppFileInput.vue'
 
 import {
   EnemyType,
@@ -113,6 +119,7 @@ import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 export default defineComponent({
   name: 'EnemiesImportDialog',
   components: {
+    AppFileInput,
     Button,
     FileUpload,
     Dialog
@@ -125,11 +132,21 @@ export default defineComponent({
     const enemiesService = inject(EnemiesStateKey) as GameEnemiesStateType
     const display = ref<boolean>(true)
     const test: FormData = new FormData()
+    const fileData = ref<undefined | File>(undefined)
 
     // computed
     const iconValue = computed((): string =>
       loadingFlag.value ? 'pi pi-spin pi-spinner' : 'pi pi-cloud-download'
     )
+
+    /* const fileDataValue = computed({
+      get: (): undefined | File => fileData.value,
+      set: (value: undefined | File) => {
+        fileData.value = value
+      }
+    }) */
+
+    const fileDataValue = computed((): undefined | File => fileData.value)
 
     /*
     const removeDisabled = computed((): boolean => {
@@ -164,9 +181,13 @@ export default defineComponent({
       inversionFlag(loadingFlag)
     }
 
-    const selectFileHandler = async (event: { originalEvent: Event, files: File[] }) => {
+    const selectFileHandler = async (event: {
+      originalEvent: Event
+      files: File[]
+    }) => {
+      console.log('test1: ' + JSON.stringify(event, null, 2))
       const data = new FormData()
-      data.append("file", event.files[0])
+      data.append('file', event.files[0])
       console.log('uplaod10: ' + JSON.stringify(data.values()))
 
       /* console.log('uploaderRef1: ' + JSON.stringify(uploaderRef.value))
@@ -178,6 +199,26 @@ export default defineComponent({
     }
 
     /**
+     * catch select file event
+     * @param {File} file
+     * @return {void}
+     */
+    const catchSelectFileHandler = async (file: File) => {
+      fileData.value = file
+      const data = new FormData()
+      data.append('file', file)
+    }
+
+    /**
+     * catch reset file event
+     * @return {void}
+     */
+    const catchResetFileHandler = async () => {
+      fileData.value = undefined
+    }
+
+
+    /**
      * catch import enemies event
      * @return {void}
      */
@@ -185,9 +226,10 @@ export default defineComponent({
       display.value = false
       // サーバーへリクエスト
       inversionFlag(loadingFlag)
-      const file = new FormData()
+      const data = new FormData()
+      data.append('file', fileData.value as File)
       const response = await enemiesService.importEnemiesRequest(
-        file,
+        data,
         authApp.getHeaderOptions()
       )
       toast.add(enemiesService.getToastData())
@@ -199,9 +241,12 @@ export default defineComponent({
     }
 
     return {
+      fileDataValue,
       display,
       iconValue,
       selectFileHandler,
+      catchSelectFileHandler,
+      catchResetFileHandler,
       // removeDisabled,
       downloadTemplateHandler,
       importEnemiesHandler
@@ -232,10 +277,9 @@ export default defineComponent({
     }
   }
 
-
   &__file-upload-button {
-    .p-fileupload-choose-selected.p-fileupload-choose{
-      pointer-events: none;
+    .p-fileupload-choose-selected.p-fileupload-choose {
+      // pointer-events: none;
     }
   }
 
