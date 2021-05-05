@@ -153,10 +153,13 @@ export default defineComponent({
 
       if (data) {
         checkFileValidation(data)
-        context.emit('update:value', data)
 
-        if (props.enablePreview) {
-          createImage(data)
+        if (!isError.value) {
+          context.emit('update:value', data)
+
+          if (props.enablePreview) {
+            createImage(data)
+          }
         }
       }
     }
@@ -177,10 +180,13 @@ export default defineComponent({
         const files = event.dataTransfer?.files
         checkFileValidation(files[0])
         // const data = event.target.files ? event.target.files![0] : undefined
-        context.emit('update:value', files[0])
 
-        if (props.enablePreview) {
-          createImage(files[0])
+        if (!isError.value) {
+          context.emit('update:value', files[0])
+
+          if (props.enablePreview) {
+            createImage(files[0])
+          }
         }
       }
 
