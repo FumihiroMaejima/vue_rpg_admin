@@ -12,7 +12,9 @@
         <div class="app-file-input__selected-file">
           <span class="app-file-input__file-name" v-show="value">
             {{ value.name }}
-            <span class="app-file-input__reset-file-icon" @click="resetFile">×</span>
+            <span class="app-file-input__reset-file-icon" @click="resetFile"
+              >×</span
+            >
           </span>
         </div>
       </template>
@@ -112,21 +114,29 @@ export default defineComponent({
     // methods
     /**
      * chcek file validatiaon
-     * @param {File} file
+     * @param {FileList} files
      * @return {void}
      */
-    const checkFileValidation = (file: File) => {
-      if (!checkFileSize(file.size, props.fileSize)) {
+    const checkFileValidation = (files: FileList) => {
+      if (!checkFileLength(files.length, props.fileLength)) {
         isError.value = true
-        errorText.value = 'invalid file size'
-      } else if (!checkFileType(file.type, props.accept)) {
-        isError.value = true
-        errorText.value = 'invalid file type'
-      } else {
-        isError.value = false
-        errorText.value = ''
+        errorText.value = 'invalid file length'
+        return
       }
-      // checkFileLength(file.size, props.fileLength)
+
+      Object.keys(files).forEach((key) => {
+        const file = files[parseInt(key)]
+        if (!checkFileSize(file.size, props.fileSize)) {
+          isError.value = true
+          errorText.value = 'invalid file size'
+        } else if (!checkFileType(file.type, props.accept)) {
+          isError.value = true
+          errorText.value = 'invalid file type'
+        } else {
+          isError.value = false
+          errorText.value = ''
+        }
+      })
     }
 
     /**
@@ -149,16 +159,16 @@ export default defineComponent({
      * @return {void}
      */
     const inputEventHandler = (event: HTMLElementEvent<HTMLInputElement>) => {
-      const data = event.target.files ? event.target.files![0] : undefined
+      const data = event.target.files ? event.target.files : undefined
 
       if (data) {
         checkFileValidation(data)
 
         if (!isError.value) {
-          context.emit('update:value', data)
+          context.emit('update:value', data[0])
 
           if (props.enablePreview) {
-            createImage(data)
+            createImage(data[0])
           }
         }
       }
@@ -178,7 +188,7 @@ export default defineComponent({
     const changeFileDrag = (event: DragEvent) => {
       if (event.dataTransfer?.files) {
         const files = event.dataTransfer?.files
-        checkFileValidation(files[0])
+        checkFileValidation(files)
         // const data = event.target.files ? event.target.files![0] : undefined
 
         if (!isError.value) {
@@ -189,8 +199,6 @@ export default defineComponent({
           }
         }
       }
-
-      // context.emit('update:value', event.dataTransfer?.files[0])
     }
 
     /**
