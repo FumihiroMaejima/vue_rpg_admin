@@ -85,6 +85,49 @@ export function checkPasswordRegex(value: string): boolean {
 }
 
 /**
+ * check file size(byte size).
+ * @param {number} targetSize
+ * @param {number} maxFileSize
+ * @return {boolean}
+ */
+export function checkFileSize(
+  targetSize: number,
+  maxFileSize: number
+): boolean {
+  return targetSize <= maxFileSize
+}
+
+/**
+ * check file type.
+ * @param {string} targetAccept
+ * @param {string | string[]} accept
+ * @return {boolean}
+ */
+export function checkFileType(
+  targetAccept: string,
+  accept: string | string[]
+): boolean {
+  if (typeof accept === 'string') {
+    return targetAccept === accept
+  } else {
+    return accept.includes(targetAccept)
+  }
+}
+
+/**
+ * check file length.
+ * @param {number} targetLength
+ * @param {number} maxFileLength
+ * @return {boolean}
+ */
+export function checkFileLength(
+  targetLength: number,
+  maxFileLength: number
+): boolean {
+  return targetLength <= maxFileLength
+}
+
+/**
  * check text white space.
  * @param {string} value
  * @return {string} message

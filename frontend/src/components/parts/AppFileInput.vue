@@ -47,12 +47,18 @@ import {
   SetupContext,
   computed
 } from 'vue'
+import {
+  checkFileSize,
+  checkFileType,
+  checkFileLength
+} from '@/util/validation'
 
 type Props = {
   value: undefined | File
   accept: string
   enablePreview: boolean
-  size: number
+  fileSize: number
+  fileLength: number
 }
 
 interface HTMLElementEvent<T extends HTMLElement> extends Event {
@@ -74,9 +80,13 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    size: {
+    fileSize: {
       type: Number,
-      default: 1000000
+      default: 1000000 // byte size
+    },
+    fileLength: {
+      type: Number,
+      default: 1
     }
   },
   setup(props: Props, context: SetupContext) {
@@ -101,6 +111,25 @@ export default defineComponent({
 
     // methods
     /**
+     * chcek file validatiaon
+     * @param {File} file
+     * @return {void}
+     */
+    const checkFileValidation = (file: File) => {
+      if (!checkFileSize(file.size, props.fileSize)) {
+        isError.value = true
+        errorText.value = 'invalid file size'
+      } else if (!checkFileType(file.type, props.accept)) {
+        isError.value = true
+        errorText.value = 'invalid file type'
+      } else {
+        isError.value = false
+        errorText.value = ''
+      }
+      // checkFileLength(file.size, props.fileLength)
+    }
+
+    /**
      * create preview image
      * @param {File} file
      * @return {void}
@@ -121,10 +150,14 @@ export default defineComponent({
      */
     const inputEventHandler = (event: HTMLElementEvent<HTMLInputElement>) => {
       const data = event.target.files ? event.target.files![0] : undefined
-      context.emit('update:value', data)
 
-      if (props.enablePreview && data) {
-        createImage(data)
+      if (data) {
+        checkFileValidation(data)
+        context.emit('update:value', data)
+
+        if (props.enablePreview) {
+          createImage(data)
+        }
       }
     }
 
@@ -140,8 +173,18 @@ export default defineComponent({
     }
 
     const changeFileDrag = (event: DragEvent) => {
-      // const data = event.target.files ? event.target.files![0] : undefined
-      context.emit('update:value', event.dataTransfer?.files[0])
+      if (event.dataTransfer?.files) {
+        const files = event.dataTransfer?.files
+        checkFileValidation(files[0])
+        // const data = event.target.files ? event.target.files![0] : undefined
+        context.emit('update:value', files[0])
+
+        if (props.enablePreview) {
+          createImage(files[0])
+        }
+      }
+
+      // context.emit('update:value', event.dataTransfer?.files[0])
     }
 
     /**
@@ -170,6 +213,7 @@ export default defineComponent({
       isInputError,
       isDragedState,
       fileRef,
+      checkFileValidation,
       inputEventHandler,
       resetFile,
       dropFile,
