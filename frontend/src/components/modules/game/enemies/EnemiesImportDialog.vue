@@ -53,18 +53,6 @@
               @update:value="catchSelectFileHandler"
               @reset-file="catchResetFileHandler"
             />
-            <FileUpload
-              class="enemies-import-dialog__file-upload-button"
-              mode="basic"
-              name="template"
-              chooseLabel="select file"
-              :multiple="false"
-              :showCancelButton="true"
-              accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-              :maxFileSize="1000000"
-              :fileLimit="1"
-              @select="selectFileHandler"
-            />
           </div>
         </div>
       </div>
@@ -97,12 +85,10 @@ import {
   computed,
   SetupContext,
   watch,
-  onMounted,
   inject
 } from 'vue'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
-import FileUpload from 'primevue/fileupload'
 import AppFileInput from '@/components/parts/AppFileInput.vue'
 
 import {
@@ -121,7 +107,6 @@ export default defineComponent({
   components: {
     AppFileInput,
     Button,
-    FileUpload,
     Dialog
   },
   props: {},
@@ -139,13 +124,6 @@ export default defineComponent({
       loadingFlag.value ? 'pi pi-spin pi-spinner' : 'pi pi-cloud-download'
     )
 
-    /* const fileDataValue = computed({
-      get: (): undefined | File => fileData.value,
-      set: (value: undefined | File) => {
-        fileData.value = value
-      }
-    }) */
-
     const fileDataValue = computed((): undefined | File => fileData.value)
 
     /*
@@ -156,11 +134,6 @@ export default defineComponent({
     // created
     /* const created = async () => {}
     created() */
-
-    // mounted
-    /* onMounted(() => {
-      console.log(uploaderRef.value) // 3: <img>
-    }) */
 
     // methods
     /**
@@ -181,23 +154,6 @@ export default defineComponent({
       inversionFlag(loadingFlag)
     }
 
-    const selectFileHandler = async (event: {
-      originalEvent: Event
-      files: File[]
-    }) => {
-      console.log('test1: ' + JSON.stringify(event, null, 2))
-      const data = new FormData()
-      data.append('file', event.files[0])
-      console.log('uplaod10: ' + JSON.stringify(data.values()))
-
-      /* console.log('uploaderRef1: ' + JSON.stringify(uploaderRef.value))
-      console.log('uploaderRef2: ' + JSON.stringify(uploaderRef.value.))
-      console.log('uploaderRef3: ' + JSON.stringify(uploaderRef.value)) */
-      /* console.log('uploaderRef2: ' + JSON.stringify(uploaderRef.data))
-      console.log('uploaderRef3: ' + JSON.stringify(uploaderRef.props)) */
-      // uploaderRef.value
-    }
-
     /**
      * catch select file event
      * @param {File} file
@@ -216,7 +172,6 @@ export default defineComponent({
     const catchResetFileHandler = async () => {
       fileData.value = undefined
     }
-
 
     /**
      * catch import enemies event
@@ -244,7 +199,6 @@ export default defineComponent({
       fileDataValue,
       display,
       iconValue,
-      selectFileHandler,
       catchSelectFileHandler,
       catchResetFileHandler,
       // removeDisabled,

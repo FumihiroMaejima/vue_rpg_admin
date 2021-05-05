@@ -3,10 +3,10 @@
     <div
       class="app-file-input__drop-area"
       :class="{ 'app-file-input__drag_on': isDragedState }"
-      @dragover.prevent="onArea"
+      @dragover.prevent="changeDragedState(true)"
       @drop.prevent="dropFile"
-      @dragleave.prevent="offArea"
-      @dragend.prevent="offArea"
+      @dragleave.prevent="changeDragedState(false)"
+      @dragend.prevent="changeDragedState(false)"
     >
       <template v-if="value">
         <div class="app-file-input__selected-file">
@@ -40,7 +40,6 @@
 <script lang="ts">
 import {
   defineComponent,
-  onMounted,
   ref,
   Ref,
   PropType,
@@ -77,7 +76,7 @@ export default defineComponent({
     },
     size: {
       type: Number,
-      default: 1
+      default: 1000000
     }
   },
   setup(props: Props, context: SetupContext) {
@@ -89,16 +88,6 @@ export default defineComponent({
 
     // computed
     const inputValue = computed((): undefined | File => props.value)
-    /* const inputValue = computed({
-      get: (): undefined | File => props.value,
-      set: (value: undefined | File) => {
-        context.emit('update:value', value)
-
-        if (props.enablePreview && value) {
-          createImage(value)
-        }
-      }
-    }) */
 
     const imageDataValue = computed(
       (): string | ArrayBuffer | null => imageData.value
@@ -109,15 +98,6 @@ export default defineComponent({
     const isInputError = computed((): boolean => isError.value)
 
     const isDragedState = computed((): boolean => isDraged.value)
-
-    // mounted
-    onMounted(() => {
-      // the DOM element will be assigned to the ref after initial render
-      /* console.log('mount1: ' + JSON.stringify(fileRef.value)) // <div>This is a root element</div>
-      console.log('mount2: ' + JSON.stringify(fileRef.value?.files))
-      console.log('mount3: ' + JSON.stringify(fileRef.value?.click()))
-      console.log('mount4: ' + JSON.stringify(fileRef.value?.value)) */
-    })
 
     // methods
     /**
@@ -143,8 +123,8 @@ export default defineComponent({
       const data = event.target.files ? event.target.files![0] : undefined
       context.emit('update:value', data)
 
-      if (props.enablePreview && event) {
-        createImage(event.target.files![0])
+      if (props.enablePreview && data) {
+        createImage(data)
       }
     }
 
@@ -159,50 +139,28 @@ export default defineComponent({
       errorText.value = ''
     }
 
-    /**
-     * reset input file
-     * event.targetの型を予め指定しておく(event.target as HTMLElement)
-     * @param {HTMLElementEvent<HTMLInputElement>} event
-     * @return {void}
-     */
-    const changeFile = (
-      event: HTMLElementEvent<HTMLInputElement> /* e: Event */
-    ) => {
-      const files = event.target.files
-
-      /* if (this.validation(files[0])) {
-          this.file = files[0]
-
-          console.log(this.file.name)
-
-          // dataURL化
-          this.fileEncode(this.file)
-              .then(decodeData => {
-                  return console.log(decodeData)
-              })
-              .catch(_ => { return console.log("FileUpload Error") })
-      } else {
-          this.file = {}
-      } */
-    }
-
     const changeFileDrag = (event: DragEvent) => {
-      const files = event.dataTransfer?.files
-
       // const data = event.target.files ? event.target.files![0] : undefined
       context.emit('update:value', event.dataTransfer?.files[0])
     }
 
-    const onArea = () => {
-      isDraged.value = true
-    }
-    const offArea = () => {
-      isDraged.value = false
+    /**
+     * draged status
+     * @param {boolean} value
+     * @return {void}
+     */
+    const changeDragedState = (value = false) => {
+      isDraged.value = value
     }
 
+    /**
+     * drop file handler
+     * @param {DragEvent} event
+     * @return {void}
+     */
     const dropFile = (event: DragEvent) => {
       changeFileDrag(event as DragEvent)
-      offArea()
+      changeDragedState()
     }
 
     return {
@@ -215,8 +173,7 @@ export default defineComponent({
       inputEventHandler,
       resetFile,
       dropFile,
-      onArea,
-      offArea,
+      changeDragedState,
       createImage
     }
   }
