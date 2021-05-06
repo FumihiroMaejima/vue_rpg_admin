@@ -54,6 +54,7 @@ import {
   checkFileType,
   checkFileLength
 } from '@/util/validation'
+import { HTMLElementEvent } from '@/types'
 
 type Props = {
   value: undefined | File
@@ -61,10 +62,6 @@ type Props = {
   enablePreview: boolean
   fileSize: number
   fileLength: number
-}
-
-interface HTMLElementEvent<T extends HTMLElement> extends Event {
-  target: T
 }
 
 export default defineComponent({

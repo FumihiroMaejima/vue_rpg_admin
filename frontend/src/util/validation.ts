@@ -34,8 +34,8 @@ export function checkTextMaxLength(
  * @param {number} minlength
  * @return {boolean}
  */
-export function checkTextMinLength(value: string, maxlength = 0): boolean {
-  return value.length >= maxlength!
+export function checkTextMinLength(value: string, minlength = 0): boolean {
+  return value.length >= minlength!
 }
 
 /**
@@ -138,15 +138,15 @@ export function checkFileLength(
 /**
  * check text white space.
  * @param {string} value
+ * @param {number} textSize
  * @return {string} message
  */
-export function validateName(value: string): string {
+export function validateName(value: string, textSize = 5): string {
   let message = ''
-  const size = 5
   if (!checkTextLength(value)) {
     return (message = 'This is required')
-  } else if (!checkTextMinLength(value, size)) {
-    return (message = `input over ${size} length text`)
+  } else if (!checkTextMinLength(value, textSize)) {
+    return (message = `input over ${textSize} length text`)
   }
   return message
 }
@@ -154,15 +154,15 @@ export function validateName(value: string): string {
 /**
  * check text white space.
  * @param {string} value
+ * @param {number} textSize
  * @return {string} message
  */
-export function validateEmail(value: string): string {
+export function validateEmail(value: string, textSize = 5): string {
   let message = ''
-  const size = 5
   if (!checkTextLength(value)) {
     return (message = 'This is required')
-  } else if (!checkTextMinLength(value, size)) {
-    return (message = `input over ${size} length text`)
+  } else if (!checkTextMinLength(value, textSize)) {
+    return (message = `input over ${textSize} length text`)
   } else if (!checkEmailRegex(value)) {
     return (message = 'invalidate text')
   }
@@ -172,6 +172,7 @@ export function validateEmail(value: string): string {
 /**
  * check text white space.
  * @param {string} value
+ * @param {number} textSize
  * @return {string} message
  */
 export function validateSelectBoxNumberValue(value: number): string {
@@ -185,15 +186,15 @@ export function validateSelectBoxNumberValue(value: number): string {
 /**
  * check text white space.
  * @param {string} value
+ * @param {number} textSize
  * @return {string} message
  */
-export function validatePassword(value: string): string {
+export function validatePassword(value: string, textSize = 8): string {
   let message = ''
-  const size = 8
   if (!checkTextLength(value)) {
     return (message = 'This is required')
-  } else if (!checkTextMinLength(value, size)) {
-    return (message = `input over ${size} length text`)
+  } else if (!checkTextMinLength(value, textSize)) {
+    return (message = `input over ${textSize} length text`)
   } else if (!checkPasswordRegex(value)) {
     return (message = 'invalidate text')
   }
@@ -221,15 +222,15 @@ export function validateConfirmPassword(
 /**
  * validate role code.
  * @param {string} value
+ * @param {number} textSize
  * @return {string} message
  */
-export function validateRoleCode(value: string): string {
+export function validateRoleCode(value: string, textSize = 5): string {
   let message = ''
-  const size = 5
   if (!checkTextLength(value)) {
     return (message = 'This is required')
-  } else if (!checkTextMinLength(value, size)) {
-    return (message = `input over ${size} length text`)
+  } else if (!checkTextMinLength(value, textSize)) {
+    return (message = `input over ${textSize} length text`)
   }
   return message
 }
@@ -237,15 +238,15 @@ export function validateRoleCode(value: string): string {
 /**
  * validate role deetail.
  * @param {string} value
+ * @param {number} textSize
  * @return {string} message
  */
-export function validateRoleDetail(value: string): string {
+export function validateRoleDetail(value: string, textSize = 5): string {
   let message = ''
-  const size = 5
   if (!checkTextLength(value)) {
     return (message = 'This is required')
-  } else if (!checkTextMinLength(value, size)) {
-    return (message = `input over ${size} length text`)
+  } else if (!checkTextMinLength(value, textSize)) {
+    return (message = `input over ${textSize} length text`)
   }
   return message
 }
