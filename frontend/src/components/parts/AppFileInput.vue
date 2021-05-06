@@ -9,14 +9,24 @@
       @dragend.prevent="changeDragedState(false)"
     >
       <template v-if="value">
-        <div class="app-file-input__selected-file">
-          <span class="app-file-input__file-name" v-show="value">
-            {{ value.name }}
+        <template v-if="enablePreview">
+          <div class="app-file-input__selected-image-file">
+            <img :src="imageDataValue" width="150" async alt="" loading="lazy" />
             <span class="app-file-input__reset-file-icon" @click="resetFile"
               >×</span
             >
-          </span>
-        </div>
+          </div>
+        </template>
+        <template v-else>
+          <div class="app-file-input__selected-file">
+            <span class="app-file-input__file-name" v-show="value">
+              {{ value.name }}
+              <span class="app-file-input__reset-file-icon" @click="resetFile"
+                >×</span
+              >
+            </span>
+          </div>
+        </template>
       </template>
       <template v-else>
         <label
@@ -33,9 +43,6 @@
     <p class="app-file-input__error-text" v-show="isInputError">
       {{ errorTextValue }}
     </p>
-    <template v-if="enablePreview">
-      <img :src="imageDataValue" alt="" />
-    </template>
   </div>
 </template>
 
@@ -273,10 +280,7 @@ export default defineComponent({
     word-break: break-all;
   }
 
-  /* .reset-file-icon:hover {
-    cursor: pointer;
-    border-color: #5f6674;
-  } */
+  /* &__selected-image-file {} */
 
   &__error-text {
     color: #d70035;
