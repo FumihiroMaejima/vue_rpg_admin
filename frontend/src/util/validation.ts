@@ -108,7 +108,15 @@ export function checkFileType(
   accept: string | string[]
 ): boolean {
   if (typeof accept === 'string') {
-    return targetAccept === accept
+    // wildcard check
+    const wildcardIndex = accept.indexOf('/*')
+    if (wildcardIndex === -1) {
+      return targetAccept === accept
+    } else {
+      return (
+        targetAccept.slice(0, wildcardIndex) === accept.slice(0, wildcardIndex)
+      )
+    }
   } else {
     return accept.includes(targetAccept)
   }
