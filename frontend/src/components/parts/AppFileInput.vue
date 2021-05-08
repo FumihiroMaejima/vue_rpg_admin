@@ -29,8 +29,8 @@
         </template>
       </template>
       <template v-else>
-        <label
-          >ファイルを選択
+        <label>
+          {{ formLabel }}
           <input
             ref="fileRef"
             type="file"
@@ -64,6 +64,7 @@ import {
 import { HTMLElementEvent } from '@/types'
 
 type Props = {
+  formLabel: string
   value: undefined | File
   accept: string
   enablePreview: boolean
@@ -74,6 +75,10 @@ type Props = {
 export default defineComponent({
   name: 'AppFileInput',
   props: {
+    formLabel: {
+      type: String,
+      default: 'ファイルの選択'
+    },
     value: {
       type: File,
       default: undefined

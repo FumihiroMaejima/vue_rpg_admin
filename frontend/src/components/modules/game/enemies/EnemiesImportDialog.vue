@@ -65,7 +65,7 @@
             class="p-button-primary p-button-raised"
             icon="pi pi-cloud-upload"
             label="import"
-            :disabled="false"
+            :disabled="importDisabled"
             @click="importEnemiesHandler"
           />
         </div>
@@ -126,10 +126,9 @@ export default defineComponent({
 
     const fileDataValue = computed((): undefined | File => fileData.value)
 
-    /*
-    const removeDisabled = computed((): boolean => {
-      return !(props.roles.length !== 0)
-    }) */
+    const importDisabled = computed((): boolean => {
+      return fileData.value === undefined
+    })
 
     // created
     /* const created = async () => {}
@@ -201,7 +200,7 @@ export default defineComponent({
       iconValue,
       catchSelectFileHandler,
       catchResetFileHandler,
-      // removeDisabled,
+      importDisabled,
       downloadTemplateHandler,
       importEnemiesHandler
     }
