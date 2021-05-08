@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Services\RolesService;
 use App\Services\Game\GameEnemiesService;
+use App\Http\Requests\Game\EnemiesImportRequest;
 use App\Http\Requests\RoleCreateRequest;
 use App\Http\Requests\RoleUpdateRequest;
 use App\Http\Requests\RoleDeleteRequest;
@@ -78,6 +79,18 @@ class EnemiesController extends Controller
 
         // サービスの実行
         return $this->service->downloadTemplate($request);
+    }
+
+    /**
+     * import enemies data by file.
+     *
+     * @param  \App\Http\Requests\Game\EnemiesImportRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadTemplate(EnemiesImportRequest  $request)
+    {
+        // サービスの実行
+        return $this->service->uploadTemplate($request);
     }
 
     /**

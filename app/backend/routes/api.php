@@ -82,6 +82,7 @@ Route::group(['prefix' => 'v1/admin', 'middleware' => 'auth:api-admins'], functi
             Route::get('/', [EnemiesController::class, 'index'])->name('admin.game.enemies.index');
             Route::get('/file/csv', [EnemiesController::class, 'download'])->name('admin.game.enemies.download');
             Route::get('/file/template', [EnemiesController::class, 'template'])->name('admin.game.enemies.template');
+            Route::post('/file/template', [EnemiesController::class, 'uploadTemplate'])->name('admin.game.enemies.template.upload');
         });
     });
 });
