@@ -33,7 +33,7 @@ class EnemiesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function index(Request $request)
@@ -50,7 +50,7 @@ class EnemiesController extends Controller
     /**
      * download a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function download(Request $request)
@@ -67,7 +67,7 @@ class EnemiesController extends Controller
     /**
      * download import template for import the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function template(Request $request)
@@ -84,13 +84,13 @@ class EnemiesController extends Controller
     /**
      * import enemies data by file.
      *
-     * @param  \App\Http\Requests\Game\EnemiesImportRequest  $request
+     * @param  \App\Http\Requests\Game\EnemiesImportRequest $request
      * @return \Illuminate\Http\Response
      */
     public function uploadTemplate(EnemiesImportRequest  $request)
     {
         // サービスの実行
-        return $this->service->uploadTemplate($request);
+        return $this->service->importTemplate($request);
     }
 
     /**
