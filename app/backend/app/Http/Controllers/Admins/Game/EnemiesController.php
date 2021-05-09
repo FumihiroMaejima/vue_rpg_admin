@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Services\RolesService;
 use App\Services\Game\GameEnemiesService;
+use App\Http\Requests\Game\EnemiesDeleteRequest;
 use App\Http\Requests\Game\EnemiesImportRequest;
 use App\Http\Requests\RoleCreateRequest;
 use App\Http\Requests\RoleUpdateRequest;
@@ -154,12 +155,12 @@ class EnemiesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Http\Requests\RoleDeleteRequest  $request
+     * @param  \App\Http\Requests\Game\EnemiesDeleteRequest  $request
      * @return \Illuminate\Http\Response
      */
-    /* public function destroy(RoleDeleteRequest $request)
+    public function destroy(EnemiesDeleteRequest $request)
     {
         // サービスの実行
-        return $this->service->deleteRole($request);
-    } */
+        return $this->service->deleteEnemy($request);
+    }
 }

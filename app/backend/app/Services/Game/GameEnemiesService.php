@@ -28,8 +28,10 @@ use App\Http\Resources\RoleCreateResource;
 use App\Http\Requests\RoleUpdateRequest;
 use App\Http\Requests\RoleDeleteRequest;
 use App\Http\Requests\RoleCreateRequest;
+use App\Http\Requests\Game\EnemiesDeleteRequest;
 use App\Http\Requests\Game\EnemiesImportRequest;
 use App\Http\Resources\Game\GameEnemiesCreateResource;
+use App\Http\Resources\Game\GameEnemiesDeleteResource;
 use App\Http\Resources\Game\GameEnemiesServiceResource;
 use App\Exports\Game\EnemiesExport;
 use App\Exports\Game\EnemiesTemplateExport;
@@ -126,6 +128,37 @@ class GameEnemiesService
 
             return response()->json(['message' => $message, 'status' => $status], $status);
 
+        } catch (Exception $e) {
+            Log::error(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'message: ' . json_encode($e->getMessage()));
+            DB::rollback();
+            abort(500);
+        }
+    }
+
+    /**
+     * delete enemies data service
+     *
+     * @param  \App\Http\Requests\Game\EnemiesDeleteRequest  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteEnemy(EnemiesDeleteRequest $request)
+    {
+        DB::beginTransaction();
+        try {
+            $enemyIds = $request->enemies;
+
+            $resource = app()->make(GameEnemiesDeleteResource::class, ['resource' => $request])->toArray($request);
+
+            $deleteRowCount = $this->enemiesRepository->deleteGameEnemiesData($resource, $enemyIds);
+
+            DB::commit();
+
+            // 更新されていない場合は304
+            $message = ($deleteRowCount > 0) ? 'success' : 'not deleted';
+            $status = ($deleteRowCount > 0) ? 200 : 401;
+
+            return response()->json(['message' => $message, 'status' => $status], $status);
         } catch (Exception $e) {
             Log::error(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'message: ' . json_encode($e->getMessage()));
             DB::rollback();

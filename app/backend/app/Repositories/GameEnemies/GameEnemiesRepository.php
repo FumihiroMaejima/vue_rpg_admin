@@ -124,7 +124,7 @@ class GameEnemiesRepository implements GameEnemiesRepositoryInterface
     }
 
     /**
-     * delete Role data.
+     * delete Enemies data.
      * @param array $resource
      * @param array $ids
      * @return int
@@ -134,7 +134,6 @@ class GameEnemiesRepository implements GameEnemiesRepositoryInterface
         // game_enemies
         $enemies = $this->model->getTable();
 
-        // Query Builderのupdate
         return DB::table($enemies)
             ->whereIn('id', $ids)
             // ->where('id', '=', $id)
