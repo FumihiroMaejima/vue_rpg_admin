@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Services\Notifications\RoleSlackNotificationService;
 use App\Repositories\Roles\RolesRepositoryInterface;
 use App\Repositories\RolePermissions\RolePermissionsRepositoryInterface;
@@ -27,9 +28,12 @@ use App\Http\Resources\RoleCreateResource;
 use App\Http\Requests\RoleUpdateRequest;
 use App\Http\Requests\RoleDeleteRequest;
 use App\Http\Requests\RoleCreateRequest;
+use App\Http\Requests\Game\EnemiesImportRequest;
+use App\Http\Resources\Game\GameEnemiesCreateResource;
 use App\Http\Resources\Game\GameEnemiesServiceResource;
 use App\Exports\Game\EnemiesExport;
 use App\Exports\Game\EnemiesTemplateExport;
+use App\Imports\Game\EnemiesImport;
 use Exception;
 
 class GameEnemiesService
@@ -85,13 +89,47 @@ class GameEnemiesService
     }
 
     /**
-     * download enemies template data service
+     * imort enemies by template data service
      *
-     * @param  \Illuminate\Http\Request;  $request
+     * @param  \App\Http\Requests\Game\EnemiesImportRequest $request
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function uploadTemplate(Request $request)
+    public function importTemplate(EnemiesImportRequest $request)
     {
-        return Excel::download(new EnemiesTemplateExport(collect(Config::get('myapp.game.template.enemies'))), 'game_enemies_template_' . Carbon::now()->format('YmdHis') . '.xlsx');
+        // Illuminate\Http\UploadedFile
+        $file = $request->file;
+
+        // ファイル名チェック
+        if (!preg_match('/^game_enemies_template_\d{14}\.xlsx/u', $file->getClientOriginalName())) {
+            throw (new HttpResponseException(response()->json([
+                'status'  => 422,
+                'errors'  => [],
+                'message' => 'no inclued title'
+            ], 422)));
+        }
+
+        DB::beginTransaction();
+        try {
+            // Excel::import(new EnemiesImport, $file, null, \Maatwebsite\Excel\Excel::XLSX);
+            // Excel::import(new EnemiesImport($file), $file, null, \Maatwebsite\Excel\Excel::XLSX);
+            $fileData = Excel::toArray(new EnemiesImport($file), $file, null, \Maatwebsite\Excel\Excel::XLSX);
+
+            $resource = app()->make(GameEnemiesCreateResource::class, ['resource' => $fileData[0]])->toArray($request);
+
+            $isInsert = $this->enemiesRepository->createGameEnemies($resource);
+
+            DB::commit();
+
+            // レスポンスの制御
+            $message = ($isInsert > 0) ? 'success' : 'Bad Request';
+            $status = ($isInsert > 0) ? 201 : 401;
+
+            return response()->json(['message' => $message, 'status' => $status], $status);
+
+        } catch (Exception $e) {
+            Log::error(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'message: ' . json_encode($e->getMessage()));
+            DB::rollback();
+            abort(500);
+        }
     }
 }

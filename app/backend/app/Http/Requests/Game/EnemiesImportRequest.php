@@ -5,9 +5,8 @@ namespace App\Http\Requests\Game;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Collection;
-// Illuminate\Http\UploadedFile
-// Symfony\Component\HttpFoundation\File\UploadedFile
-use App\Models\Permissions;
+// use Illuminate\Http\UploadedFile;
+// use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Config;
@@ -42,8 +41,6 @@ class EnemiesImportRequest extends FormRequest
      */
     public function rules()
     {
-        $permissionsModel = app()->make(Permissions::class);
-
         return [
             'file' => 'file|max:1000|mimes:xlsx|mimetypes:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         ];
