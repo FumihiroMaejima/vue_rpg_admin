@@ -80,7 +80,7 @@
         <template #editor="slotProps" v-if="editable">
           <InputText
             class="game-enemies-table__form-input"
-            type="text"
+            type="number"
             :modelValue="slotProps.data[slotProps.column.props.field]"
             @blur="
               catchTextBlurEvent(
@@ -90,7 +90,7 @@
               )
             "
             @update:modelValue="
-              catchTextChange(
+              catchNumberTextChange(
                 $event,
                 colOpt[2].field,
                 slotProps.data[colOpt[2].identifier]
@@ -114,7 +114,7 @@
         <template #editor="slotProps" v-if="editable">
           <InputText
             class="game-enemies-table__form-input"
-            type="text"
+            type="number"
             :modelValue="slotProps.data[slotProps.column.props.field]"
             @blur="
               catchTextBlurEvent(
@@ -124,9 +124,9 @@
               )
             "
             @update:modelValue="
-              catchTextChange(
+              catchNumberTextChange(
                 $event,
-                colOpt[2].field,
+                colOpt[3].field,
                 slotProps.data[colOpt[3].identifier]
               )
             "
@@ -148,7 +148,7 @@
         <template #editor="slotProps" v-if="editable">
           <InputText
             class="game-enemies-table__form-input"
-            type="text"
+            type="number"
             :modelValue="slotProps.data[slotProps.column.props.field]"
             @blur="
               catchTextBlurEvent(
@@ -158,7 +158,7 @@
               )
             "
             @update:modelValue="
-              catchTextChange(
+              catchNumberTextChange(
                 $event,
                 colOpt[4].field,
                 slotProps.data[colOpt[4].identifier]
@@ -182,7 +182,7 @@
         <template #editor="slotProps" v-if="editable">
           <InputText
             class="game-enemies-table__form-input"
-            type="text"
+            type="number"
             :modelValue="slotProps.data[slotProps.column.props.field]"
             @blur="
               catchTextBlurEvent(
@@ -192,7 +192,7 @@
               )
             "
             @update:modelValue="
-              catchTextChange(
+              catchNumberTextChange(
                 $event,
                 colOpt[5].field,
                 slotProps.data[colOpt[5].identifier]
@@ -216,7 +216,7 @@
         <template #editor="slotProps" v-if="editable">
           <InputText
             class="game-enemies-table__form-input"
-            type="text"
+            type="number"
             :modelValue="slotProps.data[slotProps.column.props.field]"
             @blur="
               catchTextBlurEvent(
@@ -226,7 +226,7 @@
               )
             "
             @update:modelValue="
-              catchTextChange(
+              catchNumberTextChange(
                 $event,
                 colOpt[6].field,
                 slotProps.data[colOpt[6].identifier]
@@ -250,7 +250,7 @@
         <template #editor="slotProps" v-if="editable">
           <InputText
             class="game-enemies-table__form-input"
-            type="text"
+            type="number"
             :modelValue="slotProps.data[slotProps.column.props.field]"
             @blur="
               catchTextBlurEvent(
@@ -260,7 +260,7 @@
               )
             "
             @update:modelValue="
-              catchTextChange(
+              catchNumberTextChange(
                 $event,
                 colOpt[7].field,
                 slotProps.data[colOpt[7].identifier]
@@ -284,7 +284,7 @@
         <template #editor="slotProps" v-if="editable">
           <InputText
             class="game-enemies-table__form-input"
-            type="text"
+            type="number"
             :modelValue="slotProps.data[slotProps.column.props.field]"
             @blur="
               catchTextBlurEvent(
@@ -294,7 +294,7 @@
               )
             "
             @update:modelValue="
-              catchTextChange(
+              catchNumberTextChange(
                 $event,
                 colOpt[8].field,
                 slotProps.data[colOpt[8].identifier]
@@ -396,30 +396,36 @@ export default defineComponent({
     // methods
     /**
      * catch update text event
-     * @param {string | number} value
+     * @param {string} value
      * @param {string} key
      * @param {number} id
      * @return {void}
      */
     const catchTextChange = (
-      value: string | number,
+      value: string,
       key: string,
       id: number
     ) => {
-      if (typeof value === 'string') {
-        gameEnemiesService.updateStateTextValue(id, key as EnemyTextKeys, value)
-      } else if (typeof value === 'number') {
-        gameEnemiesService.updateStateNumberValue(
-          id,
-          key as EnemyNumberKeys,
-          value
-        )
-      } else {
-        throw new InvalidStateErrorUtil(
-          value as never,
-          `invalid value of ${value}`
-        )
-      }
+      gameEnemiesService.updateStateTextValue(id, key as EnemyTextKeys, value)
+    }
+
+    /**
+     * catch update text event
+     * @param {number} eventValue
+     * @param {string} key
+     * @param {number} id
+     * @return {void}
+     */
+    const catchNumberTextChange = (
+      eventValue: string,
+      key: string,
+      id: number
+    ) => {
+      gameEnemiesService.updateStateNumberValue(
+        id,
+        key as EnemyNumberKeys,
+        parseInt(eventValue)
+      )
     }
 
     /**
@@ -451,6 +457,7 @@ export default defineComponent({
       enemies,
       editable,
       catchTextBlurEvent,
+      catchNumberTextChange,
       catchTextChange,
       colOpt,
       selectedEnemies

@@ -56,7 +56,7 @@
             icon="pi pi-send"
             label="remove"
             :disabled="removeDisabled"
-            @click="removeMemberHandler"
+            @click="removeRoleHandler"
           />
         </div>
       </div>
@@ -133,7 +133,7 @@ export default defineComponent({
      * catch remove role event
      * @return {void}
      */
-    const removeMemberHandler = async () => {
+    const removeRoleHandler = async () => {
       display.value = false
       // サーバーへリクエスト
       inversionFlag(loadingFlag)
@@ -153,7 +153,7 @@ export default defineComponent({
       display,
       rolesNameList,
       removeDisabled,
-      removeMemberHandler
+      removeRoleHandler
     }
   }
 })
