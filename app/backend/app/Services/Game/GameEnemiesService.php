@@ -30,9 +30,11 @@ use App\Http\Requests\RoleDeleteRequest;
 use App\Http\Requests\RoleCreateRequest;
 use App\Http\Requests\Game\EnemiesDeleteRequest;
 use App\Http\Requests\Game\EnemiesImportRequest;
+use App\Http\Requests\Game\EnemiesUpdateRequest;
 use App\Http\Resources\Game\GameEnemiesCreateResource;
 use App\Http\Resources\Game\GameEnemiesDeleteResource;
 use App\Http\Resources\Game\GameEnemiesServiceResource;
+use App\Http\Resources\Game\GameEnemiesUpdateResource;
 use App\Exports\Game\EnemiesExport;
 use App\Exports\Game\EnemiesTemplateExport;
 use App\Imports\Game\EnemiesImport;
@@ -128,6 +130,39 @@ class GameEnemiesService
 
             return response()->json(['message' => $message, 'status' => $status], $status);
 
+        } catch (Exception $e) {
+            Log::error(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'message: ' . json_encode($e->getMessage()));
+            DB::rollback();
+            abort(500);
+        }
+    }
+
+    /**
+     * update enemy data service
+     *
+     * @param  \App\Http\Requests\Gamee\EnemiesUpdateRequest  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateEnemyData(EnemiesUpdateRequest $request, int $id)
+    {
+        DB::beginTransaction();
+        try {
+            $resource = app()->make(GameEnemiesUpdateResource::class, ['resource' => $request])->toArray($request);
+
+            $updatedRowCount = $this->enemiesRepository->updateGameEnemiesData($resource, $id);
+
+            // slack通知
+            /* $attachmentResource = app()->make(RoleUpdateNotificationResource::class, ['resource' => ":tada: Update Role Data \n"])->toArray($request);
+            app()->make(RoleSlackNotificationService::class)->send('update role data.', $attachmentResource); */
+
+            DB::commit();
+
+            // 更新されていない場合は304
+            $message = ($updatedRowCount > 0) ? 'success' : 'not modified';
+            $status = ($updatedRowCount > 0) ? 200 : 304;
+
+            return response()->json(['message' => $message, 'status' => $status], $status);
         } catch (Exception $e) {
             Log::error(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'message: ' . json_encode($e->getMessage()));
             DB::rollback();
