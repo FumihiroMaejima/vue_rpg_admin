@@ -8,10 +8,10 @@
         <div class="p-grid p-jc-end" v-if="editable">
           <div class="p-col-10 p-md-8" style="justify-content:end">
             <div class="p-d-flex p-jc-end">
-              <!-- <role-remove-dialog
-                :roles="selectedEnemiesValue"
-                @remove-role="removeRoleHandler"
-              /> -->
+              <enemies-remove-dialog
+                :enemies="selectedEnemiesValue"
+                @remove-enemies="removeEenemiesHandler"
+              />
 
               <Button
                 class="p-button-success"
@@ -19,7 +19,7 @@
                 icon="pi pi-file"
                 @click="downloadFileHandler"
               />
-              <enemies-import-dialog @import-enemies="importEnemiesHandler"/>
+              <enemies-import-dialog @import-enemies="importEnemiesHandler" />
               <!-- <role-create-dialog @create-role="createRoleHandler" /> -->
             </div>
           </div>
@@ -38,17 +38,9 @@
 <script lang="ts">
 import { defineComponent, ref, Ref, computed, provide, inject } from 'vue'
 import Button from 'primevue/button'
-import RoleCreateDialog from '@/components/modules/roles/RoleCreateDialog.vue'
-import RoleRemoveDialog from '@/components/modules/roles/RoleRemoveDialog.vue'
-import RolesTable from '@/components/modules/roles/RolesTable.vue'
+import EnemiesRemoveDialog from '@/components/modules/game/enemies/EnemiesRemoveDialog.vue'
 import GameEnemiesTable from '@/components/modules/game/enemies/GameEnemiesTable.vue'
 import EnemiesImportDialog from '@/components/modules/game/enemies/EnemiesImportDialog.vue'
-import {
-  // editableRole,
-  RolesType,
-  RolesStateKey
-  // useState
-} from '@/services/roles'
 import {
   editableRole,
   EnemyType,
@@ -64,11 +56,9 @@ export default defineComponent({
   name: 'GameEnemies',
   components: {
     Button,
-    // RoleCreateDialog,
-    // RoleRemoveDialog,
+    EnemiesRemoveDialog,
     EnemiesImportDialog,
     GameEnemiesTable
-    // RolesTable
   },
   setup() {
     const toast = inject(ToastTypeKey) as ToastType
@@ -137,11 +127,29 @@ export default defineComponent({
       inversionFlag(loadingFlag)
     }
 
+    /**
+     * handling remove enemies event
+     * @param {boolean} event
+     * @return {void}
+     */
+    const removeEenemiesHandler = async (event: boolean) => {
+      selectedEnemies.value = []
+      inversionFlag(loadingFlag)
+      const response = await gameEnemiesService.getEnemiesRequest(
+        authApp.getHeaderOptions()
+      )
+      if (response.status !== 200) {
+        toast.add(gameEnemiesService.getToastData())
+      }
+      inversionFlag(loadingFlag)
+    }
+
     return {
       editable,
       selectedEnemiesValue,
       importEnemiesHandler,
-      downloadFileHandler
+      downloadFileHandler,
+      removeEenemiesHandler
     }
   }
 })

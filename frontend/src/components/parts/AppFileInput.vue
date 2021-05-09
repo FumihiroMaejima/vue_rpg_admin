@@ -11,7 +11,13 @@
       <template v-if="value">
         <template v-if="enablePreview">
           <div class="app-file-input__selected-image-file">
-            <img :src="imageDataValue" width="150" async alt="" loading="lazy" />
+            <img
+              :src="imageDataValue"
+              width="150"
+              async
+              alt=""
+              loading="lazy"
+            />
             <span class="app-file-input__reset-file-icon" @click="resetFile"
               >×</span
             >
@@ -47,12 +53,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  SetupContext,
-  computed
-} from 'vue'
+import { defineComponent, ref, SetupContext, computed } from 'vue'
 import {
   checkFileSize,
   checkFileType,

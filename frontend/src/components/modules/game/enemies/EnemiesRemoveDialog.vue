@@ -6,8 +6,8 @@
     @click="display = true"
   />
   <Dialog
-    class="role-remove-dialog"
-    header="Role Remove Modal"
+    class="enemies-remove-dialog"
+    header="Enemies Remove Modal"
     v-model:visible="display"
     :modal="true"
     :breakpoints="{ '960px': '90vw' }"
@@ -20,23 +20,23 @@
           <div class="p-col-12 p-md-2">
             <label
               for="role"
-              class="p-col-fixed role-remove-dialog__form-label"
+              class="p-col-fixed enemies-remove-dialog__form-label"
             >
-              roles
+              enemies
             </label>
           </div>
           <div class="p-col-12 p-md-10">
             <div class="p-col">
               <div>
-                <template v-if="rolesNameList.length === 0">
+                <template v-if="enemiesNameList.length === 0">
                   <div>
-                    no roles selected.
+                    no enemy selected.
                   </div>
                 </template>
                 <template v-else>
                   <span
-                    class="role-remove-dialog__chip"
-                    v-for="(item, i) of rolesNameList"
+                    class="enemies-remove-dialog__chip"
+                    v-for="(item, i) of enemiesNameList"
                     :key="i"
                   >
                     {{ item }}
@@ -56,7 +56,7 @@
             icon="pi pi-send"
             label="remove"
             :disabled="removeDisabled"
-            @click="removeMemberHandler"
+            @click="removeEnemiesHandler"
           />
         </div>
       </div>
@@ -81,7 +81,11 @@ import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import Dropdown from 'primevue/dropdown'
 
-import { RolesType, RolesStateKey, RolesStateType } from '@/services/roles'
+import {
+  EnemyType,
+  EnemiesStateKey,
+  GameEnemiesStateType
+} from '@/services/game/enemies'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
 import { useField, useForm } from 'vee-validate'
@@ -89,19 +93,19 @@ import { ToastType, SelectBoxType } from '@/types/applications/index'
 import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 
 type Props = {
-  roles: RolesType[]
+  enemies: EnemyType[]
 }
 
 export default defineComponent({
-  name: 'RoleRemoveDialog',
+  name: 'EnemiesRemoveDialog',
   components: {
     Button,
     Dialog /* ,
     Dropdown */
   },
   props: {
-    roles: {
-      type: Array as PropType<RolesType[]>,
+    enemies: {
+      type: Array as PropType<EnemyType[]>,
       required: false,
       default: () => {
         return []
@@ -112,16 +116,16 @@ export default defineComponent({
     const toast = inject(ToastTypeKey) as ToastType
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
-    const rolesService = inject(RolesStateKey) as RolesStateType
+    const enemiesService = inject(EnemiesStateKey) as GameEnemiesStateType
     const display = ref<boolean>(false)
 
     // computed
-    const rolesNameList = computed((): string[] =>
-      props.roles.map((role) => role.name)
+    const enemiesNameList = computed((): string[] =>
+      props.enemies.map((enemy) => enemy.name)
     )
 
     const removeDisabled = computed((): boolean => {
-      return !(props.roles.length !== 0)
+      return !(props.enemies.length !== 0)
     })
 
     // created
@@ -130,36 +134,36 @@ export default defineComponent({
 
     // methods
     /**
-     * catch remove role event
+     * catch remove enemy event
      * @return {void}
      */
-    const removeMemberHandler = async () => {
+    const removeEnemiesHandler = async () => {
       display.value = false
       // サーバーへリクエスト
       inversionFlag(loadingFlag)
-      const response = await rolesService.removeRoleRequest(
-        props.roles.map((role) => role.id),
+      const response = await enemiesService.removeEnemiesRequest(
+        props.enemies.map((enemy) => enemy.id),
         authApp.getHeaderOptions()
       )
-      toast.add(rolesService.getToastData())
+      toast.add(enemiesService.getToastData())
       if (response.status === 200) {
         // formContext.handleReset()
-        context.emit('remove-role', true)
+        context.emit('remove-enemies', true)
       }
       inversionFlag(loadingFlag)
     }
 
     return {
       display,
-      rolesNameList,
+      enemiesNameList,
       removeDisabled,
-      removeMemberHandler
+      removeEnemiesHandler
     }
   }
 })
 </script>
 <style lang="scss">
-.role-remove-dialog {
+.enemies-remove-dialog {
   width: 45vw;
 
   &__form-label {
@@ -170,7 +174,7 @@ export default defineComponent({
     width: 100%;
   }
 
-  .role-remove-dialog__form-dropdown.p-dropdown {
+  .enemies-remove-dialog__form-dropdown.p-dropdown {
     padding: 0 0 0 0 !important;
   }
 
