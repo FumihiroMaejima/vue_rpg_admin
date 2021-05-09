@@ -50,9 +50,6 @@
 import {
   defineComponent,
   ref,
-  Ref,
-  PropType,
-  reactive,
   SetupContext,
   computed
 } from 'vue'
@@ -156,6 +153,7 @@ export default defineComponent({
     const createImage = (file: File) => {
       const reader = new FileReader()
       reader.onload = (e: ProgressEvent) => {
+        // const target = e.target as FileReader
         // imageData.value = e.target.result
         imageData.value = reader.result
       }
@@ -292,11 +290,12 @@ export default defineComponent({
   }
 
   &__drop-area {
-    width: 200px;
+    width: 100%;
     padding: 10px;
     text-align: center;
     border: 1px dashed #c6c6c6;
     background-color: #f9f9f9;
+    border-radius: 2px;
   }
 
   &__drag_on {

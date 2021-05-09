@@ -92,7 +92,7 @@ class GameEnemiesService
      * imort enemies by template data service
      *
      * @param  \App\Http\Requests\Game\EnemiesImportRequest $request
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return \Illuminate\Http\Response
      */
     public function importTemplate(EnemiesImportRequest $request)
     {

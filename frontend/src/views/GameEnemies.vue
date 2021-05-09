@@ -19,7 +19,7 @@
                 icon="pi pi-file"
                 @click="downloadFileHandler"
               />
-              <enemies-import-dialog />
+              <enemies-import-dialog @import-enemies="importEnemiesHandler"/>
               <!-- <role-create-dialog @create-role="createRoleHandler" /> -->
             </div>
           </div>
@@ -107,6 +107,21 @@ export default defineComponent({
 
     // methods
     /**
+     * handling import enevemies event
+     * @param {boolean} event
+     * @return {void}
+     */
+    const importEnemiesHandler = async (event: boolean) => {
+      inversionFlag(loadingFlag)
+      const response = await gameEnemiesService.getEnemiesRequest(
+        authApp.getHeaderOptions()
+      )
+      if (response.status !== 200) {
+        toast.add(gameEnemiesService.getToastData())
+      }
+      inversionFlag(loadingFlag)
+    }
+    /**
      * handling download enemies event
      * @param {boolean} event
      * @return {void}
@@ -125,6 +140,7 @@ export default defineComponent({
     return {
       editable,
       selectedEnemiesValue,
+      importEnemiesHandler,
       downloadFileHandler
     }
   }

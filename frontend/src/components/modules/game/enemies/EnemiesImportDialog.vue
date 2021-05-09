@@ -27,7 +27,7 @@
             <Button
               class="p-button-success p-button-raised"
               :icon="iconValue"
-              label="template"
+              label="download"
               @click="downloadTemplateHandler"
             />
           </div>
@@ -46,14 +46,12 @@
       </div>
       <div class="p-col-12 p-md-10">
         <div class="p-col p-pr-0">
-          <div class="p-d-flex p-jc-end">
-            <AppFileInput
-              :value="fileDataValue"
-              accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-              @update:value="catchSelectFileHandler"
-              @reset-file="catchResetFileHandler"
-            />
-          </div>
+          <AppFileInput
+            :value="fileDataValue"
+            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            @update:value="catchSelectFileHandler"
+            @reset-file="catchResetFileHandler"
+          />
         </div>
       </div>
     </div>
@@ -115,8 +113,7 @@ export default defineComponent({
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
     const enemiesService = inject(EnemiesStateKey) as GameEnemiesStateType
-    const display = ref<boolean>(true)
-    const test: FormData = new FormData()
+    const display = ref<boolean>(false)
     const fileData = ref<undefined | File>(undefined)
 
     // computed
@@ -168,7 +165,7 @@ export default defineComponent({
      * catch reset file event
      * @return {void}
      */
-    const catchResetFileHandler = async () => {
+    const catchResetFileHandler = () => {
       fileData.value = undefined
     }
 
@@ -187,9 +184,10 @@ export default defineComponent({
         authApp.getHeaderOptions()
       )
       toast.add(enemiesService.getToastData())
-      if (response.status === 200) {
+      if (response.status === 201) {
         // formContext.handleReset()
-        context.emit('remove-role', true)
+        catchResetFileHandler()
+        context.emit('import-enemies', true)
       }
       inversionFlag(loadingFlag)
     }
