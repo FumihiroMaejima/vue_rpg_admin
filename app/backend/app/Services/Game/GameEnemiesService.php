@@ -2,42 +2,28 @@
 
 namespace App\Services\Game;
 
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use App\Services\Notifications\RoleSlackNotificationService;
-use App\Repositories\Roles\RolesRepositoryInterface;
-use App\Repositories\RolePermissions\RolePermissionsRepositoryInterface;
-use App\Repositories\GameEnemies\GameEnemiesRepository;
-use App\Repositories\GameEnemies\GameEnemiesRepositoryInterface;
-use App\Http\Resources\RoleUpdateResource;
-use App\Http\Resources\RoleUpdateNotificationResource;
-use App\Http\Resources\RolesServiceResource;
-use App\Http\Resources\RolesListResource;
-use App\Http\Resources\RolePermissionsUpdateResource;
-use App\Http\Resources\RolePermissionsDeleteResource;
-use App\Http\Resources\RolePermissionsDeleteByUpdateResource;
-use App\Http\Resources\RolePermissionsCreateResource;
-use App\Http\Resources\RoleDeleteResource;
-use App\Http\Resources\RoleCreateResource;
-use App\Http\Requests\RoleUpdateRequest;
-use App\Http\Requests\RoleDeleteRequest;
-use App\Http\Requests\RoleCreateRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\Game\EnemiesExport;
+use App\Exports\Game\EnemiesTemplateExport;
 use App\Http\Requests\Game\EnemiesDeleteRequest;
 use App\Http\Requests\Game\EnemiesImportRequest;
 use App\Http\Requests\Game\EnemiesUpdateRequest;
 use App\Http\Resources\Game\GameEnemiesCreateResource;
 use App\Http\Resources\Game\GameEnemiesDeleteResource;
 use App\Http\Resources\Game\GameEnemiesServiceResource;
+use App\Http\Resources\Game\GameEnemiesUpdateNotificationResource;
 use App\Http\Resources\Game\GameEnemiesUpdateResource;
-use App\Exports\Game\EnemiesExport;
-use App\Exports\Game\EnemiesTemplateExport;
 use App\Imports\Game\EnemiesImport;
+use App\Repositories\GameEnemies\GameEnemiesRepository;
+use App\Repositories\GameEnemies\GameEnemiesRepositoryInterface;
+use App\Services\Notifications\GameEnemySlackNotificationService;
 use Exception;
 
 class GameEnemiesService
@@ -153,8 +139,8 @@ class GameEnemiesService
             $updatedRowCount = $this->enemiesRepository->updateGameEnemiesData($resource, $id);
 
             // slack通知
-            /* $attachmentResource = app()->make(RoleUpdateNotificationResource::class, ['resource' => ":tada: Update Role Data \n"])->toArray($request);
-            app()->make(RoleSlackNotificationService::class)->send('update role data.', $attachmentResource); */
+            $attachmentResource = app()->make(GameEnemiesUpdateNotificationResource::class, ['resource' => ":tada: Update Enemy Data \n"])->toArray($request);
+            app()->make(GameEnemySlackNotificationService::class)->send('update role data.', $attachmentResource);
 
             DB::commit();
 
