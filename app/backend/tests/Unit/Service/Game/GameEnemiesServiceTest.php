@@ -9,10 +9,13 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\Game\EnemiesTemplateExport;
 
 class GameEnemiesServiceTest extends TestCase
 {
     protected $initialized = false;
+    protected $templateMimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
     /**
      * 初期化処理
@@ -97,7 +100,26 @@ class GameEnemiesServiceTest extends TestCase
     {
         $response = $this->get(route('admin.game.enemies.template'));
         $response->assertStatus(200)
-            ->assertHeader('content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            ->assertHeader('content-type', $this->templateMimeType);
+    }
+
+    /**
+     * import enemies filee request test.
+     *
+     * @return void
+     */
+    public function testImportEnemies(): void
+    {
+        // \Illuminate\Http\Testing\FileFactory::create()
+        // UploadedFile::fake()->createWithContent('game_enemies_template_20210404000000.xlsx', $test);
+        // $file = UploadedFile::fake()->create('game_enemies_template_20210404000000.xlsx', 1000, $this->templateMimeType);
+
+        // make file
+        $file = Excel::download(new EnemiesTemplateExport(collect(Config::get('myapp.test.game.enemies.template'))), 'game_enemies_template_20210404000000.xlsx')->getFile();
+        $response = $this->json('POST', route('admin.game.enemies.template.upload'), [
+            'file' => $file
+        ]);
+        $response->assertStatus(422);
     }
 
 

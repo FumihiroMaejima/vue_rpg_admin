@@ -53,6 +53,22 @@ return [
                     'permissions' => [1,2,3],
                 ]
             ]
+        ],
+        'game' => [
+            'enemies' => [
+                'template' => [
+                    (object)[
+                        'name'    => 'test enemies',
+                        'level'   => 1,
+                        'hp'      => 10,
+                        'mp'      => 10,
+                        'offence' => 10,
+                        'defense' => 10,
+                        'speed'   => 10,
+                        'magic'   => 10
+                    ]
+                ]
+            ]
         ]
     ],
     'headers' => [
