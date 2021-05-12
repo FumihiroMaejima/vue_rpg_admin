@@ -110,12 +110,51 @@ class GameEnemiesServiceTest extends TestCase
      */
     public function testImportEnemies(): void
     {
-        // \Illuminate\Http\Testing\FileFactory::create()
-        // UploadedFile::fake()->createWithContent('game_enemies_template_20210404000000.xlsx', $test);
-        // $file = UploadedFile::fake()->create('game_enemies_template_20210404000000.xlsx', 1000, $this->templateMimeType);
+        $data = Config::get('myapp.test.game.enemies.import.success');
 
-        // make file
-        $file = Excel::download(new EnemiesTemplateExport(collect(Config::get('myapp.test.game.enemies.template'))), 'game_enemies_template_20210404000000.xlsx')->getFile();
+        /* make file */
+        // Symfony file package extends SplFileInfo
+        $symfonyFile = Excel::download(new EnemiesTemplateExport(collect($data['fileData'])), $data['fileName'])->getFile();
+        $file = UploadedFile::fake()->createWithContent($data['fileName'], $symfonyFile->getContent());
+
+        $response = $this->json('POST', route('admin.game.enemies.template.upload'), [
+            'file' => $file
+        ]);
+        $response->assertStatus(201);
+    }
+
+    /**
+     * enemies import 422 error data
+     * @return array
+     */
+    public function enemiesImport422FailedDataProvider(): array
+    {
+        $this->createApplication();
+
+        $caseKeys = ['invalid_name','invalid_extention', 'invalid_mimeType', 'size_over'];
+        $testCase = [];
+        foreach ($caseKeys as $key) {
+            $testCase[$key] = Config::get('myapp.test.game.enemies.import.success');
+        }
+
+        // データの整形
+        $testCase['invalid_name']['fileName']      = str_replace('game_enemies', 'test', $testCase['invalid_name']['fileName']);
+        $testCase['invalid_extention']['fileName'] = str_replace('xlsx', 'png', $testCase['invalid_extention']['fileName']);
+        $testCase['invalid_mimeType']['mimeType']  = 'image/jpeg';
+        $testCase['size_over']['size']             = 1010;
+
+        return $testCase;
+    }
+
+    /**
+     * enemies import 422 error request test.
+     * @dataProvider enemiesImport422FailedDataProvider
+     * @return void
+     */
+    public function testImportEnemies422Failed(string $name, string $mimeType, int $size): void
+    {
+        $file = UploadedFile::fake()->create($name, $size, $mimeType);
+
         $response = $this->json('POST', route('admin.game.enemies.template.upload'), [
             'file' => $file
         ]);
