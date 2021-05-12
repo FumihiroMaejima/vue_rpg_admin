@@ -16,7 +16,6 @@ class GameEnemiesTemplateResource extends JsonResource
      */
     public function toArray($request)
     {
-        // $resource = Config::get('myapp.game.template.enemies');
         return [
             'data' => $this->resource->toArray($request)
         ];

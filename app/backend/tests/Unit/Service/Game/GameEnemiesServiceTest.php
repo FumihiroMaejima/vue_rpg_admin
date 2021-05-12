@@ -15,7 +15,6 @@ use App\Exports\Game\EnemiesTemplateExport;
 class GameEnemiesServiceTest extends TestCase
 {
     protected $initialized = false;
-    protected $templateMimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
     /**
      * 初期化処理
@@ -100,7 +99,7 @@ class GameEnemiesServiceTest extends TestCase
     {
         $response = $this->get(route('admin.game.enemies.template'));
         $response->assertStatus(200)
-            ->assertHeader('content-type', $this->templateMimeType);
+            ->assertHeader('content-type', Config::get('myapp.test.game.enemies.import.success')['mimeType']);
     }
 
     /**
@@ -110,12 +109,12 @@ class GameEnemiesServiceTest extends TestCase
      */
     public function testImportEnemies(): void
     {
-        $data = Config::get('myapp.test.game.enemies.import.success');
+        $name = Config::get('myapp.test.game.enemies.import.success')['fileName'];
 
         /* make file */
         // Symfony file package extends SplFileInfo
-        $symfonyFile = Excel::download(new EnemiesTemplateExport(collect($data['fileData'])), $data['fileName'])->getFile();
-        $file = UploadedFile::fake()->createWithContent($data['fileName'], $symfonyFile->getContent());
+        $symfonyFile = Excel::download(new EnemiesTemplateExport(collect(Config::get('myapp.test.game.enemies.import.fileData'))), $name)->getFile();
+        $file = UploadedFile::fake()->createWithContent($name, $symfonyFile->getContent());
 
         $response = $this->json('POST', route('admin.game.enemies.template.upload'), [
             'file' => $file

@@ -75,7 +75,7 @@ class GameEnemiesService
      */
     public function downloadTemplate(Request $request)
     {
-        return Excel::download(new EnemiesTemplateExport(collect(Config::get('myapp.game.template.enemies'))), 'game_enemies_template_' . Carbon::now()->format('YmdHis') . '.xlsx');
+        return Excel::download(new EnemiesTemplateExport(collect(Config::get('myapp.service.game.enemies.template'))), 'game_enemies_template_' . Carbon::now()->format('YmdHis') . '.xlsx');
     }
 
     /**
