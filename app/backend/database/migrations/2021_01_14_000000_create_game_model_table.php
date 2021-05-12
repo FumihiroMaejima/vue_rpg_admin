@@ -42,9 +42,9 @@ class CreateGameModelTable extends Migration
         });
 
         /**
-         * game_diffense_equipment table
+         * game_defense_equipment table
          */
-        Schema::create('game_diffense_equipment', function (Blueprint $table) {
+        Schema::create('game_defense_equipment', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255)->comment('名前');
             $table->text('message')->comment('装備品の説明');
@@ -76,26 +76,26 @@ class CreateGameModelTable extends Migration
         });
 
         /**
-         * game_enemy table
+         * game_enemies table
          */
-        Schema::create('game_enemy', function (Blueprint $table) {
+        Schema::create('game_enemies', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255)->comment('名前');
             $table->integer('level')->default(1)->comment('レベル');
             $table->integer('hp')->default(20)->comment('ヒットポイント');
             $table->integer('mp')->default(0)->comment('マジックポイント');
             $table->integer('offence')->default(18)->comment('攻撃力');
-            $table->integer('diffense')->default(12)->comment('守備力');
+            $table->integer('defense')->default(12)->comment('守備力');
             $table->integer('speed')->default(10)->comment('素早さ');
             $table->integer('magic')->default(0)->comment('魔力');
             $table->foreignId('offence_equipment_id')->constrained('game_offence_equipment')->comment('攻撃用装備');
-            $table->foreignId('diffense_equipment_id')->constrained('game_diffense_equipment')->comment('守備用装備');
+            $table->foreignId('defense_equipment_id')->constrained('game_defense_equipment')->comment('守備用装備');
             $table->integer('ability1_id')->nullable()->comment('能力1');
             $table->integer('ability2_id')->nullable()->comment('能力2');
             $table->integer('ability3_id')->nullable()->comment('能力3');
             $table->text('item')->nullable()->comment('持ち物');
             $table->tinyInteger('event_only_flg')->default(0)->comment('イベントのみ出現フラグ');
-            $table->integer('emcount_area_id')->comment('出現エリアID');
+            $table->integer('encount_area_id')->comment('出現エリアID');
             $table->string('image_name', 255)->unique()->comment('イメージネーム');
             $table->string('image_url', 255)->unique()->comment('イメージパス');
             $table->timestamps();
@@ -108,7 +108,7 @@ class CreateGameModelTable extends Migration
         Schema::create('game_character', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255)->comment('名前');
-            $table->foreignId('enemy_id')->constrained('game_enemy')->nullable()->comment('敵キャラクターID');
+            $table->foreignId('enemy_id')->constrained('game_enemies')->nullable()->comment('敵キャラクターID');
             $table->string('image_name', 255)->unique()->comment('イメージネーム');
             $table->string('image_url', 255)->unique()->comment('イメージパス');
             $table->tinyInteger('dead_flg')->default(0)->comment('死亡済みフラグ');
@@ -167,11 +167,11 @@ class CreateGameModelTable extends Migration
             $table->integer('hp')->default(20)->comment('ヒットポイント');
             $table->integer('mp')->default(0)->comment('マジックポイント');
             $table->integer('offence')->default(18)->comment('攻撃力');
-            $table->integer('diffense')->default(12)->comment('守備力');
+            $table->integer('defense')->default(12)->comment('守備力');
             $table->integer('speed')->default(10)->comment('素早さ');
             $table->integer('magic')->default(0)->comment('魔力');
             $table->foreignId('offence_equipment_id')->constrained('game_offence_equipment')->comment('攻撃用装備');
-            $table->foreignId('diffense_equipment_id')->constrained('game_diffense_equipment')->comment('守備用装備');
+            $table->foreignId('defense_equipment_id')->constrained('game_defense_equipment')->comment('守備用装備');
             $table->integer('ability1_id')->nullable()->comment('能力1');
             $table->integer('ability2_id')->nullable()->comment('能力2');
             $table->integer('ability3_id')->nullable()->comment('能力3');
@@ -241,9 +241,9 @@ class CreateGameModelTable extends Migration
     {
         Schema::dropIfExists('game_ability');
         Schema::dropIfExists('game_area');
-        Schema::dropIfExists('game_diffense_equipment');
+        Schema::dropIfExists('game_defense_equipment');
         Schema::dropIfExists('game_offence_equipment');
-        Schema::dropIfExists('game_enemy');
+        Schema::dropIfExists('game_enemies');
         Schema::dropIfExists('game_character');
         Schema::dropIfExists('game_event');
         Schema::dropIfExists('game_item');

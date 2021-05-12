@@ -81,10 +81,10 @@ export default defineComponent({
     const created = async () => {
       inversionFlag(loadingFlag)
 
-      const roleListData = await membersService.getRoles(
+      const roleListData = await membersService.getRolesListRequest(
         authApp.getHeaderOptions()
       )
-      const response = await membersService.getMembersData(
+      const response = await membersService.getMembersDataRequest(
         authApp.getHeaderOptions()
       )
       if (response.status !== 200 || roleListData.status !== 200) {
@@ -102,7 +102,7 @@ export default defineComponent({
      */
     const createMemberHandler = async (event: boolean) => {
       inversionFlag(loadingFlag)
-      const response = await membersService.getMembersData(
+      const response = await membersService.getMembersDataRequest(
         authApp.getHeaderOptions()
       )
       if (response.status !== 200) {
@@ -118,7 +118,7 @@ export default defineComponent({
      */
     const removeMemberHandler = async (event: boolean) => {
       inversionFlag(loadingFlag)
-      const response = await membersService.getMembersData(
+      const response = await membersService.getMembersDataRequest(
         authApp.getHeaderOptions()
       )
       if (response.status !== 200) {
@@ -134,7 +134,7 @@ export default defineComponent({
      */
     const downloadFileHandler = async () => {
       inversionFlag(loadingFlag)
-      const response = await membersService.downloadMemberCSV(
+      const response = await membersService.downloadMemberCSVRequest(
         authApp.getHeaderOptions()
       )
       if (response.status !== 304) {

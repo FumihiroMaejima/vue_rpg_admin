@@ -56,7 +56,7 @@
             icon="pi pi-send"
             label="remove"
             :disabled="removeDisabled"
-            @click="removeMemberHandler"
+            @click="removeRoleHandler"
           />
         </div>
       </div>
@@ -130,14 +130,14 @@ export default defineComponent({
 
     // methods
     /**
-     * catch create role event
+     * catch remove role event
      * @return {void}
      */
-    const removeMemberHandler = async () => {
+    const removeRoleHandler = async () => {
       display.value = false
       // サーバーへリクエスト
       inversionFlag(loadingFlag)
-      const response = await rolesService.removeRole(
+      const response = await rolesService.removeRoleRequest(
         props.roles.map((role) => role.id),
         authApp.getHeaderOptions()
       )
@@ -151,10 +151,9 @@ export default defineComponent({
 
     return {
       display,
-      // rolesList,
       rolesNameList,
       removeDisabled,
-      removeMemberHandler
+      removeRoleHandler
     }
   }
 })

@@ -34,8 +34,8 @@ export function checkTextMaxLength(
  * @param {number} minlength
  * @return {boolean}
  */
-export function checkTextMinLength(value: string, maxlength = 0): boolean {
-  return value.length >= maxlength!
+export function checkTextMinLength(value: string, minlength = 0): boolean {
+  return value.length >= minlength!
 }
 
 /**
@@ -85,17 +85,68 @@ export function checkPasswordRegex(value: string): boolean {
 }
 
 /**
+ * check file size(byte size).
+ * @param {number} targetSize
+ * @param {number} maxFileSize
+ * @return {boolean}
+ */
+export function checkFileSize(
+  targetSize: number,
+  maxFileSize: number
+): boolean {
+  return targetSize <= maxFileSize
+}
+
+/**
+ * check file type.
+ * @param {string} targetAccept
+ * @param {string | string[]} accept
+ * @return {boolean}
+ */
+export function checkFileType(
+  targetAccept: string,
+  accept: string | string[]
+): boolean {
+  if (typeof accept === 'string') {
+    // wildcard check
+    const wildcardIndex = accept.indexOf('/*')
+    if (wildcardIndex === -1) {
+      return targetAccept === accept
+    } else {
+      return (
+        targetAccept.slice(0, wildcardIndex) === accept.slice(0, wildcardIndex)
+      )
+    }
+  } else {
+    return accept.includes(targetAccept)
+  }
+}
+
+/**
+ * check file length.
+ * @param {number} targetLength
+ * @param {number} maxFileLength
+ * @return {boolean}
+ */
+export function checkFileLength(
+  targetLength: number,
+  maxFileLength: number
+): boolean {
+  return targetLength <= maxFileLength
+}
+
+/**
  * check text white space.
  * @param {string} value
+ * @param {number} textSize
  * @return {string} message
  */
-export function validateName(value: string): string {
+export function validateName(value: string, textSize = 5): string {
   let message = ''
-  const size = 5
   if (!checkTextLength(value)) {
     return (message = 'This is required')
-  } else if (!checkTextMinLength(value, size)) {
-    return (message = `input over ${size} length text`)
+  } else if (!checkTextMinLength(value, textSize)) {
+    return (message = `input over ${textSize} length text`)
   }
   return message
 }
@@ -103,15 +154,15 @@ export function validateName(value: string): string {
 /**
  * check text white space.
  * @param {string} value
+ * @param {number} textSize
  * @return {string} message
  */
-export function validateEmail(value: string): string {
+export function validateEmail(value: string, textSize = 5): string {
   let message = ''
-  const size = 5
   if (!checkTextLength(value)) {
     return (message = 'This is required')
-  } else if (!checkTextMinLength(value, size)) {
-    return (message = `input over ${size} length text`)
+  } else if (!checkTextMinLength(value, textSize)) {
+    return (message = `input over ${textSize} length text`)
   } else if (!checkEmailRegex(value)) {
     return (message = 'invalidate text')
   }
@@ -121,6 +172,7 @@ export function validateEmail(value: string): string {
 /**
  * check text white space.
  * @param {string} value
+ * @param {number} textSize
  * @return {string} message
  */
 export function validateSelectBoxNumberValue(value: number): string {
@@ -134,15 +186,15 @@ export function validateSelectBoxNumberValue(value: number): string {
 /**
  * check text white space.
  * @param {string} value
+ * @param {number} textSize
  * @return {string} message
  */
-export function validatePassword(value: string): string {
+export function validatePassword(value: string, textSize = 8): string {
   let message = ''
-  const size = 8
   if (!checkTextLength(value)) {
     return (message = 'This is required')
-  } else if (!checkTextMinLength(value, size)) {
-    return (message = `input over ${size} length text`)
+  } else if (!checkTextMinLength(value, textSize)) {
+    return (message = `input over ${textSize} length text`)
   } else if (!checkPasswordRegex(value)) {
     return (message = 'invalidate text')
   }
@@ -170,15 +222,15 @@ export function validateConfirmPassword(
 /**
  * validate role code.
  * @param {string} value
+ * @param {number} textSize
  * @return {string} message
  */
-export function validateRoleCode(value: string): string {
+export function validateRoleCode(value: string, textSize = 5): string {
   let message = ''
-  const size = 5
   if (!checkTextLength(value)) {
     return (message = 'This is required')
-  } else if (!checkTextMinLength(value, size)) {
-    return (message = `input over ${size} length text`)
+  } else if (!checkTextMinLength(value, textSize)) {
+    return (message = `input over ${textSize} length text`)
   }
   return message
 }
@@ -186,15 +238,15 @@ export function validateRoleCode(value: string): string {
 /**
  * validate role deetail.
  * @param {string} value
+ * @param {number} textSize
  * @return {string} message
  */
-export function validateRoleDetail(value: string): string {
+export function validateRoleDetail(value: string, textSize = 5): string {
   let message = ''
-  const size = 5
   if (!checkTextLength(value)) {
     return (message = 'This is required')
-  } else if (!checkTextMinLength(value, size)) {
-    return (message = `input over ${size} length text`)
+  } else if (!checkTextMinLength(value, textSize)) {
+    return (message = `input over ${textSize} length text`)
   }
   return message
 }

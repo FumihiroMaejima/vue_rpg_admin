@@ -20,6 +20,7 @@ export type BaseAddHeaderResponse = {
   Authorization: string
   'X-Auth-ID': number | string
   'X-Auth-Authority': string
+  'Content-Type': string
 }
 
 export type AuthAppHeaderOptions = {

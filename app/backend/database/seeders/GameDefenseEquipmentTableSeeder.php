@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 
-class GameDiffenseEquipmentTableSeeder extends Seeder
+class GameDefenseEquipmentTableSeeder extends Seeder
 {
-    private $table = 'game_diffense_equipment';
+    private $table = 'game_defense_equipment';
     private $count = 12;
 
     /**
@@ -21,7 +21,7 @@ class GameDiffenseEquipmentTableSeeder extends Seeder
     {
         $template = [
             'name' => '',
-            'message' => 'this diffense equipment message' . Str::random(40),
+            'message' => 'this defense equipment message' . Str::random(40),
             'target_column1' => Str::random(20),
             'target_effect1' => 0,
             'target_column2' => Str::random(20),
@@ -38,7 +38,7 @@ class GameDiffenseEquipmentTableSeeder extends Seeder
         // 0~12の数字の配列でforを回す
         foreach (range(1, $this->count) as $i) {
             $row = $template;
-            $row['name']           = 'diffense equipment' . (string)($i);
+            $row['name']           = 'defense equipment' . (string)($i);
             $row['message']        = $row['message']  . '_' . (string)($i);
             $row['target_column1'] = $row['target_column1']  . '_' . (string)($i);
             $row['target_effect1'] = ($i + 1) * 1;

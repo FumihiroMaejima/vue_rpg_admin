@@ -33,6 +33,7 @@
                   name="password"
                   type="password"
                   v-model="passwordlValue"
+                  @keyup.enter="keyupEnterHandler"
                 />
                 <i class="pi pi-exclamation-triangle" />
               </span>
@@ -84,7 +85,7 @@ export default defineComponent({
       }
     }
 
-    useForm({
+    const formContext = useForm({
       validationSchema: loginSchema
     })
 
@@ -134,6 +135,32 @@ export default defineComponent({
         detail: `Login Request is ${response ? 'Success' : 'Failed'}.`,
         life: 5000
       })
+
+      if (!response) {
+        // ログイン失敗時はフォームを初期化
+        formContext.handleReset()
+      }
+    }
+
+    /**
+     * catch keyup enter event
+     * @return {void}
+     */
+    const keyupEnterHandler = async () => {
+      if (
+        emailError.value === null ||
+        emailError.value === undefined ||
+        passwordError.value === null ||
+        passwordError.value === undefined
+      ) {
+        return
+      } else if (!email.value || !password.value) {
+        return
+      } else {
+        // 入力済みかつバリデーションエラーが無い場合
+        // ログインアクションの実行
+        loginAction()
+      }
     }
     return {
       loadingFlag,
@@ -143,7 +170,8 @@ export default defineComponent({
       passwordError,
       iconValue,
       buttonText,
-      loginAction
+      loginAction,
+      keyupEnterHandler
     }
   }
 })

@@ -53,6 +53,29 @@ return [
                     'permissions' => [1,2,3],
                 ]
             ]
+        ],
+        'game' => [
+            'enemies' => [
+                'import' => [
+                    'success' => [
+                        'fileName'  => 'game_enemies_template_20210404000000.xlsx',
+                        'mimeType'  => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        'size'      => 1000
+                    ],
+                    'fileData' => [
+                        (object)[
+                            'name'    => 'test enemies1',
+                            'level'   => 1,
+                            'hp'      => 10,
+                            'mp'      => 10,
+                            'offence' => 10,
+                            'defense' => 10,
+                            'speed'   => 10,
+                            'magic'   => 10
+                        ]
+                    ]
+                ]
+            ]
         ]
     ],
     'headers' => [
@@ -63,7 +86,10 @@ return [
         'services' => [
             'members'     => ['master', 'administrator', 'develop'],
             'permissions' => ['master', 'administrator', 'develop'],
-            'roles'       => ['master', 'administrator', 'develop']
+            'roles'       => ['master', 'administrator', 'develop'],
+            'game' => [
+                'enemies' => ['master', 'administrator', 'develop']
+            ]
         ]
     ],
     'file' => [
@@ -81,5 +107,23 @@ return [
         'name'    => env('APP_SLACK_NAME', 'bot-name'),
         'icon'    => env('APP_SLACK_ICON', ':ghost:'),
         'url'     => env('APP_SLACK_WEBHOOK_URL', 'https://hooks.slack.com/services/test'),
+    ],
+    'service' => [
+        'game' => [
+            'enemies' => [
+                'template' => [
+                    (object)[
+                        'name'    => 'test enemies',
+                        'level'   => 1,
+                        'hp'      => 10,
+                        'mp'      => 10,
+                        'offence' => 10,
+                        'defense' => 10,
+                        'speed'   => 10,
+                        'magic'   => 10
+                    ]
+                ]
+            ]
+        ]
     ]
 ];

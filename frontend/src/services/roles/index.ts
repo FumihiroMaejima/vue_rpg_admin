@@ -195,10 +195,25 @@ export const useState = () => {
    * @param {string} value
    * @return {void}
    */
-  const updateRolesTextValue = (
+  const updateStateTextValue = (
     id: number,
     key: RolesTextKeys,
     value: string
+  ) => {
+    state.roles.find((role) => role.id === id)![key] = value
+  }
+
+  /**
+   * update role`s permission ids
+   * @param {number} id
+   * @param {string} key
+   * @param {number[]} value
+   * @return {void}
+   */
+  const updateStateSelectValue = (
+    id: number,
+    key: RolesSelectKeys,
+    value: number[]
   ) => {
     state.roles.find((role) => role.id === id)![key] = value
   }
@@ -210,7 +225,7 @@ export const useState = () => {
    * @param {AuthAppHeaderOptions} options
    * @return {void}
    */
-  const updateRolesData = async (
+  const updateRolesDataRequest = async (
     id: number,
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
@@ -263,26 +278,11 @@ export const useState = () => {
   }
 
   /**
-   * update role`s permission ids
-   * @param {number} id
-   * @param {string} key
-   * @param {number[]} value
-   * @return {void}
-   */
-  const updateRolesPermissions = (
-    id: number,
-    key: RolesSelectKeys,
-    value: number[]
-  ) => {
-    state.roles.find((role) => role.id === id)![key] = value
-  }
-
-  /**
    * get roles data.
    * @param {BaseAddHeaderResponse} header
    * @return {void}
    */
-  const getRolesData = async (
+  const getRolesDataRequest = async (
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
@@ -313,9 +313,9 @@ export const useState = () => {
   /**
    * downlaoad file request.
    * @param {BaseAddHeaderResponse} header
-   * @return {void}
+   * @return {Promise<ServerRequestType>}
    */
-  const downloadMemberCSV = async (
+  const downloadRolesCSVRequest = async (
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
@@ -364,7 +364,7 @@ export const useState = () => {
    * @param {AuthAppHeaderOptions} options
    * @return {Promise<ServerRequestType>}
    */
-  const getPermissionsList = async (
+  const getPermissionsListRequest = async (
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
     axios.defaults.withCredentials = true
@@ -399,7 +399,7 @@ export const useState = () => {
    * @param {AuthAppHeaderOptions} options
    * @return {Promise<ServerRequestType>}
    */
-  const createRole = async (
+  const createRoleRequest = async (
     data: CreateRoleData,
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
@@ -433,7 +433,7 @@ export const useState = () => {
    * @param {AuthAppHeaderOptions} options
    * @return {Promise<ServerRequestType>}
    */
-  const removeRole = async (
+  const removeRoleRequest = async (
     ids: number[],
     options: AuthAppHeaderOptions
   ): Promise<ServerRequestType> => {
@@ -473,22 +473,19 @@ export const useState = () => {
     getRoles,
     getToastData,
     setToastData,
-    Permissions,
     setRoles,
     resetState,
-    updateRolesTextValue,
-    updateRolesData,
-    updateRolesPermissions,
-    getRolesData,
-    downloadMemberCSV,
-    getPermissionsList,
-    createRole,
-    removeRole
+    updateStateTextValue,
+    updateStateSelectValue,
+    updateRolesDataRequest,
+    getRolesDataRequest,
+    downloadRolesCSVRequest,
+    getPermissionsListRequest,
+    createRoleRequest,
+    removeRoleRequest
   }
 }
 
 // get return type of a function type
 export type RolesStateType = ReturnType<typeof useState>
-export const RolesStateKey: InjectionKey<RolesStateType> = Symbol(
-  'membersState'
-)
+export const RolesStateKey: InjectionKey<RolesStateType> = Symbol('rolesState')

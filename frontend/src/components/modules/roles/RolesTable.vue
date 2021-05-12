@@ -39,7 +39,7 @@
         :style="colOpt[1].style"
       >
         <template #body="{data}">
-          <div class="app-table__text-field">
+          <div class="roles-table__text-field">
             {{ data.name }}
           </div>
         </template>
@@ -73,7 +73,7 @@
         :style="colOpt[2].style"
       >
         <template #body="{data}">
-          <div class="app-table__text-field">
+          <div class="roles-table__text-field">
             {{ data.code }}
           </div>
         </template>
@@ -107,7 +107,7 @@
         :style="colOpt[3].style"
       >
         <template #body="{data}">
-          <div class="app-table__text-field">
+          <div class="roles-table__text-field">
             {{ data.detail }}
           </div>
         </template>
@@ -285,7 +285,7 @@ export default defineComponent({
      * @return {{id: number, key: string, value: string}}
      */
     const catchTextChange = (value: string, key: string, id: number) => {
-      rolesService.updateRolesTextValue(id, key as RolesTextKeys, value)
+      rolesService.updateStateTextValue(id, key as RolesTextKeys, value)
     }
 
     /**
@@ -301,7 +301,7 @@ export default defineComponent({
       id: number
     ) => {
       inversionFlag(loadingFlag)
-      const response = await rolesService.updateRolesData(
+      const response = await rolesService.updateRolesDataRequest(
         id,
         authApp.getHeaderOptions()
       )
@@ -324,7 +324,7 @@ export default defineComponent({
       key: string,
       id: number
     ) => {
-      rolesService.updateRolesPermissions(
+      rolesService.updateStateSelectValue(
         id,
         key as RolesSelectKeys,
         event.value as number[]
@@ -332,7 +332,7 @@ export default defineComponent({
 
       // サーバーへリクエスト
       inversionFlag(loadingFlag)
-      const response = await rolesService.updateRolesData(
+      const response = await rolesService.updateRolesDataRequest(
         id,
         authApp.getHeaderOptions()
       )

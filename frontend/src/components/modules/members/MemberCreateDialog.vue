@@ -321,7 +321,7 @@ export default defineComponent({
       display.value = false
       // サーバーへリクエスト
       inversionFlag(loadingFlag)
-      const response = await membersService.createMember(
+      const response = await membersService.createMemberRequest(
         {
           name: name.value,
           email: email.value,

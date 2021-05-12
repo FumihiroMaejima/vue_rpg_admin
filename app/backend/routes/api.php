@@ -7,6 +7,7 @@ use App\Http\Controllers\Admins\AuthController as AdminAuthController;
 use App\Http\Controllers\Admins\AuthInfoController;
 use App\Http\Controllers\Admins\PermissionsController;
 use App\Http\Controllers\Admins\RolesController;
+use App\Http\Controllers\Admins\Game\EnemiesController;
 use App\Http\Controllers\Users\AuthController;
 
 /*
@@ -46,7 +47,7 @@ Route::group(['prefix' => 'auth/admin', 'middleware' => 'auth:api-admins'], func
 });
 
 // admin
-Route::group(['prefix' => 'admin', 'middleware' => 'auth:api-admins'], function () {
+Route::group(['prefix' => 'v1/admin', 'middleware' => 'auth:api-admins'], function () {
     // auth info
     Route::get('/authinfo', [AuthInfoController::class, 'index']);
 
@@ -69,8 +70,22 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:api-admins'], function 
         Route::delete('/role', [RolesController::class, 'destroy'])->name('admin.roles.delete');
     });
 
+    // permissions
     Route::group(['prefix' => 'permissions'], function () {
         Route::get('/list', [PermissionsController::class, 'list'])->name('admin.permissions.list');
+    });
+
+    // game
+    Route::group(['prefix' => 'game'], function () {
+        // enemies
+        Route::group(['prefix' => 'enemies'], function () {
+            Route::get('/', [EnemiesController::class, 'index'])->name('admin.game.enemies.index');
+            Route::get('/file/csv', [EnemiesController::class, 'download'])->name('admin.game.enemies.download');
+            Route::get('/file/template', [EnemiesController::class, 'template'])->name('admin.game.enemies.template');
+            Route::post('/file/template', [EnemiesController::class, 'uploadTemplate'])->name('admin.game.enemies.template.upload');
+            Route::patch('/enemy/{id}', [EnemiesController::class, 'update'])->name('admin.game.enemies.update');
+            Route::delete('/enemy', [EnemiesController::class, 'destroy'])->name('admin.game.enemies.delete');
+        });
     });
 });
 

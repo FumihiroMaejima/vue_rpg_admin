@@ -57,11 +57,11 @@ export const downloadFile = (url: string, name: string) => {
 }
 
 /**
- * inversion boolean flag.
+ * invalid type error class.
  * @param {Ref<boolean>} value
  * @return {void}
  */
-class InvalidStateErrorUtil extends Error {
+export class InvalidStateErrorUtil extends Error {
   constructor(value: never, message?: string) {
     super(message)
   }

@@ -13,22 +13,40 @@ module.exports = {
   },
   endpoint: {
     authinfo: {
-      authInfomation: '/api/admin/authinfo'
+      authInfomation: '/api/v1/admin/authinfo'
     },
     members: {
-      members: '/api/admin/members',
-      csv: '/api/admin/members/csv',
-      member: '/api/admin/members/member/:id',
-      create: '/api/admin/members/member',
-      roles: '/api/admin/roles/list'
+      members: '/api/v1/admin/members',
+      csv: '/api/v1/admin/members/csv',
+      member: '/api/v1/admin/members/member/:id',
+      create: '/api/v1/admin/members/member',
+      roles: '/api/v1/admin/roles/list'
     },
     roles: {
-      roles: '/api/admin/roles',
-      csv: '/api/admin/roles/csv',
-      role: '/api/admin/roles/role/:id',
-      create: '/api/admin/roles/role',
-      delete: '/api/admin/roles/role',
-      permissions: '/api/admin/permissions/list'
+      roles: '/api/v1/admin/roles',
+      csv: '/api/v1/admin/roles/csv',
+      role: '/api/v1/admin/roles/role/:id',
+      create: '/api/v1/admin/roles/role',
+      delete: '/api/v1/admin/roles/role',
+      permissions: '/api/v1/admin/permissions/list'
+    },
+    game: {
+      characters: {
+        characters: '/api/v1/admin/game/characters',
+        character: '/api/v1/admin/game/characters/character/:id',
+        template: '/api/v1/admin/game/characters/file/template',
+        csv: '/api/v1/admin/game/characters/csv',
+        create: '/api/v1/admin/game/characters/character',
+        delete: '/api/v1/admin/game/characters/character'
+      },
+      enemies: {
+        enemies: '/api/v1/admin/game/enemies',
+        enemy: '/api/v1/admin/game/enemies/enemy/:id',
+        template: '/api/v1/admin/game/enemies/file/template',
+        csv: '/api/v1/admin/game/enemies/file/csv',
+        create: '/api/v1/admin/game/enemies/enemy',
+        delete: '/api/v1/admin/game/enemies/enemy'
+      }
     }
   },
   headerMenuContents: [
@@ -216,7 +234,7 @@ module.exports = {
         }
       ]
     },
-    {
+    /* {
       label: 'アビリティ',
       icon: 'pi pi-fw pi-pencil',
       items: [
@@ -271,15 +289,20 @@ module.exports = {
           separator: true
         }
       ]
-    },
+    }, */
     {
       label: 'キャラクター',
       icon: 'pi pi-fw pi-pencil',
       items: [
-        {
+        /* {
           label: 'キャラクター管理',
           icon: 'pi pi-fw pi-user',
-          to: '/test'
+          to: '/game/characters'
+        }, */
+        {
+          label: '敵キャラクター',
+          icon: 'pi pi-fw pi-user',
+          to: '/game/enemies'
         },
         {
           separator: true

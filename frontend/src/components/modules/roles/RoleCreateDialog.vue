@@ -274,7 +274,7 @@ export default defineComponent({
       display.value = false
       // サーバーへリクエスト
       inversionFlag(loadingFlag)
-      const response = await rolesService.createRole(
+      const response = await rolesService.createRoleRequest(
         {
           name: name.value,
           code: code.value,
