@@ -115,7 +115,6 @@ class GameEnemiesService
             $status = ($isInsert > 0) ? 201 : 401;
 
             return response()->json(['message' => $message, 'status' => $status], $status);
-
         } catch (Exception $e) {
             Log::error(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' . 'message: ' . json_encode($e->getMessage()));
             DB::rollback();
