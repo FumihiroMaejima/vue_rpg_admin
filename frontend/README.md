@@ -1164,11 +1164,85 @@ export const HelloTest = () => ({
 
 ```
 
-下記のコマンド実行でブラウザに画面が出力される。s
+---
 
-```shell-session
-$ yarn storybook
+## E2Eテストの設定
+
+`cypress`を利用する。
+
+プロジェクト作成時にcypressをインストールしている事を前提とする。
+
+### tsconfig.jsonの設定
+
+TypeScriptの設定の為に`types`に`cypress`を追記
+
+```json
+{
+  "types": [
+    "webpack-env",
+    "@types/jest",
+    "cypress",
+    "jest"
+  ],
+}
 ```
+
+### 外部ファイルインポートの設定
+
+データ等を外部ファイル化した時にimport宣言した時にエラーが発生する現象の対応。
+
+`@cypress/webpack-preprocessor`をインストールする。
+
+```
+$ yarn add --dev @cypress/webpack-preprocessor
+```
+
+
+`frontend/tests/e2e/plugins/index.js`の、`const webpack`と`on`のコメントアウトになっている箇所のコメントを外す。
+
+これでテストファイル内でimport宣言が出来る様になる。
+
+
+```javascript
+/* eslint-disable @typescript-eslint/no-var-requires */
+const webpack = require('@cypress/webpack-preprocessor')
+
+module.exports = (on, config) => {
+  on('file:preprocessor', webpack({
+    webpackOptions: require('@vue/cli-service/webpack.config'),
+    watchOptions: {}
+  }))
+
+  return Object.assign({}, config, {
+    fixturesFolder: 'tests/e2e/fixtures',
+    integrationFolder: 'tests/e2e/specs',
+    screenshotsFolder: 'tests/e2e/screenshots',
+    videosFolder: 'tests/e2e/videos',
+    supportFile: 'tests/e2e/support/index.js'
+  })
+}
+```
+### 参考のテスト
+
+```TypeScript
+describe('Root Page Test', () => {
+  it('Visits the app root url with no authData.', () => {
+    cy.visit('/')
+
+    // redirect login form
+    cy.contains('div', 'Login Form')
+    cy.get('button').should('be.disabled')
+
+    cy.get('#email')
+      .should('have.value', '')
+
+    cy.get('#password')
+      .should('have.value', '')
+  })
+})
+```
+
+---
 
 ### Vuetifyを使う場合
 

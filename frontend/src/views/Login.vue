@@ -45,6 +45,7 @@
               class="p-button-raised"
               :icon="iconValue"
               :label="buttonText"
+              :disabled="LoginDisabled"
               @click="loginAction"
             />
           </template>
@@ -119,6 +120,10 @@ export default defineComponent({
       loadingFlag.value ? 'Now Loading...' : 'Sign In'
     )
 
+    const LoginDisabled = computed(
+      (): boolean => !(emailError.value === '' && passwordError.value === '')
+    )
+
     // methods
     /**
      * catch click event
@@ -171,6 +176,7 @@ export default defineComponent({
       iconValue,
       buttonText,
       loginAction,
+      LoginDisabled,
       keyupEnterHandler
     }
   }
