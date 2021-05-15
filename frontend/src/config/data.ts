@@ -7,9 +7,9 @@ module.exports = {
     { title: 'ポータルサイトを作成しました。', date: '2020/09/22 10:00' }
   ],
   authEndpoint: {
-    AUTH_LOGIN: '/api/auth/admin/login',
-    AUTH_LOGOUT: '/api/auth/admin/logout',
-    AUTH_SELF: '/api/auth/admin/self'
+    AUTH_LOGIN: '/api/v1/auth/admin/login',
+    AUTH_LOGOUT: '/api/v1/auth/admin/logout',
+    AUTH_SELF: '/api/v1/auth/admin/self'
   },
   endpoint: {
     authinfo: {

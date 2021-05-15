@@ -35,12 +35,12 @@ Route::get('test', function () {
 | Admin
 |--------------------------------------------------------------------------
 */
-Route::group(['prefix' => 'auth/admin'], function () {
+Route::group(['prefix' => 'v1/auth/admin'], function () {
     Route::post('login', [AdminAuthController::class, 'login'])->name('auth.admin');
 });
 
 // admin auth
-Route::group(['prefix' => 'auth/admin', 'middleware' => 'auth:api-admins'], function () {
+Route::group(['prefix' => 'v1/auth/admin', 'middleware' => 'auth:api-admins'], function () {
     Route::post('logout', [AdminAuthController::class, 'logout']);
     Route::post('refresh', [AdminAuthController::class, 'refresh']);
     Route::post('self', [AdminAuthController::class, 'getAuthUser']);
