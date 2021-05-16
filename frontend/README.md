@@ -138,6 +138,11 @@ yarn build
 yarn test:unit
 ```
 
+### Run your unit tests & output coverage
+```Shell-session
+yarn test:unit --coverage
+```
+
 ### Run your end-to-end tests
 ```
 yarn test:e2e

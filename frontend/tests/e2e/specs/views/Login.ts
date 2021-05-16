@@ -38,5 +38,8 @@ describe('Login Page Test', () => {
 
     // login action
     cy.get('.p-button-raised').click('center')
+
+    // 管理画面へのリダイレクトチェック
+    cy.contains('h1', '管理サービス')
   })
 })
