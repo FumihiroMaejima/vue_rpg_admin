@@ -74,6 +74,7 @@
     }
   },
   "lint-staged": {
+    "*": "yarn test:unit",
     "*.ts": "eslint --cache --fix",
     "*.js": "eslint --cache --fix",
     "*.css": "stylelint --fix"
