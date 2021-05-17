@@ -36,7 +36,7 @@ schemes:
 - "https"
 - "http"
 paths:
-  /v1/admin/members:
+  /admin/members:
     get:
       tags:
       - "members"
@@ -45,19 +45,6 @@ paths:
       # operationId: "getPetById"
       produces:
       - "application/json"
-      parameters:
-      - name: "authenticaion_key"
-        in: "header"
-        description: "api key"
-        required: true
-        type: "string"
-      - name: "authority_key"
-        in: "header"
-        description: "api key"
-        required: true
-        type: "array"
-        items:
-          type: "string"
       responses:
         "200":
           description: "successful operation"
@@ -74,7 +61,7 @@ paths:
       security:
       - authenticaion_key: []
       - authority_key: []
-  /v1/admin/members/csv:
+  /admin/members/csv:
     get:
       tags:
       - "members"
@@ -83,20 +70,6 @@ paths:
       # operationId: "getPetById"
       produces:
       - "application/csv"
-      # parameters: []
-      parameters:
-      - name: "authenticaion_key"
-        in: "header"
-        description: "api key"
-        required: true
-        type: "string"
-      - name: "authority_key"
-        in: "header"
-        description: "api key"
-        required: true
-        type: "array"
-        items:
-          type: "string"
       responses:
         "200":
           description: "successful operation"
@@ -113,7 +86,7 @@ paths:
       security:
       - authenticaion_key: []
       - authority_key: []
-  /v1/admin/members/member:
+  /admin/members/member:
     post:
       tags:
       - "members"
@@ -180,7 +153,7 @@ paths:
       - members_auth:
         - "write:members"
         - "read:members"
-  /v1/admin/members/member/{id}:
+  /admin/members/member/{id}:
     patch:
       tags:
       - "members"
@@ -291,7 +264,7 @@ paths:
       - members_auth:
         - "write:members"
         - "read:members"
-  /v1/admin/roles:
+  /admin/roles:
     get:
       tags:
       - "roles"
@@ -299,19 +272,6 @@ paths:
       description: "Returns roles data"
       produces:
       - "application/json"
-      parameters:
-      - name: "authenticaion_key"
-        in: "header"
-        description: "api key"
-        required: true
-        type: "string"
-      - name: "authority_key"
-        in: "header"
-        description: "api key"
-        required: true
-        type: "array"
-        items:
-          type: "string"
       responses:
         "200":
           description: "successful operation"
@@ -328,7 +288,7 @@ paths:
       security:
       - authenticaion_key: []
       - authority_key: []
-  /v1/admin/roles/list:
+  /admin/roles/list:
     get:
       tags:
       - "roles"
@@ -336,19 +296,6 @@ paths:
       description: "Returns roles data"
       produces:
       - "application/json"
-      parameters:
-      - name: "authenticaion_key"
-        in: "header"
-        description: "api key"
-        required: true
-        type: "string"
-      - name: "authority_key"
-        in: "header"
-        description: "api key"
-        required: true
-        type: "array"
-        items:
-          type: "string"
       responses:
         "200":
           description: "successful operation"
@@ -365,7 +312,7 @@ paths:
       security:
       - authenticaion_key: []
       - authority_key: []
-  /v1/admin/roles/csv:
+  /admin/roles/csv:
     get:
       tags:
       - "roles"
@@ -373,19 +320,6 @@ paths:
       description: "Returns roles CSV data"
       produces:
       - "application/csv"
-      parameters:
-      - name: "authenticaion_key"
-        in: "header"
-        description: "api key"
-        required: true
-        type: "string"
-      - name: "authority_key"
-        in: "header"
-        description: "api key"
-        required: true
-        type: "array"
-        items:
-          type: "string"
       responses:
         "200":
           description: "successful operation"
@@ -402,7 +336,7 @@ paths:
       security:
       - authenticaion_key: []
       - authority_key: []
-  /v1/admin/roles/role:
+  /admin/roles/role:
     post:
       tags:
       - "roles"
@@ -518,7 +452,7 @@ paths:
       - members_auth:
         - "write:members"
         - "read:members"
-  /v1/admin/roles/role/{id}:
+  /admin/roles/role/{id}:
     patch:
       tags:
       - "roles"
@@ -531,18 +465,6 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "authenticaion_key"
-        in: "header"
-        description: "api key"
-        required: true
-        type: "string"
-      - name: "authority_key"
-        in: "header"
-        description: "api key"
-        required: true
-        type: "array"
-        items:
-          type: "string"
       - name: "id"
         in: "path"
         description: "ID of Role"
@@ -585,10 +507,9 @@ paths:
           schema:
             $ref: "#/definitions/ApiErrorResponse"
       security:
-      - members_auth:
-        - "write:members"
-        - "read:members"
-  /v1/admin/game/enemies:
+      - authenticaion_key: []
+      - authority_key: []
+  /admin/game/enemies:
     get:
       tags:
       - "gameEnemies"
@@ -596,19 +517,7 @@ paths:
       description: "Returns gameEnemies data"
       produces:
       - "application/json"
-      parameters:
-      - name: "authenticaion_key"
-        in: "header"
-        description: "api key"
-        required: true
-        type: "string"
-      - name: "authority_key"
-        in: "header"
-        description: "api key"
-        required: true
-        type: "array"
-        items:
-          type: "string"
+
       responses:
         "200":
           description: "successful operation"
@@ -625,7 +534,7 @@ paths:
       security:
       - authenticaion_key: []
       - authority_key: []
-  /v1/admin/game/enemies/file/csv:
+  /admin/game/enemies/file/csv:
     get:
       tags:
       - "gameEnemies"
@@ -633,19 +542,6 @@ paths:
       description: "Returns gameEnemies CSV data"
       produces:
       - "application/csv"
-      parameters:
-      - name: "authenticaion_key"
-        in: "header"
-        description: "api key"
-        required: true
-        type: "string"
-      - name: "authority_key"
-        in: "header"
-        description: "api key"
-        required: true
-        type: "array"
-        items:
-          type: "string"
       responses:
         "200":
           description: "successful operation"
@@ -662,7 +558,7 @@ paths:
       security:
       - authenticaion_key: []
       - authority_key: []
-  /v1/admin/game/enemies/file/template:
+  /admin/game/enemies/file/template:
     get:
       tags:
       - "gameEnemies"
@@ -670,19 +566,6 @@ paths:
       description: "Returns Template File of Enemeies"
       produces:
       - "application/json"
-      parameters:
-      - name: "authenticaion_key"
-        in: "header"
-        description: "api key"
-        required: true
-        type: "string"
-      - name: "authority_key"
-        in: "header"
-        description: "api key"
-        required: true
-        type: "array"
-        items:
-          type: "string"
       responses:
         "200":
           description: "successful operation"
@@ -743,7 +626,7 @@ paths:
       security:
       - authenticaion_key: []
       - authority_key: []
-  /v1/admin/game/enemies/enemy/{id}:
+  /admin/game/enemies/enemy/{id}:
     patch:
       tags:
       - "gameEnemies"
@@ -830,7 +713,7 @@ paths:
       security:
       - authenticaion_key: []
       - authority_key: []
-  /v1/admin/game/enemies/enemy:
+  /admin/game/enemies/enemy:
     delete:
       tags:
       - "gameEnemies"
@@ -882,7 +765,7 @@ paths:
       security:
       - authenticaion_key: []
       - authority_key: []
-  /v1/auth/admin/login:
+  /auth/admin/login:
     post:
       tags:
       - "auth"
@@ -922,7 +805,7 @@ paths:
           description: "Invalid input"
           schema:
             $ref: "#/definitions/ApiErrorResponse"
-  /v1/auth/admin/logout:
+  /auth/admin/logout:
     post:
       tags:
       - "auth"
@@ -959,7 +842,7 @@ paths:
           description: "unsuccessful operation"
           schema:
             $ref: "#/definitions/ApiErrorResponse"
-  /v1/auth/admin/refresh:
+  /auth/admin/refresh:
     post:
       tags:
       - "auth"
@@ -996,7 +879,7 @@ paths:
           description: "unsuccessful operation"
           schema:
             $ref: "#/definitions/ApiErrorResponse"
-  /v1/auth/admin/self:
+  /auth/admin/self:
     post:
       tags:
       - "auth"

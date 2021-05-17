@@ -70,8 +70,10 @@ services:
   #     - redis-store:/data
 
 volumes:
-  redis-store:
+  # redis-store:
   vue-rpg-store:
+    name: ${VOLUME_NAME}
+    driver: local
 
 networks:
   default:
