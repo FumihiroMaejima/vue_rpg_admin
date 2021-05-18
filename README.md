@@ -867,6 +867,15 @@ mockサーバーの起動
 ---
 # 補足
 
+### Composer パッケージのアップデート
+
+下記のコマンドで`yarn upgrade`と同様の要領でパッケージの更新を掛けられる。
+
+```shell-session
+$ composer update
+```
+
+---
 ### backendのpackage.jsonのアップデート
 
 update対象の確認
@@ -882,5 +891,11 @@ $ npm audit fix
 ```
 
 上記でアップデートが出来ない場合はマニュアルでアップデートをかける。
+
+`--force`オプションでアップグレードを掛けられる。
+
+```shell-session
+$ npm audit fix --force
+```
 
 ---

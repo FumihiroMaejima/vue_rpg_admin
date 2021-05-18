@@ -22,7 +22,7 @@ export function checkTextMaxLength(
   value: string,
   maxlength: null | number = null
 ): boolean {
-  if (value === null) {
+  if (maxlength === null) {
     return true
   }
   return value.length <= maxlength!
@@ -52,7 +52,7 @@ export function checkPrimitiveType(
 }
 
 /**
- * check text white space.
+ * check two text value is equals.
  * @param {string} value
  * @param {string} comparedValue
  * @return {boolean}
@@ -62,7 +62,7 @@ export function checkTextEquals(value: string, comparedValue: string): boolean {
 }
 
 /**
- * check text white space.
+ * check email regex.
  * @param {string} value
  * @return {boolean}
  */
@@ -74,7 +74,7 @@ export function checkEmailRegex(value: string): boolean {
 }
 
 /**
- * check text white space.
+ * check password regex.
  * @param {string} value
  * @return {boolean}
  */
@@ -136,7 +136,7 @@ export function checkFileLength(
 }
 
 /**
- * check text white space.
+ * validate name.
  * @param {string} value
  * @param {number} textSize
  * @return {string} message
@@ -152,7 +152,7 @@ export function validateName(value: string, textSize = 5): string {
 }
 
 /**
- * check text white space.
+ * validate email.
  * @param {string} value
  * @param {number} textSize
  * @return {string} message
@@ -170,7 +170,7 @@ export function validateEmail(value: string, textSize = 5): string {
 }
 
 /**
- * check text white space.
+ * validate number value.
  * @param {string} value
  * @param {number} textSize
  * @return {string} message
@@ -184,7 +184,7 @@ export function validateSelectBoxNumberValue(value: number): string {
 }
 
 /**
- * check text white space.
+ * validate password.
  * @param {string} value
  * @param {number} textSize
  * @return {string} message
@@ -202,7 +202,7 @@ export function validatePassword(value: string, textSize = 8): string {
 }
 
 /**
- * check text white space.
+ * validate confirm password.
  * @param {string} value
  * @return {string} message
  */
@@ -252,7 +252,7 @@ export function validateRoleDetail(value: string, textSize = 5): string {
 }
 
 /**
- * check text white space.
+ * validate multilple number value.
  * @param {string} value
  * @return {string} message
  */

@@ -31,6 +31,7 @@
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
+    "@cypress/webpack-preprocessor": "^5.8.0",
     "@storybook/addon-a11y": "^6.2.1",
     "@storybook/addon-essentials": "^6.2.1",
     "@storybook/addon-knobs": "^6.2.1",
@@ -73,6 +74,7 @@
     }
   },
   "lint-staged": {
+    "*": "yarn test:unit",
     "*.ts": "eslint --cache --fix",
     "*.js": "eslint --cache --fix",
     "*.css": "stylelint --fix"

@@ -401,11 +401,7 @@ export default defineComponent({
      * @param {number} id
      * @return {void}
      */
-    const catchTextChange = (
-      value: string,
-      key: string,
-      id: number
-    ) => {
+    const catchTextChange = (value: string, key: string, id: number) => {
       gameEnemiesService.updateStateTextValue(id, key as EnemyTextKeys, value)
     }
 
