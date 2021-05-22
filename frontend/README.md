@@ -978,6 +978,18 @@ $ yarn add webpack-cli
 $ yarn add --dev @storybook/vue
 ```
 
+`Vue3`を使う場合は`vue3`版を用意する必要がある。
+
+```shell-session
+$ yarn add --dev @storybook/vue3
+```
+
+v16以上の`vue-loader`をインストールする。
+
+```shell-session
+$ yarn add vue-loader@next
+```
+
 ### その他パッケージのインストール
 
 ```shell-session
@@ -994,14 +1006,14 @@ $ yarn add --dev babel-preset-vue ts-loader sass-resources-loader
 
 ```shell-session
 $ yarn add --dev @storybook/addon-knobs
-$ yarn add --dev @storybook/addon-notes
+$ yarn add --dev @storybook/addon-notes@6.0.0-alpha.6
 $ yarn add --dev @storybook/addon-a11y
 $ yarn add --dev @storybook/addon-essentials
 $ yarn add --dev @storybook/source-loader
 ```
 
 ```shell-session
-$ yarn add --dev @storybook/addon-knobs @storybook/addon-notes @storybook/addon-a11y @storybook/addon-essentials @storybook/source-loader
+$ yarn add --dev @storybook/addon-knobs @storybook/addon-notes@6.0.0-alpha.6 @storybook/addon-a11y @storybook/addon-essentials @storybook/source-loader
 ```
 下記のエラーが発生する場合は`style-loader`をインストールする。
 
@@ -1028,7 +1040,7 @@ pasckage.jsonの`scripts`に下記の設定を追記する。
 
 ```Json
   "scripts": {
-    "storybook": "start-storybook -p 9100"
+    "storybook": "start-storybook -p 6200"
   },
 ```
 
