@@ -6,9 +6,9 @@ Laravel環境をDockerで構築する為の手順書
 
 | 名前 | バージョン |
 | :--- | :---: |
-| PHP | 7.4(php:7.4-fpm-alpine) |
+| PHP | 8.0.3(php:8.0.3-fpm-alpine) |
 | MySQL | 8.0 |
-| Nginx | 1.18(nginx:1.18-alpine) |
+| Nginx | 1.19(nginx:1.19-alpine) |
 | Laravel | 8.* |
 
 ---
