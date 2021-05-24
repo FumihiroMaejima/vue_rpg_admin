@@ -1,8 +1,18 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import axios, { AxiosError } from 'axios'
+import axios, { AxiosResponse, AxiosError } from 'axios'
 
-export type ServerRequestType = {
-  [key: string]: string | number | any | AxiosError<any>
-  data: any | AxiosError<any>
+export type ServerRequestType<T = any> = {
+  data:
+    | string
+    | T
+    | AxiosResponse<T>
+    | ServerErrorResponseType
+    | AxiosError<ServerErrorResponseType>
   status: number
+}
+
+export type ServerErrorResponseType = {
+  status: number
+  errors: string[]
+  message: string
 }
