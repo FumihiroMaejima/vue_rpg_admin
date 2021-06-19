@@ -85,6 +85,17 @@ export function checkPasswordRegex(value: string): boolean {
 }
 
 /**
+ * check katakana regex.
+ * @param {string} value
+ * @return {boolean}
+ */
+export function checkKatakana(value: string): boolean {
+  // 文字の範囲で指定する場合は^[ァ-?]+$
+  const regex = /^[\u30A0-\u30FF]+$/
+  return regex.test(value)
+}
+
+/**
  * check file size(byte size).
  * @param {number} targetSize
  * @param {number} maxFileSize
