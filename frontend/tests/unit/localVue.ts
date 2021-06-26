@@ -10,6 +10,7 @@ import router from '@/router'
 import store from '@/store'
 import axios, { AxiosStatic } from 'axios'
 import { IAppConfig, RootState } from '@/types'
+import 'jest'
 const config: IAppConfig = require('@/config/data')
 
 // 現在Vue3ではcreateLocalVueが使えない。→廃止になった。
@@ -32,8 +33,16 @@ client.get.mockResolvedValue({ data: { key: 'value' } }) */
  * get axios mock.
  * @return {jest.Mocked<AxiosStatic>}
  */
-export function getLocalAxios() {
+export function getAxiosMock() {
   return axios as jest.Mocked<AxiosStatic>
+}
+
+/**
+ * get app config.
+ * @return {IAppConfig}
+ */
+export function getAppConfig(): IAppConfig {
+  return config
 }
 
 /**
