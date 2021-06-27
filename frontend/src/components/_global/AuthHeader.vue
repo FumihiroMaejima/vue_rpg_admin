@@ -1,5 +1,5 @@
 <template>
-  <Menubar :model="items">
+  <Menubar :model="[]">
     <template #start>
       <Button
         icon="pi pi-bars"
