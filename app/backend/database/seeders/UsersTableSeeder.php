@@ -23,8 +23,8 @@ class UsersTableSeeder extends Seeder
             'email'      => '',
             'password'   => bcrypt(Config::get('myapp.seeder.password.testuser')),
             'role'       => 10,
-            'created_at' => '2021-01-14 00:00:00',
-            'updated_at' => '2021-01-14 00:00:00'
+            'created_at' => '2021-05-14 00:00:00',
+            'updated_at' => '2021-05-14 00:00:00'
         ];
 
         // insert用データ
@@ -32,9 +32,9 @@ class UsersTableSeeder extends Seeder
 
         // 0~12の数字の配列でforを回す
         foreach (range(1, $this->count) as $i) {
-            $row = $template;
-            $row['name']  = 'admin' . (string)($i);
-            $row['email'] = 'testadmin' . (string)($i) . '@example.com';
+            $row          = $template;
+            $row['name']  = 'user' . (string)($i);
+            $row['email'] = 'testuser' . (string)($i) . '@example.com';
 
             $data[] = $row;
         }
