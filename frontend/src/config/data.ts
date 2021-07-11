@@ -192,7 +192,7 @@ module.exports = {
         }
       ]
     },
-    {
+    /* {
       label: 'ログインユーザー情報',
       icon: 'pi pi-fw pi-pencil',
       items: [
@@ -205,7 +205,7 @@ module.exports = {
           separator: true
         }
       ]
-    },
+    }, */
     {
       label: '管理者情報',
       icon: 'pi pi-fw pi-pencil',
@@ -308,7 +308,7 @@ module.exports = {
           separator: true
         }
       ]
-    },
+    }/* ,
     {
       label: 'エネミー',
       icon: 'pi pi-fw pi-pencil',
@@ -319,6 +319,6 @@ module.exports = {
           to: '/test'
         }
       ]
-    }
+    } */
   ]
 }
