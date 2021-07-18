@@ -32,7 +32,7 @@ if [ ${LINES_LENGTH} -eq 5 ]; then
   docker-compose up -d
 elif [ ${LINES_LENGTH} -eq 22 ]; then
   # コンテナが立ち上がっている状態の時
-  # Exitなどのエラー除隊の判別が出来ればより便利
+  # Exitなどのエラー状態の判別が出来ればより便利
   echo 'Down Docker Container!'
   echo ${SEPARATOPION}
   docker-compose down
