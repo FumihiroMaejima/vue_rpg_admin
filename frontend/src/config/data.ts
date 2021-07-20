@@ -308,7 +308,7 @@ module.exports = {
           separator: true
         }
       ]
-    }/* ,
+    } /* ,
     {
       label: 'エネミー',
       icon: 'pi pi-fw pi-pencil',

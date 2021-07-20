@@ -108,6 +108,15 @@ export const checkDateFormat = (value: string): boolean => {
 }
 
 /**
+ * 日時の形式(yyyy/mm/dd hh:mm:ss)のチェック
+ * @param {string} value
+ * @return {boolean}
+ */
+export const checkDateTimeFormat = (value: string): boolean => {
+  return value.match(/^[0-9]{4}\/[0-9]{2}\/[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}/u) !== null
+}
+
+/**
  * invalid type error class.
  * @param {Ref<boolean>} value
  * @return {void}
