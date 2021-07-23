@@ -25,7 +25,7 @@ export function checkTextMaxLength(
   if (maxlength === null) {
     return true
   }
-  return value.length <= maxlength!
+  return value.length <= maxlength
 }
 
 /**
@@ -35,7 +35,7 @@ export function checkTextMaxLength(
  * @return {boolean}
  */
 export function checkTextMinLength(value: string, minlength = 0): boolean {
-  return value.length >= minlength!
+  return value.length >= minlength
 }
 
 /**
