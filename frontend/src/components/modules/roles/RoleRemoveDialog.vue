@@ -71,21 +71,18 @@ import {
   ref,
   Ref,
   PropType,
-  reactive,
   computed,
   SetupContext,
-  watch,
   inject
 } from 'vue'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
-import Dropdown from 'primevue/dropdown'
 
 import { RolesType, RolesStateKey, RolesStateType } from '@/services/roles'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
-import { useField, useForm } from 'vee-validate'
-import { ToastType, SelectBoxType } from '@/types/applications/index'
+// import { useField, useForm } from 'vee-validate'
+import { ToastType } from '@/types/applications/index'
 import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 
 type Props = {

@@ -41,8 +41,8 @@ import RoleRemoveDialog from '@/components/modules/roles/RoleRemoveDialog.vue'
 import RolesTable from '@/components/modules/roles/RolesTable.vue'
 import {
   // editableRole,
-  MembersType,
-  MembersStateKey
+  MembersType
+  // MembersStateKey
   // useState
 } from '@/services/members'
 import {
@@ -111,10 +111,9 @@ export default defineComponent({
     // methods
     /**
      * handling create role event
-     * @param {boolean} event
      * @return {void}
      */
-    const createRoleHandler = async (event: boolean) => {
+    const createRoleHandler = async () => {
       inversionFlag(loadingFlag)
       const response = await rolesService.getRolesDataRequest(
         authApp.getHeaderOptions()
@@ -127,10 +126,9 @@ export default defineComponent({
 
     /**
      * handling remove role event
-     * @param {boolean} event
      * @return {void}
      */
-    const removeRoleHandler = async (event: boolean) => {
+    const removeRoleHandler = async () => {
       selectedRoles.value = []
       inversionFlag(loadingFlag)
       const response = await rolesService.getRolesDataRequest(
@@ -144,7 +142,6 @@ export default defineComponent({
 
     /**
      * handling download role event
-     * @param {boolean} event
      * @return {void}
      */
     const downloadFileHandler = async () => {

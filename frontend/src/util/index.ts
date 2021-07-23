@@ -88,12 +88,35 @@ export const readFileDataAsText = async (
   return new Promise(
     (resolve: (param: string | ArrayBuffer | null) => void) => {
       const reader = new FileReader()
-      reader.onload = (e: ProgressEvent) => {
+      // reader.onload = (e: ProgressEvent) => {
+      reader.onload = () => {
         // 読み込んだ結果をresolve(解決)する
         resolve(reader.result)
       }
       // 読み込み
       reader.readAsText(file)
+    }
+  )
+}
+
+/**
+ * ファイルの読み込みとデータをデータURLとして取得
+ * @param {File} file
+ * @return {Promise<string | ArrayBuffer | null>}
+ */
+export const readFileDataAsDataURL = async (
+  file: File
+): Promise<string | ArrayBuffer | null> => {
+  return new Promise(
+    (resolve: (param: string | ArrayBuffer | null) => void) => {
+      const reader = new FileReader()
+      // reader.onload = (e: ProgressEvent) => {
+      reader.onload = () => {
+        // 読み込んだ結果をresolve(解決)する
+        resolve(reader.result)
+      }
+      // 読み込み
+      reader.readAsDataURL(file)
     }
   )
 }

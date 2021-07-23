@@ -153,7 +153,8 @@ export default defineComponent({
      */
     const createImage = (file: File) => {
       const reader = new FileReader()
-      reader.onload = (e: ProgressEvent) => {
+      // reader.onload = (e: ProgressEvent) => {
+      reader.onload = () => {
         // const target = e.target as FileReader
         // imageData.value = e.target.result
         imageData.value = reader.result

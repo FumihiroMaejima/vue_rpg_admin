@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/camelcase */
 
-import { IAppConfig } from '@/types/config/data'
-const config: IAppConfig = require('@/config/data')
+// import { IAppConfig } from '@/types/config/data'
+// const config: IAppConfig = require('@/config/data')
 
 export const testLoginData = {
   email: 'test name',

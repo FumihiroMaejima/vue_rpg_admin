@@ -194,7 +194,7 @@ import {
   PropType,
   reactive,
   computed,
-  provide,
+  // provide,
   watch,
   SetupContext,
   inject
@@ -203,7 +203,7 @@ import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
 import InputText from 'primevue/inputtext'
 import MultiSelect from 'primevue/multiselect'
-import Dropdown from 'primevue/dropdown'
+// import Dropdown from 'primevue/dropdown'
 import {
   // editableRole,
   tableSetting,
@@ -259,7 +259,7 @@ export default defineComponent({
     // watch
     watch(
       () => rolesService.state.permissions,
-      (newValue, old) => {
+      (newValue /* , old */) => {
         if (colOpt[4].type === 'select') {
           colOpt[4].items = [...newValue]
         }
@@ -308,6 +308,7 @@ export default defineComponent({
       key: string,
       id: number
     ) => {
+      console.log('test: ' + `${event}:${key}`)
       inversionFlag(loadingFlag)
       const response = await rolesService.updateRolesDataRequest(
         id,

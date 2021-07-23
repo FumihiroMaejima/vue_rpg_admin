@@ -98,10 +98,9 @@ export default defineComponent({
     // methods
     /**
      * handling import enevemies event
-     * @param {boolean} event
      * @return {void}
      */
-    const importEnemiesHandler = async (event: boolean) => {
+    const importEnemiesHandler = async () => {
       inversionFlag(loadingFlag)
       const response = await gameEnemiesService.getEnemiesRequest(
         authApp.getHeaderOptions()
@@ -113,7 +112,6 @@ export default defineComponent({
     }
     /**
      * handling download enemies event
-     * @param {boolean} event
      * @return {void}
      */
     const downloadFileHandler = async () => {
@@ -129,10 +127,9 @@ export default defineComponent({
 
     /**
      * handling remove enemies event
-     * @param {boolean} event
      * @return {void}
      */
-    const removeEenemiesHandler = async (event: boolean) => {
+    const removeEenemiesHandler = async () => {
       selectedEnemies.value = []
       inversionFlag(loadingFlag)
       const response = await gameEnemiesService.getEnemiesRequest(

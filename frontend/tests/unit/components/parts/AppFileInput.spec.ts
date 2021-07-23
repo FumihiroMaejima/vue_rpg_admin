@@ -1,6 +1,5 @@
-import { shallowMount, VueWrapper } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import AppFileInput from '@/components/parts/AppFileInput.vue'
-import { localGlobalOptions } from '../../localVue'
 
 const formLabel = 'ファイルを選択'
 const value = new File(['test blob data'], 'file_name')

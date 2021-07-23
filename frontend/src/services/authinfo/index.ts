@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { Ref } from 'vue'
+// import { Ref } from 'vue'
 import axios, { AxiosResponse, AxiosError } from 'axios'
 import {
   IAppConfig,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   BaseAddHeaderResponse,
   ServerRequestType,
   AuthAppHeaderOptions

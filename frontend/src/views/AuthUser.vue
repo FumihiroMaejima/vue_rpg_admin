@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, inject } from 'vue'
+import { defineComponent, reactive, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import AppTable from '@/components/parts/AppTable.vue'
 import { tableData, tableKeys } from '@/config/resource'

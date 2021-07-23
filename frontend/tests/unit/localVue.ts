@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { createApp, ComponentPublicInstance } from 'vue'
+import { createApp /* , ComponentPublicInstance */ } from 'vue'
 import { App } from '@vue/runtime-core'
-import { Store } from 'vuex'
-import { Router } from 'vue-router'
-import { shallowMount, VueWrapper, MountingOptions } from '@vue/test-utils'
+// import { Store } from 'vuex'
+// import { Router } from 'vue-router'
+// import { shallowMount, VueWrapper, MountingOptions } from '@vue/test-utils'
 import { GlobalMountOptions } from '@vue/test-utils/dist/types'
 import AppComponent from '@/App.vue'
 import router from '@/router'
 import store from '@/store'
 import axios, { AxiosStatic } from 'axios'
+/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 import { IAppConfig, RootState } from '@/types'
 import 'jest'
 const config: IAppConfig = require('@/config/data')

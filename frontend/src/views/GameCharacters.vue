@@ -24,9 +24,9 @@
         </div>
         <div class="p-grid">
           <div class="p-col-12">
-            <game-characters-table
+            <!-- <game-characters-table
               v-model:selectRoles="selectedCharactorValue"
-            />
+            /> -->
           </div>
         </div>
       </div>
@@ -38,10 +38,10 @@
 <script lang="ts">
 import { defineComponent, ref, Ref, computed, provide, inject } from 'vue'
 import Button from 'primevue/button'
-import RoleCreateDialog from '@/components/modules/roles/RoleCreateDialog.vue'
-import RoleRemoveDialog from '@/components/modules/roles/RoleRemoveDialog.vue'
-import RolesTable from '@/components/modules/roles/RolesTable.vue'
-import GameCharactersTable from '@/components/modules/game/characters/GameCharactersTable.vue'
+// import RoleCreateDialog from '@/components/modules/roles/RoleCreateDialog.vue'
+// import RoleRemoveDialog from '@/components/modules/roles/RoleRemoveDialog.vue'
+// import RolesTable from '@/components/modules/roles/RolesTable.vue'
+// import GameCharactersTable from '@/components/modules/game/characters/GameCharactersTable.vue'
 import {
   // editableRole,
   RolesType,
@@ -49,9 +49,9 @@ import {
   useState
 } from '@/services/roles'
 import {
-  editableRole,
-  CharacterType,
-  CharactersStateKey
+  editableRole
+  // CharacterType,
+  // CharactersStateKey
   // useState
 } from '@/services/game/characters'
 import AuthApp from '@/plugins/auth/authApp'
@@ -62,10 +62,10 @@ import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 export default defineComponent({
   name: 'GameCharacters',
   components: {
-    Button,
+    Button
     // RoleCreateDialog,
     // RoleRemoveDialog,
-    GameCharactersTable
+    // GameCharactersTable
     // RolesTable
   },
   setup() {

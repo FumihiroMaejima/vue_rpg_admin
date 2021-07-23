@@ -128,7 +128,7 @@ export default defineComponent({
     // watch
     watch(
       () => membersService.state.roles,
-      (newValue, old) => {
+      (newValue /* , old */) => {
         newValue.forEach((role) => rolesList.push(role))
       }
     )

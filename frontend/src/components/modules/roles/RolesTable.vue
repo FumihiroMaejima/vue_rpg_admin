@@ -189,12 +189,10 @@
 <script lang="ts">
 import {
   defineComponent,
-  ref,
   Ref,
   PropType,
   reactive,
   computed,
-  provide,
   watch,
   SetupContext,
   inject
@@ -203,7 +201,7 @@ import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
 import InputText from 'primevue/inputtext'
 import MultiSelect from 'primevue/multiselect'
-import Dropdown from 'primevue/dropdown'
+// import Dropdown from 'primevue/dropdown'
 import {
   editableRole,
   tableSetting,
@@ -246,12 +244,11 @@ export default defineComponent({
     const loadingFlag = inject(CircleLoadingKey) as Ref<boolean>
     const authApp = inject(AuthAppKey) as AuthApp
     const rolesService = inject(RolesStateKey) as RolesStateType
-    const selectValue = ref<RolesType[]>([])
 
     // watch
     watch(
       () => rolesService.state.permissions,
-      (newValue, old) => {
+      (newValue /* , old */) => {
         if (colOpt[4].type === 'select') {
           colOpt[4].items = [...newValue]
         }
