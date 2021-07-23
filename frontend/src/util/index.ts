@@ -113,7 +113,11 @@ export const checkDateFormat = (value: string): boolean => {
  * @return {boolean}
  */
 export const checkDateTimeFormat = (value: string): boolean => {
-  return value.match(/^[0-9]{4}\/[0-9]{2}\/[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}/u) !== null
+  return (
+    value.match(
+      /^[0-9]{4}\/[0-9]{2}\/[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}/u
+    ) !== null
+  )
 }
 
 /**
