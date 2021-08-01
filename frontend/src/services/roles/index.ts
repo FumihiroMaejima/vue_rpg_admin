@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/camelcase */
-import { Ref, reactive, InjectionKey } from 'vue'
+import { reactive, InjectionKey } from 'vue'
 import axios, { AxiosResponse, AxiosError } from 'axios'
 import {
   IAppConfig,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   BaseAddHeaderResponse,
   ServerRequestType,
   AuthAppHeaderOptions
@@ -200,6 +201,7 @@ export const useState = () => {
     key: RolesTextKeys,
     value: string
   ) => {
+    /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
     state.roles.find((role) => role.id === id)![key] = value
   }
 
@@ -215,6 +217,7 @@ export const useState = () => {
     key: RolesSelectKeys,
     value: number[]
   ) => {
+    /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
     state.roles.find((role) => role.id === id)![key] = value
   }
 

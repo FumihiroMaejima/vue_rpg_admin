@@ -97,10 +97,9 @@ export default defineComponent({
     // methods
     /**
      * handling create member event
-     * @param {boolean} event
      * @return {void}
      */
-    const createMemberHandler = async (event: boolean) => {
+    const createMemberHandler = async () => {
       inversionFlag(loadingFlag)
       const response = await membersService.getMembersDataRequest(
         authApp.getHeaderOptions()
@@ -113,10 +112,9 @@ export default defineComponent({
 
     /**
      * handling remove member event
-     * @param {boolean} event
      * @return {void}
      */
-    const removeMemberHandler = async (event: boolean) => {
+    const removeMemberHandler = async () => {
       inversionFlag(loadingFlag)
       const response = await membersService.getMembersDataRequest(
         authApp.getHeaderOptions()

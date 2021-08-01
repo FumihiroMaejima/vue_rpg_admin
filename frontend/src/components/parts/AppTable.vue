@@ -88,11 +88,11 @@ import Column from 'primevue/column'
 // import ColumnGroup from 'primevue/columngroup'
 import DataTable from 'primevue/datatable'
 import InputText from 'primevue/inputtext'
-import MultiSelect from 'primevue/multiselect'
+// import MultiSelect from 'primevue/multiselect'
 import Dropdown from 'primevue/dropdown'
 // import Dropdown from 'primevue/dropdown'
 import { TableColumnSetting } from '@/types/config/data'
-import { SelectBoxType } from '@/types/applications/index'
+// import { SelectBoxType } from '@/types/applications/index'
 
 type Props = {
   items: any[]

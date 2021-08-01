@@ -1,5 +1,5 @@
 import { AuthEndpoint } from '@/types/config/data'
-import { IAuthentication } from '@/types/plugins/auth/authentication'
+// import { IAuthentication } from '@/types/plugins/auth/authentication'
 import Authentication from '@/plugins/auth/authentication'
 import { Router } from 'vue-router'
 

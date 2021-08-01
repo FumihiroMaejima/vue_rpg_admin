@@ -15,6 +15,9 @@ down-rmi:
 ps:
 	docker-compose ps
 
+dev:
+	sh ./scripts/dev.sh
+
 ##############################
 # make frontend production in nginx container
 ##############################

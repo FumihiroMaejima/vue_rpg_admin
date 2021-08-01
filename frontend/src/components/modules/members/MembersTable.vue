@@ -148,17 +148,15 @@ import {
   defineComponent,
   ref,
   Ref,
-  PropType,
   reactive,
   computed,
-  provide,
   watch,
   inject
 } from 'vue'
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
 import InputText from 'primevue/inputtext'
-import MultiSelect from 'primevue/multiselect'
+// import MultiSelect from 'primevue/multiselect'
 import Dropdown from 'primevue/dropdown'
 import {
   editableRole,
@@ -167,8 +165,7 @@ import {
   MembersTextKeys,
   MembersSelectKeys,
   MembersStateKey,
-  MembersStateType,
-  useState
+  MembersStateType
 } from '@/services/members'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
@@ -196,7 +193,7 @@ export default defineComponent({
     // watch
     watch(
       () => membersService.state.roles,
-      (newValue, old) => {
+      (newValue /* , old */) => {
         if (columnOptions[3].type === 'select') {
           columnOptions[3].items = [...newValue]
         }

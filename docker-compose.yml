@@ -37,7 +37,7 @@ services:
       TZ: "Asia/Tokyo"
     networks:
       default:
-        # ipv4_address: ${SERVICE_NETWORK_IP}
+        ipv4_address: ${SERVICE_NETWORK_IP}
 
   db:
     build: ./mysql

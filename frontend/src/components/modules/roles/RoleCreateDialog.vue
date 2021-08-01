@@ -218,7 +218,7 @@ export default defineComponent({
     // watch
     watch(
       () => rolesService.state.permissions,
-      (newValue, old) => {
+      (newValue /* , old */) => {
         newValue.forEach((permission) => permissionsList.push(permission))
       }
     )

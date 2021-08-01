@@ -12,17 +12,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  Ref,
-  PropType,
-  reactive,
-  computed,
-  provide,
-  watch,
-  inject
-} from 'vue'
+import { defineComponent, Ref, reactive, computed, watch, inject } from 'vue'
 import AppTable from '@/components/parts/AppTable.vue'
 import {
   editableRole,
@@ -31,8 +21,7 @@ import {
   MembersTextKeys,
   MembersSelectKeys,
   MembersStateKey,
-  MembersStateType,
-  useState
+  MembersStateType
 } from '@/services/members'
 import AuthApp from '@/plugins/auth/authApp'
 import { inversionFlag } from '@/util'
@@ -40,7 +29,7 @@ import { ToastType } from '@/types/applications/index'
 import { AuthAppKey, ToastTypeKey, CircleLoadingKey } from '@/keys'
 
 export default defineComponent({
-  name: 'MembersTable',
+  name: 'MembersTableOld',
   components: {
     AppTable
   },
@@ -64,7 +53,7 @@ export default defineComponent({
     // watch
     watch(
       () => membersService.state.roles,
-      (newValue, old) => {
+      (newValue /* , old */) => {
         if (columnOptions[3].type === 'select') {
           columnOptions[3].items = [...newValue]
         }

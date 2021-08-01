@@ -46,7 +46,7 @@ class EnemiesUpdateRequest extends FormRequest
         $permissionsModel = app()->make(Roles::class);
 
         return [
-            'id'      => 'required|integer|min:4',
+            'id'      => 'required|integer',
             'name'    => 'required|string|between:1,50',
             'level'   => 'required|integer|between:1,100',
             'hp'      => 'required|integer|between:1,999',

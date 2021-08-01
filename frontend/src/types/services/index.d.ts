@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import axios, { AxiosResponse, AxiosError } from 'axios'
+import { AxiosResponse, AxiosError } from 'axios'
 
 export type ServerRequestType<T = any> = {
   data:
