@@ -83,7 +83,7 @@ export default defineComponent({
     },
     accept: {
       type: String,
-      default: 'image/png,image/jpeg,image/gif'
+      default: 'image/png,image/jpeg,image/gif' // for windows csv : application/octet-stream(Excel無し),application/vnd.ms-excel(Excel有り)
     },
     enablePreview: {
       type: Boolean,
