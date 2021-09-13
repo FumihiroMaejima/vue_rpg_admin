@@ -1,4 +1,6 @@
 module.exports = {
+  publicPath: '/admin/',
+  outputDir: 'dist',
   // ポートなどの設定
   devServer: {
     port: 8080,
