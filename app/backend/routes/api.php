@@ -35,19 +35,22 @@ Route::get('test', function () {
 | Admin
 |--------------------------------------------------------------------------
 */
-Route::group(['prefix' => 'v1/auth/admin'], function () {
-    Route::post('login', [AdminAuthController::class, 'login'])->name('auth.admin');
+
+// no auth
+Route::group(['prefix' => 'v1/admin'], function () {
+    Route::group(['prefix' => 'auth'], function () {
+        Route::post('login', [AdminAuthController::class, 'login'])->name('auth.admin');
+    });
 });
 
 // admin auth
-Route::group(['prefix' => 'v1/auth/admin', 'middleware' => 'auth:api-admins'], function () {
-    Route::post('logout', [AdminAuthController::class, 'logout']);
-    Route::post('refresh', [AdminAuthController::class, 'refresh']);
-    Route::post('self', [AdminAuthController::class, 'getAuthUser']);
-});
-
-// admin
 Route::group(['prefix' => 'v1/admin', 'middleware' => 'auth:api-admins'], function () {
+    Route::group(['prefix' => 'auth'], function () {
+        Route::post('logout', [AdminAuthController::class, 'logout']);
+        Route::post('refresh', [AdminAuthController::class, 'refresh']);
+        Route::post('self', [AdminAuthController::class, 'getAuthUser']);
+    });
+
     // auth info
     Route::get('/authinfo', [AuthInfoController::class, 'index']);
 

@@ -9,10 +9,15 @@ module.exports = {
       /* '/api': {
         target: 'http://localhost:8000/'
       } */
+      // local backend container.
       '/api': {
-        target: 'http://localhost/',
+        target: 'http://localhost:50080/',
         https: false
       }
+      /* '/api': {
+        target: 'http://localhost/',
+        https: false
+      } */
     }
   }
 }
