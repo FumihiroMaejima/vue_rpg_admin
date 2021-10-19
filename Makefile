@@ -102,7 +102,13 @@ nginx-stop:
 # db container(mysql)
 ##############################
 mysql:
-	docker-compose exec db bash -c 'mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE'
+	docker-compose exec db bash -c 'mysql -u $$DB_USER -p$$MYSQL_PASSWORD $$DB_DATABASE'
+
+mysql-dump:
+	sh ./scripts/get-dump.sh
+
+mysql-restore:
+	sh ./scripts/restore-dump.sh
 
 
 ##############################
