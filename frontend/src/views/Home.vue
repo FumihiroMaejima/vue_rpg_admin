@@ -1,37 +1,43 @@
 <template>
-  <div class="container mx-auto">
-    <h1 class="italic my-2">ゲーム</h1>
-    <grid-rows mdRows="1" option="bg-blue-100 py-2 px-2">
-      <card />
-    </grid-rows>
+  <div class="cp-fluid p-mx-md-6 p-mx-sm-2 p-mb-6">
+    <h1 class="italic my-2">管理サービス</h1>
+    <h2 class="italic my-2">管理者ログ</h2>
 
-    <div class="mt-10 grid rounded md:grid-cols-3 sm:grid-cols-1 gap-4"></div>
+    <div class="p-grid">
+      <div class="p-col-12 p-md-1"></div>
+      <div class="p-col-12 p-md-10">
+        <app-table :items="items.data" :columnOptions="columnOptions" />
+      </div>
+      <div class="p-col-12 p-md-1"></div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import Card from '@/components/parts/Card.vue'
-// import GridCols from '@/components/parts/GridCols.vue'
-import GridRows from '@/components/parts/GridRows.vue'
+import { defineComponent, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import AppTable from '@/components/parts/AppTable.vue'
+import { tableData, tableKeys } from '@/config/resource'
 
 export default defineComponent({
   name: 'Home',
   components: {
-    Card,
-    GridRows
+    AppTable
   },
   setup() {
+    const items = reactive(tableData)
+    const columnOptions = reactive(tableKeys)
+    const router = useRouter()
+
     // methods
-    /**
-     * catch app-input event
-     * @return {void}
-     */
-    const catchAppInputEvent = (event: any) => {
-      console.log('catchAppInputEvent: ' + JSON.stringify(event, null, 2))
+
+    const testFunction = () => {
+      router.push('/test')
     }
     return {
-      catchAppInputEvent
+      items,
+      columnOptions,
+      testFunction
     }
   }
 })

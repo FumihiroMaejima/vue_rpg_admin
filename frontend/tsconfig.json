@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
@@ -14,6 +14,8 @@
     "typeRoots": [],
     "types": [
       "webpack-env",
+      "@types/jest",
+      "cypress",
       "jest"
     ],
     "paths": {

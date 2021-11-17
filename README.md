@@ -6,9 +6,9 @@ Laravel環境をDockerで構築する為の手順書
 
 | 名前 | バージョン |
 | :--- | :---: |
-| PHP | 7.4(php:7.4-fpm-alpine) |
+| PHP | 8.0.3(php:8.0.3-fpm-alpine) |
 | MySQL | 8.0 |
-| Nginx | 1.18(nginx:1.18-alpine) |
+| Nginx | 1.19(nginx:1.19-alpine) |
 | Laravel | 8.* |
 
 ---
@@ -99,6 +99,50 @@ $ mv composer.phar /usr/local/bin/composer
 $ composer --version
 Composer version 1.10.4 2020-04-09 17:05:50
 ```
+---
+
+## xdebugの設定
+
+Dockerfileで下記の通りにxdebugをインストールする。
+
+```shell-session
+$  docker-php-ext-enable xdebug
+```
+
+コンテナにマウントするphp.iniに下記の通り、xdebugの設定を行う。(v3の書き方)
+
+```shell-session
+[xdebug]
+# version 3
+xdebug.mode=debug
+xdebug.client_host=host.docker.internal
+xdebug.client_port=9010
+xdebug.start_with_request=yes
+xdebug.log=/tmp/xdebug.log
+xdebug.discover_client_host=0
+```
+
+.vscode/launch.jsonに下記の通り、設定を行う。
+
+```json
+{
+    ...
+    "configurations": [
+        {
+            "name": "Listen for XDebug(setting custom name.)",
+            "type": "php",
+            "request": "launch",
+            // set on php.ini
+            "port": 9010,
+            "pathMappings": {
+                // {docker container document root}:{local document root}
+                "/var/www/html": "/path/to/project"
+            }
+        }
+    ]
+}
+```
+
 ---
 # 開発環境構築
 
@@ -329,7 +373,7 @@ $ npm run dev or npm run production
 tymon/jwt-authのインストール
 
 ```shell-session
-$ composer require tymon/jwt-auth ^1.0.0
+$ composer require tymon/jwt-auth ^1.0.2
 ```
 
 config/jwt.phpの作成
@@ -486,6 +530,12 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:api'], function () {
 
 ```shell-session
  $ php artisan make:controller Users/AuthController
+```
+
+各CRUD処理のメソッドを予め作成しておきたい場合は`--resource`オプションをつける
+
+```shell-session
+ $ php artisan make:controller Users/AuthController --resource
 ```
 
 内容は下記の通り(コンストラクタとログイン処理のみ抜粋)
@@ -653,12 +703,179 @@ $ php artisan make:policy TestPolicy
 ### テストコードの作成
 
 ```shell-session
- $ php artisan make:test SampleTest --unit
+$ php artisan make:test SampleTest --unit
+```
+
+### ログの設定
+
+※日付ごとにログを出力する方法
+`.env`の`LOG_CHANNEL`を下記の通りに設定する。(defaultが`stack`)
+
+```shell-session
+# LOG_CHANNEL=stack
+LOG_CHANNEL=daily
+```
+
+ログ出力の例
+
+```PHP
+use Log; // app.configでエイリアスが設定されている
+
+Log::alert('log test');
+Log::info(__CLASS__ . '::' . __FUNCTION__ . ' line:' . __LINE__ . ' ' .'log test message.');
+```
+
+### ハンドラー(リスナー)の作成
+
+※日付ごとにログを出力する方法
+`.env`の`LOG_CHANNEL`を下記の通りに設定する。(defaultが`stack`)
+
+```shell-session
+$ php artisan make:listener TestHandler
+```
+
+### サービスプロパイダーの作成
+
+```shell-session
+$ php artisan make:provider TestServiceProvider
+```
+
+### リソースの作成
+
+```shell-session
+$ php artisan make:resource Test
+```
+### コレクションリソースの作成
+
+```shell-session
+$ php artisan make:resource Test --collection
+or
+$ php artisan make:resource TestCollection
+```
+
+### ミドルウェアの作成
+
+```shell-session
+$ php artisan make:middleware TestMiddleWare
+```
+
+### フォームリクエストの作成(バリデーションルール)
+
+```shell-session
+$ php artisan make:request TestPostRequest
+```
+
+### Excel,CSVファイルの入出力
+
+- Laravel-Excelのインストール
+
+```shell-session
+$ composer require maatwebsite/excel
+```
+
+- サービスプロパイダとファサードを登録
+
+app.php
+
+```PHP
+Maatwebsite\Excel\ExcelServiceProvider::class,
+
+'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+```
+
+- stubの作成
+
+```shell-session
+$ php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider"
+```
+
+- エクスポートクラスとインポートクラスの作成
+
+```shell-session
+$ php artisan make:export TestExport --model=App\\Models\\Admins
+$ php artisan make:import TestImport --model=App\\Models\\Admins
+```
+
+- ファイルダウンロード
+
+```PHP
+use Maatwebsite\Excel\Facades\Excel;
+
+return Excel::download(new TestExport($collection), 'filename_' . Carbon::now()->format('YmdHis') . '.csv');
+```
+
+### 通知の作成
+
+slack通知の場合は`slack-notification-channel`をインストールする。
+
+```shell-session
+$ composer require laravel/slack-notification-channel
+```
+
+```shell-session
+$ php artisan make:notification TestNotification
+```
+
+- Notifiableトレイトの使用
+
+```PHP
+use Illuminate\Notifications\Notifiable;
+
+class User extends Authenticatable
+{
+    use Notifiable;
+}
+```
+
+モデルのインスタンスかわnotifyトレイトを使い通知を実行する
+
+```PHP
+use App\Notifications\TestNotification;
+
+$user->notify(new TestNotification($data));
+```
+
+---
+# Swaggerの設定
+
+ ### ローカル環境にswagger-codegenのインストール(mockサーバーのコード出力)
+
+```shell-session
+ $ brew install swagger-codegen
+```
+
+### API仕様から出力するmockサーバーについて
+
+API仕様からmockサーバーの出力
+
+```shell-session
+ $ swagger-codegen generate -i api/api.yml -l nodejs-server -o api/nodejs
+```
+
+node.jsのサーバーなので、`node_modules`のインストールが必要 `npm run install`と``
+
+```shell-session
+ $ npm run prestart
+```
+
+mockサーバーの起動
+
+```shell-session
+ $ npm run start
 ```
 
 ---
 # 補足
 
+### Composer パッケージのアップデート
+
+下記のコマンドで`yarn upgrade`と同様の要領でパッケージの更新を掛けられる。
+
+```shell-session
+$ composer update
+```
+
+---
 ### backendのpackage.jsonのアップデート
 
 update対象の確認
@@ -674,5 +891,11 @@ $ npm audit fix
 ```
 
 上記でアップデートが出来ない場合はマニュアルでアップデートをかける。
+
+`--force`オプションでアップグレードを掛けられる。
+
+```shell-session
+$ npm audit fix --force
+```
 
 ---

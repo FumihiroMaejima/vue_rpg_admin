@@ -32,3 +32,6 @@ pnpm-debug.log*
 .env
 # .eslintcache
 .eslintcache
+
+# coverage directory
+/coverage

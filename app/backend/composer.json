@@ -15,18 +15,20 @@
         "laravel/framework": "^8.12",
         "laravel/jetstream": "^1.6",
         "laravel/sanctum": "^2.6",
+        "laravel/slack-notification-channel": "^2.3",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.1",
         "livewire/livewire": "^2.0",
-        "tymon/jwt-auth": "^1.0.0"
+        "maatwebsite/excel": "^3.1",
+        "tymon/jwt-auth": "^1.0.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
         "barryvdh/laravel-ide-helper": "^2.8",
-        "codedungeon/phpunit-result-printer": "^0.29.3",
+        "codedungeon/phpunit-result-printer": "^0.30.1",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
-        "friendsofphp/php-cs-fixer": "^2.16",
+        "friendsofphp/php-cs-fixer": "^2.17",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
         "phpmd/phpmd": "^2.9",

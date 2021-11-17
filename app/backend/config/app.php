@@ -177,6 +177,12 @@ return [
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
 
+        // add
+        App\Providers\RepositoryServiceProvider::class,
+        App\Providers\DataBaseQueryServiceProvider::class,
+
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+
     ],
 
     /*
@@ -228,6 +234,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        // add
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

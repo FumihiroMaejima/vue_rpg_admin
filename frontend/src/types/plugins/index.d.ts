@@ -1,4 +1,5 @@
 // pluginsディレクトリ内のexport宣言
+export * from '@/types/plugins/auth'
 export * from '@/types/plugins/game'
 
 // 1. 拡張した型を定義する前に必ず 'vue' をインポートする

@@ -8,7 +8,7 @@ services:
       - ./app/backend:/var/www/html
       - ./app/php.ini:/usr/local/etc/php/php.ini
     ports:
-      - "${PHP_FPM_PORT}:${PHP_FPM_PORT}"
+      - "${PHP_FPM_PORT}:9000"
     expose:
       - "${PHP_FPM_PORT}"
     depends_on:
@@ -18,7 +18,7 @@ services:
       APP_URL: ${APP_URL}
       APP_ENV: ${APP_ENV}
     networks:
-      vue-rpg-net:
+      default:
 
   nginx:
     build: ./nginx
@@ -29,14 +29,15 @@ services:
     depends_on:
       - app
     ports:
-      - "${NGINX_HOST_HTTP_PORT}:${NGINX_HOST_HTTP_PORT}"
-      # - "${NGINX_HOST_HTTPS_PORT}:${NGINX_HOST_HTTPS_PORT}"
+      - "${NGINX_HOST_HTTP_PORT}:80"
+      # - "${NGINX_HOST_HTTPS_PORT}:443"
       # - "${NGINX_BACK_END_PORT}:${NGINX_BACK_END_PORT}"
       # - "${NGINX_FRONT_END_PORT}:${NGINX_FRONT_END_PORT}"
     environment:
       TZ: "Asia/Tokyo"
     networks:
-      vue-rpg-net:
+      default:
+        ipv4_address: ${SERVICE_NETWORK_IP}
 
   db:
     build: ./mysql
@@ -45,12 +46,14 @@ services:
       - vue-rpg-store:/var/lib/mysql # データの永続化
       - ./mysql/sql:/docker-entrypoint-initdb.d
     ports:
-      - "${MYSQL_PORT}:${MYSQL_PORT}"
+      - "${MYSQL_PORT}:3306"
     environment:
+      DB_USER: ${DB_USER}
+      DB_DATABASE: ${DB_DATABASE}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       TZ: "Asia/Tokyo"
     networks:
-      vue-rpg-net:
+      default:
 
   # node:
   #   build: ./node
@@ -69,8 +72,12 @@ services:
   #     - redis-store:/data
 
 volumes:
-  redis-store:
+  # redis-store:
   vue-rpg-store:
+    name: ${VOLUME_NAME}
+    driver: local
 
 networks:
-  vue-rpg-net:
+  default:
+    external:
+      name: ${NETWORK_NAME}

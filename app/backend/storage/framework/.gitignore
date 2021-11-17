@@ -7,3 +7,6 @@ routes.php
 routes.scanned.php
 schedule-*
 services.json
+
+# Laravel Excel test output dir.
+laravel-excel

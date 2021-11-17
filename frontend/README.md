@@ -11,7 +11,7 @@ my vue rpg-admin test.
 | npm | 6.12.1 |
 | node | 12.13.1 |
 | vue/cli | 4.5.9 |
-| TypeScript | 3.8.3 |
+| TypeScript | 4.1.3 |
 
 ---
 
@@ -33,16 +33,16 @@ $ yarn --version
 
 ```Shell-session
 $ vue --version
-@vue/cli 4.4.6
+@vue/cli 4.5.10
 
 $ yarn global add @vue/cli
 
 $ vue --version
-@vue/cli 4.5.4
+@vue/cli 4.5.11
 
 
 $ yarn -v
-1.22.5
+1.22.10
 ```
 
 ## TypeScriptのインストール
@@ -52,9 +52,15 @@ $ yarn -v
 ```Shell-session
 $ npm install -g typescript
 $ tsc -v
-Version 3.8.3
+Version 4.1.3
 ```
 
+バージョンアップする場合は一度uninstallする
+
+```shell-session
+$ npm uninstall -g typescript
+$ npm install -g typescript
+```
 ### プロジェクトにインストールする
 
 ＊Vue-cliのプロジェクト作成時にもインストール出来る。
@@ -130,6 +136,11 @@ yarn build
 ### Run your unit tests
 ```Shell-session
 yarn test:unit
+```
+
+### Run your unit tests & output coverage
+```Shell-session
+yarn test:unit --coverage
 ```
 
 ### Run your end-to-end tests
@@ -695,6 +706,124 @@ describe('Sample test', () => {
 
 ---
 
+## PrimeVueのインストール
+
+### グローバルにインストールする
+
+```shell-session
+$ yarn add primevue@^3.1.1
+$ yarn add primeicons
+
+## primeflex
+$ yarn add primeflex
+```
+
+main.tsでimportし、`use`する
+```TypeScript
+import PrimeVue from 'primevue/config'
+const app = createApp(App)
+app.use(PrimeVue)
+```
+
+`primeicons`と`primeflex`はcssファイルをimport宣言する。
+`primeflex`は`src`ディレクトリの中から個別にimportも出来る。
+
+
+```TypeScript
+import 'primeicons/primeicons.css'
+import 'primeflex/primeflex.css'
+// import 'primeflex/src/_variables.scss'
+```
+
+パッケージ内の`primevue/resources/themes/`にテンプレートがある為、各々のcssをimportする。
+
+```TypeScript
+import 'primevue/resources/themes/saga-blue/theme.css'
+import 'primevue/resources/primevue.min.css'
+import 'primeicons/primeicons.css'
+import 'primeflex/primeflex.css'
+```
+
+使うコンポーネントは、各Vueファイル内でimportする
+
+```TypeScript
+<template>
+  <Dialog header="Header" v-model:visible="display">content</Dialog>
+</template>
+import Dialog from 'primevue/dialog'
+  components: {
+    Dialog
+  },
+```
+
+データテーブルのコンポーネントを使う時に下記のエラーが発生する可能性がある。
+[参考: Chaining Operator with Vue 3 ](https://github.com/primefaces/primevue/issues/680)
+
+```Shell-session
+Module parse failed: Unexpected token (310:67)
+```
+
+`@vue/cli-plugin-babel`をインストールする必要がある
+
+```Shell-session
+$ vue add babel
+```
+
+`babel.config.js`の作成
+
+```JavaScript
+module.exports = {
+  /* presets: ["@vue/cli-plugin-babel/preset"] */
+  plugins: [require('@babel/plugin-proposal-optional-chaining')] // for data table setting.
+}
+
+```
+
+上記の対応で完了した。
+
+```TypeScript
+<template>
+  <Dialog header="Header" v-model:visible="display">content</Dialog>
+</template>
+import Dialog from 'primevue/dialog'
+  components: {
+    Dialog
+  },
+```
+
+
+## FullCalendarコンポーネントを使う場合
+
+`fullcalendar`をインストールする
+
+```Shell-session
+$ yarn add @fullcalendar/core
+$ yarn add @fullcalendar/daygrid
+$ yarn add @fullcalendar/timegrid
+$ yarn add @fullcalendar/interaction
+```
+
+## ConfirmDialogやToastを使う場合
+
+`mitt`をインストールする
+
+```Shell-session
+$ yarn add mitt
+```
+
+---
+
+## VeeValidateの設定
+
+## VeeValidateをインストール
+
+現状は`Vue3版`をインストールする
+
+```Shell-session
+$ yarn add vee-validate@next
+```
+
+---
 ## tailwindcssの設定
 
 tailwindcssのインストール
@@ -803,6 +932,12 @@ $ tsc -v
 Version 3.8.3
 ```
 
+バージョンアップする場合は一度uninstallする
+
+```shell-session
+$ npm uninstall -g typescript
+$ npm install -g typescript
+```
 ### プロジェクトにインストールする
 
 ＊Vue-cliのプロジェクト作成時に選択した方が楽である。
@@ -835,12 +970,24 @@ $ yarn add webpack-cli
 
 ---
 
-## Storybookの設定(v6.0.0以降)
+## Storybookの設定(v6.2.0以降)
 
 ### Storybookのインストール
 
 ```shell-session
 $ yarn add --dev @storybook/vue
+```
+
+`Vue3`を使う場合は`vue3`版を用意する必要がある。
+
+```shell-session
+$ yarn add --dev @storybook/vue3
+```
+
+v16以上の`vue-loader`をインストールする。
+
+```shell-session
+$ yarn add vue-loader@next
 ```
 
 ### その他パッケージのインストール
@@ -859,14 +1006,14 @@ $ yarn add --dev babel-preset-vue ts-loader sass-resources-loader
 
 ```shell-session
 $ yarn add --dev @storybook/addon-knobs
-$ yarn add --dev @storybook/addon-notes
+$ yarn add --dev @storybook/addon-notes@6.0.0-alpha.6
 $ yarn add --dev @storybook/addon-a11y
 $ yarn add --dev @storybook/addon-essentials
 $ yarn add --dev @storybook/source-loader
 ```
 
 ```shell-session
-$ yarn add --dev @storybook/addon-knobs @storybook/addon-notes @storybook/addon-a11y @storybook/addon-essentials @storybook/source-loader
+$ yarn add --dev @storybook/addon-knobs @storybook/addon-notes@6.0.0-alpha.6 @storybook/addon-a11y @storybook/addon-essentials @storybook/source-loader
 ```
 下記のエラーが発生する場合は`style-loader`をインストールする。
 
@@ -893,7 +1040,7 @@ pasckage.jsonの`scripts`に下記の設定を追記する。
 
 ```Json
   "scripts": {
-    "storybook": "start-storybook -p 9100"
+    "storybook": "start-storybook -p 6200"
   },
 ```
 
@@ -1034,11 +1181,85 @@ export const HelloTest = () => ({
 
 ```
 
-下記のコマンド実行でブラウザに画面が出力される。s
+---
 
-```shell-session
-$ yarn storybook
+## E2Eテストの設定
+
+`cypress`を利用する。
+
+プロジェクト作成時にcypressをインストールしている事を前提とする。
+
+### tsconfig.jsonの設定
+
+TypeScriptの設定の為に`types`に`cypress`を追記
+
+```json
+{
+  "types": [
+    "webpack-env",
+    "@types/jest",
+    "cypress",
+    "jest"
+  ],
+}
 ```
+
+### 外部ファイルインポートの設定
+
+データ等を外部ファイル化した時にimport宣言した時にエラーが発生する現象の対応。
+
+`@cypress/webpack-preprocessor`をインストールする。
+
+```
+$ yarn add --dev @cypress/webpack-preprocessor
+```
+
+
+`frontend/tests/e2e/plugins/index.js`の、`const webpack`と`on`のコメントアウトになっている箇所のコメントを外す。
+
+これでテストファイル内でimport宣言が出来る様になる。
+
+
+```javascript
+/* eslint-disable @typescript-eslint/no-var-requires */
+const webpack = require('@cypress/webpack-preprocessor')
+
+module.exports = (on, config) => {
+  on('file:preprocessor', webpack({
+    webpackOptions: require('@vue/cli-service/webpack.config'),
+    watchOptions: {}
+  }))
+
+  return Object.assign({}, config, {
+    fixturesFolder: 'tests/e2e/fixtures',
+    integrationFolder: 'tests/e2e/specs',
+    screenshotsFolder: 'tests/e2e/screenshots',
+    videosFolder: 'tests/e2e/videos',
+    supportFile: 'tests/e2e/support/index.js'
+  })
+}
+```
+### 参考のテスト
+
+```TypeScript
+describe('Root Page Test', () => {
+  it('Visits the app root url with no authData.', () => {
+    cy.visit('/')
+
+    // redirect login form
+    cy.contains('div', 'Login Form')
+    cy.get('button').should('be.disabled')
+
+    cy.get('#email')
+      .should('have.value', '')
+
+    cy.get('#password')
+      .should('have.value', '')
+  })
+})
+```
+
+---
 
 ### Vuetifyを使う場合
 

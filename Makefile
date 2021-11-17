@@ -1,3 +1,6 @@
+##############################
+# make docker environmental
+##############################
 up:
 	docker-compose up -d
 
@@ -12,12 +15,21 @@ down-rmi:
 ps:
 	docker-compose ps
 
+dev:
+	sh ./scripts/container.sh
+
+##############################
+# make frontend production in nginx container
+##############################
 frontend-install:
 	docker-compose exec nginx ash -c 'cd /var/www/frontend && yarn install'
 
 frontend-build:
 	docker-compose exec nginx ash -c 'cd /var/www/frontend && yarn build'
 
+##############################
+# backend
+##############################
 migrate:
 	docker-compose exec app php artisan migrate
 
@@ -38,6 +50,12 @@ seed:
 
 tinker:
 	docker-compose exec app php artisan tinker
+
+composer-install:
+	docker-compose exec app composer install
+
+composer-update:
+	docker-compose exec app composer update
 
 dump-autoload:
 	docker-compose exec app composer dump-autoload
@@ -63,6 +81,13 @@ phpcs:
 phpmd:
 	docker-compose exec app vendor/bin/phpmd . text ruleset.xml --suffixes php --exclude node_modules,resources,storage,vendor,app/Console, database/seeds
 
+# local server
+backend-serve:
+	cd app/backend && php artisan serve
+
+##############################
+# web server(nginx)
+##############################
 nginx-t:
 	docker-compose exec nginx ash -c 'nginx -t'
 
@@ -72,18 +97,32 @@ nginx-reload:
 nginx-stop:
 	docker-compose exec nginx ash -c 'nginx -s stop'
 
-mysql:
-	docker-compose exec db bash -c 'mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE'
 
+##############################
+# db container(mysql)
+##############################
+mysql:
+	docker-compose exec db bash -c 'mysql -u $$DB_USER -p$$MYSQL_PASSWORD $$DB_DATABASE'
+
+mysql-dump:
+	sh ./scripts/get-dump.sh
+
+mysql-restore:
+	sh ./scripts/restore-dump.sh
+
+
+##############################
+# circle ci
+##############################
 circleci:
 	cd app/backend && circleci build
 
 ci:
 	circleci build
 
-backend-serve:
-	cd app/backend && php artisan serve
-
+##############################
+# mock-server docker container
+##############################
 mock-up:
 	docker-compose -f ./docker-compose.mock.yml up -d
 
@@ -93,6 +132,9 @@ mock-down:
 mock-ps:
 	docker-compose -f ./docker-compose.mock.yml ps
 
+##############################
+# swagger docker container
+##############################
 swagger-up:
 	docker-compose -f ./docker-compose.swagger.yml up -d
 
@@ -101,3 +143,21 @@ swagger-down:
 
 swagger-ps:
 	docker-compose -f ./docker-compose.swagger.yml ps
+
+##############################
+# swagger codegen mock-server
+##############################
+codegen-mock:
+	rm -rf api/node-mock/* && \
+	swagger-codegen generate -i api/api.yaml -l nodejs-server -o api/node-mock && \
+	sed -i -e "s/serverPort = 8080/serverPort = 3200/g" api/node-mock/index.js && \
+	cd api/node-mock && npm run prestart
+
+codegen-changeport:
+	sed -i -e "s/serverPort = 8080/serverPort = 3200/g" api/node-mock/index.js
+
+codegen-prestart:
+	cd api/node-mock && npm run prestart
+
+codegen-start:
+	cd api/node-mock && npm run start
